@@ -33,6 +33,10 @@ Hours Worked: ~10
 
 ***Julian Greppin (100899233):***
 
+- Worked with Mohamed Kazma on UI design and development.
+
+- Designed the title screen for UI
+
 # Goals for next week
 
 ***Ahmed Al-Zahrani (100900855):***
