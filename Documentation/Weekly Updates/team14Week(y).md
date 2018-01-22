@@ -4,27 +4,27 @@ This is the weekly submission PDF for Group 14 in COMP 3004 (winter 18).
 
 This PDF is to be handed in by *date*
 
-## Progress since last week (and hours worked)
+# Progress since last week (and hours worked)
 
-####Ahmed Al-Zahrani (100900855):
+***Ahmed Al-Zahrani (100900855):***
 
-####Cheldon Mahon (101001843):
+***Cheldon Mahon (101001843):***
 
-####Mohamed Kazma (101019719):
+***Mohamed Kazma (101019719):***
 
-####Julian Greppin (100899233):
+***Julian Greppin (100899233):***
 
-### Goals for next week
+## Goals for next week
 
-####Ahmed Al-Zahrani (100900855):
+***Ahmed Al-Zahrani (100900855):***
 
-####Cheldon Mahon (101001843):
+***Cheldon Mahon (101001843):***
 
-####Mohamed Kazma (101019719):
+***Mohamed Kazma (101019719):***
 
-####Julian Greppin (100899233):
+***Julian Greppin (100899233):***
 
-### Issues?
+# Issues?
 
 (include one of the below in each week)
 
