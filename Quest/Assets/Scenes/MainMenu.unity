@@ -417,7 +417,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Quest For The Round Table
+  m_Text: Quests For The Round Table
 --- !u!222 &338820684
 CanvasRenderer:
   m_ObjectHideFlags: 0
