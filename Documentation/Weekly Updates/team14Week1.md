@@ -45,6 +45,10 @@ Hours Worked: ~10
 
 - Designed the title screen for UI
 
+- Wrote an initial set of scenarios for iteration one with varying levels of abstraction to demonstrate how abstraction of scenarios changes over development
+
+Hours Worked: ~10
+
 # Goals for next week
 
 ***Ahmed Al-Zahrani (100900855):***
