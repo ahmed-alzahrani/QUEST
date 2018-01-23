@@ -23,6 +23,14 @@ Hours worked: 12-14.
 
 ***Cheldon Mahon (101001843):***
 
+- Completed C Sharp Tutorials - more in progress.
+
+- Learned how use repostories. 
+
+- Set up a bitbucket repository.
+
+- Solidified understanding of the game rules.
+
 ***Mohamed Kazma (101019719):***
 
 - Implemented a very rough version of the game's main menu UI and the game's table board's UI. This includes a button for the hot seat game that switches the scene from main menu to the board scene.
@@ -46,6 +54,8 @@ Hours Worked: ~10
 - Additionally, I want to improve my UML diagram, currently my member functions are not totally inclusive to the functionality that will need to be included once we've fleshed out the functionality of the game, additionally I noticed after pushing my UML diagram a few simple errors (wrong return types for getters etc).
 
 ***Cheldon Mahon (101001843):***
+
+- My goal will be to start relating the C Sharp tutorials towards the game logic (scripts).
 
 ***Mohamed Kazma (101019719):***
 
