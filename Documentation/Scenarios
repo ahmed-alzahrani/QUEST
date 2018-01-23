@@ -1,0 +1,44 @@
+January 22nd
+Scenarios for iteration one (version 1)
+Some scenarios for iteration one.
+These scenarios were written with varying levels of abstraction for the purpose of scenario writing practice and feedback.
+Two types of organizational methods were used, a branching “Xy-Z” scheme where parallel steps in a scenario are specified by a letter following a number, and a final number after a hyphen to specify which step of the parallel path the branch is on. (eg. 3a-1 proceeds to 3a-2) The point at which the parallel paths converge in the scenario resume the normal numbering of the scenarios steps.
+The other method is a sub-scenario, written in scenario form, I have chosen to make these
+ sub-scenarios less abstract as they felt like an appropriate place to try writing more specific scenario writing.
+
+Hot-seat play
+1. The player wants to play a solo game of quest
+2. The player launches the application to begin the game
+3. The player selects "Hot-Seat" from the GUI menu presented to them
+4. The player proceeds to engage in a game of quest with AI-controlled opponents
+5. As the game proceeds, the player either wins or loses the game when either the player achieves the victory conditions or one of the AI-controlled opponents does, following this the player is given a summary of the game's ending status and the application closes
+
+Event Cards (Chivalrous Deed and Prosperity throughout the kingdom)
+1. During a game, the dealer turns over a card from the story deck
+2. This card is revealed to be an event card, the application interprets the event card’s specific instructions and behaves accordingly.
+3a-1. The card is Chivalrous Deed, the application checks each of the players to find the one with the least shields and lowest rank. 
+3a-2. When the player of lowest rank and least shields is found, 3 shields are added to       that player’s shields count.
+3b-1. The card is Prosperity Throughout the Realm, the application distributes two adventure cards to each player.
+4. After the event card has resolved, play resumes.
+
+Quest Cards
+1. During a game, the dealer turns over a card from the story deck.
+2. This card is revealed to be a quest card, the dealer decides to sponsor the quest and begins constructing the stages.
+4. They are then prompted to create the first stage and may use a combination of foes and weapons or a test card, taking into account any special conditions set by the quest card. This continues for the second stage and so on until the sponsor has created a number of stages equal to the number of stages described on the quest card.
+5. After creating the stages, two players decide to join the quest.
+6. The first stage is a Foe card:
+	Foe Cards
+	1. The players both have strength 1, the first player equips a dagger while the second
+	equips a battle axe
+2. The players have encountered a Robber Knight with 15 battle power, the first player 
+fails to defeat the robber knight while the second player does have enough power to
+defeat the robber knight, discards his equipped battle axe and receives an adventure card.
+7. The remaining player proceeds to the second stage, which is a Test card:
+	Test Cards
+	1. The card is revealed to be the Test of Temptation card.
+	2. The player makes the minimum bid of 3 cards in order to continue the quest and
+	receives an adventure card.
+8. The player then proceeds to the final stage of the quest, a foe card, and makes equips several weapon cards to vanquish the foe.
+9. The foe is indeed vanquished and the victorious player receives 3 shields from this 3 stage quest
+8. The sponsor is then distributed 6 adventure cards, all cards used in the quest are put in his discard pile and the turn ends.
+
