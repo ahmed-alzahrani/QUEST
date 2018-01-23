@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114582943515234380}
   - component: {fileID: 114376673340483046}
   - component: {fileID: 95222700631476096}
+  - component: {fileID: 114317539769129220}
   m_Layer: 5
   m_Name: CardUI
   m_TagString: Untagged
@@ -48,6 +49,20 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114317539769129220
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1621595229904592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1573420865, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 1
 --- !u!114 &114376673340483046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -59,10 +74,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b02cd386a72ca124ba6387a381d608e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isVisible: 0
-  faceDown: 0
-  frontImage: {fileID: 21300000, guid: 1a9f3d50a6bce4345b1238fbe638ae66, type: 3}
-  BackImage: {fileID: 21300000, guid: 44836dcd8ab46db4dbef549b6a507f02, type: 3}
+  frontImage: {fileID: 21300000, guid: 44836dcd8ab46db4dbef549b6a507f02, type: 3}
+  BackImage: {fileID: 21300000, guid: 1a9f3d50a6bce4345b1238fbe638ae66, type: 3}
 --- !u!114 &114582943515234380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -123,7 +136,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 1a9f3d50a6bce4345b1238fbe638ae66, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 44836dcd8ab46db4dbef549b6a507f02, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
