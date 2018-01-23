@@ -25,11 +25,13 @@ Hours worked: 12-14.
 
 - Completed C Sharp Tutorials - more in progress.
 
-- Learned how use repostories. 
+- Learned how use repostories.
 
 - Set up a bitbucket repository.
 
 - Solidified understanding of the game rules.
+
+Hours Worked: 11
 
 ***Mohamed Kazma (101019719):***
 
@@ -53,7 +55,7 @@ Hours Worked: ~10
 
 ***Ahmed Al-Zahrani (100900855):***
 
-- My goal for next week will revolve around fleshing out those .cs class files, Ideally I want to be able to simulate the initial game condition, including up to the 4 different players and their individually shuffled hands, as well as the different decks being populated correctly by the right instances of the right card classes.
+- My goal for next week will revolve around fleshing out those .cs class files, Ideally I will be able to collaborate with M. Kazma and set up the initial game condition with the gameboard view, including having all of the initial decks/hands for a hot seat game properly set up with the corresponding objects.
 
 - Additionally, I want to improve my UML diagram, currently my member functions are not totally inclusive to the functionality that will need to be included once we've fleshed out the functionality of the game, additionally I noticed after pushing my UML diagram a few simple errors (wrong return types for getters etc).
 
@@ -69,6 +71,10 @@ Hours Worked: ~10
 
 
 ***Julian Greppin (100899233):***
+
+- Finish incorporating new assets into the UI, including those for the main menu / title screen as well as the gameboard scene
+
+- Setting up the initial card positions (hands, decks, etc.) for the beginning of the game
 
 # Issues?
 
