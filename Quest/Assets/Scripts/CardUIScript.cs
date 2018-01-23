@@ -12,16 +12,20 @@ public class CardUIScript : MonoBehaviour
     private bool isVisible;
     private bool faceDown;
     private Button button;
+   
+    public FoeCardScript FoeCard;
 
     // Use this for initialization
     void Awake()
     {
         isVisible = true;
         faceDown = true;
+        FoeCard = new FoeCardScript("foe", "foeeee", 10, 20);
         button = gameObject.GetComponent<Button>();
-        //button.onClick.AddListener(Click);
+        button.onClick.AddListener(FoeCard.display);
         flipCard();
         //ChangeVisibility();
+        
     }
 	
 	// Update is called once per frame
@@ -32,6 +36,7 @@ public class CardUIScript : MonoBehaviour
 
     void Click()
     {
+        print(name);
     }
 
     public void ChangeVisibility()
