@@ -8,7 +8,7 @@ class QuestCard : Card {
     // member variables
 
     private int stages;
-    private foe string;
+    private string foe;
 
     // member functions
 

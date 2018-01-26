@@ -13,16 +13,16 @@ public class CardUIScript : MonoBehaviour
     private bool faceDown;
     private Button button;
    
-    public FoeCardScript FoeCard;
+    //public FoeCardScript FoeCard;
 
     // Use this for initialization
     void Awake()
     {
         isVisible = true;
         faceDown = true;
-        FoeCard = new FoeCardScript("foe", "foeeee", 10, 20);
+        //FoeCard = new FoeCardScript("foe", "foeeee", 10, 20);
         button = gameObject.GetComponent<Button>();
-        button.onClick.AddListener(FoeCard.display);
+        //button.onClick.AddListener(FoeCard.display);
         flipCard();
         //ChangeVisibility();
         

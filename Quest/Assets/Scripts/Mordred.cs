@@ -10,7 +10,7 @@ class Mordred: FoeCard{
     // member functions
     public Mordred(){
         type    = "Foe";
-        Name    = "Mordred";
+        name    = "Mordred";
         minBP   = 30;
         maxBP   = 0;
     }

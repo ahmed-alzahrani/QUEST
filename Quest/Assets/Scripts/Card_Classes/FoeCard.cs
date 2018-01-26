@@ -6,8 +6,8 @@ using UnityEngine.EventSystems;
 
 class FoeCard : Card {
     // member variables
-    private int minBP;
-    private int maxBP;
+    protected int minBP;
+    protected int maxBP;
 
     // member functions
 

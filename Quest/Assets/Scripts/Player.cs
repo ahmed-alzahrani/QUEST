@@ -23,12 +23,12 @@ class Player {
     }
 
     public string getName(){
-        Console.WriteLine("Name: " + name);
+        Debug.Log("Name: " + name);
         return this.name;
     }
 
     public int getScore(){
-        Console.WriteLine("Score: " + score);
+        Debug.Log("Score: " + score);
         return this.score;
     }
 

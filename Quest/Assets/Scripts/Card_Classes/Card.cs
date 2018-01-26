@@ -6,11 +6,13 @@ using UnityEngine.EventSystems;
 
 abstract class Card{
     // member variables
-    private string type;
-    private string name;
+    protected string type;
+    protected string name;
 
 
     // member functions
+
+    protected Card() {}
 
     // 2 param constructor
     public Card(string cardType, string cardName){
