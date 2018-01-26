@@ -27,7 +27,7 @@ class Deck{
     }
 
     public int getCount(){
-        return this.getCount;
+        return this.count;
     }
 
     public void decCount(){

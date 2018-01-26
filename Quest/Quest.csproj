@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.3.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -282,24 +284,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\AllyCard.cs" />
-    <Compile Include="Assets\Scripts\AmourCard.cs" />
-    <Compile Include="Assets\Scripts\Card.cs" />
+    <Compile Include="Assets\Scripts\Card_Classes\AllyCard.cs" />
+    <Compile Include="Assets\Scripts\Card_Classes\AmourCard.cs" />
+    <Compile Include="Assets\Scripts\Card_Classes\Card.cs" />
+    <Compile Include="Assets\Scripts\Card_Classes\FoeCard.cs" />
+    <Compile Include="Assets\Scripts\Card_Classes\QuestCard.cs" />
+    <Compile Include="Assets\Scripts\Card_Classes\RankCard.cs" />
+    <Compile Include="Assets\Scripts\Card_Classes\TestCard.cs" />
+    <Compile Include="Assets\Scripts\Card_Classes\TournamentCard.cs" />
+    <Compile Include="Assets\Scripts\Card_Classes\weaponCard.cs" />
     <Compile Include="Assets\Scripts\CardUIScript.cs" />
     <Compile Include="Assets\Scripts\Deck.cs" />
-    <Compile Include="Assets\Scripts\FoeCard.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\Hand.cs" />
     <Compile Include="Assets\Scripts\MainMenuScript.cs" />
     <Compile Include="Assets\Scripts\Mordred.cs" />
     <Compile Include="Assets\Scripts\ParticleSystemScript.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\QuestCard.cs" />
-    <Compile Include="Assets\Scripts\RankCard.cs" />
     <Compile Include="Assets\Scripts\TableSetup.cs" />
-    <Compile Include="Assets\Scripts\TestCard.cs" />
-    <Compile Include="Assets\Scripts\TournamentCard.cs" />
-    <Compile Include="Assets\Scripts\weaponCard.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

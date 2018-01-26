@@ -28,7 +28,7 @@ abstract class Card{
 
     public void display()
     {
-        Debug.log("Card Type: " + type);
-        Debug.log("Card Name: " + name);
+        Debug.Log("Card Type: " + type);
+        Debug.Log("Card Name: " + name);
     }
 }
