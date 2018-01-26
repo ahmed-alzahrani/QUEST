@@ -11,6 +11,8 @@ class FoeCard : Card {
 
     // member functions
 
+    protected FoeCard() {}
+
     public FoeCard(string cardType, string cardName, int min, int max) {
         type        = cardType;
         name        = cardName;

@@ -13,7 +13,7 @@ class Hand{
 
     // member functions
     public Hand(Card[] drawnHand){
-        count   = drawnHand.length;
+        count   = drawnHand.Length;
         cards   = drawnHand;
     }
 
