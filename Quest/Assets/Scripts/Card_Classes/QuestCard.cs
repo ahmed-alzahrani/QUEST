@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class QuestCard : Card {
+public class QuestCard : Card {
     // member variables
 
     private int stages;

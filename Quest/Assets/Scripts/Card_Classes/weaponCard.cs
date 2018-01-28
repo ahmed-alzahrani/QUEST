@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class WeaponCard : Card{
+public class WeaponCard : Card{
     // member variable
     private int battlePoints;
 

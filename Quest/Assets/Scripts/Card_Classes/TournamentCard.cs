@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class TournamentCard : Card {
+public class TournamentCard : Card {
     // member variables
 
     private int shields;
@@ -12,9 +12,9 @@ class TournamentCard : Card {
     // member functions
 
     public TournamentCard(string cardType, string cardName, int cardShields){
-        
+
         type        = cardType;
-        name        = cardName; 
+        name        = cardName;
         shields     = cardShields;
     }
 

@@ -285,6 +285,7 @@
     <Compile Include="Assets\Scripts\Card_Classes\AllyCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\AmourCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\Card.cs" />
+    <Compile Include="Assets\Scripts\Card_Classes\EventCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\FoeCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\QuestCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\RankCard.cs" />
@@ -292,13 +293,13 @@
     <Compile Include="Assets\Scripts\Card_Classes\TournamentCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\weaponCard.cs" />
     <Compile Include="Assets\Scripts\CardUIScript.cs" />
-    <Compile Include="Assets\Scripts\Deck.cs" />
+    <Compile Include="Assets\Scripts\Deck_Classes\buildAdventureDeck.cs" />
+    <Compile Include="Assets\Scripts\Deck_Classes\buildRankDeck.cs" />
+    <Compile Include="Assets\Scripts\Deck_Classes\buildStoryDeck.cs" />
+    <Compile Include="Assets\Scripts\Deck_Classes\Deck.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
-    <Compile Include="Assets\Scripts\Hand.cs" />
     <Compile Include="Assets\Scripts\MainMenuScript.cs" />
-    <Compile Include="Assets\Scripts\Mordred.cs" />
     <Compile Include="Assets\Scripts\ParticleSystemScript.cs" />
-    <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\TableSetup.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

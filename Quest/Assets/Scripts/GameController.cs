@@ -12,7 +12,7 @@ public class GameController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        script = button.GetComponent<CardUIScript>();
+        // script = button.GetComponent<CardUIScript>();
 
 	}
 	
@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour
         if (Input.GetButton("Fire1"))
         {
             //script.flipCard();
-            script.ChangeVisibility();
+           // script.ChangeVisibility();
         }
 
         //if (Input.GetButton("Fire2")) script.flipCard();

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class AllyCard : Card{
+public class AllyCard : Card{
     // member variables
 
     private int battlePoints;

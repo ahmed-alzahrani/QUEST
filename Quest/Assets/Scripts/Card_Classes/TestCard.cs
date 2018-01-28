@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class TestCard : Card {
+public class TestCard : Card {
     // member variables
 
     private int minimum;

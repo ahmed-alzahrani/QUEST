@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class AmourCard : Card {
+public class AmourCard : Card {
     // member variables
 
     private int bid;

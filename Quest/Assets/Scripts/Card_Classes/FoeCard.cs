@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class FoeCard : Card {
+public class FoeCard : Card {
     // member variables
     protected int minBP;
     protected int maxBP;
