@@ -18,8 +18,7 @@ public class cardLogicController : MonoBehaviour {
   private Button button;
 
   void Awake(){
-    // storyDeck = new Deck("Story Deck", 28, new List<Card>());
-    storyDeck = getStoryDeck();
+    storyDeck = storyBuilder.build();
     rankDeck = rankBuilder.build();
     adventureDeck = adventureBuilder.build();
 

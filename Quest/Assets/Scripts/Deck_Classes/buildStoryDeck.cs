@@ -11,6 +11,8 @@ public class buildStoryDeck{
   private Button button;
   private Deck storyDeck;
 
+    public buildStoryDeck() { }
+
   public Deck build(){
     return new Deck("Story Deck", 28, buildDeck());
   }
