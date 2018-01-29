@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class Mordred: FoeCard{
+class Mordred: FoeCard
+{
     // member variables
 
     // member functions

@@ -4,21 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class TournamentCard : Card {
+class TournamentCard : Card
+{
     // member variables
-
-    private int shields;
+    //mentioned in weaponCard.cs
+    public int shields { get; private set; }
 
     // member functions
-
-    public TournamentCard(string cardType, string cardName, int cardShields){
+    public TournamentCard(string cardType, string cardName, int cardShields)
+    {
         
         type        = cardType;
         name        = cardName; 
         shields     = cardShields;
     }
-
-    public int getShields(){
+    
+    /*
+    public int getShields()
+    {
         return this.shields;
     }
+    */
 }

@@ -5,23 +5,31 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
-class Deck{
+class Deck
+{
     // member variables
 
-    private string type;
-    private int count;
-    private Card[] discard;
-    private Card[] deck;
+    public string type { get; private set; }
+    public int count { get; private set; }
 
+    //set to lists 
+    //private Card[] discard;
+    //private Card[] deck;
+
+    //might be changed!!!!
+    public List<Card> discard { get; private set; }
+    public List<Card> deck { get; private set; }
 
     // member functions
-    public Deck(string deckType, int deckCount, Card[] actualDeck, Card[] currentDiscard){
+    public Deck(string deckType, int deckCount, List<Card> actualDeck, List<Card> currentDiscard)
+    {
         type = deckType;
         count = deckCount;
         discard = currentDiscard;
         deck = actualDeck;
     }
 
+    /*
     public string getType(){
         return this.type;
     }
@@ -29,6 +37,7 @@ class Deck{
     public int getCount(){
         return this.count;
     }
+    */
 
     public void decCount(){
         count -= 1;

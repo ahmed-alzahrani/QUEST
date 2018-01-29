@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class AllyCard : Card{
+class AllyCard : Card
+{
     // member variables
 
-    private int battlePoints;
+    public int battlePoints { get; private set; }
     private string special;
 
     // member functions
@@ -19,9 +20,11 @@ class AllyCard : Card{
 
     }
 
+    /*
     public int getBattlePoints(){
         return this.battlePoints;
     }
+    */
 
     public bool hasSpecial(){
         return (this.special != "");

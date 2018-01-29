@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class RankCard : Card {
+class RankCard : Card
+{
     // member variables
-    private int battlePoints;
+    public int battlePoints { get; private set; }
 
     // member functions
     public RankCard(string cardType, string cardName, int bp){
@@ -14,8 +15,10 @@ class RankCard : Card {
         name            = cardName;
         battlePoints    = bp;
     }
-
+    
+    /*
     public int getBattlePoints(){
         return this.battlePoints;
     }
+    */
 }

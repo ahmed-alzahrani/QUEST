@@ -4,20 +4,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class AmourCard : Card {
+class AmourCard : Card
+{
     // member variables
 
-    private int bid;
+    public int bid { get; private set; }
 
     // member funtions
 
-    public AmourCard(string cardType, string cardName, int cardBid){
+    public AmourCard(string cardType, string cardName, int cardBid)
+    {
         type        = cardType;
         name        = cardName;
         bid         = cardBid;
     }
 
+    /*
     public int getBid(){
         return this.bid;
     }
+    */
 }
