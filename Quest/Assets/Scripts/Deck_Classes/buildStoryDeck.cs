@@ -4,23 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class buildStoryDeck : MonoBehaviour{
+public class buildStoryDeck{
 
   private Deck deck;
   private Card card;
   private Button button;
   private Deck storyDeck;
 
-  void Awake(){
-    // Debug.Log("I am awake!");
-    storyDeck = new Deck("Story Deck", 28, buildDeck());
-    button = gameObject.GetComponent<Button>();
-    button.onClick.AddListener(storyDeck.display);
-  }
-
-  void Update(){
-      //  Debug.Log("I exist!!!!!!!!!!!");
-
+  public Deck build(){
+    return new Deck("Story Deck", 28, buildDeck());
   }
 
   public List<Card> buildDeck(){

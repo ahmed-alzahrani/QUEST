@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class buildAdventureDeck : MonoBehaviour{
+public class buildAdventureDeck{
 
   private Deck deck;
   private Card card;
@@ -12,16 +12,8 @@ public class buildAdventureDeck : MonoBehaviour{
   private Button button;
   private Deck adventureDeck;
 
-  void Awake(){
-    // Debug.Log("I am awake!");
-    adventureDeck = new Deck("AdventureDeck", 125, buildDeck());
-    button = gameObject.GetComponent<Button>();
-    button.onClick.AddListener(adventureDeck.display);
-  }
-
-  void Update(){
-      //  Debug.Log("I exist!!!!!!!!!!!");
-
+  public Deck build(){
+    return new Deck("Adventure Deck", 125, buildDeck());
   }
 
   public List<Card> buildDeck(){

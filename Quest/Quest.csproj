@@ -296,6 +296,7 @@
     <Compile Include="Assets\Scripts\Deck_Classes\buildAdventureDeck.cs" />
     <Compile Include="Assets\Scripts\Deck_Classes\buildRankDeck.cs" />
     <Compile Include="Assets\Scripts\Deck_Classes\buildStoryDeck.cs" />
+    <Compile Include="Assets\Scripts\Deck_Classes\cardLogicController.cs" />
     <Compile Include="Assets\Scripts\Deck_Classes\Deck.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\MainMenuScript.cs" />

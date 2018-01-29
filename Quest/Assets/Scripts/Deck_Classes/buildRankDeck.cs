@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class buildRankDeck : MonoBehaviour{
+public class buildRankDeck{
 
   private Deck deck;
   private Card card;
@@ -12,16 +12,8 @@ public class buildRankDeck : MonoBehaviour{
   private Button button;
   private Deck rankDeck;
 
-  void Awake(){
-    // Debug.Log("I am awake!");
-    rankDeck = new Deck("Rank Deck", 12, buildDeck());
-    button = gameObject.GetComponent<Button>();
-    button.onClick.AddListener(rankDeck.display);
-  }
-
-  void Update(){
-      //  Debug.Log("I exist!!!!!!!!!!!");
-
+  public Deck build(){
+    return new Deck("Rank Deck", 12, buildDeck());
   }
 
   public List<Card> buildDeck(){
