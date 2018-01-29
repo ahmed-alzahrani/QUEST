@@ -4,24 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class QuestCard : Card {
+class QuestCard : Card
+{
     // member variables
 
-    private int stages;
+    public int stages { get; private set; }
     private string foe;
 
     // member functions
 
-    public QuestCard(string cardType, string cardName, int questStages, string questFoe){
+    public QuestCard(string cardType, string cardName, int questStages, string questFoe)
+    {
         type        = cardType;
         name        = cardName;
         stages      = questStages;
         foe         = questFoe;
     }
 
+    /*
     public int getStages(){
         return this.stages;
     }
+    */
 
     public bool hasFoe(){
         return (this.foe != "");
