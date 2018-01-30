@@ -50,12 +50,15 @@ public class CardUIScript : MonoBehaviour
         if (faceDown)
         {
             faceDown = false;
-            button.image.overrideSprite = frontImage;
+            //button.image.overrideSprite = frontImage;
+            Sprite img = Resources.Load<Sprite>("Textures/events/eventCard1");
+            print(img);
+            button.image.overrideSprite = img;
         }
         else
         {
             faceDown = true;
-            button.image.overrideSprite = BackImage;
+            button.image.overrideSprite = Resources.Load<Sprite>("Textures/events/eventCard2");
         }
     }
 }

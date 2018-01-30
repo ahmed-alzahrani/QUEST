@@ -34,8 +34,8 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetButton("Fire1"))
         {
-            //script.flipCard();
-            script.ChangeVisibility();
+            script.flipCard();
+            //script.ChangeVisibility();
         }
 
         //if (Input.GetButton("Fire2")) script.flipCard();
