@@ -45,7 +45,7 @@ Note: Did you finish a feature/are you working on a feature that isn't mapped ou
 
 ***Julian Greppin (100899233):***
 
-| #F5001 | Design card and implement spacing algorithm                          | T1           | commit 929ea28 |
+| #F5001 | Design card and implement spacing algorithm                          |           | commit 929ea28 |
 |--------|------------------------------------------------------------------------------|--------------|----------------------------------|
 
 ## Tests Table
