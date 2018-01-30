@@ -60,6 +60,10 @@
      <Compile Include="Assets\Scripts\Card_Classes\TestCard.cs" />
      <Compile Include="Assets\Scripts\Card_Classes\TournamentCard.cs" />
      <Compile Include="Assets\Scripts\Card_Classes\weaponCard.cs" />
+<<<<<<< HEAD
+=======
+     <Compile Include="Assets\Scripts\CardUIScript.cs" />
+>>>>>>> master
      <Compile Include="Assets\Scripts\Deck.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\Hand.cs" />
