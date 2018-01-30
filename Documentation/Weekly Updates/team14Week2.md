@@ -44,6 +44,7 @@ Note: Did you finish a feature/are you working on a feature that isn't mapped ou
 ***Mohamed Kazma (101019719):***
 
 ***Julian Greppin (100899233):***
+
 | #F5001 | Design card spacing algorithm                                  | T1           | commit 929ea28 |
 |--------|------------------------------------------------------------------------------|--------------|----------------------------------|
 
