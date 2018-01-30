@@ -44,6 +44,7 @@ Note: Did you finish a feature/are you working on a feature that isn't mapped ou
 ***Mohamed Kazma (101019719):***
 
 | #5002  | Setup the complete foundations of the UI of the game  |   | commit ee8943c |
+|--------|-------------------------------------------------------|---|----------------|
 
 ***Julian Greppin (100899233):***
 
