@@ -43,6 +43,8 @@ Note: Did you finish a feature/are you working on a feature that isn't mapped ou
 
 ***Mohamed Kazma (101019719):***
 
+| #5002  | Setup the complete foundations of the UI of the game  |   | commit ee8943c |
+
 ***Julian Greppin (100899233):***
 
 | #F5001 | Design card and implement spacing algorithm                          |           | commit 929ea28 |
@@ -65,6 +67,9 @@ Once I recieve an answer, hopefully for next week I can update this section with
 ***Cheldon Mahon (101001843):***
 
 ***Mohamed Kazma (101019719):***
+
+Most of the UI has been tested by running the game with worst case scenearios for cards etc... in addition to hardcoding a
+template that will be dynamically built in the future.
 
 ***Julian Greppin (100899233):***
 
@@ -126,11 +131,20 @@ Planning:
 
 ***Mohamed Kazma (101019719):***
 
-1. The Number of Hours spent on the Project since the lecture of (Lecture):
+1. The Number of Hours spent on the Project since the lecture of (Lecture): 10-12
 
 2. The IDs of Features I have completed this week?
 
+Completed Features:
+
+F5002 - Setup Default UI foundations
+Worked with julian Greppin on the ui and card sorting
+
 3. The IDs of the features you are planning to tackle from Jan 30 to Feb 6th?
+
+F5005 - Setup active ally and weapon cards
+F5007 - Setup preview cards 
+F5008 - Setup added active temporary cards
 
 ***Julian Greppin (100899233):***
 
