@@ -40,6 +40,7 @@ Note: Did you finish a feature/are you working on a feature that isn't mapped ou
 | #F0010 | Implement Weapon Card class                                                  | #F1001 -> T1 | commit a4ae77f (Jan 29th, 2018). |
 
 ***Cheldon Mahon (101001843):***
+Futher understanding C# scripting.
 
 ***Mohamed Kazma (101019719):***
 
@@ -124,11 +125,13 @@ Planning:
 
 ***Cheldon Mahon (101001843):***
 
-1. The Number of Hours spent on the Project since the lecture of (Lecture):
+1. The Number of Hours spent on the Project since the lecture of (Lecture): 6
 
-2. The IDs of Features I have completed this week?
+2. The IDs of Features I have completed this week? None.
 
 3. The IDs of the features you are planning to tackle from Jan 30 to Feb 6th?
+
+	Implement Hand Class #F0012
 
 ***Mohamed Kazma (101019719):***
 
