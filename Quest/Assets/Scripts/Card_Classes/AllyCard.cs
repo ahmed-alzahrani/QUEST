@@ -7,8 +7,8 @@ using UnityEngine.EventSystems;
 public class AllyCard : Card{
     // member variables
 
-    private int battlePoints;
-    private string special;
+    private int battlePoints {get; set;}
+    private string special {get; set;}
 
     // member functions
     public AllyCard(string cardType, string cardName, int bp, string specialSkill){

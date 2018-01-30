@@ -6,8 +6,7 @@ using UnityEngine.EventSystems;
 
 public class TestCard : Card {
     // member variables
-
-    private int minimum;
+    private int minimum {get; set;}
 
     // member functions
 

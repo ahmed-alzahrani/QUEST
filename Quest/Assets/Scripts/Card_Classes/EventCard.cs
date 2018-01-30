@@ -6,8 +6,7 @@ using UnityEngine.EventSystems;
 
 public class EventCard : Card {
     // member variables
-
-    private string description;
+    private string description {get; set;}
 
     // member functions
 

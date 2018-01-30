@@ -6,12 +6,10 @@ using UnityEngine.EventSystems;
 
 public class QuestCard : Card {
     // member variables
-
-    private int stages;
-    private string foe;
+    private int stages {get; set;}
+    private string foe {get; set;}
 
     // member functions
-
     public QuestCard(string cardType, string cardName, int questStages, string questFoe){
         type        = cardType;
         name        = cardName;

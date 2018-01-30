@@ -292,12 +292,11 @@
     <Compile Include="Assets\Scripts\Card_Classes\TestCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\TournamentCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\weaponCard.cs" />
+    <Compile Include="Assets\Scripts\cardLogicController.cs" />
     <Compile Include="Assets\Scripts\CardUIScript.cs" />
-    <Compile Include="Assets\Scripts\Deck_Classes\buildAdventureDeck.cs" />
-    <Compile Include="Assets\Scripts\Deck_Classes\buildRankDeck.cs" />
-    <Compile Include="Assets\Scripts\Deck_Classes\buildStoryDeck.cs" />
-    <Compile Include="Assets\Scripts\Deck_Classes\cardLogicController.cs" />
     <Compile Include="Assets\Scripts\Deck_Classes\Deck.cs" />
+    <Compile Include="Assets\Scripts\Deck_Classes\deckBuilder.cs" />
+    <Compile Include="Assets\Scripts\Deck_Classes\Hand.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\MainMenuScript.cs" />
     <Compile Include="Assets\Scripts\ParticleSystemScript.cs" />

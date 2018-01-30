@@ -6,8 +6,7 @@ using UnityEngine.EventSystems;
 
 public class AmourCard : Card {
     // member variables
-
-    private int bid;
+    private int bid {get; set;}
 
     // member funtions
 

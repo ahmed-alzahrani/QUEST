@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class RankCard : Card {
     // member variables
-    private int battlePoints;
+    private int battlePoints {get; set;}
 
     // member functions
     public RankCard(string cardType, string cardName, int bp)

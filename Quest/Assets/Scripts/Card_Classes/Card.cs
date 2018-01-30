@@ -6,8 +6,8 @@ using UnityEngine.EventSystems;
 
 abstract public class Card{
     // member variables
-    protected string type;
-    protected string name;
+    protected string type {get; set;}
+    protected string name {get; set;}
 
 
     // member functions

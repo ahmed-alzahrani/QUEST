@@ -7,32 +7,21 @@ using UnityEngine.EventSystems;
 public class Deck{
     // member variables
 
-    private string type;
-    private int count;
-    private List<Card> deck;
-    private List<Card> discard;
+    private string type {get; set;}
+    private int count {get; set;}
+    private List<Card> deck {get; set;}
+    private List<Card> discard {get; set;}
+    static Random rnd = new Random();
 
     // member functions
-    public Deck(string deckType, int deckCount, List<Card> initialDeck) { 
+    public Deck(string deckType, int deckCount, List<Card> initialDeck) {
         type = deckType;
-        count = deckCount;
+        count = deck.Count;
         deck = initialDeck;
         discard = new List<Card>();
     }
 
     public Deck(){}
-
-    public string getType(){
-        return this.type;
-    }
-
-    public int getCount(){
-        return this.count;
-    }
-
-    public void decCount(){
-        count -= 1;
-    }
 
     public void display(){
       Debug.Log("Deck Type: " + type);
@@ -49,6 +38,14 @@ public class Deck{
         {
             c.display();
         }
+    }
+    public Card drawCard(){
+      int r = rnd.Next(count);
+      return deck[r]
+    }
+
+    public void discardCard(Card cardToDiscard){
+      discard.Add(cardToDiscard);
     }
 
     // public Card drawNext(){}

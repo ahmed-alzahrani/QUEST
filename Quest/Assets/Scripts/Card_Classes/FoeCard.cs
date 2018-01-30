@@ -6,11 +6,10 @@ using UnityEngine.EventSystems;
 
 public class FoeCard : Card {
     // member variables
-    protected int minBP;
-    protected int maxBP;
+    protected int minBP {get; set;}
+    protected int maxBP {get; set;}
 
     // member functions
-
     protected FoeCard() {}
 
     public FoeCard(string cardType, string cardName, int min, int max) {
