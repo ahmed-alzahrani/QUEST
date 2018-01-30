@@ -44,6 +44,7 @@ Note: Did you finish a feature/are you working on a feature that isn't mapped ou
 ***Mohamed Kazma (101019719):***
 
 ***Julian Greppin (100899233):***
+| F#5001 | Design card spacing algorithm | T1 | commit 929ea28 |
 
 ## Tests Table
 
@@ -131,8 +132,10 @@ Planning:
 
 ***Julian Greppin (100899233):***
 
-1. The Number of Hours spent on the Project since the lecture of (Lecture):
+1. The Number of Hours spent on the Project since the lecture of (Lecture): 10~
 
 2. The IDs of Features I have completed this week?
+F5001
+Worked with Mohamed Kazma on his completed features.
 
 3. The IDs of the features you are planning to tackle from Jan 30 to Feb 6th?
