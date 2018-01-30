@@ -7,6 +7,7 @@ This PDF is to be handed in by 930:AM EST January 30th, 2018
 Note: The feature numbers used correspond with those that can be found on our Trello here:
 
 https://trello.com/invite/b/C37Sfr8e/69d55c2ae5222847d7b927bb87d5f605/comp3004
+https://trello.com/invite/b/krBuN1Z7/d5395a090574c514bcdce9f2e5b06948/comp-3004-ui
 
 Note: This is an invite link for you to see our Trello board, if for some reason the link isn't working, please contact us.
 
