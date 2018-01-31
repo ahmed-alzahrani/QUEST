@@ -18,12 +18,11 @@ public class CardUIScript : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-       // Debug.Log("spam");
         isVisible = true;
         faceDown = true;
         //FoeCard = new FoeCardScript("foe", "foeeee", 10, 20);
         button = gameObject.GetComponent<Button>();
-        //button.onClick.AddListener(FoeCard.display)
+        //button.onClick.AddListener(FoeCard.display);
         flipCard();
         //ChangeVisibility();
         
@@ -32,7 +31,6 @@ public class CardUIScript : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-        // Debug.Log("mega spam");
         if (Input.GetButton("Fire2")) flipCard();
     }
 
