@@ -4,30 +4,37 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class CardUIScript : MonoBehaviour
+public class CardUIScript : MonoBehaviour , IPointerEnterHandler
 {
-    public Sprite frontImage;
-    public Sprite BackImage;
+    private string textureName { get; set; }
 
     private bool isVisible;
     private bool faceDown;
     private Button button;
+    private PreviewCardScript previewButton;
    
     //public FoeCardScript FoeCard;
 
     // Use this for initialization
     void Awake()
     {
+        textureName = "Textures/events/eventCard2";
         isVisible = true;
         faceDown = true;
-        //FoeCard = new FoeCardScript("foe", "foeeee", 10, 20);
         button = gameObject.GetComponent<Button>();
         //button.onClick.AddListener(FoeCard.display);
         flipCard();
-        //ChangeVisibility();
-        
+
+        previewButton = GameObject.FindGameObjectWithTag("PreviewCard").GetComponent<PreviewCardScript>();
     }
-	
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("Hovered over a card");
+        previewButton.textureName = textureName;
+        previewButton.ChangeTexture();
+    }
+
 	// Update is called once per frame
 	void Update()
     {
@@ -47,6 +54,7 @@ public class CardUIScript : MonoBehaviour
 
     public void flipCard()
     {
+        /*
         if (faceDown)
         {
             faceDown = false;
@@ -57,5 +65,6 @@ public class CardUIScript : MonoBehaviour
             faceDown = true;
             button.image.overrideSprite = BackImage;
         }
+        */
     }
 }

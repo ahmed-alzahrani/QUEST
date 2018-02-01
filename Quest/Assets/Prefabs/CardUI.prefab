@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 222706572123161918}
   - component: {fileID: 114781252675202608}
   - component: {fileID: 114582943515234380}
-  - component: {fileID: 114376673340483046}
   - component: {fileID: 95222700631476096}
   - component: {fileID: 114317539769129220}
+  - component: {fileID: 114502380128765566}
   m_Layer: 5
   m_Name: CardUI
   m_TagString: Untagged
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 10, y: -10}
   m_UseGraphicAlpha: 1
---- !u!114 &114376673340483046
+--- !u!114 &114502380128765566
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -74,8 +74,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b02cd386a72ca124ba6387a381d608e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frontImage: {fileID: 21300000, guid: 44836dcd8ab46db4dbef549b6a507f02, type: 3}
-  BackImage: {fileID: 21300000, guid: 1a9f3d50a6bce4345b1238fbe638ae66, type: 3}
 --- !u!114 &114582943515234380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -156,15 +154,15 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1621595229904592}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

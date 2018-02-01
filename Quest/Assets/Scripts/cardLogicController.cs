@@ -21,7 +21,7 @@ public class cardLogicController : MonoBehaviour
         adventureDeck = decks.buildAdventureDeck();
 
         button = gameObject.GetComponent<Button>();
-        button.onClick.AddListener(display);
+        //button.onClick.AddListener(display);
     }
 
     void Update()

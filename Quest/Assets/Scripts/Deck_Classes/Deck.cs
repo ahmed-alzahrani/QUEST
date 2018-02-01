@@ -18,7 +18,7 @@ public class Deck
     public Deck(string deckType, int deckCount, List<Card> initialDeck)
     {
         type = deckType;
-        count = deck.Count;
+        //count = deck.Count;
         deck = initialDeck;
         discard = new List<Card>();
     }

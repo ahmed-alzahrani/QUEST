@@ -4,26 +4,30 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class AllyCard : Card{
+public class AllyCard : Card
+{
     // member variables
 
-    private int battlePoints {get; set;}
-    private string special {get; set;}
+    private int battlePoints { get; set; }
+    private string special { get; set; }
 
     // member functions
-    public AllyCard(string cardType, string cardName, int bp, string specialSkill){
-        type            = cardType;
-        name            = cardName;
-        battlePoints    = bp;
-        special         = specialSkill;
+    public AllyCard(string cardType, string cardName, int bp, string specialSkill)
+    {
+        type = cardType;
+        name = cardName;
+        battlePoints = bp;
+        special = specialSkill;
 
     }
 
-    public int getBattlePoints(){
+    public int getBattlePoints()
+    {
         return this.battlePoints;
     }
 
-    public bool hasSpecial(){
+    public bool hasSpecial()
+    {
         return (this.special != "");
     }
 
