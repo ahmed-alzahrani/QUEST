@@ -12,7 +12,7 @@ public class Deck
     private int count { get; set; }
     private List<Card> deck { get; set; }
     private List<Card> discard { get; set; }
-    static Random rnd = new Random();
+    static System.Random rnd = new System.Random();
 
     // member functions
     public Deck(string deckType, int deckCount, List<Card> initialDeck)
@@ -45,9 +45,9 @@ public class Deck
 
     public Card drawCard()
     {
-        return null;
-        //int r = rnd.Next(count);
-        //return deck[r];
+       
+        int r = rnd.Next(count);
+        return deck[r];
     }
 
     public void discardCard(Card cardToDiscard)

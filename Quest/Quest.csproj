@@ -292,15 +292,22 @@
     <Compile Include="Assets\Scripts\Card_Classes\TestCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\TournamentCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\weaponCard.cs" />
-    <Compile Include="Assets\Scripts\cardLogicController.cs" />
-    <Compile Include="Assets\Scripts\CardUIScript.cs" />
+    <Compile Include="Assets\Scripts\Controllers\cardLogicController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Deck Controllers\AdventureDeckController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Deck Controllers\RankDeckController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Deck Controllers\StoryDeckController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\GameController.cs" />
     <Compile Include="Assets\Scripts\Deck_Classes\Deck.cs" />
     <Compile Include="Assets\Scripts\Deck_Classes\deckBuilder.cs" />
     <Compile Include="Assets\Scripts\Deck_Classes\Hand.cs" />
-    <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\MainMenuScript.cs" />
     <Compile Include="Assets\Scripts\ParticleSystemScript.cs" />
+    <Compile Include="Assets\Scripts\Player Classes\ComputerPlayer.cs" />
+    <Compile Include="Assets\Scripts\Player Classes\Player.cs" />
     <Compile Include="Assets\Scripts\TableSetup.cs" />
+    <Compile Include="Assets\Scripts\UI Scripts\CardSpacingScript.cs" />
+    <Compile Include="Assets\Scripts\UI Scripts\CardUIScript.cs" />
+    <Compile Include="Assets\Scripts\UI Scripts\PreviewCardScript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

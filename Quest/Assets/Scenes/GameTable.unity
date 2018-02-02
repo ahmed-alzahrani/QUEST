@@ -520,12 +520,12 @@ Prefab:
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 775
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -100
+      value: -500
       objectReference: {fileID: 0}
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
@@ -1350,6 +1350,24 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 342285512}
+--- !u!1 &357145464 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1621595229904592, guid: a13ae9810b215f94196ac108285197ef,
+    type: 2}
+  m_PrefabInternal: {fileID: 131987844}
+--- !u!114 &357145465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 357145464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfbc5f274c8965e48892f52a2db1d7e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  gameControl: {fileID: 10073656}
 --- !u!1 &384056343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1543,7 +1561,7 @@ GameObject:
   m_PrefabParentObject: {fileID: 1621595229904592, guid: a13ae9810b215f94196ac108285197ef,
     type: 2}
   m_PrefabInternal: {fileID: 801528650}
---- !u!114 &642890038
+--- !u!114 &642890032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -1551,9 +1569,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 642890031}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e558fe90b1e99fd42971be4b7e53be39, type: 3}
+  m_Script: {fileID: 11500000, guid: bb644707b5e36344a8fe4f2a14f1c6fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  gameControl: {fileID: 10073656}
 --- !u!1 &651164475
 GameObject:
   m_ObjectHideFlags: 0
@@ -1608,7 +1628,7 @@ MonoBehaviour:
   activeChildren: 0
   rowLimit: 0
   rowLength: 0
-  manualRowLimit: 2
+  manualRowLimit: -1
 --- !u!114 &651164478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1909,12 +1929,12 @@ Prefab:
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 425
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -100
+      value: -300
       objectReference: {fileID: 0}
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
@@ -2218,7 +2238,7 @@ MonoBehaviour:
   activeChildren: 0
   rowLimit: 0
   rowLength: 0
-  manualRowLimit: 3
+  manualRowLimit: -1
 --- !u!224 &731707237 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
@@ -2408,7 +2428,7 @@ MonoBehaviour:
   activeChildren: 0
   rowLimit: 0
   rowLength: 0
-  manualRowLimit: 7
+  manualRowLimit: -1
 --- !u!1 &774726252
 GameObject:
   m_ObjectHideFlags: 0
@@ -2463,7 +2483,7 @@ MonoBehaviour:
   activeChildren: 0
   rowLimit: 0
   rowLength: 0
-  manualRowLimit: 3
+  manualRowLimit: -1
 --- !u!114 &774726255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4690,12 +4710,12 @@ Prefab:
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 600
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -100
+      value: -300
       objectReference: {fileID: 0}
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
@@ -4846,7 +4866,7 @@ MonoBehaviour:
   activeChildren: 0
   rowLimit: 0
   rowLength: 0
-  manualRowLimit: 6
+  manualRowLimit: -1
 --- !u!114 &1803168569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4949,6 +4969,12 @@ GameObject:
   m_PrefabParentObject: {fileID: 1621595229904592, guid: a13ae9810b215f94196ac108285197ef,
     type: 2}
   m_PrefabInternal: {fileID: 668795656}
+--- !u!114 &1843433987 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114582943515234380, guid: a13ae9810b215f94196ac108285197ef,
+    type: 2}
+  m_PrefabInternal: {fileID: 668795656}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!114 &1843433989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4963,6 +4989,19 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 10, y: -10}
   m_UseGraphicAlpha: 1
+--- !u!114 &1843433991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1843433984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04b562f8c59199148a953b17f573649d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 1843433987}
+  gameControl: {fileID: 10073656}
 --- !u!1 &1869487797
 GameObject:
   m_ObjectHideFlags: 0
