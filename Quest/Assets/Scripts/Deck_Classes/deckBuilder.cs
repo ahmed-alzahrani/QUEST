@@ -101,17 +101,17 @@ public class deckBuilder
     public List<Card> generateEventCards()
     {
         List<Card> eventCards = new List<Card>();
-        eventCards.Add(new EventCard("Event Card", "Chivalrous Deed", "Player(s) with both lowest rank and least amount of shields, receives 3 shields"));
-        eventCards.Add(new EventCard("Event Card", "Pox", "All players except the player who drew this card lose 1 shield"));
-        eventCards.Add(new EventCard("Event Card", "Plague", "Drawer loses 2 shields if possible"));
-        eventCards.Add(new EventCard("Event Card", "King's Recognition", "The next player(s) to complete a Quest will receive 2 extra shields"));
-        eventCards.Add(new EventCard("Event Card", "King's Recognition", "The next player(s) to complete a Quest will receive 2 extra shields"));
-        eventCards.Add(new EventCard("Event Card", "Queen's Favor", "The lowest ranked player(s) immediately receives 2 Adventure Cards"));
-        eventCards.Add(new EventCard("Event Card", "Queen's Favor", "The lowest ranked player(s) immediately receives 2 Adventure Cards"));
-        eventCards.Add(new EventCard("Event Card", "Court Called to Camelot", "All Allies in play must be discarded"));
-        eventCards.Add(new EventCard("Event Card", "Court Called to Camelot", "All Allies in play must be discarded"));
-        eventCards.Add(new EventCard("Event Card", "King's Call to Arms", "The highest ranked player(s) must place 1 weapon in the discard pile. If unable to do so, 2 Foe Cards must be discarded"));
-        eventCards.Add(new EventCard("Event Card", "Prosperity throughout the Realm", "All players may immediately draw 2 Adventure Cards"));
+        eventCards.Add(new EventCard("Event Card", "Chivalrous Deed", "Player(s) with both lowest rank and least amount of shields, receives 3 shields", new iEventChivalrousDeed()));
+        eventCards.Add(new EventCard("Event Card", "Pox", "All players except the player who drew this card lose 1 shield", new iEventPox()));
+        eventCards.Add(new EventCard("Event Card", "Plague", "Drawer loses 2 shields if possible", new iEventPlague()));
+        eventCards.Add(new EventCard("Event Card", "King's Recognition", "The next player(s) to complete a Quest will receive 2 extra shields", new iEventKingsRecognition()));
+        eventCards.Add(new EventCard("Event Card", "King's Recognition", "The next player(s) to complete a Quest will receive 2 extra shields", new iEventKingsRecognition()));
+        eventCards.Add(new EventCard("Event Card", "Queen's Favor", "The lowest ranked player(s) immediately receives 2 Adventure Cards", new iEventQueensFavor()));
+        eventCards.Add(new EventCard("Event Card", "Queen's Favor", "The lowest ranked player(s) immediately receives 2 Adventure Cards", new iEventQueensFavor()));
+        eventCards.Add(new EventCard("Event Card", "Court Called to Camelot", "All Allies in play must be discarded", new iEventCourtCalled()));
+        eventCards.Add(new EventCard("Event Card", "Court Called to Camelot", "All Allies in play must be discarded", new iEventCourtCalled()));
+        eventCards.Add(new EventCard("Event Card", "King's Call to Arms", "The highest ranked player(s) must place 1 weapon in the discard pile. If unable to do so, 2 Foe Cards must be discarded", new iEventKingsCallToArms()));
+        eventCards.Add(new EventCard("Event Card", "Prosperity throughout the Realm", "All players may immediately draw 2 Adventure Cards", new iEventProsperity()));
         return eventCards;
     }
 

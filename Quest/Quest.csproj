@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.3.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -292,14 +294,21 @@
     <Compile Include="Assets\Scripts\Card_Classes\TestCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\TournamentCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\weaponCard.cs" />
-    <Compile Include="Assets\Scripts\Controllers\cardLogicController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Deck Controllers\AdventureDeckController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Deck Controllers\RankDeckController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Deck Controllers\StoryDeckController.cs" />
     <Compile Include="Assets\Scripts\Controllers\GameController.cs" />
     <Compile Include="Assets\Scripts\Deck_Classes\Deck.cs" />
     <Compile Include="Assets\Scripts\Deck_Classes\deckBuilder.cs" />
-    <Compile Include="Assets\Scripts\Deck_Classes\Hand.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEvent.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventChivalrousDeed.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventCourtCalled.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventKingsCallToArms.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventKingsRecognition.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventPlague.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventPox.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventProsperity.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventQueensFavor.cs" />
     <Compile Include="Assets\Scripts\MainMenuScript.cs" />
     <Compile Include="Assets\Scripts\ParticleSystemScript.cs" />
     <Compile Include="Assets\Scripts\Player Classes\ComputerPlayer.cs" />

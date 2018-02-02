@@ -34,6 +34,16 @@ public class Player {
         this.rank = "Champion Knight";
     }
 
+    public void rankDecrease(){
+      score -=1;
+      if (score == 4 ){
+        rank = "Squire";
+      }
+      if (score == 6 ){
+        rank = "Knight";
+      }
+    }
+
     // public void drawCard(deckToDrawFrom){}
 
     //public Card playCard(){}

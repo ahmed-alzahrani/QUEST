@@ -6,14 +6,17 @@ using UnityEngine.EventSystems;
 
 public class EventCard : Card {
     // member variables
-    private string description {get; set;}
+    public string description {get; set;}
+    public iEvent effect;
+
 
     // member functions
 
-    public EventCard(string cardType, string cardName, string cardDescription){
+    public EventCard(string cardType, string cardName, string cardDescription, iEvent cardEvent){
         type        = cardType;
         name        = cardName;
         description = cardDescription;
+        effect      = cardEvent;
     }
 
     public new void display(){
