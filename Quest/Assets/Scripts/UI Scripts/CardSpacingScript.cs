@@ -57,6 +57,11 @@ public class CardSpacingScript : MonoBehaviour {
             layout.padding.left = 0;
             layout.padding.right = 0;
             layout.spacing = new Vector2(-1.0f * (layout.cellSize.x - (layout.cellSize.x * (1.0f / (((float)activeChildren * layout.cellSize.x) / (float)rowLength)))), 0);
+            //Alternate card spacing formula
+            //float extraSpace = ((float) activeChildren * layout.cellSize.x) - (float) rowLength;
+            //if (extraSpace > 0)
+            //    layout.spacing = new Vector2(-1.0f * (extraSpace / (float) activeChildren), 0.0f);
+
         }
 
 
