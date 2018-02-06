@@ -33,6 +33,15 @@ are being worked on.
 
 Ahmed Al-Zahrani (100900855):
 
+| #F | Flow charted the entire process of the game in detail                                                                             | N/A | commit 0b4276d (Feb 2nd, 2018).  |
+|----|-----------------------------------------------------------------------------------------------------------------------------------|-----|----------------------------------|
+| #F | Substantial update to UML to include interfaces and game controller, as well as turn object                                       | N/A | commit de10314 (Feb 6th, 2018).  |
+| #F | Re-Factored Rank Deck to be a list as part of the user class, instead of a deck object with all of the users different rank cards | N/A | commit de10314 (Feb 6th, 2018).  |
+| #F | Created Interface and inherited class hierarchy files, yet to precisely implement behavior though                                 | N/A | commit de10314 (Feb 6th, 2018).  |
+| #F | Implemented drawing hands from a Deck, moving it to be a function of the Player Class                                             | N/A | commit 962cccc (Feb 2nd, 2018).  |
+| #F | Condensed the Deck Builders into a singular class, removed RankDeck                                                               | N/A | commit 0e19346 (Jan 30th, 2018). |
+| #F | Learned how to hook up UI elements (game objects) to scripts as well as reference other scripts to hook Scripting logic to UI     | N/A | N/A                              |
+
 Cheldon Mahon (101001843): Futher understanding C# scripting.
 
 |        | Separated Cards | commit cb181563312bd941bc395f0703468caa0a46f4b8 |   |
@@ -83,39 +92,29 @@ case in the code has been being worked on so that even small card areas can stil
 
 Ahmed Al-Zahrani (100900855):
 
-1.The Number of Hours spent on the Project since the lecture of (Lecture): 20-
+1.The Number of Hours spent on the Project since the lecture of (Lecture): 20~
 2.The IDs of Features I have completed this week?
 
-Completed Features:
+This week revolved around higher level work for me. Primarily, this meant making substantial upgrades to our working UML to show the interfaces I began to implement, as well as showing the relation of the Game Controller with the newly conceptualized Turn object. Additionally, I flow-charted the entire process of the game (Foe Encounters, Game Loop, Game Set Up, a Quest, a Test, and a Tournament). With this improvement in our documentation, the process of implementing code to follow this logic will become much easier for not only myself but amongst the rest of the team, with the level of clarity that good documentation can provide.
 
-F0001 - Implement Card superclass F0007 - Implement Rank Card class (including all sub tasks)
-F0010 - Implement Weapon Card class (including all sub tasks) F0002-01 - Implement Ally Card
-constructor / class file F0003-01 - Implement Amour Card constructor / class file F0004-01 -
-Implement Event Card constructor / class file F0005-01 - Implement Foe Card constructor / class file
-F0006-01 - Implement Quest Card constructor / class file F0007-01 - Implement Rank Card
-constructor / class file F0008-01 - Implement Test Card constructor / class file F0009-01 - Implement
-Tournament Card constructor / class file F0011-01 - Implement Deck constructor / class file F1001 -
-Adventure Deck is properly created upon game start F1005 - Story Deck is properly created upon
-game start F1006 - Rank Deck is properly created upon game start
+I also created the class files and interface files for the interfaces I generated in my planning that went into the documentation. Our use of the strategy pattern is now clearly laid out, though some of the actual implementation algorithms for some behaviors need to be implemented, right now there are simply placeholder return values.
 
-F*** - Uploaded new weekly update template to our repo F*** - Fleshed out Trello board with
-relevant User stories / sub-stories pertinent to the logic work done this year
+More minor refactoring included removing Rank Deck from the Deck builder and treating it as a property of each Player, since there are only three different rank cards and theyre the same for every user, as well as condensing the different deck builders into a singular file.
 
-1.The IDs of the features you are planning to tackle from Jan 30 to Feb 6th?
+The nature of my work this week (planning/documentation, re-factoring, and setting up class files without actually delving into nitty-gritty implementations) makes it difficult to pin the work to specific feature #s, however with a particular emphasis on the work that went into documentation I believe its time well spent.
+
+
+
 
 Planned to tackle:
 
-F1000 - Implement initial game condition (including all sub tasks) / dependent on UI team
-unblocking F1003 - Query player for # of players in game F1004 - Deal out hands corresponding to
-# of players F1007 - Merge initialized game state on logic side with initialized game UI
+F1050 - The Event behaviors
+F0009 - Implement Tournament behavior
+F1009 - Build list of players for initial game condition based on info received from the main menu (player name, # of players)
 
-F0011 - Imlpement Deck object (including all sub tasks): F0011-02 - Ensure deck can be randomly
-drawn from F0011-03 - Ensure discard pile properly tracks discarded cards F0011-04 - Ensure deck
-can be re-shuffled from discard if it runs out F0011-05 - Ensure a specific card can be drawn from
-the deck by name
+In addition to these specific US, I want to work on Foe encounters, right now we dont even have user stories to speak so I hope to create those and implement foe encounter logic
 
-Planning: - Plan out the logic of a single user's turn and create relevent user stories on Trello to
-track this loop.
+
 
 Cheldon Mahon (101001843):
 
