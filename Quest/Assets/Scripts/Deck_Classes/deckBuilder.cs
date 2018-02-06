@@ -9,33 +9,6 @@ public class deckBuilder
 
     public deckBuilder() { }
 
-    // building the RANK deck
-    public Deck buildRankDeck()
-    {
-        return new Deck("Rank Deck", 12, buildRankCards());
-    }
-
-    public List<Card> buildRankCards()
-    {
-        List<Card> rankCards = new List<Card>();
-        for (int i = 0; i < 4; i++)
-        {
-            RankCard squireCard = new RankCard("Rank", "Squire", 5);
-            rankCards.Add(squireCard);
-        }
-        for (int i = 0; i < 4; i++)
-        {
-            RankCard KnightCard = new RankCard("Rank", "Knight", 10);
-            rankCards.Add(KnightCard);
-        }
-        for (int i = 0; i < 4; i++)
-        {
-            RankCard champKnightCard = new RankCard("Rank", "Champion Knight", 20);
-            rankCards.Add(champKnightCard);
-        }
-        return rankCards;
-    }
-
     // building the STORY deck
     public Deck buildStoryDeck()
     {

@@ -64,16 +64,6 @@ Again, tables can be formatted here: https://www.tablesgenerator.com/markdown_ta
 
 Ahmed Al-Zahrani (100900855):
 
-lAlthough some completed features have been tested informally (IE: T1 for #F1001). For example, I
-
-```
-can print out the created Adventure Deck on start of the game by clicking on the game object that
-corresponds to the adventure deck. However, I have e-mailed JP re: The C# alternative he would
-like us to use an alternative to JUnit.
-```
-Once I recieve an answer, hopefully for next week I can update this section with specific formal
-testing for the features I'm currently working on as well as the features completed this week.
-
 Cheldon Mahon (101001843):
 
 Mohamed Kazma (101019719):
@@ -87,7 +77,7 @@ However, through testing, the card spacing algorithm begins to fail when the giv
 unity UI panel is less than 3 card widths. This causes unintentional additional row generation after several card additions.
 
 This problem has been avoided by designing card layouts to permit propper room for spacing, however a more aggressive edge
-case in the code has been being worked on so that even small card areas can still benifit from the spacing algorithm, should they be necessary. 
+case in the code has been being worked on so that even small card areas can still benifit from the spacing algorithm, should they be necessary.
 
 # For Each Team Member:
 
@@ -132,7 +122,7 @@ Cheldon Mahon (101001843):
 1.The Number of Hours spent on the Project since the lecture of (Lecture): 8
 2.The IDs of Features I have completed this week? One - Separated Cards.
 3.The IDs of the features you are planning to tackle from Feb 6th to Feb 13th? Collaborate with team
-to understand what needs to be worked on and completed. 
+to understand what needs to be worked on and completed.
 
 Mohamed Kazma (101019719):
 
@@ -150,12 +140,12 @@ F5007 - Setup preview cards
 F5014 - Setup all needed prefabs for UI cards
 F5015 - Setup instantiation of these prefabs with proper addition to the hands and other panels
 F5016 - Setup texture names of all cards to be able to load these cards dynamically
-F5017 - Setup active cards and non active cards in the way they are supposed to be used 
+F5017 - Setup active cards and non active cards in the way they are supposed to be used
 
 Julian Greppin (100899233):
 
 1.The Number of Hours spent on the Project since the lecture of (Lecture): 6~
-2.The IDs of Features I have completed this week? 
+2.The IDs of Features I have completed this week?
 F5001 - Completed testing on the algorithm as well as designing alternative formulae for the script.
 Worked with Mohamed Kazma on the UI features he listed
 3.The IDs of the features you are planning to tackle from Jan 30 to Feb 6th?
@@ -164,4 +154,3 @@ Worked with Mohamed Kazma on the UI features he listed
   #F0006-3 3 stage quests
   #F0006-4 quests with specialized foes
   #F0006-5 4/5 stage quests
-

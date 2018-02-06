@@ -9,8 +9,8 @@ public class Player {
     //member variables
     public string name { get; set; }
     public int score { get; set; }
-    public string rank { get; set; }
     public RankCard rankCard { get; set; }
+    public List<RankCard> rankDeck {get; set; }
     public List<Card> hand { get; set; }
     public List<AllyCard> activeAllies{ get; set; }
 
@@ -19,30 +19,19 @@ public class Player {
     public Player(string playerName, List<Card> startingHand) {
         name = playerName;
         score = 0;
-        rank = "Squire";
         hand = startingHand;
         activeAllies = new List<AllyCard>();
+        rankCard = new RankCard("Rank", "Squire", 5);
+        List<RankCard> rankCards = new List<RankCard>();
+        RankCard KnightCard = new RankCard("Rank", "Knight", 10);
+        RankCard champKnightCard = new RankCard("Rank", "Champion Knight", 20);
+        rankCards.Add(KnightCard);
+        rankCards.Add(champKnightCard);
+        rankDeck = rankCards;
+
     }
 
     public Player() { }
-
-    public void rankUpToKnight(){
-        this.rank = "Knight";
-    }
-
-    public void rankUpToChampion(){
-        this.rank = "Champion Knight";
-    }
-
-    public void rankDecrease(){
-      score -=1;
-      if (score == 4 ){
-        rank = "Squire";
-      }
-      if (score == 6 ){
-        rank = "Knight";
-      }
-    }
 
     // public void drawCard(deckToDrawFrom){}
 

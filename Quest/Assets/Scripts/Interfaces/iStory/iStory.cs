@@ -2,6 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface iEvent {
-  void PlayEvent(List<Player> players);
+public interface iStory {
+  void execute(List<Player> players, int shields);
 }
