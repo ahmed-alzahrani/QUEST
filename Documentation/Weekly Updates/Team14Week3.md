@@ -43,6 +43,11 @@ Mohamed Kazma (101019719):
 |        |                                                                                                       |                |   |
 
 Julian Greppin (100899233):
+Worked with Mohamed Kazma on many aspects of the UI's functionality and design.
+
+| #5001  | Designed and implemented an adaptive card spacing algorithm that allowed for optimal space usage | commit 66299e0  |   |
+|--------|-------------------------------------------------------------------------------------------------------|----------------|---|
+
 
 ## Tests Table
 
@@ -75,6 +80,12 @@ The updated ui still functions properly with the new changes the cards still hol
 The preview card seems to work as well position and functionality wise but testing it on a some cards will be tested more generally soon.
 
 Julian Greppin (100899233):
+Card spacing algorithm works with all sizes of card areas.
+However, through testing, the card spacing algorithm begins to fail when the given area for cards to exist in a
+unity UI panel is less than 3 card widths. This causes unintentional additional row generation after several card additions.
+
+This problem has been avoided by designing card layouts to permit propper room for spacing, however a more aggressive edge
+case in the code has been being worked on so that even small card areas can still benifit from the spacing algorithm, should they be necessary. 
 
 # For Each Team Member:
 
@@ -142,9 +153,15 @@ F5017 - Setup active cards and non active cards in the way they are supposed to 
 
 Julian Greppin (100899233):
 
-1.The Number of Hours spent on the Project since the lecture of (Lecture): 10~
-2.The IDs of Features I have completed this week? F5001 Worked with Mohamed Kazma on his
-completed features.
+1.The Number of Hours spent on the Project since the lecture of (Lecture): 6~
+2.The IDs of Features I have completed this week? 
+F5001 - Completed testing on the algorithm as well as designing alternative formulae for the script.
+Worked with Mohamed Kazma on the UI features he listed
 3.The IDs of the features you are planning to tackle from Jan 30 to Feb 6th?
+#F0006 - Quest cards
+  #F0006-2 2 stage quests
+  #F0006-3 3 stage quests
+  #F0006-4 quests with specialized foes
+  #F0006-5 4/5 stage quests
 
 
