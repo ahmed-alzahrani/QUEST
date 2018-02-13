@@ -4,27 +4,31 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-abstract public class Card{
+abstract public class Card
+{
     // member variables
-    protected string type {get; set;}
-    protected string name {get; set;}
+    protected string type { get; set; }
+    protected string name { get; set; }
 
 
     // member functions
 
-    protected Card() {}
+    protected Card() { }
 
     // 2 param constructor
-    public Card(string cardType, string cardName){
+    public Card(string cardType, string cardName)
+    {
         type = cardType;
         name = cardName;
     }
 
-    public string getType(){
+    public string getType()
+    {
         return this.type;
     }
 
-    public string getName(){
+    public string getName()
+    {
         return this.name;
     }
 
