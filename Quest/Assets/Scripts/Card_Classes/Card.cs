@@ -9,6 +9,7 @@ abstract public class Card
     // member variables
     protected string type { get; set; }
     protected string name { get; set; }
+    protected string texturePath { get; set; }
 
 
     // member functions
@@ -16,10 +17,11 @@ abstract public class Card
     protected Card() { }
 
     // 2 param constructor
-    public Card(string cardType, string cardName)
+    public Card(string cardType, string cardName, string texture)
     {
         type = cardType;
         name = cardName;
+        texturePath = texture;
     }
 
     public string getType()

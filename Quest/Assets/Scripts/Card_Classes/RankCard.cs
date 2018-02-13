@@ -9,10 +9,11 @@ public class RankCard : Card {
     private int battlePoints {get; set;}
 
     // member functions
-    public RankCard(string cardType, string cardName, int bp)
+    public RankCard(string cardType, string cardName, string texture, int bp)
     {
         type            = cardType;
         name            = cardName;
+        texturePath     = texture;
         battlePoints    = bp;
     }
 

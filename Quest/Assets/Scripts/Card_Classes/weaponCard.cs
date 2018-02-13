@@ -10,10 +10,11 @@ public class WeaponCard : Card{
 
     // member functions
 
-    public WeaponCard(string cardType, string cardName, int bp) {
-        this.type           = cardType;
-        this.name           = cardName;
-        this.battlePoints   = bp;
+    public WeaponCard(string cardType, string cardName, string texture, int bp) {
+        type           = cardType;
+        name           = cardName;
+        battlePoints   = bp;
+        texturePath         = texture;
     }
     public int getBattlePoints(){
         return this.battlePoints;

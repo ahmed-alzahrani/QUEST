@@ -13,11 +13,11 @@ public class EventCard : Card
 
     // member functions
 
-    public EventCard(string cardType, string cardName, string cardDescription, iStory cardEvent)
+    public EventCard(string cardType, string cardName, string texture, iStory cardEvent)
     {
         type = cardType;
         name = cardName;
-        description = cardDescription;
+        texturePath = texture;
         effect = cardEvent;
     }
 

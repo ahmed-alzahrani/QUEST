@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class iStrategyCPU : iStrategy
 {
-  
+
   public List<Card> executeTournament(List<Card> hand){
     return hand;
   }
@@ -14,6 +14,10 @@ public class iStrategyCPU : iStrategy
   }
 
   public List<Card> executeTest(int bid ,List<Card> hand){
+    return hand;
+  }
+
+  public List<Card> kingsCall(List<Card> hand) {
     return hand;
   }
 }

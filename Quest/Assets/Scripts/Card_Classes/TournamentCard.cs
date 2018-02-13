@@ -7,13 +7,15 @@ using UnityEngine.EventSystems;
 public class TournamentCard : Card {
     // member variables
     private int shields {get; set;}
+    private iStoryTournament tourney;
 
     // member functions
 
-    public TournamentCard(string cardType, string cardName, int cardShields){
+    public TournamentCard(string cardType, string cardName, string texture, int cardShields, iStoryTournament tournament){
 
         type        = cardType;
         name        = cardName;
+        texturePath = texture;
         shields     = cardShields;
     }
 

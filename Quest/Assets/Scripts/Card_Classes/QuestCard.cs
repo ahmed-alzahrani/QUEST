@@ -8,9 +8,10 @@ public class QuestCard : Card {
     // member variables
     private int stages {get; set;}
     private string foe {get; set;}
+    private iStoryQuest quest;
 
     // member functions
-    public QuestCard(string cardType, string cardName, int questStages, string questFoe){
+    public QuestCard(string cardType, string cardName, int questStages, string questFoe, iStoryQuest questLine){
         type        = cardType;
         name        = cardName;
         stages      = questStages;

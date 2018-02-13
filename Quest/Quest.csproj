@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2017.3.0f3</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -295,25 +293,35 @@
     <Compile Include="Assets\Scripts\Card_Classes\TournamentCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\weaponCard.cs" />
     <Compile Include="Assets\Scripts\Controllers\Deck Controllers\AdventureDeckController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Deck Controllers\RankDeckController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Deck Controllers\StoryDeckController.cs" />
     <Compile Include="Assets\Scripts\Controllers\GameController.cs" />
     <Compile Include="Assets\Scripts\Deck_Classes\Deck.cs" />
     <Compile Include="Assets\Scripts\Deck_Classes\deckBuilder.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEvent.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventChivalrousDeed.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventCourtCalled.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventKingsCallToArms.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventKingsRecognition.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventPlague.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventPox.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventProsperity.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\iEvent\iEventQueensFavor.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iBid\iBid.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iBid\iBidDefault.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iFieldDependent\iFeldDefault.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iFieldDependent\iFeldDependent.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iQuestDependent\iQuestDefault.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iQuestDependent\iQuestDependent.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStory\iStory.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStory\iStoryChivalrousDeed.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStory\iStoryCourtCalled.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStory\iStoryKingsCallToArms.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStory\iStoryKingsRecognition.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStory\iStoryPlague.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStory\iStoryPox.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStory\iStoryProsperity.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStory\iStoryQueensFavor.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStory\iStoryQuest.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStory\iStoryTournament.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStrategy\iStrategy.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStrategy\iStrategyCPU.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\iStrategy\iStrategyPlayer.cs" />
     <Compile Include="Assets\Scripts\MainMenuScript.cs" />
     <Compile Include="Assets\Scripts\ParticleSystemScript.cs" />
-    <Compile Include="Assets\Scripts\Player Classes\ComputerPlayer.cs" />
     <Compile Include="Assets\Scripts\Player Classes\Player.cs" />
     <Compile Include="Assets\Scripts\TableSetup.cs" />
+    <Compile Include="Assets\Scripts\Turn.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\CardSpacingScript.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\CardUIScript.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\PreviewCardScript.cs" />

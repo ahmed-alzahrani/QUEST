@@ -10,9 +10,10 @@ public class AmourCard : Card {
 
     // member funtions
 
-    public AmourCard(string cardType, string cardName, int cardBid){
+    public AmourCard(string cardType, string cardName, string texture, int cardBid){
         type        = cardType;
         name        = cardName;
+        texturePath = texture;
         bid         = cardBid;
     }
 
