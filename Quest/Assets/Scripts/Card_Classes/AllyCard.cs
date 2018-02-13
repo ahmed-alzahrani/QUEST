@@ -12,11 +12,10 @@ public class AllyCard : Card
     private string special { get; set; }
 
     // member functions
-    public AllyCard(string cardType, string cardName, string texture, int bp, string specialSkill)
+    public AllyCard(string cardType, string cardName, int bp, string specialSkill)
     {
         type = cardType;
         name = cardName;
-        texturePath = texture;
         battlePoints = bp;
         special = specialSkill;
 

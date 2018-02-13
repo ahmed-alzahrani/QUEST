@@ -12,10 +12,9 @@ public class FoeCard : Card {
     // member functions
     protected FoeCard() {}
 
-    public FoeCard(string cardType, string cardName, string texture, int min, int max) {
+    public FoeCard(string cardType, string cardName, int min, int max) {
         type        = cardType;
         name        = cardName;
-        texturePath = texture;
         minBP       = min;
         maxBP       = max;
     }

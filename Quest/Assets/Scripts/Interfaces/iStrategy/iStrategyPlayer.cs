@@ -20,8 +20,4 @@ public class iStrategyPlayer : iStrategy
         return hand;
     }
 
-    public List<Card> kingsCall(List<Card> hand) {
-      return hand;
-    }
-
 }

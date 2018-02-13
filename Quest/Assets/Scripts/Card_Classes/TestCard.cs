@@ -10,10 +10,9 @@ public class TestCard : Card {
 
     // member functions
 
-    public TestCard(string cardType, string cardName, string texture, int min){
+    public TestCard(string cardType, string cardName, int min){
         type         = cardType;
         name         = cardName;
-        texturePath  = texture;
         minimum      = min;
     }
 
