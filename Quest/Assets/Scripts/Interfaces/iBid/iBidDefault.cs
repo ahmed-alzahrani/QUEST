@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class iBidDefault : iBid{
   public void executeBidBonus(int bids){
-    return bids;
+    //return bids;
   }
 }

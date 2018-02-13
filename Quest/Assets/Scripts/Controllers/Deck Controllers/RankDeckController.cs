@@ -15,7 +15,7 @@ public class RankDeckController : MonoBehaviour
 	void Start ()
     {
       gameLogic = gameControl.GetComponent<GameController>();
-      rankDeck = gameLogic.rankDeck;
+      //rankDeck = gameLogic.rankDeck;
       button = gameObject.GetComponent<Button>();
       button.onClick.AddListener(display);
 	}

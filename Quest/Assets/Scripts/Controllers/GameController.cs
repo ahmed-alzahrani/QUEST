@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     public Deck adventureDeck;
     public int turnCount = 0;
     public Turn nextTurn;
+    public Card selectedCard;
 
     // Use this for initialization
     void Start ()
@@ -21,6 +22,7 @@ public class GameController : MonoBehaviour
         decks = new deckBuilder();
         storyDeck = decks.buildStoryDeck();
         adventureDeck = decks.buildAdventureDeck();
+
         /*
         To-Do Here:
             1. Somehow communicate with main menu to grab player's name and create player
@@ -33,6 +35,12 @@ public class GameController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        if (selectedCard != null)
+        {
+            //add selected card to turn 
+            print(selectedCard);
+            selectedCard = null;
+        }
 
       // Once the list of players has been generated the turns need to be set up here
         if (Input.GetButton("Fire1"))
@@ -60,7 +68,7 @@ public class GameController : MonoBehaviour
 
     }
 
-/*
+    /*
     public List<Card> getTurnList(List<Card> playerList, int turnCount){
       Debug.Log(turnCount);
       return playerList;
