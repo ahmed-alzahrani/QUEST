@@ -15,8 +15,6 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
     private Card myCard;
     public bool isHandCard;
    
-    //public FoeCardScript FoeCard;
-
     // Use this for initialization
     void Awake()
     {

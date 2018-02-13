@@ -7,7 +7,6 @@ public class iStoryPlague : iStory{
     // implement Plague
     if (players != null) {
       Debug.Log("Drawer loses 2 shields if possible");
-      players[0].removeShields(2);
     }
   }
 }
