@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// TO USE THIS INPUT BAR SET THE FOREGROUND PANEL TO ACTIVE THEN SET THE USER MESSAGE AND ACCORDING TO WHICH TYPE OF 
+// TO USE THIS INPUT BAR SET THE FOREGROUND PANEL TO ACTIVE THEN SET THE USER MESSAGE AND ACCORDING TO WHICH TYPE OF
 // MESSAGE EITHER DEACTIVATE THE INPUT FIELD OR THE 2 BUTTONS (ASKING YES OR NO QUESTIONS OR ASKING FOR USER INPUT)
 
 [System.Serializable]
@@ -22,7 +22,7 @@ public class UIInput
     public GameObject inputPanel;
     public Text userMessage1;
     public InputField KeyboardInput;
-    
+
     public bool UIEnabled;
     public bool booleanUIEnabled;
     public bool keyboardInputUIEnabled;
@@ -105,7 +105,7 @@ public class GameController : MonoBehaviour
         storyDeck = decks.buildStoryDeck();
         adventureDeck = decks.buildAdventureDeck();
 
-        //UI building 
+        //UI building
         userInput.SetupUI();
         userInput.ActivateUserInputCheck("How many players are playing the game??");
         //userInput.ActivateBooleanCheck("How many players are playing the game??");
@@ -128,7 +128,7 @@ public class GameController : MonoBehaviour
         {
             if (selectedCard != null)
             {
-                //add selected card to turn 
+                //add selected card to turn
                 print(selectedCard);
                 selectedCard = null;
             }
@@ -145,10 +145,10 @@ public class GameController : MonoBehaviour
         else
         {
             //check user input here!!!!
-            //if user is done 
+            //if user is done
 
             //have a while loop to check correctness
-            //this is to check user input if it is a user input field 
+            //this is to check user input if it is a user input field
             //just use this block of code wherever you want this is just a demo like thing
             if (userInput.keyboardInputUIEnabled)
             {
@@ -161,11 +161,12 @@ public class GameController : MonoBehaviour
                     {
                         userInput.DeactivateUI();
                     }
-                    else 
+                    else
                     {
                         userInput.KeyboardInput.text = "";
                     }
-                    Debug.Log(numPlayers);            
+                    Debug.Log(numPlayers);
+                  //  players = createPlayers(numPlayers)
                 }
             }
             else if (userInput.booleanUIEnabled)
@@ -200,6 +201,12 @@ public class GameController : MonoBehaviour
 
         return hand;
 
+    }
+/*
+    public List<Player> createPlayers(int playerCount)
+    {
+      // create one human player
+      Player humanPlayer = new Player()
     }
 
     /*

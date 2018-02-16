@@ -293,6 +293,7 @@
     <Compile Include="Assets\Scripts\Card_Classes\TournamentCard.cs" />
     <Compile Include="Assets\Scripts\Card_Classes\weaponCard.cs" />
     <Compile Include="Assets\Scripts\Controllers\Deck Controllers\AdventureDeckController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\Deck Controllers\RankDeckController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Deck Controllers\StoryDeckController.cs" />
     <Compile Include="Assets\Scripts\Controllers\GameController.cs" />
     <Compile Include="Assets\Scripts\Deck_Classes\Deck.cs" />

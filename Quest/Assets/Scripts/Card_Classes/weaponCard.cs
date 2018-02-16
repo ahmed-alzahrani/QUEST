@@ -6,14 +6,15 @@ using UnityEngine.EventSystems;
 
 public class WeaponCard : Card{
     // member variable
-    private int battlePoints;
+    public int battlePoints;
 
     // member functions
 
-    public WeaponCard(string cardType, string cardName, int bp) {
-        this.type           = cardType;
-        this.name           = cardName;
-        this.battlePoints   = bp;
+    public WeaponCard(string cardType, string cardName, string texture, int bp) {
+        type           = cardType;
+        name           = cardName;
+        texturePath    = texture;
+        battlePoints   = bp;
     }
     public int getBattlePoints(){
         return this.battlePoints;

@@ -7,13 +7,16 @@ using UnityEngine.EventSystems;
 public class AmourCard : Card {
     // member variables
     private int bid {get; set;}
+    private int battlePoints {get; set;}
 
     // member funtions
 
-    public AmourCard(string cardType, string cardName, int cardBid){
+    public AmourCard(string cardType, string cardName, string texture, int cardBid, int bp){
         type        = cardType;
         name        = cardName;
+        texturePath = texture;
         bid         = cardBid;
+        battlePoints = bp;
     }
 
     public int getBid(){

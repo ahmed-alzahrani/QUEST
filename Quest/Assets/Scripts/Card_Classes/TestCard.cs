@@ -6,13 +6,14 @@ using UnityEngine.EventSystems;
 
 public class TestCard : Card {
     // member variables
-    private int minimum {get; set;}
+    public int minimum {get; set;}
 
     // member functions
 
-    public TestCard(string cardType, string cardName, int min){
+    public TestCard(string cardType, string cardName, string texture, int min){
         type         = cardType;
         name         = cardName;
+        texturePath  = texture;
         minimum      = min;
     }
 
