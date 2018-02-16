@@ -102,13 +102,13 @@ public class deckBuilder
         List<Card> foeCards = generateFoeCards();
         foreach (Card c in foeCards)
         {
-            adventureCards.Add(c);
+           adventureCards.Add(c);
         }
 
         List<Card> weaponCards = generateWeaponCards();
         foreach (Card c in weaponCards)
         {
-            adventureCards.Add(c);
+           adventureCards.Add(c);
         }
 
         List<Card> allyCards = generateAllyCards();
@@ -120,7 +120,7 @@ public class deckBuilder
         List<Card> amourCards = generateAmourCards();
         foreach (Card c in amourCards)
         {
-            adventureCards.Add(c);
+           adventureCards.Add(c);
         }
 
         List<Card> testCards = generateTestCards();
@@ -246,7 +246,7 @@ public class deckBuilder
     public List<Card> generateAllyCards()
     {
         List<Card> allyCards = new List<Card>();
-        allyCards.Add(new AllyCard("Ally Card", "Sir Gaiwan", "Textures/Ally/sirGaiwan", 10, "+20 on the Test of the Green Knight Quest"));
+        allyCards.Add(new AllyCard("Ally Card", "Sir Gaiwan", "Textures/Ally/sirGawain", 10, "+20 on the Test of the Green Knight Quest"));
         allyCards.Add(new AllyCard("Ally Card", "King Pellinore", "Textures/Ally/kingPellinore", 10, "4 Bids on the Search for the Questing Beast Quest"));
         allyCards.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, "+ 20 on the Search for the Holy Grail Quest"));
         allyCards.Add(new AllyCard("Ally Card", "Sir Tristan", "Textures/Ally/sirTristan", 10, "+ 20 when Queen Iseult is in play"));

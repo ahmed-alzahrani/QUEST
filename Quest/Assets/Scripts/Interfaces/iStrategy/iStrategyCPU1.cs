@@ -171,12 +171,6 @@ public class iStrategyCPU1 : iStrategy
     }
     questLine.Reverse();
     return questLine;
-
-    //For the last stage, we need at least 50 BP between our Foe + Weapons
-    // If we have a test card in our hand, that is our second last stage
-
-    // working backwards we pick our strongest foe with any duplicate weapons
-    return questLine;
   }
 
   public bool haveTest(List<Card> hand){
