@@ -68,7 +68,8 @@ public class iStrategyCPU2 : iStrategy
         // check that the card were trying to play isn't a duplicate weapon
         if (checkDuplicate(validCards[index], cardsToPlay, "Weapon")){
           // add the card to our cards to be played
-          bpNeeded -= validCards[index].battlePoints;
+          WeaponCard weapon = (WeaponCard)validCards[index];
+          bpNeeded -= weapon.battlePoints;
           cardsToPlay.Add(validCards[index]);
         }
         index ++;
@@ -227,7 +228,9 @@ public class iStrategyCPU2 : iStrategy
     // bubble sort the foes from the player's hand in ascending order
     for (int x = 0; x <= foes.Count; x++){
       for (int i = 0; i <= foes.Count; i++){
-        if (foes[i].minBP < foes[i + 1].minBP){
+        FoeCard foe1 = (FoeCard)foes[i];
+        FoeCard foe2 = (FoeCard)foes[i + 1];
+        if (foe1.minBP < foe2.minBP){
           var temp = foes[i + 1];
           foes[i + 1] = foes[i];
           foes[i] = temp;
@@ -238,7 +241,9 @@ public class iStrategyCPU2 : iStrategy
     // bubble sort the weapons from the player's hand in ascending order
     for (int x = 0; x <= weapons.Count; x++){
       for (int i = 0; i <= weapons.Count; i++){
-        if (weapons[i].battlePoints < weapons[i + 1].battlePoints){
+        WeaponCard weapon1 = (WeaponCard)weapons[i];
+        WeaponCard weapon2 = (WeaponCard)weapons[i + 1];
+        if (weapon1.battlePoints < weapon2.battlePoints){
           var temp = weapons[i + 1];
           weapons[i + 1] = weapons[i];
           weapons[i] = temp;
@@ -250,7 +255,8 @@ public class iStrategyCPU2 : iStrategy
     List<Card> foeEncounter = new List<Card>();
 
     // subtract the foe with the MOST BP in the user's hand from 40, the AI threshold
-    int bpNeeded = (40 - foes[0].minBP);
+    FoeCard strongFoe = (FoeCard)foes[0];
+    int bpNeeded = (40 - strongFoe.minBP);
     // Add this foe to the foeEncounter as the foe to be played
     foeEncounter.Add(foes[0]);
 
@@ -261,7 +267,8 @@ public class iStrategyCPU2 : iStrategy
     while(bpNeeded > 0 && index < weapons.Count){
       // if we still have weapons to loop through
         // subtract the BP of the next most powerful weapon from the threshold
-      bpNeeded -= weapons[index].battlePoints;
+      WeaponCard nextWeapon = (WeaponCard)weapons[index];
+      bpNeeded -= nextWeapon.battlePoints;
         // add this weapon to the encounter
       foeEncounter.Add(weapons[index]);
         // increment index
@@ -288,7 +295,9 @@ public class iStrategyCPU2 : iStrategy
     // bubble sort the user's foes so that the first item in the list is the lowest BP foe
     for (int x = 0; x <= foes.Count; x++){
       for (int i = 0; i <= foes.Count; i++){
-        if (foes[i].minBP < foes[i + 1].minBP){
+        FoeCard foe1 = (FoeCard)foes[i];
+        FoeCard foe2 = (FoeCard)foes[i + 1];
+        if (foe1.minBP < foe2.minBP){
           var temp = foes[i + 1];
           foes[i + 1] = foes[i];
           foes[i] = temp;
@@ -315,7 +324,9 @@ public class iStrategyCPU2 : iStrategy
     // sort tests in ascending order of minimum bid
     for (int x = 0; x <= tests.Count; x++){
       for (int i = 0; i <= tests.Count; i++){
-        if (tests[i].minimum < tests[i + 1].minimum){
+        TestCard test1 = (TestCard)tests[i];
+        TestCard test2 = (TestCard)tests[i + 1];
+        if (test1.minimum < test2.minimum){
           var temp = tests[i + 1];
             tests[i + 1] = tests[i];
           tests[i] = temp;
@@ -358,14 +369,17 @@ public class iStrategyCPU2 : iStrategy
       if (hand[i].type == "Amour" && checkDuplicate(hand[i], validCards, "Amour")){
         validCards.Add(hand[i]);
       }
-      if (hand[i].type == "Ally" && hand[i].battlePoints > 0){
-        validCards.Add(hand[i]);
+      if (hand[i].type == "Ally"){
+        AllyCard ally = (AllyCard)hand[i];
+        if (ally.battlePoints > 0){
+          validCards.Add(hand[i]);
+        }
       }
     }
 
     int bpInPosession = 0;
     for (int i = 0; i < validCards.Count; i++){
-      bpInPosession += validCards[i].battlePoints;
+      bpInPosession += getValidCardBP(validCards[i]);
     }
     return (bpInPosession >= bpNeeded);
   }
@@ -374,8 +388,11 @@ public class iStrategyCPU2 : iStrategy
   public bool canIDiscard(List<Card> hand){
     int count = 0;
     for (int i = 0; i < hand.Count; i++){
-      if (hand[i].type == "Foe" && hand[i].battlePoints < 25){
-        count += 1;
+      if (hand[i].type == "Foe"){ // && hand[i].battlePoints < 25){
+        FoeCard foe = (FoeCard)hand[i];
+        if (foe.minBP < 25){
+          count += 1;
+        }
       }
     }
     return (count >= 2);
@@ -419,15 +436,18 @@ public class iStrategyCPU2 : iStrategy
       if (hand[i].type == "Weapon" && checkDuplicate(hand[i], validCards, "Weapon")){
         validCards.Add(hand[i]);
       }
-      if (hand[i].type == "Ally" && hand[i].battlePoints > 0){
-        validCards.Add(hand[i]);
+      if (hand[i].type == "Ally"){
+        AllyCard ally = (AllyCard)hand[i];
+        if (ally.battlePoints > 0){
+          validCards.Add(hand[i]);
+        }
       }
     }
 
     // sort in descending order of BP
     for (int x = 0; x <= validCards.Count; x++){
       for (int i = 0; i <= validCards.Count; i++){
-        if (validCards[i].battlePoints > validCards[i + 1].battlePoints){
+        if (getValidCardBP(validCards[i]) >  getValidCardBP(validCards[i + 1])){
           var temp = validCards[i + 1];
           validCards[i + 1] = validCards[i];
           validCards[i] = temp;
@@ -438,7 +458,7 @@ public class iStrategyCPU2 : iStrategy
     // while we still need BP, loop through add the cards with the lowest BP possible
     int index = 0;
     while(bpNeeded > 0 && index < hand.Count) {
-      bpNeeded -= validCards[index].battlePoints;
+      bpNeeded -= getValidCardBP(validCards[index]);
       foeEncounter.Add(validCards[index]);
       index ++;
     }
@@ -454,8 +474,11 @@ public class iStrategyCPU2 : iStrategy
       if (hand[i].type == "Weapon" && checkDuplicate(hand[i], foeEncounter, "Weapon")){
         foeEncounter.Add(hand[i]);
       }
-      if (hand[i].type == "Ally" && hand[i].battlePoints > 0){
-        foeEncounter.Add(hand[i]);
+      if (hand[i].type == "Ally"){// && hand[i].battlePoints > 0){
+        AllyCard ally = (AllyCard)hand[i];
+        if (ally.battlePoints > 0){
+          foeEncounter.Add(hand[i]);
+        }
       }
       if (hand[i].type == "Amour" && (amour == false)){
         foeEncounter.Add(hand[i]);
@@ -488,16 +511,22 @@ public class iStrategyCPU2 : iStrategy
     // In Round 1 this AI will bid foes with less than 25 BP, no duplicates
     if (round == 1){
       for (int i = 0; i < hand.Count; i++){
-        if ((hand[i].type == "Foe" && hand[i].minBP < 25) && checkDuplicate(hand[i], bid, "Foe")){
-          bid.Add(hand[i]);
+        if ((hand[i].type == "Foe" && checkDuplicate(hand[i], bid, "Foe"))){ //        hand[i].minBP < 25)
+          FoeCard foe = (FoeCard)hand[i];
+          if (foe.minBP > 25){
+            bid.Add(hand[i]);
+          }
         }
       }
     }
     // in Round 2, this AI will bid the same way as round 1, except it will allow duplicates
     if (round == 2){
       for (int i = 0; i < hand.Count; i++){
-        if (hand[i].type == "Foe" && hand[i].minBP < 25){
-          bid.Add(hand[i]);
+        if (hand[i].type == "Foe"){ // && hand[i].minBP < 25){
+          FoeCard foe = (FoeCard)hand[i];
+          if (foe.minBP < 25){
+            bid.Add(hand[i]);
+          }
         }
       }
     }

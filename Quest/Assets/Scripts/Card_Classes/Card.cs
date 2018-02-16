@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
+[System.Serializable]
 abstract public class Card
 {
     // member variables
@@ -22,16 +19,6 @@ abstract public class Card
         type = cardType;
         name = cardName;
         texturePath = texture;
-    }
-
-    public string getType()
-    {
-        return this.type;
-    }
-
-    public string getName()
-    {
-        return this.name;
     }
 
     public void display()

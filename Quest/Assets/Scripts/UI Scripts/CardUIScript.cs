@@ -6,24 +6,24 @@ using UnityEngine.EventSystems;
 
 public class CardUIScript : MonoBehaviour , IPointerEnterHandler
 {
-    private string textureName { get; set; }
+    //private string textureName { get; set; }
     private bool isVisible;
     private bool faceDown;
     private Button button;
     private PreviewCardScript previewButton;
     private GameController gameController;
-    private Card myCard;
+    public Card myCard;
     public bool isHandCard;
    
     // Use this for initialization
     void Awake()
     {
-        textureName = "Textures/events/eventCard2";
         isVisible = true;
-        faceDown = true;
+        faceDown = false;
+        isHandCard = false;
         button = gameObject.GetComponent<Button>();
         button.onClick.AddListener(Click);
-        flipCard();
+        //flipCard();
 
         // Store preview Card
         previewButton = GameObject.FindGameObjectWithTag("PreviewCard").GetComponent<PreviewCardScript>();
@@ -32,7 +32,7 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Hovered over a card");
-        previewButton.textureName = textureName;
+        previewButton.textureName = myCard.texturePath;
         previewButton.ChangeTexture();
     }
 
@@ -48,8 +48,8 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
         {
             // you can check gameState either here or gameController or both
 
-            print("hello");
-            gameController.selectedCard = myCard;
+            //print("hello");
+            //gameController.selectedCard = myCard;
 
             //might need to get rid of the ui card 
             //Destroy(gameObject);
@@ -80,6 +80,7 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
 
     public void ChangeTexture()
     {
-        button.image.overrideSprite = Resources.Load<Sprite>(textureName);
+        Debug.Log(myCard.texturePath);
+        button.image.overrideSprite = Resources.Load<Sprite>(myCard.texturePath);
     }
 }

@@ -14,10 +14,11 @@ public class Player {
     public List<Card> hand { get; set; }
     public List<AllyCard> activeAllies{ get; set; }
     public iStrategy strategy{ get; set; }
+    public string shieldPath;
 
     //member functions
 
-    public Player(string playerName, List<Card> startingHand, iStrategy strat) {
+    public Player(string playerName, List<Card> startingHand, iStrategy strat , string shieldPath) {
         name = playerName;
         score = 0;
         hand = startingHand;
@@ -30,7 +31,7 @@ public class Player {
         rankCards.Add(champKnightCard);
         rankDeck = rankCards;
         strategy = strat;
-
+        this.shieldPath = shieldPath; 
     }
 
     public Player() { }

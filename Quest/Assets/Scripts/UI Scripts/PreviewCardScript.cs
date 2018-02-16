@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PreviewCardScript : MonoBehaviour
@@ -9,13 +7,14 @@ public class PreviewCardScript : MonoBehaviour
     private Button button;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         button = gameObject.GetComponent<Button>();
     }
 
     public void ChangeTexture()
     {
-        button.image.overrideSprite = Resources.Load<Sprite>(textureName);
+        Debug.Log("PREVIEW CARD: " + textureName);
+        button.image.overrideSprite = Resources.Load<Sprite>(textureName); ;
     }
 }

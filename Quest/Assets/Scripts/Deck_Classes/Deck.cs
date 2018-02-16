@@ -45,8 +45,9 @@ public class Deck
 
     public Card drawCard()
     {
-       
-        int r = rnd.Next(count);
+
+        //int r = rnd.Next(count);
+        int r = Random.Range(0, deck.Count - 1);
         return deck[r];
     }
 

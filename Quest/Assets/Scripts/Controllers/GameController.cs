@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//MAYBE ADD AN EVENT HANDLER FOR WHEN WE NEED TO DRAW FROM A CERTAIN DECK ADD A CLICK HANDLER FOR IT AND REMOVE IT AFTERWARDS 
+//FINISH THE PANEL WITH THE CARDS !!!!!!!!!!!!!!!!!!!!!!
 // TO USE THIS INPUT BAR SET THE FOREGROUND PANEL TO ACTIVE THEN SET THE USER MESSAGE AND ACCORDING TO WHICH TYPE OF
 // MESSAGE EITHER DEACTIVATE THE INPUT FIELD OR THE 2 BUTTONS (ASKING YES OR NO QUESTIONS OR ASKING FOR USER INPUT)
 
@@ -95,7 +97,21 @@ public class GameController : MonoBehaviour
     public Card selectedCard;
     public int numPlayers;
 
+    public GameObject cardPrefab;
     public UIInput userInput;  //checking for user input
+
+    public CardUIScript shieldsCard;
+    public CardUIScript rankCard;
+
+    public Text UIShieldNum;
+
+    public GameObject handPanel;
+    public GameObject questPanel;
+    public GameObject questStagePanel;
+    public GameObject allyPanel;
+    public GameObject weaponPanel;
+    public GameObject amourPanel;
+    public GameObject activatedPanel;
 
     // Use this for initialization
     void Start ()
@@ -104,6 +120,37 @@ public class GameController : MonoBehaviour
         decks = new deckBuilder();
         storyDeck = decks.buildStoryDeck();
         adventureDeck = decks.buildAdventureDeck();
+
+        // Store gameboard cards
+        shieldsCard = GameObject.FindGameObjectWithTag("Shields").GetComponent<CardUIScript>();
+        rankCard = GameObject.FindGameObjectWithTag("RankCard").GetComponent<CardUIScript>();
+
+        //PLAYING AROUND
+        players = new List<Player>();
+        players.Add(new Player("" , null , null , "Textures/Backings/s_backing"));
+        rankCard.myCard = players[0].rankCard;
+        rankCard.ChangeTexture();
+        shieldsCard.myCard = new RankCard(null, null, players[0].shieldPath , 0);
+        shieldsCard.ChangeTexture();
+
+        //Store gameBoard panels
+        questPanel = GameObject.FindGameObjectWithTag("QuestCard");
+        handPanel = GameObject.FindGameObjectWithTag("CurrentHand");
+        allyPanel = GameObject.FindGameObjectWithTag("AllyCards");
+        weaponPanel = GameObject.FindGameObjectWithTag("WeaponCards");
+        questStagePanel = GameObject.FindGameObjectWithTag("QuestStageCards");
+        amourPanel = GameObject.FindGameObjectWithTag("AmourCards");
+        activatedPanel = GameObject.FindGameObjectWithTag("ActivatedCard");
+
+        //generate Hand (DO NOT FORGET TO SET WHETHER IT IS A HANDCARD OR NOT)
+        //Testing adding to all panels of the gameboard
+        generateHand(adventureDeck);
+        AddToPanel(CreateUIElement(storyDeck.drawCard()) , questPanel);
+        AddToPanel(CreateUIElement(storyDeck.drawCard()) , questStagePanel);
+        AddToPanel(CreateUIElement(storyDeck.drawCard()) , allyPanel);
+        AddToPanel(CreateUIElement(storyDeck.drawCard()) , weaponPanel);
+        AddToPanel(CreateUIElement(storyDeck.drawCard()) , amourPanel);
+        AddToPanel(CreateUIElement(storyDeck.drawCard()) , activatedPanel);
 
         //UI building
         userInput.SetupUI();
@@ -188,6 +235,29 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public GameObject CreateUIElement(Card cardLogic)
+    {
+        //create game object of card prefab 
+        GameObject UICard = Instantiate(cardPrefab, new Vector3(0, 0, 0), new Quaternion());
+
+        //add card logic to the ui card
+        CardUIScript script = UICard.GetComponent<CardUIScript>();
+        script.myCard = cardLogic;
+        script.ChangeTexture();
+
+        return UICard;
+    }
+
+    // Add separate additions to separate panels of the game board by creating a function here (same style just different panel)
+    public void AddToPanel(GameObject UICard, GameObject panel)
+    {
+        CardUIScript script = UICard.GetComponent<CardUIScript>();
+        script.isHandCard = true;
+
+        //set as a child of the ui card
+        UICard.transform.SetParent(panel.transform);
+    }
+
     // Move this into Player class? As a drawHand function?
 
     public List<Card> generateHand(Deck deckToDrawFrom)
@@ -197,10 +267,12 @@ public class GameController : MonoBehaviour
         for(int i = 0; i < 11; i++)
         {
             hand.Add(deckToDrawFrom.drawCard());
+
+            //create a ui element and add it to the hand panel
+            AddToPanel(CreateUIElement(hand[hand.Count - 1]) , handPanel);
         }
 
         return hand;
-
     }
 /*
     public List<Player> createPlayers(int playerCount)

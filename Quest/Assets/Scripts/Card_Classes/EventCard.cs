@@ -13,7 +13,7 @@ public class EventCard : Card
 
     // member functions
 
-    public EventCard(string cardType, string cardName, string texture, string cardDescription, iStory cardEvent)
+    public EventCard(string cardType, string cardName, string cardDescription, string texture, iStory cardEvent)
     {
         type = cardType;
         name = cardName;

@@ -6,6 +6,16 @@ TagManager:
   tags:
   - StoryDeck
   - PreviewCard
+  - CurrentHand
+  - QuestCard
+  - RankShieldCard
+  - QuestStageCards
+  - ActivatedCard
+  - AmourCards
+  - WeaponCards
+  - AllyCards
+  - Shields
+  - RankCard
   layers:
   - Default
   - TransparentFX
