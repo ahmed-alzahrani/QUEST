@@ -163,7 +163,6 @@ public class GameController : MonoBehaviour
     public Deck adventureDeck;
     public int turnCount = 0;
     public Turn nextTurn;
-    public Card selectedCard;
     public int numPlayers;
 
     public GameObject cardPrefab;
@@ -182,6 +181,16 @@ public class GameController : MonoBehaviour
     public GameObject amourPanel;
     public GameObject activatedPanel;
 
+    public Button adventureDeckUIButton;
+    public Button adventureDeckDiscardPileUIButton; //to change image here for discard pile
+    public Button storyDeckUIButton;
+    public Button storyDeckDiscardPileUIButton; //to change image here for discard pile
+    public Button rankDeckUIButton;
+
+    public Card selectedCard;
+    public Card drawnAdventureCard;
+    public Card drawnStoryCard;
+
     // Use this for initialization
     void Start ()
     {
@@ -189,6 +198,10 @@ public class GameController : MonoBehaviour
         decks = new deckBuilder();
         storyDeck = decks.buildStoryDeck();
         adventureDeck = decks.buildAdventureDeck();
+
+        //Setup UI buttons for cards (event listeners etc....)
+        adventureDeckUIButton.onClick.AddListener(DrawFromAdventureDeck);
+        storyDeckUIButton.onClick.AddListener(DrawFromStoryDeck);
 
         // Store gameboard cards
         shieldsCard = GameObject.FindGameObjectWithTag("Shields").GetComponent<CardUIScript>();
@@ -225,7 +238,7 @@ public class GameController : MonoBehaviour
         userInput.SetupUI();
         //userInput.ActivateUserInputCheck("How many players are playing the game??");
         //userInput.ActivateBooleanCheck("How many players are playing the game??");
-        userInput.ActivateCardUIPanel("How many players are playing the game??");
+        userInput.ActivateCardUIPanel("What Cards do you want to add?");
 
         //Check selected card within the UI update check 
 
@@ -245,9 +258,23 @@ public class GameController : MonoBehaviour
     {
         if (!userInput.UIEnabled)
         {
+            if (drawnAdventureCard != null)
+            {
+                //drawn card here
+                AddToPanel(CreateUIElement(drawnAdventureCard) , handPanel);
+                drawnAdventureCard = null;
+            }
+
+            if (drawnStoryCard != null)
+            {
+                //drawn card here
+                AddToPanel(CreateUIElement(drawnStoryCard), handPanel);
+                drawnStoryCard = null;
+            }
+
             if (selectedCard != null)
             {
-                //add selected card to turn
+                //selected cards stuff
                 print(selectedCard);
                 selectedCard = null;
             }
@@ -377,6 +404,20 @@ public class GameController : MonoBehaviour
         }
 
         return hand;
+    }
+
+    public void DrawFromAdventureDeck()
+    {
+        //Animations can be added here
+        //check gamestate before drawing
+        drawnAdventureCard = adventureDeck.drawCard();
+    }
+
+    public void DrawFromStoryDeck()
+    {
+        //Animations can be added here
+        //check gamestate before drawing
+        drawnStoryCard = storyDeck.drawCard();
     }
 /*
     public List<Player> createPlayers(int playerCount)
