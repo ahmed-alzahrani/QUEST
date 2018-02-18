@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 //MAYBE ADD AN EVENT HANDLER FOR WHEN WE NEED TO DRAW FROM A CERTAIN DECK ADD A CLICK HANDLER FOR IT AND REMOVE IT AFTERWARDS 
-//FINISH THE PANEL WITH THE CARDS !!!!!!!!!!!!!!!!!!!!!!
 // TO USE THIS INPUT BAR SET THE FOREGROUND PANEL TO ACTIVE THEN SET THE USER MESSAGE AND ACCORDING TO WHICH TYPE OF
 // MESSAGE EITHER DEACTIVATE THE INPUT FIELD OR THE 2 BUTTONS (ASKING YES OR NO QUESTIONS OR ASKING FOR USER INPUT)
 
@@ -19,35 +18,42 @@ public class UIInput
     public Text userMessage;
     public Button yesButton;
     public Button noButton;
+    public string buttonResult;
 
     //for actual input user check
     public GameObject inputPanel;
     public Text userMessage1;
     public InputField KeyboardInput;
 
+    //for ui card panel prompt 
+    public GameObject cardPanel;
+    public Text userMessage2;
+    public GameObject chosenCardsPanel;
+    public Button submitButton;
+    public List<Card> selectedCards;
+    public List<GameObject> UICardsSelected;
+
     public bool UIEnabled;
     public bool booleanUIEnabled;
     public bool keyboardInputUIEnabled;
-
-    public string buttonResult;
+    public bool cardPanelUIEnabled;
+    public bool doneAddingCards;
 
     public void SetupUI()
     {
-        // setup event listener
+        selectedCards = new List<Card>();
+        UICardsSelected = new List<GameObject>(); 
+
+        // setup event listeners
         yesButton.onClick.AddListener(Yes);
         noButton.onClick.AddListener(No);
+        submitButton.onClick.AddListener(Submit);
         buttonResult = "";
     }
 
-    public void Yes()
-    {
-        buttonResult = "Yes";
-    }
-
-    public void No()
-    {
-        buttonResult = "No";
-    }
+    void Submit() { doneAddingCards = true; }
+    void Yes() { buttonResult = "Yes"; }
+    void No() { buttonResult = "No"; }
 
     public void ActivateBooleanCheck(string userMsg)
     {
@@ -55,31 +61,94 @@ public class UIInput
         UIEnabled = true;
         booleanUIEnabled = true;
         keyboardInputUIEnabled = false;
+        cardPanelUIEnabled = false;
+        doneAddingCards = false;
+
         foregroundPanel.SetActive(true);
         booleanPanel.SetActive(true);
+        cardPanel.SetActive(false);
         inputPanel.SetActive(false);
         userMessage.text = userMsg;
     }
 
     public void ActivateUserInputCheck(string userMsg)
     {
-        buttonResult = "";
         UIEnabled = true;
         keyboardInputUIEnabled = true;
         booleanUIEnabled = false;
+        cardPanelUIEnabled = false;
+        doneAddingCards = false;
+
         foregroundPanel.SetActive(true);
         inputPanel.SetActive(true);
+        cardPanel.SetActive(false);
         booleanPanel.SetActive(false);
+        KeyboardInput.text = "";
         userMessage1.text = userMsg;
+    }
+
+    public void ActivateCardUIPanel(string userMsg)
+    {
+        UIEnabled = true;
+        cardPanelUIEnabled = true;
+        keyboardInputUIEnabled = false;
+        booleanUIEnabled = false;
+        doneAddingCards = false;
+
+        //foregroundPanel.SetActive(true);
+        cardPanel.SetActive(true);
+        inputPanel.SetActive(false);
+        booleanPanel.SetActive(false);
+        userMessage2.text = userMsg;
+    }
+
+    public GameObject CheckCard(Card card)
+    {
+        for (int i = 0; i < selectedCards.Count; i++)
+        {
+            //is this gonna check pointers or what exactlyyyyyy??
+            //Maybe duplicates are a problem
+            if (card == selectedCards[i])
+            {
+                return RemoveFromCardUIPanel(i);
+            }
+        }
+        return null;
+    }
+
+    public void AddToUICardPanel(GameObject card)
+    {
+        CardUIScript script = card.GetComponent<CardUIScript>();
+        script.isHandCard = true;
+
+        selectedCards.Add(script.myCard);
+        UICardsSelected.Add(card);
+
+        //add card to panel
+        card.transform.SetParent(chosenCardsPanel.transform);
+    }
+
+    GameObject RemoveFromCardUIPanel(int index)
+    {
+        selectedCards.RemoveAt(index);
+
+        GameObject result = UICardsSelected[index];
+        UICardsSelected.RemoveAt(index);
+        return result;
     }
 
     public void DeactivateUI()
     {
         foregroundPanel.SetActive(false);
+        cardPanel.SetActive(false);
         UIEnabled = false;
         keyboardInputUIEnabled = false;
         booleanUIEnabled = false;
+        cardPanelUIEnabled = false;
+        doneAddingCards = false;
         buttonResult = "";
+        selectedCards.Clear();
+        UICardsSelected.Clear();
     }
 }
 
@@ -154,8 +223,11 @@ public class GameController : MonoBehaviour
 
         //UI building
         userInput.SetupUI();
-        userInput.ActivateUserInputCheck("How many players are playing the game??");
+        //userInput.ActivateUserInputCheck("How many players are playing the game??");
         //userInput.ActivateBooleanCheck("How many players are playing the game??");
+        userInput.ActivateCardUIPanel("How many players are playing the game??");
+
+        //Check selected card within the UI update check 
 
         //Other stuff
 
@@ -179,22 +251,11 @@ public class GameController : MonoBehaviour
                 print(selectedCard);
                 selectedCard = null;
             }
-
-            // Once the list of players has been generated the turns need to be set up here
-            if (Input.GetButton("Fire1"))
-            {
-                //script.flipCard();
-                // script.ChangeVisibility();
-            }
-
-            //if (Input.GetButton("Fire2")) script.flipCard();
         }
         else
         {
             //check user input here!!!!
             //if user is done
-
-            //have a while loop to check correctness
             //this is to check user input if it is a user input field
             //just use this block of code wherever you want this is just a demo like thing
             if (userInput.keyboardInputUIEnabled)
@@ -213,7 +274,7 @@ public class GameController : MonoBehaviour
                         userInput.KeyboardInput.text = "";
                     }
                     Debug.Log(numPlayers);
-                  //  players = createPlayers(numPlayers)
+                    //  players = createPlayers(numPlayers)
                 }
             }
             else if (userInput.booleanUIEnabled)
@@ -229,6 +290,43 @@ public class GameController : MonoBehaviour
                 {
                     //do whatever
                     print("No");
+                    userInput.DeactivateUI();
+                }
+            }
+            else if (userInput.cardPanelUIEnabled)
+            {
+                //card panel enabled
+                if (selectedCard != null)
+                {
+                    //error card detection should occur here!!!!!
+                    GameObject removedCard = userInput.CheckCard(selectedCard);
+
+                    if (removedCard != null)
+                    {
+                        //we want to remove this card from ui panel and back to player's hand
+                        Destroy(removedCard);
+                        AddToPanel(CreateUIElement(selectedCard), handPanel);
+                    }
+                    else
+                    {
+                        //add it to ui panel
+                        userInput.AddToUICardPanel(CreateUIElement(selectedCard));
+                    }
+
+                    selectedCard = null;
+                }
+
+                if (userInput.doneAddingCards)
+                {
+                    //When selection is done do whatever here !!!!!!
+                    //do stuff with cards
+                    Debug.Log("NUMBER OF CARDS IS: " + userInput.selectedCards.Count);
+
+                    for (int i = 0; i < userInput.selectedCards.Count; i++)
+                    {
+                        Debug.Log(userInput.selectedCards[i].name);
+                    }
+
                     userInput.DeactivateUI();
                 }
             }
@@ -252,8 +350,14 @@ public class GameController : MonoBehaviour
     public void AddToPanel(GameObject UICard, GameObject panel)
     {
         CardUIScript script = UICard.GetComponent<CardUIScript>();
-        script.isHandCard = true;
-
+        if (panel.name == "CurrentHand")
+        {
+            script.isHandCard = true;
+        }
+        else
+        {
+            script.isHandCard = false;
+        }
         //set as a child of the ui card
         UICard.transform.SetParent(panel.transform);
     }
