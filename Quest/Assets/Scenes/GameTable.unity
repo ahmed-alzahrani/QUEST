@@ -175,6 +175,11 @@ MonoBehaviour:
   weaponPanel: {fileID: 0}
   amourPanel: {fileID: 0}
   activatedPanel: {fileID: 0}
+  adventureDeckUIButton: {fileID: 642890036}
+  adventureDeckDiscardPileUIButton: {fileID: 669102128}
+  storyDeckUIButton: {fileID: 1843433987}
+  storyDeckDiscardPileUIButton: {fileID: 508719389}
+  rankDeckUIButton: {fileID: 357145469}
 --- !u!4 &10073658
 Transform:
   m_ObjectHideFlags: 0
@@ -1542,6 +1547,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfbc5f274c8965e48892f52a2db1d7e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &357145469 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114582943515234380, guid: a13ae9810b215f94196ac108285197ef,
+    type: 2}
+  m_PrefabInternal: {fileID: 131987844}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &384056343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,6 +1701,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 432235897}
+--- !u!114 &508719389 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114582943515234380, guid: a13ae9810b215f94196ac108285197ef,
+    type: 2}
+  m_PrefabInternal: {fileID: 1800163703}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &536860850
 Prefab:
   m_ObjectHideFlags: 0
@@ -1917,6 +1934,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   gameControl: {fileID: 10073656}
+--- !u!114 &642890036 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114582943515234380, guid: a13ae9810b215f94196ac108285197ef,
+    type: 2}
+  m_PrefabInternal: {fileID: 801528650}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &651164475
 GameObject:
   m_ObjectHideFlags: 0
@@ -2231,6 +2254,12 @@ Prefab:
     - {fileID: 114317539769129220, guid: a13ae9810b215f94196ac108285197ef, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: a13ae9810b215f94196ac108285197ef, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &669102128 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114582943515234380, guid: a13ae9810b215f94196ac108285197ef,
+    type: 2}
+  m_PrefabInternal: {fileID: 1364971482}
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!224 &679122149 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
@@ -3047,7 +3076,7 @@ Prefab:
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -35
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
@@ -4049,6 +4078,16 @@ Prefab:
     - target: {fileID: 1621595229904592, guid: a13ae9810b215f94196ac108285197ef, type: 2}
       propertyPath: m_Name
       value: AdventureDeckDiscardPile
+      objectReference: {fileID: 0}
+    - target: {fileID: 114781252675202608, guid: a13ae9810b215f94196ac108285197ef,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 114781252675202608, guid: a13ae9810b215f94196ac108285197ef,
+        type: 2}
+      propertyPath: m_Type
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a13ae9810b215f94196ac108285197ef, type: 2}
@@ -5090,6 +5129,16 @@ Prefab:
       propertyPath: m_Name
       value: StoryDeckDiscardPile
       objectReference: {fileID: 0}
+    - target: {fileID: 114781252675202608, guid: a13ae9810b215f94196ac108285197ef,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 114781252675202608, guid: a13ae9810b215f94196ac108285197ef,
+        type: 2}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a13ae9810b215f94196ac108285197ef, type: 2}
   m_IsPrefabParent: 0
@@ -5698,7 +5747,7 @@ Prefab:
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
