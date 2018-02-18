@@ -14,7 +14,7 @@ public class PreviewCardScript : MonoBehaviour
 
     public void ChangeTexture()
     {
-        Debug.Log("PREVIEW CARD: " + textureName);
+        //Debug.Log("PREVIEW CARD: " + textureName);
         button.image.overrideSprite = Resources.Load<Sprite>(textureName); ;
     }
 }

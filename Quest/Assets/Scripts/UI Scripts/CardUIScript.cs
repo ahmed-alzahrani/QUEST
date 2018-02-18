@@ -11,7 +11,7 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
     private bool faceDown;
     private Button button;
     private PreviewCardScript previewButton;
-    private GameController gameController;
+    public GameController gameController;
     public Card myCard;
     public bool isHandCard;
    
@@ -27,12 +27,16 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
 
         // Store preview Card
         previewButton = GameObject.FindGameObjectWithTag("PreviewCard").GetComponent<PreviewCardScript>();
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Hovered over a card");
-        previewButton.textureName = myCard.texturePath;
+        if (myCard != null && myCard.texturePath != "")
+        { 
+            previewButton.textureName = myCard.texturePath;
+        }
         previewButton.ChangeTexture();
     }
 
@@ -44,15 +48,13 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
     void Click()
     {
         // If we have a card from our hand 
-        if (isHandCard)
+        // this might change
+        if (isHandCard && gameController.userInput.cardPanelUIEnabled)
         {
             // you can check gameState either here or gameController or both
-
-            //print("hello");
-            //gameController.selectedCard = myCard;
-
-            //might need to get rid of the ui card 
-            //Destroy(gameObject);
+            // add selected card then destroy the UI gameObject
+            gameController.selectedCard = myCard;
+            Destroy(gameObject);
         }
     }
 
@@ -80,7 +82,7 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
 
     public void ChangeTexture()
     {
-        Debug.Log(myCard.texturePath);
+        //Debug.Log(myCard.texturePath);
         button.image.overrideSprite = Resources.Load<Sprite>(myCard.texturePath);
     }
 }
