@@ -13,19 +13,19 @@ public class iStoryChivalrousDeedTest{
     iStoryChivalrousDeed deed = new iStoryChivalrousDeed();
     List<Player> players = new List<Player>();
 
-    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer());
+    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer(), "");
     player1.addShields(1);
     players.Add(player1);
 
-    Player player2 = new Player("Kazma", new List<Card>(), new iStrategyPlayer());
+    Player player2 = new Player("Kazma", new List<Card>(), new iStrategyPlayer(), "");
     player2.addShields(1);
     players.Add(player2);
 
-    Player player3 = new Player("Rotharn", new List<Card>(), new iStrategyPlayer());
+    Player player3 = new Player("Rotharn", new List<Card>(), new iStrategyPlayer() , "");
     player3.addShields(1);
     players.Add(player3);
 
-    Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer());
+    Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer() , "");
     players.Add(player4);
 
     List<Player> lowestPlayers = deed.getLowestPlayers(players);
@@ -39,18 +39,18 @@ public class iStoryChivalrousDeedTest{
     iStoryChivalrousDeed deed = new iStoryChivalrousDeed();
     List<Player> players = new List<Player>();
 
-    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer());
+    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer() ,"");
     player1.addShields(1);
     players.Add(player1);
 
-    Player player2 = new Player("Kazma", new List<Card>(), new iStrategyPlayer());
+    Player player2 = new Player("Kazma", new List<Card>(), new iStrategyPlayer() , "");
     player2.addShields(1);
     players.Add(player2);
 
-    Player player3 = new Player("Rotharn", new List<Card>(), new iStrategyPlayer());
+    Player player3 = new Player("Rotharn", new List<Card>(), new iStrategyPlayer() , "");
     players.Add(player3);
 
-    Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer());
+    Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer() , "");
     players.Add(player4);
 
     List<Player> lowestPlayers = deed.getLowestPlayers(players);
@@ -80,19 +80,19 @@ public class iStoryChivalrousDeedTest{
     iStoryChivalrousDeed deed = new iStoryChivalrousDeed();
     List<Player> players = new List<Player>();
 
-    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer());
+    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer() , "");
     player1.addShields(1);
     players.Add(player1);
 
-    Player player2 = new Player("Kazma", new List<Card>(), new iStrategyPlayer());
+    Player player2 = new Player("Kazma", new List<Card>(), new iStrategyPlayer() , "");
     player2.addShields(1);
     players.Add(player2);
 
-    Player player3 = new Player("Rotharn", new List<Card>(), new iStrategyPlayer());
+    Player player3 = new Player("Rotharn", new List<Card>(), new iStrategyPlayer() , "");
     player3.addShields(1);
     players.Add(player3);
 
-    Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer());
+    Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer() , "");
     players.Add(player4);
 
     Assert.AreEqual(0, player4.score);
@@ -105,19 +105,19 @@ public class iStoryChivalrousDeedTest{
     iStoryChivalrousDeed deed = new iStoryChivalrousDeed();
     List<Player> players = new List<Player>();
 
-    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer());
+    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer() , "");
     player1.addShields(1);
     players.Add(player1);
 
-    Player player2 = new Player("Kazma", new List<Card>(), new iStrategyPlayer());
+    Player player2 = new Player("Kazma", new List<Card>(), new iStrategyPlayer() , "");
     player2.addShields(1);
     players.Add(player2);
 
-    Player player3 = new Player("Rotharn", new List<Card>(), new iStrategyPlayer());
+    Player player3 = new Player("Rotharn", new List<Card>(), new iStrategyPlayer() , "");
     player3.addShields(1);
     players.Add(player3);
 
-    Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer());
+    Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer() , "");
     players.Add(player4);
 
     // Check the scores before the event
