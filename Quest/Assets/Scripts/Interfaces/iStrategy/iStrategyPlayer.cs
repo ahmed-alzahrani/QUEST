@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class iStrategyPlayer : iStrategy
 {
+  public iStrategyPlayer() {}
     // Tournament Strategy
     public bool participateInTourney(List<Player> players, int shields)
     {
@@ -67,6 +68,13 @@ public class iStrategyPlayer : iStrategy
 
     public List<Card> kingsCall(List<Card> hand)
     {
+      return hand;
+    }
+
+    public List<Card> discardWeapon(List<Card> hand){
+      return hand;
+    }
+    public List<Card> discardFoesForKing(List<Card> hand){
       return hand;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-//MAYBE ADD AN EVENT HANDLER FOR WHEN WE NEED TO DRAW FROM A CERTAIN DECK ADD A CLICK HANDLER FOR IT AND REMOVE IT AFTERWARDS 
+//MAYBE ADD AN EVENT HANDLER FOR WHEN WE NEED TO DRAW FROM A CERTAIN DECK ADD A CLICK HANDLER FOR IT AND REMOVE IT AFTERWARDS
 // TO USE THIS INPUT BAR SET THE FOREGROUND PANEL TO ACTIVE THEN SET THE USER MESSAGE AND ACCORDING TO WHICH TYPE OF
 // MESSAGE EITHER DEACTIVATE THE INPUT FIELD OR THE 2 BUTTONS (ASKING YES OR NO QUESTIONS OR ASKING FOR USER INPUT)
 
@@ -25,7 +25,7 @@ public class UIInput
     public Text userMessage1;
     public InputField KeyboardInput;
 
-    //for ui card panel prompt 
+    //for ui card panel prompt
     public GameObject cardPanel;
     public Text userMessage2;
     public GameObject chosenCardsPanel;
@@ -42,7 +42,7 @@ public class UIInput
     public void SetupUI()
     {
         selectedCards = new List<Card>();
-        UICardsSelected = new List<GameObject>(); 
+        UICardsSelected = new List<GameObject>();
 
         // setup event listeners
         yesButton.onClick.AddListener(Yes);
@@ -200,7 +200,7 @@ public class GameController : MonoBehaviour
         adventureDeck = decks.buildAdventureDeck();
 
         //Setup UI buttons for cards (event listeners etc....)
-        adventureDeckUIButton.onClick.AddListener(DrawFromAdventureDeck);
+        // adventureDeckUIButton.onClick.AddListener(DrawFromAdventureDeck());
         storyDeckUIButton.onClick.AddListener(DrawFromStoryDeck);
 
         // Store gameboard cards
@@ -208,12 +208,15 @@ public class GameController : MonoBehaviour
         rankCard = GameObject.FindGameObjectWithTag("RankCard").GetComponent<CardUIScript>();
 
         //PLAYING AROUND
+
+        /*
         players = new List<Player>();
         players.Add(new Player("" , null , null , "Textures/Backings/s_backing"));
         rankCard.myCard = players[0].rankCard;
         rankCard.ChangeTexture();
         shieldsCard.myCard = new RankCard(null, null, players[0].shieldPath , 0);
         shieldsCard.ChangeTexture();
+        */
 
         //Store gameBoard panels
         questPanel = GameObject.FindGameObjectWithTag("QuestCard");
@@ -240,7 +243,7 @@ public class GameController : MonoBehaviour
         //userInput.ActivateBooleanCheck("How many players are playing the game??");
         userInput.ActivateCardUIPanel("What Cards do you want to add?");
 
-        //Check selected card within the UI update check 
+        //Check selected card within the UI update check
 
         //Other stuff
 
@@ -362,7 +365,7 @@ public class GameController : MonoBehaviour
 
     public GameObject CreateUIElement(Card cardLogic)
     {
-        //create game object of card prefab 
+        //create game object of card prefab
         GameObject UICard = Instantiate(cardPrefab, new Vector3(0, 0, 0), new Quaternion());
 
         //add card logic to the ui card
@@ -406,12 +409,14 @@ public class GameController : MonoBehaviour
         return hand;
     }
 
+/*
     public void DrawFromAdventureDeck()
-    {
-        //Animations can be added here
-        //check gamestate before drawing
-        drawnAdventureCard = adventureDeck.drawCard();
-    }
+     {
+         //Animations can be added here
+         //check gamestate before drawing
+         drawnAdventureCard = adventureDeck.drawCard();
+     }
+    */
 
     public void DrawFromStoryDeck()
     {

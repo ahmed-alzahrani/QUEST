@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class iStoryCourtCalled : iStory{
+  public iStoryCourtCalled() {}
   public void execute(List<Player> players, int shields){
     // implement Court Called to Camelot
     if (players != null) {

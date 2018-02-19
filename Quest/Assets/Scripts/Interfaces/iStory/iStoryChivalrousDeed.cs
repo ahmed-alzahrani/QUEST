@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Player(s) with the lowest rank and least amount of shields recieves 3 shields
 public class iStoryChivalrousDeed : iStory{
+  public iStoryChivalrousDeed(){ }
+
   public void execute(List<Player> players, int shields){
     // implement Chivalrous Deed
 

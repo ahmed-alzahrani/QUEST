@@ -23,8 +23,9 @@ public interface iStrategy {
 
   // additonal stratgy to be added includes:
 
-
-  List<Card> kingsCall(List<Card> hand);
+  // Strategy functions for the king's call event
+  List<Card> discardWeapon(List<Card> hand);
+  List<Card> discardFoesForKing(List<Card> hand);
 
   // evaluating what cards to discard if the hand becomes too full
 }
