@@ -140,10 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24de09ec0e234c148911d6f8e58e9e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 0}
-  script: {fileID: 0}
   turnCount: 0
-  numPlayers: 0
   cardPrefab: {fileID: 1621595229904592, guid: a13ae9810b215f94196ac108285197ef, type: 2}
   userInput:
     foregroundPanel: {fileID: 776981572}
@@ -175,11 +172,51 @@ MonoBehaviour:
   weaponPanel: {fileID: 0}
   amourPanel: {fileID: 0}
   activatedPanel: {fileID: 0}
-  adventureDeckUIButton: {fileID: 642890036}
+  adventureDeckUIButton: {fileID: 642890031}
   adventureDeckDiscardPileUIButton: {fileID: 669102128}
-  storyDeckUIButton: {fileID: 1843433987}
+  storyDeckUIButton: {fileID: 1843433984}
   storyDeckDiscardPileUIButton: {fileID: 508719389}
   rankDeckUIButton: {fileID: 357145469}
+  numPlayers: 0
+  numHumanPlayers: 0
+  numCpus: 0
+  currentPlayerIndex: 0
+  userInfoPanels: []
+  userInfo: {fileID: 0}
+  isSettingUpGame: 0
+  setupState: 0
+  playerNames: []
+  cpuNames: []
+  shieldPaths: []
+  drawAdventureCard: 0
+  drawStoryCard: 0
+  playerPanels:
+  - {fileID: 1517953257}
+  - {fileID: 1869487797}
+  - {fileID: 1576894020}
+  - {fileID: 970363918}
+  UINames:
+  - {fileID: 342285514}
+  - {fileID: 432235899}
+  - {fileID: 1269377968}
+  - {fileID: 1362481522}
+  UIBPS:
+  - {fileID: 1519904517}
+  - {fileID: 804925854}
+  - {fileID: 1179820432}
+  - {fileID: 1051770185}
+  UINumCards:
+  - {fileID: 1484634586}
+  - {fileID: 755801034}
+  - {fileID: 957565327}
+  - {fileID: 1821041329}
+  UIRanks:
+  - {fileID: 653597261}
+  - {fileID: 2114001753}
+  - {fileID: 41063939}
+  - {fileID: 296690846}
+  questStageNumber: {fileID: 1464278239}
+  questStageBPTotal: {fileID: 2064826239}
 --- !u!4 &10073658
 Transform:
   m_ObjectHideFlags: 0
@@ -352,7 +389,7 @@ GameObject:
   - component: {fileID: 41063940}
   - component: {fileID: 41063939}
   m_Layer: 5
-  m_Name: Text (4)
+  m_Name: Player3Rank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -444,7 +481,7 @@ RectTransform:
   m_LocalScale: {x: 1.00008, y: 1.00008, z: 1.00008}
   m_Children: []
   m_Father: {fileID: 841014090}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.22, y: 0.52}
   m_AnchorMax: {x: 0.32, y: 0.72}
@@ -821,7 +858,7 @@ RectTransform:
   - {fileID: 252920880}
   - {fileID: 131987845}
   m_Father: {fileID: 841014090}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35, y: 0.55}
   m_AnchorMax: {x: 0.8, y: 0.75}
@@ -1065,7 +1102,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: ': 0'
+  m_Text: 
 --- !u!222 &260255321
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1083,7 +1120,7 @@ GameObject:
   - component: {fileID: 296690847}
   - component: {fileID: 296690846}
   m_Layer: 5
-  m_Name: Text (4)
+  m_Name: Player4Rank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1468,7 +1505,7 @@ GameObject:
   - component: {fileID: 342285515}
   - component: {fileID: 342285514}
   m_Layer: 5
-  m_Name: Text
+  m_Name: PlayerName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1524,7 +1561,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Player Name
 --- !u!222 &342285515
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1638,7 +1675,7 @@ GameObject:
   - component: {fileID: 432235900}
   - component: {fileID: 432235899}
   m_Layer: 5
-  m_Name: Text
+  m_Name: player2Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1934,12 +1971,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 0}
   gameControl: {fileID: 10073656}
---- !u!114 &642890036 stripped
+--- !u!114 &642890033
 MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114582943515234380, guid: a13ae9810b215f94196ac108285197ef,
-    type: 2}
-  m_PrefabInternal: {fileID: 801528650}
-  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 642890031}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.17236912, g: 0.9338235, b: 0.10986158, a: 0.5}
+  m_EffectDistance: {x: 10, y: 10}
+  m_UseGraphicAlpha: 0
 --- !u!1 &651164475
 GameObject:
   m_ObjectHideFlags: 0
@@ -1970,7 +2015,7 @@ RectTransform:
   m_LocalScale: {x: 1.00008, y: 1.00008, z: 1.00008}
   m_Children: []
   m_Father: {fileID: 841014090}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.65247923, y: 0.3092593}
   m_AnchorMax: {x: 0.8705209, y: 0.5}
@@ -2061,7 +2106,7 @@ GameObject:
   - component: {fileID: 653597262}
   - component: {fileID: 653597261}
   m_Layer: 5
-  m_Name: Text (4)
+  m_Name: PlayerRank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2250,6 +2295,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: c891ce964cdc04b48840fa1d42395b32,
         type: 3}
+    - target: {fileID: 95222700631476096, guid: a13ae9810b215f94196ac108285197ef,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114317539769129220, guid: a13ae9810b215f94196ac108285197ef, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: a13ae9810b215f94196ac108285197ef, type: 2}
@@ -2282,7 +2332,7 @@ GameObject:
   - component: {fileID: 755801035}
   - component: {fileID: 755801034}
   m_Layer: 5
-  m_Name: Text (6)
+  m_Name: Player2NumCards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2375,7 +2425,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 841014090}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35, y: 0.05}
   m_AnchorMax: {x: 0.98, y: 0.25}
@@ -2485,7 +2535,7 @@ RectTransform:
   m_LocalScale: {x: 1.00008, y: 1.00008, z: 1.00008}
   m_Children: []
   m_Father: {fileID: 841014090}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35, y: 0.3}
   m_AnchorMax: {x: 0.5924792, y: 0.5}
@@ -2757,6 +2807,26 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: e7a1307c7a7bc7e47ba09b3b4fa114ff,
         type: 3}
+    - target: {fileID: 114317539769129220, guid: a13ae9810b215f94196ac108285197ef,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114317539769129220, guid: a13ae9810b215f94196ac108285197ef,
+        type: 2}
+      propertyPath: m_UseGraphicAlpha
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 95222700631476096, guid: a13ae9810b215f94196ac108285197ef,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 95222700631476096, guid: a13ae9810b215f94196ac108285197ef,
+        type: 2}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: fd6ad1058d1e74947b21abdb46779d08, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a13ae9810b215f94196ac108285197ef, type: 2}
   m_IsPrefabParent: 0
@@ -2776,7 +2846,7 @@ GameObject:
   - component: {fileID: 804925855}
   - component: {fileID: 804925854}
   m_Layer: 5
-  m_Name: Text (5)
+  m_Name: Player2BP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2996,7 +3066,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 814884681}
-  - {fileID: 1126808426}
   - {fileID: 1517953258}
   - {fileID: 1869487798}
   - {fileID: 1576894021}
@@ -3010,6 +3079,7 @@ RectTransform:
   - {fileID: 1436608339}
   - {fileID: 74731597}
   - {fileID: 2094654979}
+  - {fileID: 1126808426}
   - {fileID: 1803168565}
   - {fileID: 1522035704}
   - {fileID: 776981573}
@@ -3141,6 +3211,16 @@ Prefab:
       propertyPath: m_TagString
       value: Shields
       objectReference: {fileID: 0}
+    - target: {fileID: 114781252675202608, guid: a13ae9810b215f94196ac108285197ef,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 114781252675202608, guid: a13ae9810b215f94196ac108285197ef,
+        type: 2}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a13ae9810b215f94196ac108285197ef, type: 2}
   m_IsPrefabParent: 0
@@ -3160,7 +3240,7 @@ GameObject:
   - component: {fileID: 957565328}
   - component: {fileID: 957565327}
   m_Layer: 5
-  m_Name: Text (6)
+  m_Name: Player3Cards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3254,7 +3334,7 @@ RectTransform:
   - {fileID: 881417559}
   - {fileID: 1957695423}
   m_Father: {fileID: 841014090}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.18, y: 0.01}
   m_AnchorMax: {x: 0.34, y: 0.25}
@@ -3326,13 +3406,14 @@ GameObject:
   - component: {fileID: 970363919}
   - component: {fileID: 970363921}
   - component: {fileID: 970363920}
+  - component: {fileID: 970363922}
   m_Layer: 5
   m_Name: Player4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &970363919
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3348,7 +3429,7 @@ RectTransform:
   - {fileID: 1821041328}
   - {fileID: 296690845}
   m_Father: {fileID: 841014090}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.17, y: 0.25}
@@ -3388,6 +3469,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 970363918}
+--- !u!114 &970363922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 970363918}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.24221453, g: 1, b: 0.5408066, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1013446086
 GameObject:
   m_ObjectHideFlags: 0
@@ -3533,7 +3628,7 @@ GameObject:
   - component: {fileID: 1051770186}
   - component: {fileID: 1051770185}
   m_Layer: 5
-  m_Name: Text (5)
+  m_Name: Player4BP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3626,7 +3721,7 @@ RectTransform:
   - {fileID: 1464278238}
   - {fileID: 2064826238}
   m_Father: {fileID: 841014090}
-  m_RootOrder: 1
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.28, y: 0.8}
   m_AnchorMax: {x: 0.37, y: 0.98}
@@ -3752,7 +3847,7 @@ GameObject:
   - component: {fileID: 1179820433}
   - component: {fileID: 1179820432}
   m_Layer: 5
-  m_Name: Text (5)
+  m_Name: Player3BP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3826,7 +3921,7 @@ GameObject:
   - component: {fileID: 1269377969}
   - component: {fileID: 1269377968}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Player3Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3900,7 +3995,7 @@ GameObject:
   - component: {fileID: 1362481523}
   - component: {fileID: 1362481522}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Player4Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4122,7 +4217,7 @@ RectTransform:
   m_LocalScale: {x: 1.00008, y: 1.00008, z: 1.00008}
   m_Children: []
   m_Father: {fileID: 841014090}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17, y: 0.30370373}
   m_AnchorMax: {x: 0.40870833, y: 0.5}
@@ -4358,7 +4453,7 @@ RectTransform:
   m_Children:
   - {fileID: 1938341356}
   m_Father: {fileID: 841014090}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.8346042, y: 0.31500003}
   m_AnchorMax: {x: 0.98520833, y: 0.698}
@@ -4488,7 +4583,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Stage #'
+  m_Text: 
 --- !u!222 &1464278240
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4506,7 +4601,7 @@ GameObject:
   - component: {fileID: 1484634587}
   - component: {fileID: 1484634586}
   m_Layer: 5
-  m_Name: Text (6)
+  m_Name: PlayerNumCards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4562,7 +4657,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Number of Cards
 --- !u!222 &1484634587
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4579,13 +4674,14 @@ GameObject:
   - component: {fileID: 1517953258}
   - component: {fileID: 1517953260}
   - component: {fileID: 1517953259}
+  - component: {fileID: 1517953261}
   m_Layer: 5
   m_Name: Player1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1517953258
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4601,7 +4697,7 @@ RectTransform:
   - {fileID: 1484634585}
   - {fileID: 653597260}
   m_Father: {fileID: 841014090}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.75}
   m_AnchorMax: {x: 0.17, y: 1}
@@ -4641,6 +4737,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1517953257}
+--- !u!114 &1517953261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1517953257}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.24221453, g: 1, b: 0.5408066, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1519904515
 GameObject:
   m_ObjectHideFlags: 0
@@ -4652,7 +4762,7 @@ GameObject:
   - component: {fileID: 1519904518}
   - component: {fileID: 1519904517}
   m_Layer: 5
-  m_Name: Text (5)
+  m_Name: PlayerBP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4708,7 +4818,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Player BP
 --- !u!222 &1519904518
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4731,7 +4841,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1522035704
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4877,13 +4987,14 @@ GameObject:
   - component: {fileID: 1576894021}
   - component: {fileID: 1576894023}
   - component: {fileID: 1576894022}
+  - component: {fileID: 1576894024}
   m_Layer: 5
   m_Name: Player3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1576894021
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4899,7 +5010,7 @@ RectTransform:
   - {fileID: 957565326}
   - {fileID: 41063938}
   m_Father: {fileID: 841014090}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 0.17, y: 0.5}
@@ -4939,6 +5050,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1576894020}
+--- !u!114 &1576894024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1576894020}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.24221453, g: 1, b: 0.5408066, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1644842409
 GameObject:
   m_ObjectHideFlags: 0
@@ -5389,7 +5514,7 @@ GameObject:
   - component: {fileID: 1821041330}
   - component: {fileID: 1821041329}
   m_Layer: 5
-  m_Name: Text (6)
+  m_Name: Player4Cards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5500,13 +5625,14 @@ GameObject:
   - component: {fileID: 1869487798}
   - component: {fileID: 1869487800}
   - component: {fileID: 1869487799}
+  - component: {fileID: 1869487801}
   m_Layer: 5
   m_Name: Player2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1869487798
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5522,7 +5648,7 @@ RectTransform:
   - {fileID: 755801033}
   - {fileID: 2114001752}
   m_Father: {fileID: 841014090}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.17, y: 0.75}
@@ -5562,6 +5688,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1869487797}
+--- !u!114 &1869487801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1869487797}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.24221453, g: 1, b: 0.5408066, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &1938341355
 Prefab:
   m_ObjectHideFlags: 0
@@ -5812,6 +5952,16 @@ Prefab:
       propertyPath: m_TagString
       value: RankCard
       objectReference: {fileID: 0}
+    - target: {fileID: 114781252675202608, guid: a13ae9810b215f94196ac108285197ef,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 114781252675202608, guid: a13ae9810b215f94196ac108285197ef,
+        type: 2}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a13ae9810b215f94196ac108285197ef, type: 2}
   m_IsPrefabParent: 0
@@ -5949,7 +6099,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'BP: #'
+  m_Text: 
 --- !u!222 &2064826240
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5985,7 +6135,7 @@ RectTransform:
   m_LocalScale: {x: 1.00008, y: 1.00008, z: 1.00008}
   m_Children: []
   m_Father: {fileID: 841014090}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.18, y: 0.8}
   m_AnchorMax: {x: 0.27, y: 0.98}
@@ -6198,7 +6348,7 @@ GameObject:
   - component: {fileID: 2114001754}
   - component: {fileID: 2114001753}
   m_Layer: 5
-  m_Name: Text (4)
+  m_Name: Player2Rank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

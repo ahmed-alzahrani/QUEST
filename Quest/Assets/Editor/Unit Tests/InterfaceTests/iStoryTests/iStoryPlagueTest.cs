@@ -12,19 +12,19 @@ public class iStoryPlagueTest{
     iStoryPlague plague = new iStoryPlague();
     List<Player> players = new List<Player>();
 
-    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer());
+    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer() , "");
     player1.addShields(3);
     players.Add(player1);
 
-    Player player2 = new Player("Kazma", new List<Card>(), new iStrategyPlayer());
+    Player player2 = new Player("Kazma", new List<Card>(), new iStrategyPlayer() , "");
     player2.addShields(2);
     players.Add(player2);
 
-    Player player3 = new Player("Rotharn", new List<Card>(), new iStrategyPlayer());
+    Player player3 = new Player("Rotharn", new List<Card>(), new iStrategyPlayer() , "");
     player3.addShields(2);
     players.Add(player3);
 
-    Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer());
+    Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer() , "");
     player4.addShields(2);
     players.Add(player4);
 
