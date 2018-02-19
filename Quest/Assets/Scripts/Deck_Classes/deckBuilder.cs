@@ -12,7 +12,7 @@ public class deckBuilder
     // building the STORY deck
     public Deck buildStoryDeck()
     {
-        return new Deck("Story Deck", 28, buildStoryCards());
+        return new Deck("Story Deck", buildStoryCards());
     }
 
     public List<Card> buildStoryCards()
@@ -92,7 +92,7 @@ public class deckBuilder
 
     public Deck buildAdventureDeck()
     {
-        return new Deck("Adventure Deck", 125, buildAdventureCards());
+        return new Deck("Adventure Deck", buildAdventureCards());
     }
 
     public List<Card> buildAdventureCards()

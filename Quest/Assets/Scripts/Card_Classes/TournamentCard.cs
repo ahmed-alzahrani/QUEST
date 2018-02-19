@@ -6,8 +6,8 @@ using UnityEngine.EventSystems;
 
 public class TournamentCard : Card {
     // member variables
-    private int shields {get; set;}
-    private iStoryTournament tournament;
+    public int shields {get; set;}
+    public iStoryTournament tournament;
 
     // member functions
 

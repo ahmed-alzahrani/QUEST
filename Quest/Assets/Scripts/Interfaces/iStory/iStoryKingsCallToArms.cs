@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class iStoryKingsCallToArms : iStory{
+  public iStoryKingsCallToArms(){}
   public void execute(List<Player> players, int shields){
     // implement iEventKingsCallToArmss
     if (players != null) {

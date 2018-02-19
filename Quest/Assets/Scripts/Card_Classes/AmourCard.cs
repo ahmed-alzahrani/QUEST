@@ -6,8 +6,8 @@ using UnityEngine.EventSystems;
 
 public class AmourCard : Card {
     // member variables
-    private int bid {get; set;}
-    private int battlePoints {get; set;}
+    public int bid {get; set;}
+    public int battlePoints {get; set;}
 
     // member funtions
 
