@@ -236,7 +236,6 @@ public class iStrategyCPU1 : iStrategy
   // we need to get 50BP in as few cards as possible
   public List<Card> setUpFinalFoe(List<Card> hand)
   {
-
     // instantiate a List of foes and weapons from the user's hand
     List<Card> foes = new List<Card>();
     List<Card> weapons = new List<Card>();
@@ -287,6 +286,7 @@ public class iStrategyCPU1 : iStrategy
     int bpNeeded = (50 - firstFoe.minBP);
     // Add this foe to the foeEncounter as the foe to be played
     foeEncounter.Add(foes[0]);
+    hand.Remove(foes[0]);
 
     // initialize index as 0 to loop through the weapons
     int index = 0;
@@ -299,6 +299,7 @@ public class iStrategyCPU1 : iStrategy
       bpNeeded -= weapon.battlePoints;
         // add this weapon to the encounter
       foeEncounter.Add(weapons[index]);
+      hand.Remove(weapons[index]);
         // increment index
       index++;
     }
@@ -314,14 +315,14 @@ public class iStrategyCPU1 : iStrategy
   {
     List<Card> tests = new List<Card>();
     for (int i = 0; i < hand.Count; i++){
-      if (hand[i].type == "Test"){
+      if (hand[i].type == "Test Card"){
         tests.Add(hand[i]);
       }
     }
 
     // bubble sort the foes from the player's hand in ascending order
-    for (int x = 0; x <= tests.Count; x++){
-      for (int i = 0; i <= tests.Count; i++){
+    for (int x = 0; x < tests.Count; x++){
+      for (int i = 0; i < (tests.Count - 1); i++){
         TestCard test1 = (TestCard)tests[i];
         TestCard test2 = (TestCard)tests[i + 1];
         if (test1.minimum < test2.minimum){

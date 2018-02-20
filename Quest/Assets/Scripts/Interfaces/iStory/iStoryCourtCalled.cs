@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class iStoryCourtCalled : iStory{
   public iStoryCourtCalled() {}
-  public void execute(List<Player> players, int shields){
+  public bool execute(List<Player> players, Card storyCard, Deck adventure){
     // implement Court Called to Camelot
     if (players != null) {
       for(var i = 0; i < players.Count; i++) {
@@ -13,6 +13,8 @@ public class iStoryCourtCalled : iStory{
         List<AllyCard> allyCards = players[i].courtCalled();
       }
       Debug.Log("All Allies in play must be discarded");
+      return true;
     }
+      return false;
   }
 }

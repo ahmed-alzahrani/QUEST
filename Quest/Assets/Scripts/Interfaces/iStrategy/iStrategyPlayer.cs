@@ -8,6 +8,7 @@ public class iStrategyPlayer : iStrategy
     // Tournament Strategy
     public bool participateInTourney(List<Player> players, int shields)
     {
+        // Query the player to tell us if theyre in or not
       return true;
     }
 

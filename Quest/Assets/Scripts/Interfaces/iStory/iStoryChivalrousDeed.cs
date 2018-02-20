@@ -6,7 +6,7 @@ using UnityEngine;
 public class iStoryChivalrousDeed : iStory{
   public iStoryChivalrousDeed(){ }
 
-  public void execute(List<Player> players, int shields){
+  public bool execute(List<Player> players, Card card, Deck adventure){
     // implement Chivalrous Deed
 
     // gets a list of the players who have the lowest score in the game and grant them 3 shields each
@@ -15,8 +15,10 @@ public class iStoryChivalrousDeed : iStory{
       for (var i = 0; i < lowest.Count; i++) {
         lowest[i].addShields(3);
       }
-      Debug.Log("Player(s) with both lowest rank and least amount of shields, receives 3 shields");
+       Debug.Log("Player(s) with both lowest rank and least amount of shields, receives 3 shields");
+       return true;
     }
+        return false;
   }
 
   // getLowest loops through the list of players and gets the current lowest score in the game

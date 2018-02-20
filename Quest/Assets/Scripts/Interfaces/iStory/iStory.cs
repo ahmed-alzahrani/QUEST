@@ -3,5 +3,5 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public interface iStory {
-  void execute(List<Player> players, int shields);
+  bool execute(List<Player> players, Card storyCard, Deck adventure);
 }

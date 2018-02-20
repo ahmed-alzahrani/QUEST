@@ -162,6 +162,30 @@ public class Player
         return allies;
     }
 
+    public void drawCards(List<Card> cards) {
+        for (int i = 0; i < cards.Count; i++)
+        {
+            hand.Add(cards[i]);
+        }
+        handCheck();
+    }
+
+    public void discardCards(List<Card> cards) 
+    {
+        for (int i = 0; i < cards.Count; i++)
+        {
+            hand.Remove(cards[i]);
+        }                                      
+    }
+
+    public void handCheck()
+    {
+        if (hand.Count > 12) {
+            Debug.Log("You have more than 12 cards you need to fix your hand");
+            // fix your hand
+        }
+    }
+
     /*
     public void drawFromAdvenutreDeck(int count)
     {

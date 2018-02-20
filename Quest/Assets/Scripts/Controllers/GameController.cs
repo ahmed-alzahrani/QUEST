@@ -267,7 +267,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CalculateUIPlayerInfo();
+     //   CalculateUIPlayerInfo();
 
         //Check if game is done with all players and if that is the case declare winner 
         if (isSettingUpGame)

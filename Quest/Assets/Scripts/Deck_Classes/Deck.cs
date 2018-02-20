@@ -46,6 +46,17 @@ public class Deck {
         return card;
     }
 
+    public List<Card> drawCards(int cardNum) {
+        List<Card> drawnCards = new List<Card>();
+        for (int i = 0; i < cardNum; i++){
+            int r = Random.Range(0, deck.Count - 1);
+            Card card = deck[r];
+            deck.Remove(card);
+            drawnCards.Add(card);
+        }
+        return drawnCards;
+    }
+
     public void discardCards (List<Card> cardsToDiscard) {
         for (int i = 0; i < cardsToDiscard.Count; i++) {
             discard.Add (cardsToDiscard[i]);
