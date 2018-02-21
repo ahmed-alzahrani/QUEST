@@ -11,7 +11,9 @@ public class iStoryCourtCalledTest{
   [Test]
   public void execute_EmptiesAllPlayersAllyCards() {
     iStoryCourtCalled court = new iStoryCourtCalled();
-    List<Player> players = new List<Player>();
+    EventCard eCard = new EventCard("Event Card", "Test Event", "description", "path", court);
+     Deck deck = new Deck("Deck", new List<Card>());
+     List<Player> players = new List<Player>();
 
     Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer() , "");
     player1.activeAllies.Add(new AllyCard("Ally Card", "Sir Gaiwan", "Textures/Ally/sirGawain", 10, "+20 on the Test of the Green Knight Quest"));
@@ -34,7 +36,7 @@ public class iStoryCourtCalledTest{
     Assert.AreEqual(1, player3.activeAllies.Count);
     Assert.AreEqual(1, player4.activeAllies.Count);
 
-    court.execute(players, 3);
+    court.execute(players, eCard, deck);
 
     Assert.AreEqual(0, player1.activeAllies.Count);
     Assert.AreEqual(0, player2.activeAllies.Count);

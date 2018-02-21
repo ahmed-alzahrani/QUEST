@@ -212,7 +212,7 @@ public class iStrategyCPU1 : iStrategy
       for (int i = 0; i < (foes.Count - 1); i++){
         FoeCard foe1 = (FoeCard)foes[i];
         FoeCard foe2 = (FoeCard)foes[i + 1];
-        if (foe1.minBP > foe2.minBP){
+        if (foe1.minBP < foe2.minBP){
           var temp = foes[i + 1];
           foes[i + 1] = foes[i];
           foes[i] = temp;
@@ -224,7 +224,7 @@ public class iStrategyCPU1 : iStrategy
     hand.Remove(foes[0]);
 
     for(int i = 0; i < hand.Count; i++){
-      if (hand[i].type == "Weapon Card" && hasMultiple(hand, hand[i].name)){
+      if (hand[i].type == "Weapon Card" && hasMultiple(hand, hand[i].name) && checkDuplicate(hand[i], foeEncounter, "Weapon Card")){
         foeEncounter.Add(hand[i]);
         hand.Remove(hand[i]);
       }
@@ -403,13 +403,14 @@ public class iStrategyCPU1 : iStrategy
     List<Card> validCards = new List<Card>();
     List<Card> foeEncounter = new List<Card>();
     int count = 0;
+    int amourCount = 0;
 
     for (int i = 0; i < hand.Count; i++)
     {
       if (amour == false){
         if (hand[i].type == "Amour Card"){
-          validCards.Add(hand[i]);
-          count ++;
+          foeEncounter.Add(hand[i]);
+          amourCount += 1 ;
           amour = true;
         }
       }
@@ -428,40 +429,32 @@ public class iStrategyCPU1 : iStrategy
         for (int i = 0; i < (validCards.Count - 1); i++){
           AllyCard ally1;
           AllyCard ally2;
-          if (validCards[i].type == "Amour"){
-            ally2 = (AllyCard)validCards[i + 1];
-            if (10 < ally2.battlePoints){
-              var temp = validCards[i + 1];
-              validCards[i + 1] = validCards[i];
-              validCards[i] = temp;
-            }
-          } else {
-            ally1 = (AllyCard)validCards[i];
-            ally2 = (AllyCard)validCards[i + 1];
-            if (ally1.battlePoints < ally2.battlePoints){
-              var temp = validCards[i + 1];
-              validCards[i + 1] = validCards[i];
-              validCards[i] = temp;
-            }
-          }
+          ally1 = (AllyCard)validCards[i];
+          ally2 = (AllyCard)validCards[i + 1];
+           if (ally1.battlePoints > ally2.battlePoints){
+             var temp = validCards[i + 1];
+             validCards[i + 1] = validCards[i];
+             validCards[i] = temp;
+           }
         }
       }
       foeEncounter.Add(validCards[0]);
       hand.Remove(validCards[0]);
+      if (foeEncounter.Count == 2){
+        return foeEncounter;                             
+      }
       foeEncounter.Add(validCards[1]);
       hand.Remove(validCards[1]);
     } else {
       for (int i = 0; i < validCards.Count; i++)
       {
         foeEncounter.Add(validCards[i]);
-        hand.Remove(validCards[i]);
       }
 
       List<Card> weapons = getWeapons(hand);
       int index = 0;
       while(foeEncounter.Count < 2 && index < weapons.Count){
         foeEncounter.Add(weapons[index]);
-        hand.Remove(weapons[index]);
         index++;
       }
     }
@@ -477,8 +470,8 @@ public class iStrategyCPU1 : iStrategy
         weapons.Add(hand[i]);
       }
     }
-    for (int x = 0; x <= weapons.Count; x++){
-      for (int i = 0; i <= weapons.Count; i++){
+    for (int x = 0; x < weapons.Count; x++){
+      for (int i = 0; i < (weapons.Count - 1); i++){
         WeaponCard weapon1 = (WeaponCard)weapons[i];
         WeaponCard weapon2 = (WeaponCard)weapons[i + 1];
         if (weapon1.battlePoints > weapon2.battlePoints){
@@ -497,18 +490,15 @@ public class iStrategyCPU1 : iStrategy
     for (int i = 0; i < hand.Count; i++){
       if (hand[i].type == "Weapon Card" && checkDuplicate(hand[i], foeEncounter, "Weapon Card")){
         foeEncounter.Add(hand[i]);
-        hand.Remove(hand[i]);
       }
       if (hand[i].type == "Ally Card"){ // && hand[i].battlePoints > 0){
         AllyCard ally = (AllyCard)hand[i];
         if (ally.battlePoints > 0){
           foeEncounter.Add(hand[i]);
-          hand.Remove(hand[i]);
         }
       }
       if (hand[i].type == "Amour Card" && (amour == false)){
         foeEncounter.Add(hand[i]);
-        hand.Remove(hand[i]);
       }
     }
     return foeEncounter;

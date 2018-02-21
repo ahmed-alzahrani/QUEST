@@ -10,6 +10,8 @@ public class iStoryKingsCallToArmsTest{
   [Test]
   public void executeKingsCall_ForcesHighestToDiscard(){
     iStoryKingsCallToArms call = new iStoryKingsCallToArms();
+    EventCard eCard = new EventCard("Event Card", "Test Event", "description", "path", call);
+    Deck deck = new Deck("Deck", new List<Card>());
     List<Player> players = new List<Player>();
 
     // Player 0 has 1 weapon and 1 foe, they will discard their only weapon
@@ -71,7 +73,7 @@ public class iStoryKingsCallToArmsTest{
     Assert.AreEqual(player5.hand.Count, 3);
 
     // execute the call
-    call.execute(players, 3);
+    call.execute(players, eCard, deck);
 
     // PLayer 0 shouldve discarded their only weapon card
     Assert.AreEqual(player0.hand.Count, 2);

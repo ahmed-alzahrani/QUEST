@@ -103,6 +103,8 @@ public class iStoryChivalrousDeedTest{
   public void executeChivalrousDeeds_adds3ShieldsToLowestPlayer()
   {
     iStoryChivalrousDeed deed = new iStoryChivalrousDeed();
+    EventCard eCard = new EventCard("Event Card", "Test Event", "description", " ", deed);
+    Deck deck = new Deck("Deck", new List<Card>());
     List<Player> players = new List<Player>();
 
     Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer() , "");
@@ -127,7 +129,7 @@ public class iStoryChivalrousDeedTest{
     Assert.AreEqual(0, player4.score);
 
     // Run the deed
-    deed.execute(players, 3);
+    deed.execute(players, eCard, deck);
 
     // Check the scores
     Assert.AreEqual(1, player1.score);
@@ -136,7 +138,7 @@ public class iStoryChivalrousDeedTest{
     Assert.AreEqual(3, player4.score);
 
     // Check that it works for a multiplayer tie
-    deed.execute(players, 3);
+    deed.execute(players, eCard, deck);
     Assert.AreEqual(4, player1.score);
     Assert.AreEqual(4, player2.score);
     Assert.AreEqual(4, player3.score);
