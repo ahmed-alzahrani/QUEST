@@ -76,8 +76,8 @@ public class PlayerTest{
   public void Player_EarnsShields_KnightToChampionKnight(){
     var player = new Player("Ahmed", new List<Card>(), new iStrategyPlayer());
     player.addShields(5);
-    player.addShields(2);
-    Assert.AreEqual(7, player.score);
+    player.addShields(7);
+    Assert.AreEqual(12, player.score);
     Assert.AreEqual("Champion Knight", player.rankCard.name);
     Assert.AreEqual(20, player.rankCard.battlePoints);
   }
@@ -86,8 +86,8 @@ public class PlayerTest{
   [Test]
   public void Player_EarnsShields_SquireToChampionKnight(){
     var player = new Player("Ahmed", new List<Card>(), new iStrategyPlayer());
-    player.addShields(7);
-    Assert.AreEqual(7, player.score);
+    player.addShields(12);
+    Assert.AreEqual(12, player.score);
     Assert.AreEqual("Champion Knight", player.rankCard.name);
     Assert.AreEqual(20, player.rankCard.battlePoints);
   }
@@ -124,7 +124,7 @@ public class PlayerTest{
   [Test]
   public void Player_LosesShields_ChampKnightToKnight(){
     var player = new Player("Ahmed", new List<Card>(), new iStrategyPlayer());
-    player.addShields(7);
+    player.addShields(12);
     Assert.AreEqual(20, player.rankCard.battlePoints);
 
     player.removeShields(1);
@@ -145,7 +145,7 @@ public class PlayerTest{
 
     Assert.AreEqual(6, player.activeAllies.Count);
 
-    List<AllyCard> allies = player.courtCalled();
+    List<Card> allies = player.courtCalled();
 
     Assert.AreEqual(6, allies.Count);
     Assert.AreEqual("Sir Gaiwan", allies[0].name);

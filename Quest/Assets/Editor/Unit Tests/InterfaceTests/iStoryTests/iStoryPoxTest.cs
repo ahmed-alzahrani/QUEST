@@ -11,7 +11,6 @@ public class iStoryPoxTest{
   {
     iStoryPox pox = new iStoryPox();
     EventCard eCard = new EventCard("Event Card", "Test Event", "description", "path", pox);
-    Deck deck = new Deck("Deck", new List<Card>());
     List<Player> players = new List<Player>();
 
     Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer() , "");
@@ -36,7 +35,7 @@ public class iStoryPoxTest{
     Assert.AreEqual(player3.score, 2);
     Assert.AreEqual(player4.score, 1);
 
-    pox.execute(players, eCard, deck);
+    pox.execute(players, eCard, null);
 
     Assert.AreEqual(player1.score, 4);
     Assert.AreEqual(player2.score, 2);

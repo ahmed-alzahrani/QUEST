@@ -11,8 +11,10 @@ public class iStoryKingsCallToArmsTest{
   public void executeKingsCall_ForcesHighestToDiscard(){
     iStoryKingsCallToArms call = new iStoryKingsCallToArms();
     EventCard eCard = new EventCard("Event Card", "Test Event", "description", "path", call);
-    Deck deck = new Deck("Deck", new List<Card>());
     List<Player> players = new List<Player>();
+    Deck deck = new Deck("Adventure Deck", new List<Card>());
+    GameController game = new GameController();
+    game.adventureDeck = deck;
 
     // Player 0 has 1 weapon and 1 foe, they will discard their only weapon
     Player player0 = new Player("Test Guy2", new List<Card>(), new iStrategyCPU2() , "");
@@ -73,7 +75,7 @@ public class iStoryKingsCallToArmsTest{
     Assert.AreEqual(player5.hand.Count, 3);
 
     // execute the call
-    call.execute(players, eCard, deck);
+    call.execute(players, eCard, game);
 
     // PLayer 0 shouldve discarded their only weapon card
     Assert.AreEqual(player0.hand.Count, 2);
@@ -198,51 +200,4 @@ public class iStoryKingsCallToArmsTest{
     Assert.AreEqual(1, player1.score);
     Assert.AreEqual(player1.score, call.getHighest(players));
   }
-
-/*
-  [Test]
-  public void executeChivalrousDeeds_adds3ShieldsToLowestPlayer()
-  {
-    iStoryChivalrousDeed deed = new iStoryChivalrousDeed();
-    List<Player> players = new List<Player>();
-
-    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer());
-    player1.addShields(1);
-    players.Add(player1);
-
-    Player player2 = new Player("Kazma", new List<Card>(), new iStrategyPlayer());
-    player2.addShields(1);
-    players.Add(player2);
-
-    Player player3 = new Player("Rotharn", new List<Card>(), new iStrategyPlayer());
-    player3.addShields(1);
-    players.Add(player3);
-
-    Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer());
-    players.Add(player4);
-
-    // Check the scores before the event
-    Assert.AreEqual(1, player1.score);
-    Assert.AreEqual(1, player2.score);
-    Assert.AreEqual(1, player3.score);
-    Assert.AreEqual(0, player4.score);
-
-    // Run the deed
-    deed.execute(players, 3);
-
-    // Check the scores
-    Assert.AreEqual(1, player1.score);
-    Assert.AreEqual(1, player2.score);
-    Assert.AreEqual(1, player3.score);
-    Assert.AreEqual(3, player4.score);
-
-    // Check that it works for a multiplayer tie
-    deed.execute(players, 3);
-    Assert.AreEqual(4, player1.score);
-    Assert.AreEqual(4, player2.score);
-    Assert.AreEqual(4, player3.score);
-    Assert.AreEqual(3, player4.score);
-
-  }
-  */
 }

@@ -8,9 +8,9 @@ public class iStrategyCPU2 : iStrategy
   // Tournament Strategy
 
   // Strategy #2, the CPU always joins tournaments
-  public bool participateInTourney(List<Player> players, int shields)
+  public int participateInTourney(List<Player> players, int shields)
   {
-    return true;
+    return 1;
   }
 
   public int getValidCardBP(Card card){
@@ -96,14 +96,16 @@ public class iStrategyCPU2 : iStrategy
 
 
   // Quest Strategy
-  public bool sponsorQuest(List<Player> players, int stages, List<Card> hand)
+  public int sponsorQuest(List<Player> players, int stages, List<Card> hand)
   {
     // if somebody can rank up, we return false to decline sponsoring the quest
     if (canSomeoneRankUp(players, stages)) {
-      return false;
+      return 0;
     }
-
-    return canISponsor(hand, stages);
+    if (canISponsor(hand, stages)){
+      return 1;
+    }
+    return 0;
   }
 
   public bool canISponsor(List<Card> hand, int stages)
@@ -338,10 +340,13 @@ public class iStrategyCPU2 : iStrategy
   }
 
 
-  public bool participateInQuest(int stages, List<Card> hand)
+  public int participateInQuest(int stages, List<Card> hand)
   {
     // Simply calls both the tests to see if the CPU can play sufficient BP to progress and discard Foes for a Test
-    return (canIIncrement(stages, hand) && canIDiscard(hand));
+    if (canIIncrement(stages, hand) && canIDiscard(hand)){
+      return 1;
+    }
+    return 0;
   }
 
   /*

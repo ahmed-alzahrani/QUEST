@@ -11,8 +11,12 @@ public class iStoryCourtCalledTest{
   [Test]
   public void execute_EmptiesAllPlayersAllyCards() {
     iStoryCourtCalled court = new iStoryCourtCalled();
+    GameController game = new GameController();
+    Deck deck = new Deck("Adventure Deck", new List<Card>());
+
+    game.adventureDeck = deck;
+
     EventCard eCard = new EventCard("Event Card", "Test Event", "description", "path", court);
-     Deck deck = new Deck("Deck", new List<Card>());
      List<Player> players = new List<Player>();
 
     Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer() , "");
@@ -36,7 +40,7 @@ public class iStoryCourtCalledTest{
     Assert.AreEqual(1, player3.activeAllies.Count);
     Assert.AreEqual(1, player4.activeAllies.Count);
 
-    court.execute(players, eCard, deck);
+    court.execute(players, eCard, game);
 
     Assert.AreEqual(0, player1.activeAllies.Count);
     Assert.AreEqual(0, player2.activeAllies.Count);

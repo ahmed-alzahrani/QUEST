@@ -12,7 +12,6 @@ public class iStoryPlagueTest{
     iStoryPlague plague = new iStoryPlague();
     EventCard eCard = new EventCard("Event Card", "Test Event", "description", "path", plague);
     List<Player> players = new List<Player>();
-    Deck deck = new Deck("Deck", new List<Card>());
 
     Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer() , "");
     player1.addShields(3);
@@ -36,7 +35,7 @@ public class iStoryPlagueTest{
     Assert.AreEqual(player3.score, 2);
     Assert.AreEqual(player4.score, 2);
 
-    plague.execute(players, eCard, deck);
+    plague.execute(players, eCard, null);
 
     Assert.AreEqual(player1.score, 1);
     Assert.AreEqual(player2.score, 2);

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class iStoryQuest : iStory {
-  public bool execute(List<Player> players, Card storyCard, Deck adventure)
+  public void execute(List<Player> players, Card storyCard, GameController game)
   {
-        return true;
     // implement Quest logic
   }
 }

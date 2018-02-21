@@ -15,11 +15,16 @@ public class Player
     public List<Card> hand { get; set; }
     public List<AllyCard> activeAllies { get; set; }
     public iStrategy strategy { get; set; }
+    public int knightScore;
+    public int champKnightScore;
+    public int kotrkScore;
+    public bool participating = false;
+    public bool sponsoring = false;
     public string shieldPath;
     public GameController gameController;
 
     //member functions
-    public Player(string playerName, List<Card> startingHand, iStrategy strat, string shieldPth = "")
+    public Player(string playerName, List<Card> startingHand, iStrategy strat, string shieldPth = "", int knight = 5, int champKnight = 12, int knightOfTheRoundTable = 22)
     {
         name = playerName;
         score = 0;
@@ -34,6 +39,9 @@ public class Player
         rankCards = ranks;
         strategy = strat;
         shieldPath = shieldPth;
+        knightScore = knight;
+        champKnightScore = champKnight;
+        kotrkScore = knightOfTheRoundTable;
     }
 
     public Player() { }
@@ -68,17 +76,17 @@ public class Player
     public void rankUpCheck(int score, int shields)
     {
         // Can rank up from Squire to Knight
-        if (score < 5 && (score + shields) >= 5)
+        if (score < knightScore && (score + shields) >= knightScore)
         {
             rankChangeToKnight();
         }
         // Can rank up from Knight to Champion Knight
-        if (score < 7 && (score + shields) >= 7)
+        if (score < champKnightScore && (score + shields) >= champKnightScore)
         {
             rankChangeToChampionKnight();
         }
         // Can become a Knight of the Round Table
-        if (score < 10 && (score + shields) > 10)
+        if (score < kotrkScore && (score + shields) > kotrkScore)
         {
             Debug.Log("We have a winner!");
         }
@@ -126,7 +134,7 @@ public class Player
     public void rankDownCheck(int score, int shields)
     {
         // rank down to Knight
-        if (score >= 7 && (score - shields) < 7)
+        if (score >= champKnightScore && (score - shields) < champKnightScore)
         {
             rankChangeToKnight();
         }
@@ -147,16 +155,17 @@ public class Player
         }
     }
 
-    public List<AllyCard> courtCalled()
+    public List<Card> courtCalled()
     {
-        List<AllyCard> allies = new List<AllyCard>();
+        List<Card> allies = new List<Card>();
         for (var i = 0; i < activeAllies.Count; i++)
         {
             allies.Add(activeAllies[i]);
         }
         for (var i = 0; i < allies.Count; i++)
         {
-            activeAllies.Remove(allies[i]);
+            AllyCard ally = (AllyCard)allies[i];
+            activeAllies.Remove(ally);
         }
 
         return allies;
@@ -170,12 +179,12 @@ public class Player
         handCheck();
     }
 
-    public void discardCards(List<Card> cards) 
+    public void discardCards(List<Card> cards)
     {
         for (int i = 0; i < cards.Count; i++)
         {
             hand.Remove(cards[i]);
-        }                                      
+        }
     }
 
     public void handCheck()

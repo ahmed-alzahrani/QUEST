@@ -12,10 +12,10 @@ public class iStrategyCPU2Test{
     Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU2());
     players.Add(player1);
 
-    Assert.IsTrue(player1.strategy.participateInTourney(players, 3));
+    Assert.AreEqual(player1.strategy.participateInTourney(players, 3), 1);
 
     player1.addShields(4);
-    Assert.IsTrue(player1.strategy.participateInTourney(players, 3));
+    Assert.AreEqual(player1.strategy.participateInTourney(players, 3), 1);
   }
 
   /*

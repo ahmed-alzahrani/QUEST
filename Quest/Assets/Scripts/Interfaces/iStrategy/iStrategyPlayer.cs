@@ -6,10 +6,10 @@ public class iStrategyPlayer : iStrategy
 {
   public iStrategyPlayer() {}
     // Tournament Strategy
-    public bool participateInTourney(List<Player> players, int shields)
+    public int participateInTourney(List<Player> players, int shields)
     {
         // Query the player to tell us if theyre in or not
-      return true;
+      return 1;
     }
 
     public List<Card> playTournament(List<Player> players, List<Card> hand, int baseBP, int shields)
@@ -21,9 +21,9 @@ public class iStrategyPlayer : iStrategy
 
 
     // Quest Strategy
-    public bool sponsorQuest(List<Player> players, int stages, List<Card> hand)
+    public int sponsorQuest(List<Player> players, int stages, List<Card> hand)
     {
-      return true;
+      return 1;
     }
 
     public List<List<Card>> setupQuest(int stages, List<Card> hand)
@@ -44,9 +44,9 @@ public class iStrategyPlayer : iStrategy
       // get the test card with the highest bid test card in the hand
     }
 
-    public bool participateInQuest(int stages, List<Card> hand)
+    public int participateInQuest(int stages, List<Card> hand)
     {
-      return true;
+      return 1;
     }
 
     public List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour)

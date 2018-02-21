@@ -9,9 +9,12 @@ public class iStrategyCPU1 : iStrategy
   // Tournament Strategy
 
   // Strategy #1, the player participates if anyone, including themselves, can stand to rank up
-  public bool participateInTourney(List<Player> players, int shields)
+  public int participateInTourney(List<Player> players, int shields)
   {
-    return canSomeoneRankUp(players, shields);
+    if (canSomeoneRankUp(players, shields)){
+      return 1;
+    }
+    return 0;
   }
 
   // Can Someone Rank Up? Looks at each player and each type of rank up individually from Knight to Knight of the Round Table
@@ -20,20 +23,21 @@ public class iStrategyCPU1 : iStrategy
     for(var i = 0; i < players.Count; i++){
       int score = players[i].score;
       // Can rank up from Squire to Knight
-      if (score < 5 && (score + shields) >= 5){
+      if (score < players[i].knightScore && (score + shields) >= players[i].knightScore){
         return true;
       }
       // Can rank up from Knight to Champion Knight
-      if (score < 7 && (score + shields) >= 7){
+      if (score < players[i].champKnightScore && (score + shields) >= players[i].champKnightScore){
         return true;
       }
       // Can become a Knight of the Round Table
-      if (score < 10 && (score + shields) >= 10){
+      if (score < players[i].kotrkScore && (score + shields) >= players[i].kotrkScore){
         return true;
       }
     }
     return false;
   }
+
 
   public List<Card> playTournament(List<Player> players, List<Card> hand, int baseBP, int shields)
   {
@@ -118,13 +122,16 @@ public class iStrategyCPU1 : iStrategy
 
 
   // Quest Strategy
-  public bool sponsorQuest(List<Player> players, int stages, List<Card> hand)
+  public int sponsorQuest(List<Player> players, int stages, List<Card> hand)
   {
     if (canSomeoneRankUp(players, stages)){
-      return false;
+      return 0;
     }
 
-    return (canISponsor(hand, stages));
+    if (canISponsor(hand, stages)){
+      return 1;
+    }
+    return 0;
   }
 
   public bool canISponsor(List<Card> hand, int stages)
@@ -338,10 +345,14 @@ public class iStrategyCPU1 : iStrategy
     // get the test card with the highest bid test card in the hand
   }
 
-  public bool participateInQuest(int stages, List<Card> hand)
+  public int participateInQuest(int stages, List<Card> hand)
   {
     // Do I have 2 weapons/allies per stage, And 2 foes of 20 or less BP for a test?
-    return canIPlay(stages, hand) && canIDiscard(hand);
+  //  return canIPlay(stages, hand) && canIDiscard(hand);
+    if (canIPlay(stages, hand) && canIDiscard(hand)){
+      return 1;
+    }
+    return 0;
   }
 
   public bool canIPlay(int stages, List<Card> hand)
@@ -441,7 +452,7 @@ public class iStrategyCPU1 : iStrategy
       foeEncounter.Add(validCards[0]);
       hand.Remove(validCards[0]);
       if (foeEncounter.Count == 2){
-        return foeEncounter;                             
+        return foeEncounter;
       }
       foeEncounter.Add(validCards[1]);
       hand.Remove(validCards[1]);

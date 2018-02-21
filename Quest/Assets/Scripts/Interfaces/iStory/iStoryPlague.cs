@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class iStoryPlague : iStory{
   public iStoryPlague(){}
-  public bool execute(List<Player> players, Card storyCard, Deck adventure){
+  public void execute(List<Player> players, Card storyCard, GameController game){
     // implement Plague --> Drawer loses 2 shields if possible
     if (players != null) {
       Debug.Log("Drawer loses 2 shields if possible");
       players[0].removeShields(2);
-      return true;
     }
-        return false;
   }
 }
