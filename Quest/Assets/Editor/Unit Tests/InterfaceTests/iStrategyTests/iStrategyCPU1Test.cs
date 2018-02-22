@@ -115,7 +115,7 @@ public class iStrategyCPU1Test{
     player1.addShields(3);
     players.Add(player1);
 
-    Assert.AreEqual(player1.strategy.sponsorQuest(players, 3, player1.hand), 0);
+    Assert.AreEqual(player1.strategy.sponsorQuest(players, 3, player1.hand, null), 0);
   }
 
   [Test]
@@ -124,7 +124,7 @@ public class iStrategyCPU1Test{
     Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU1());
     players.Add(player1);
 
-    Assert.AreEqual(player1.strategy.sponsorQuest(players, 3, player1.hand), 0);
+    Assert.AreEqual(player1.strategy.sponsorQuest(players, 3, player1.hand, null), 0);
   }
 
   [Test]
@@ -136,7 +136,7 @@ public class iStrategyCPU1Test{
     player1.hand.Add(new FoeCard("Foe Card", "Robber Knight", "Textures/foe/robberKnight", 15, 15));
     player1.hand.Add(new FoeCard("Foe Card", "Robber Knight", "Textures/foe/robberKnight", 15, 15));
 
-    Assert.AreEqual(player1.strategy.sponsorQuest(players, 3, player1.hand), 0);
+    Assert.AreEqual(player1.strategy.sponsorQuest(players, 3, player1.hand, null), 0);
   }
 
   [Test]
@@ -149,7 +149,7 @@ public class iStrategyCPU1Test{
     player1.hand.Add(new FoeCard("Foe Card", "Thieves", "Textures/foe/thieves", 5, 5));
     player1.hand.Add(new TestCard("Test Card", "Test of the Questing Beast", "Textures/tests/testOfTheQuestingBeast", 4));
 
-    Assert.AreEqual(player1.strategy.sponsorQuest(players, 3, player1.hand), 1);
+    Assert.AreEqual(player1.strategy.sponsorQuest(players, 3, player1.hand, null), 1);
   }
 
   [Test]
@@ -161,7 +161,7 @@ public class iStrategyCPU1Test{
     player1.hand.Add(new FoeCard("Foe Card", "Saxons", "Textures/foe/saxons", 10, 20));
     player1.hand.Add(new FoeCard("Foe Card", "Thieves", "Textures/foe/thieves", 5, 5));
 
-    Assert.AreEqual(player1.strategy.sponsorQuest(players, 3, player1.hand), 1);
+    Assert.AreEqual(player1.strategy.sponsorQuest(players, 3, player1.hand, null), 1);
   }
 
   [Test]
@@ -424,11 +424,11 @@ public class iStrategyCPU1Test{
         player1.hand.Add(new WeaponCard("Weapon Card", "Horse", "texture", 10));
         player1.hand.Add(new WeaponCard("Weapon Card", "Horse", "texture", 10));
         player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "texture", 20));
-        Assert.AreEqual(player1.strategy.participateInQuest(2, player1.hand), 0);
+        Assert.AreEqual(player1.strategy.participateInQuest(2, player1.hand, null), 0);
 
         // add one more weapon and it should work
         player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "texture", 20));
-        Assert.AreEqual(player1.strategy.participateInQuest(2, player1.hand), 1);
+        Assert.AreEqual(player1.strategy.participateInQuest(2, player1.hand, null), 1);
 
     }
 
@@ -443,7 +443,7 @@ public class iStrategyCPU1Test{
       player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "texture", 20));
 
         // Even though we have enough weapons to play we will return false without the right number of foes to discard
-        Assert.AreEqual(player1.strategy.participateInQuest(2, player1.hand), 0);
+        Assert.AreEqual(player1.strategy.participateInQuest(2, player1.hand, null), 0);
     }
 
 
@@ -615,7 +615,7 @@ public class iStrategyCPU1Test{
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
 
-        int willIBid = player1.strategy.willIBid(5, player1.hand, 2);
+        int willIBid = player1.strategy.willIBid(5, player1.hand, 2, null);
         Assert.AreEqual(willIBid, 0);
     }
 
@@ -630,7 +630,7 @@ public class iStrategyCPU1Test{
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 30, 30));
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 30, 30));
 
-        int willIBid = player1.strategy.willIBid(4, player1.hand, 1);
+        int willIBid = player1.strategy.willIBid(4, player1.hand, 1, null);
         Assert.AreEqual(willIBid, 0);
 
     }
@@ -646,7 +646,7 @@ public class iStrategyCPU1Test{
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
 
-        int willIBid = player1.strategy.willIBid(4, player1.hand, 1);
+        int willIBid = player1.strategy.willIBid(4, player1.hand, 1, null);
         Assert.AreEqual(willIBid, 5);
 
     }
@@ -662,7 +662,7 @@ public class iStrategyCPU1Test{
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
 
         // has 4 but bid is 5 will return 0
-        int willIBid = player1.strategy.willIBid(5, player1.hand, 1);
+        int willIBid = player1.strategy.willIBid(5, player1.hand, 1, null);
         Assert.AreEqual(willIBid, 0);
     }
 }

@@ -2,15 +2,21 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+
+// uncomment deck builder stuff
+// uncomment create player stuff
 //Modify UI functions to modify player Cards
+//create a flip function
+
+//kings recognition quest stuff
 
 //TOURNAMENTS DONEEEEEEE
 //QUESTS 
 //SPECIAL EFFECTS
 //TEST CARDS
 //Checking if player is over 12 cards ask for discarding 
-//Checking for player rank up
 //should we tell players in round 2 how much bp they have left
+//mordred will use separate input for each button 
 
 [System.Serializable]
 public class UIInput
@@ -475,6 +481,7 @@ public class GameController : MonoBehaviour
             else if (currentQuest != null)
             {
                 //isDoneStoryEvent = currentQuest.quest.execute(players , questCard);
+                currentQuest.quest.execute(null, currentQuest, this);
             }
 
 
@@ -1033,6 +1040,11 @@ public class GameController : MonoBehaviour
                     Debug.Log("Paricipant" + (i + 1) + ": " + players[i].name);
             }
         }
+    }
+
+
+    public void SponsorQuery()
+    {
     }
 
     //NEEDS FIXING TO ADD SHIELDS AND BASE BP

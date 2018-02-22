@@ -96,14 +96,18 @@ public class iStrategyCPU2 : iStrategy
 
 
   // Quest Strategy
-  public bool sponsorQuest(List<Player> players, int stages, List<Card> hand)
+  public int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game)
   {
     // if somebody can rank up, we return false to decline sponsoring the quest
     if (canSomeoneRankUp(players, stages)) {
-      return false;
+      return 0;
     }
 
-    return canISponsor(hand, stages);
+    if (canISponsor(hand, stages))
+    {
+        return 1;
+    }
+        return 0;
   }
 
   public bool canISponsor(List<Card> hand, int stages)
@@ -222,8 +226,8 @@ public class iStrategyCPU2 : iStrategy
 
 
     // bubble sort the foes from the player's hand in ascending order
-    for (int x = 0; x <= foes.Count; x++){
-      for (int i = 0; i <= foes.Count; i++){
+    for (int x = 0; x < foes.Count; x++){
+      for (int i = 0; i < (foes.Count - 1); i++){
         FoeCard foe1 = (FoeCard)foes[i];
         FoeCard foe2 = (FoeCard)foes[i + 1];
         if (foe1.minBP < foe2.minBP){
@@ -235,8 +239,8 @@ public class iStrategyCPU2 : iStrategy
     }
 
     // bubble sort the weapons from the player's hand in ascending order
-    for (int x = 0; x <= weapons.Count; x++){
-      for (int i = 0; i <= weapons.Count; i++){
+    for (int x = 0; x < weapons.Count; x++){
+      for (int i = 0; i < (weapons.Count - 1); i++){
         WeaponCard weapon1 = (WeaponCard)weapons[i];
         WeaponCard weapon2 = (WeaponCard)weapons[i + 1];
         if (weapon1.battlePoints < weapon2.battlePoints){
@@ -289,8 +293,8 @@ public class iStrategyCPU2 : iStrategy
     }
 
     // bubble sort the user's foes so that the first item in the list is the lowest BP foe
-    for (int x = 0; x <= foes.Count; x++){
-      for (int i = 0; i <= foes.Count; i++){
+    for (int x = 0; x < foes.Count; x++){
+      for (int i = 0; i < (foes.Count - 1); i++){
         FoeCard foe1 = (FoeCard)foes[i];
         FoeCard foe2 = (FoeCard)foes[i + 1];
         if (foe1.minBP < foe2.minBP){
@@ -318,8 +322,8 @@ public class iStrategyCPU2 : iStrategy
       }
     }
     // sort tests in ascending order of minimum bid
-    for (int x = 0; x <= tests.Count; x++){
-      for (int i = 0; i <= tests.Count; i++){
+    for (int x = 0; x < tests.Count; x++){
+      for (int i = 0; i < (tests.Count - 1); i++){
         TestCard test1 = (TestCard)tests[i];
         TestCard test2 = (TestCard)tests[i + 1];
         if (test1.minimum < test2.minimum){
@@ -338,7 +342,7 @@ public class iStrategyCPU2 : iStrategy
   }
 
 
-    public int participateInQuest(int stages, List<Card> hand)
+    public int participateInQuest(int stages, List<Card> hand, GameController game)
     {
         // Simply calls both the tests to see if the CPU can play sufficient BP to progress and discard Foes for a Test
         if ((canIIncrement(stages, hand) && canIDiscard(hand)))
@@ -496,7 +500,7 @@ public class iStrategyCPU2 : iStrategy
 
   // wrapper function for playBid that simply gets the integer referring to the bid amount
   // Since this AI doesn't use AMOUR cards or Allies for extra bids, we can simply count the foe cards they have bid
-  public int willIBid(int currentBid, List<Card> hand, int round)
+  public int willIBid(int currentBid, List<Card> hand, int round, GameController game)
   {
     // return the count of playBid
     List<Card> bid = playBid(hand, round);

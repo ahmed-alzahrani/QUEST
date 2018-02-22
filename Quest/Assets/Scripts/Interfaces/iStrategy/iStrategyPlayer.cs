@@ -36,9 +36,9 @@ public class iStrategyPlayer : iStrategy
 
 
     // Quest Strategy
-    public bool sponsorQuest(List<Player> players, int stages, List<Card> hand)
+    public int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game)
     {
-      return true;
+      return 1;
     }
 
     public List<List<Card>> setupQuest(int stages, List<Card> hand)
@@ -59,7 +59,7 @@ public class iStrategyPlayer : iStrategy
       // get the test card with the highest bid test card in the hand
     }
 
-    public int participateInQuest(int stages, List<Card> hand)
+    public int participateInQuest(int stages, List<Card> hand, GameController game)
     {
       return 1;
     }
@@ -72,7 +72,7 @@ public class iStrategyPlayer : iStrategy
 
     // Test Strategy
 
-    public int willIBid(int currentBid, List<Card> hand, int round)
+    public int willIBid(int currentBid, List<Card> hand, int round, GameController game)
     {
       return currentBid + 1;
     }
