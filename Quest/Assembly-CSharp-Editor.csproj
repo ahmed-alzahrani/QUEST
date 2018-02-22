@@ -64,8 +64,11 @@
      <Compile Include="Assets\Editor\Unit Tests\InterfaceTests\iStoryTests\iStoryChivalrousDeedTest.cs" />
      <Compile Include="Assets\Editor\Unit Tests\InterfaceTests\iStoryTests\iStoryCourtCalledTest.cs" />
      <Compile Include="Assets\Editor\Unit Tests\InterfaceTests\iStoryTests\iStoryKingsCallToArmsTest.cs" />
+     <Compile Include="Assets\Editor\Unit Tests\InterfaceTests\iStoryTests\iStoryKingsRecognitionTest.cs" />
      <Compile Include="Assets\Editor\Unit Tests\InterfaceTests\iStoryTests\iStoryPlagueTest.cs" />
      <Compile Include="Assets\Editor\Unit Tests\InterfaceTests\iStoryTests\iStoryPoxTest.cs" />
+     <Compile Include="Assets\Editor\Unit Tests\InterfaceTests\iStoryTests\iStoryProsperityTest.cs" />
+     <Compile Include="Assets\Editor\Unit Tests\InterfaceTests\iStoryTests\iStoryQueensFavorTest.cs" />
      <Compile Include="Assets\Editor\Unit Tests\InterfaceTests\iStrategyTests\iStrategyCPU1Test.cs" />
      <Compile Include="Assets\Editor\Unit Tests\InterfaceTests\iStrategyTests\iStrategyCPU2Test.cs" />
      <Compile Include="Assets\Editor\Unit Tests\PlayerTests\PlayerTest.cs" />

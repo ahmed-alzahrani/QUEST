@@ -6,24 +6,39 @@ public class iStrategyPlayer : iStrategy
 {
   public iStrategyPlayer() {}
     // Tournament Strategy
-    public int participateInTourney(List<Player> players, int shields)
+    public int participateInTourney(List<Player> players, int shields, GameController gameController)
     {
-        // Query the player to tell us if theyre in or not
-      return 1;
+        //check the yes / No buttons
+        if (gameController.userInput.buttonResult == "Yes")
+        {
+            Debug.Log("Yes");
+            return 1;
+        }
+        else if (gameController.userInput.buttonResult == "No")
+        {
+            Debug.Log("No");
+            return 0;
+        }
+        else
+        {
+            //still checking 
+            //Debug.Log("still checking");  
+            return 2;
+        }
     }
 
     public List<Card> playTournament(List<Player> players, List<Card> hand, int baseBP, int shields)
     {
-      return hand;
+      return null;
 
     }
 
 
 
     // Quest Strategy
-    public int sponsorQuest(List<Player> players, int stages, List<Card> hand)
+    public bool sponsorQuest(List<Player> players, int stages, List<Card> hand)
     {
-      return 1;
+      return true;
     }
 
     public List<List<Card>> setupQuest(int stages, List<Card> hand)

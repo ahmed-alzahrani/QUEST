@@ -32,7 +32,7 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Hovered over a card");
+        //Debug.Log("Hovered over a card");
         if (myCard != null && myCard.texturePath != "")
         { 
             previewButton.textureName = myCard.texturePath;
@@ -49,6 +49,7 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
     {
         // If we have a card from our hand 
         // this might change
+        //maybe check for certain cards like mordred 
         if (isHandCard && gameController.userInput.cardPanelUIEnabled)
         {
             // you can check gameState either here or gameController or both
