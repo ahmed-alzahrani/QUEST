@@ -6,11 +6,11 @@ public interface iStrategy
 { 
     //tournament strategy
     int participateInTourney(List<Player> players, int shields, GameController gameController);
-    int participateInQuest(int stages, List<Card> hand);
+    int participateInQuest(int stages, List<Card> hand, GameController game);
     List<Card> playTournament(List<Player> players, List<Card> hand, int baseBP, int shields);
 
     // Quest Strategy
-    bool sponsorQuest(List<Player> players, int stages, List<Card> hand);
+    int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game);
     List<List<Card>> setupQuest(int stages, List<Card> hand);
     List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand);
     List<Card> setupTestStage(List<Card> hand);
@@ -18,7 +18,7 @@ public interface iStrategy
 
 
     // Test strategy
-    int willIBid(int currentBid, List<Card> hand, int round);
+    int willIBid(int currentBid, List<Card> hand, int round, GameController game);
     List<Card> playBid(List<Card> hand, int round);
 
     // additonal stratgy to be added includes:

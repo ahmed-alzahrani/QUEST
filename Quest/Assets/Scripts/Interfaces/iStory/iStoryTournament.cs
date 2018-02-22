@@ -53,7 +53,7 @@ public class iStoryTournament : iStory
                         if (game.players[i].participating)
                         {
                             Debug.Log("number of shields" + myCard.shields);
-                            game.players[i].score += 1 + myCard.shields;
+                            game.players[i].addShields(1 + myCard.shields);
                         }
                     }
 
@@ -197,7 +197,7 @@ public class iStoryTournament : iStory
                 {
                     //discard everything
                     //discard undiscarded cards
-                    game.adventureDeck.discardCards(TournamentState.cardsToBeDiscarded);
+                    // game.adventureDeck.discardCards(TournamentState.undiscardedCards); this will become a for loop
                 }
 
                 game.adventureDeckDiscardPileUIButton.myCard = game.adventureDeck.discard[game.adventureDeck.discard.Count - 1];
@@ -245,7 +245,7 @@ public class iStoryTournament : iStory
                     {
                         TournamentCard myCard = (TournamentCard)storyCard;
                         Debug.Log("shields: " + myCard.shields);
-                        game.players[winners[i]].score += TournamentState.numberOfParticipants + myCard.shields;
+                        game.players[winners[i]].addShields(TournamentState.numberOfParticipants + myCard.shields);
                     }
 
                     //reset everything
