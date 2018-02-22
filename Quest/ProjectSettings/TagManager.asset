@@ -16,6 +16,8 @@ TagManager:
   - AllyCards
   - Shields
   - RankCard
+  - AdventureDiscard
+  - StoryDiscard
   layers:
   - Default
   - TransparentFX
