@@ -12,12 +12,12 @@ using UnityEngine.UI;
 //CAN ONLY SELECT CARDS DURING CARD UI PANEL CHECKS SINCE THERE IS PANEL OVER IT AT OTHER TIMES
 
 //TOURNAMENTS                          DONEEEEEEE
-//QUESTS 
+//QUESTS
 //SPECIAL EFFECTS
 //TEST CARDS
-//Checking if player is over 12 cards ask for discarding 
+//Checking if player is over 12 cards ask for discarding
 //should we tell players in round 2 how much bp they have left
-//mordred will use separate input for each button 
+//mordred will use separate input for each button
 
 [System.Serializable]
 public class UIInput
@@ -114,7 +114,7 @@ public class UIInput
         inputPanel.SetActive(false);
         booleanPanel.SetActive(false);
         userMessage2.text = userMsg;
-        totalBP.text = "BP: " + totalBPCount.ToString(); 
+        totalBP.text = "BP: " + totalBPCount.ToString();
     }
 
     public GameObject CheckCard(Card card)
@@ -216,7 +216,7 @@ public class UIInput
         totalBPCount = 0;
         selectedCards.Clear();
 
-        //Destroy panel cards 
+        //Destroy panel cards
         for (int i = 0; i < UICardsSelected.Count; i++)
         {
             Object.Destroy(UICardsSelected[i]);
@@ -440,14 +440,14 @@ public class GameController : MonoBehaviour
                 }
                 else if (currentQuest != null)
                 {
-                    
+
                    storyDeckDiscardPileUIButton.myCard = currentQuest;
                    storyDeckDiscardPileUIButton.ChangeTexture();
                    storyDeck.discard.Add(currentQuest);
                 }
                 else if (currentTournament != null)
                 {
-                    
+
                     storyDeckDiscardPileUIButton.myCard = currentTournament;
                     storyDeckDiscardPileUIButton.ChangeTexture();
                     storyDeck.discard.Add(currentTournament);
@@ -458,7 +458,7 @@ public class GameController : MonoBehaviour
                 currentQuest = null;
                 currentTournament = null;
 
-                //reset players participation 
+                //reset players participation
 
                 ResetPlayers();
                 EmptyPanel(questPanel);
@@ -497,7 +497,7 @@ public class GameController : MonoBehaviour
                     players[currentPlayerIndex].activeAllies.Add(ally);
                     players[currentPlayerIndex].hand.Remove(selectedCard);
                     AddToPanel(CreateUIElement(selectedCard), allyPanel);
-                    addedAlly = true;               
+                    addedAlly = true;
                 }
 
                 if (!addedAlly)
@@ -524,7 +524,7 @@ public class GameController : MonoBehaviour
                                 {
                                     if (userInput.selectedCards[i].name == selectedCard.name)
                                     {
-                                        //duplicate exists cannot add it in 
+                                        //duplicate exists cannot add it in
                                         addToPanel = false;
                                     }
                                 }
@@ -535,7 +535,7 @@ public class GameController : MonoBehaviour
                                 {
                                     if (userInput.selectedCards[i].type == "Amour Card")
                                     {
-                                        //more than one amour cannot add it 
+                                        //more than one amour cannot add it
                                         addToPanel = false;
                                     }
                                 }
@@ -564,7 +564,7 @@ public class GameController : MonoBehaviour
                     }
                 }
 
-                //maybe we can check for certain cards like mordred here with some state 
+                //maybe we can check for certain cards like mordred here with some state
                 selectedCard = null;
             }
 
@@ -928,10 +928,10 @@ public class GameController : MonoBehaviour
 
                     if (players[currentPlayerIndex].sponsoring)
                     {
-                        //skip if sponsoring 
+                        //skip if sponsoring
                         //this will help generalize participation in both tournamnets and quests
                         numIterations++;
-                        UpdatePlayerTurn();       
+                        UpdatePlayerTurn();
                     }
                     else if (participation == 0)
                     {
@@ -980,15 +980,15 @@ public class GameController : MonoBehaviour
     //check if player wants to sponsor
     public void SponsorCheck()
     {
-        //checking for sponsors 
+        //checking for sponsors
         if (userInput.UIEnabled)
         {
             if (userInput.booleanUIEnabled)
             {
                 if (numIterations < numPlayers)
-                {         
+                {
                     int sponsoring = players[currentPlayerIndex].strategy.sponsorQuest(players, currentQuest.stages, players[currentPlayerIndex].hand , this);
-                    
+
                     if (sponsoring == 0)
                     {
                         print("No");
@@ -1035,12 +1035,12 @@ public class GameController : MonoBehaviour
         {
             if (userInput.cardPanelUIEnabled)
             {
-                //check for as much as the quest stages 
+                //check for as much as the quest stages
                 if (numIterations < currentQuest.stages)
                 {
                     //calling check sponsorship for debugging since it should never come in here if there is no player sponsoring
                     List<List<Card>> returnVal = new List<List<Card>>();
-                    returnVal = players[CheckSponsorship()].strategy.setupQuest(currentQuest.stages, players[CheckSponsorship()].hand);
+                    returnVal = players[CheckSponsorship()].strategy.setupQuest(currentQuest.stages, players[CheckSponsorship()].hand, currentQuest.foe);
 
                     if (returnVal != null)
                     {
@@ -1089,7 +1089,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // 
+    //
     public void RemoveBidNumber()
     {
 

@@ -31,6 +31,7 @@ public class iStrategyCPU2 : iStrategy
   // We play the fewest cards possible to get to 50 or our best possible total
   public List<Card> playTournament(List<Player> players, List<Card> hand, int baseBP, int shields)
   {
+    strategyUtil strat = new strategyUtil();
     // Generate a list of valid cards --> weapon, ally, and amour
     List<Card> validCards = new List<Card>();
     for (var i = 0; i < hand.Count; i++) {
@@ -39,20 +40,7 @@ public class iStrategyCPU2 : iStrategy
         validCards.Add(hand[i]);
       }
     }
-
-    // Sort the list in order of BP using bubble sort
-    for (int x = 0; x < validCards.Count; x++){
-      for (int i = 0; i < (validCards.Count - 1); i++){
-        int bp1 = getValidCardBP(validCards[i]);
-        int bp2 = getValidCardBP(validCards[i + 1]);
-        if (bp1 > bp2){
-          var temp = validCards[i + 1];
-          validCards[i + 1] = validCards[i];
-          validCards[i] = temp;
-        }
-      }
-    }
-
+    validCards = strat.sortAllValidCardsByAscendingBP(validCards);
     // get how much BP we need left by subtracting our base
     int bpNeeded = 50 - baseBP;
 
@@ -66,10 +54,9 @@ public class iStrategyCPU2 : iStrategy
     while (bpNeeded >= 0 && index < validCards.Count){
       // first make sure that we still have cards in validCards to evaluate
         // check that the card were trying to play isn't a duplicate weapon
-      if (checkDuplicate(validCards[index], cardsToPlay, "Weapon Card")){
+      if (strat.checkDuplicate(validCards[index], cardsToPlay, "Weapon Card")){
         // add the card to our cards to be played
-        WeaponCard weapon = (WeaponCard)validCards[index];
-        bpNeeded -= weapon.battlePoints;
+        bpNeeded -= strat.getValidCardBP(validCards[index]);
         cardsToPlay.Add(validCards[index]);
         hand.Remove(validCards[index]);
       }
@@ -78,104 +65,44 @@ public class iStrategyCPU2 : iStrategy
       return cardsToPlay;
     }
 
-  // checks for a duplicate in instances where a player is restricted by cardType
-  public bool checkDuplicate(Card card, List<Card> cards, string cardType)
-  {
-    if (card.type == cardType){
-      for (var i = 0; i < cards.Count; i++){
-        if (cards[i].name == card.name){
-          return false;
-        }
-      }
-    }
-    return true;
-  }
-
-
-
-
-
   // Quest Strategy
   public int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game)
   {
+    strategyUtil strat = new strategyUtil();
     // if somebody can rank up, we return false to decline sponsoring the quest
-    if (canSomeoneRankUp(players, stages)) {
+    if (strat.canSomeoneRankUp(players, stages)) {
       return 0;
     }
 
-    if (canISponsor(hand, stages))
+    if (strat.canISponsor(hand, stages))
     {
         return 1;
     }
         return 0;
   }
 
-  public bool canISponsor(List<Card> hand, int stages)
-  {
-    // see if we have enough cards to sponsor the quest
-    // Count through our hand and subtract
-    int stageCount = stages;
-    bool haveTest = false;
-    for (var i = 0; i < hand.Count; i++){
-      // count up our foes to compare to the # of stages
-      if (hand[i].type == "Foe Card"){
-        stageCount -= 1;
-      }
-      // if we have a Test card in our hand we set the bool to true
-      if (hand[i].type == "Test Card"){
-        haveTest = true;
-      }
-    }
-    // decreate stageCount by one more if we had a Test
-    if (haveTest){
-      stageCount -= 1;
-    }
-    return (stageCount <= 0);
-  }
-
-
-  // Can Someone Rank Up? Looks at each player and each type of rank up individually from Knight to Knight of the Round Table
-  public bool canSomeoneRankUp(List<Player> players, int shields)
-  {
-    for(var i = 0; i < players.Count; i++){
-      int score = players[i].score;
-      // Can rank up from Squire to Knight
-      if (score < 5 && (score + shields) >= 5){
-        return true;
-      }
-      // Can rank up from Knight to Champion Knight
-      if (score < 7 && (score + shields) >= 7){
-        return true;
-      }
-      // Can become a Knight of the Round Table
-      if (score < 10 && (score + shields) >= 10){
-        return true;
-      }
-    }
-    return false;
-  }
-
   // Return a list of list the count of stages, where at each index is the card(s) that sets up each stage
-  public List<List<Card>> setupQuest(int stages, List<Card> hand)
+  public List<List<Card>> setupQuest(int stages, List<Card> hand, string questFoe)
   {
+    strategyUtil strat = new strategyUtil();
     // instantiate the quest line
     List<List<Card>> questLine = new List<List<Card>>();
 
     // create the final stage first
-    List<Card> finalStage = setupFoeStage(stages, stages, hand);
+    List<Card> finalStage = setupFoeStage(stages, stages, hand, questFoe);
 
     // if we have a test, create a test stage and then work from the first stage to fill in the foe stages
-    if (haveTest(hand)){
+    if (strat.haveTest(hand)){
       List<Card> testStage = setupTestStage(hand);
       for (int i = 0; i < (stages - 2); i++){
-        List<Card> foeStage = setupFoeStage(i, stages, hand);
+        List<Card> foeStage = setupFoeStage(i, stages, hand, questFoe);
         questLine.Add(foeStage);
       }
       questLine.Add(testStage);
       // else we don't have a test, we fill in foe stages the same way but 1 more for the missing test
     } else {
       for (int i = 0; i < (stages - 1); i++){
-        List<Card> foeStage = setupFoeStage(i, stages, hand);
+        List<Card> foeStage = setupFoeStage(i, stages, hand, questFoe);
         questLine.Add(foeStage);
       }
     }
@@ -184,30 +111,21 @@ public class iStrategyCPU2 : iStrategy
     return questLine;
   }
 
-  // looks through our hand and tells us if there is a single test card
-  public bool haveTest(List<Card> hand){
-    for(int i = 0; i < hand.Count; i++){
-      if (hand[i].type == "Test Card"){
-        return true;
-      }
-    }
-    return false;
-  }
-
   // evaluates whether its the last stage or not and sets up either a Final Foe stage or an early Foe Stage
-  public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand)
+  public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe)
   {
     if (currentStage == stages){
-      return setUpFinalFoe(hand);
+      return setUpFinalFoe(hand, questFoe);
     }
-    return setUpEarlyFoeEncounter(hand);
+    return setUpEarlyFoeEncounter(hand, questFoe);
   }
 
 
   // sets up the final stage of a quest for this CPU player, in this strategy:
   // we need to get 40BP in as few cards as possible
-  public List<Card> setUpFinalFoe(List<Card> hand)
+  public List<Card> setUpFinalFoe(List<Card> hand, string questFoe)
   {
+    strategyUtil strat = new strategyUtil();
 
     // instantiate a List of foes and weapons from the user's hand
     List<Card> foes = new List<Card>();
@@ -219,37 +137,12 @@ public class iStrategyCPU2 : iStrategy
         foes.Add(hand[i]);
       }
       // make sure that we sort out weapons that are already in the weapons
-      if (hand[i].type == "Weapon Card" && checkDuplicate(hand[i], weapons, "Weapon Card")){
+      if (hand[i].type == "Weapon Card" && strat.checkDuplicate(hand[i], weapons, "Weapon Card")){
         weapons.Add(hand[i]);
       }
     }
-
-
-    // bubble sort the foes from the player's hand in ascending order
-    for (int x = 0; x < foes.Count; x++){
-      for (int i = 0; i < (foes.Count - 1); i++){
-        FoeCard foe1 = (FoeCard)foes[i];
-        FoeCard foe2 = (FoeCard)foes[i + 1];
-        if (foe1.minBP < foe2.minBP){
-          var temp = foes[i + 1];
-          foes[i + 1] = foes[i];
-          foes[i] = temp;
-        }
-      }
-    }
-
-    // bubble sort the weapons from the player's hand in ascending order
-    for (int x = 0; x < weapons.Count; x++){
-      for (int i = 0; i < (weapons.Count - 1); i++){
-        WeaponCard weapon1 = (WeaponCard)weapons[i];
-        WeaponCard weapon2 = (WeaponCard)weapons[i + 1];
-        if (weapon1.battlePoints < weapon2.battlePoints){
-          var temp = weapons[i + 1];
-          weapons[i + 1] = weapons[i];
-          weapons[i] = temp;
-        }
-      }
-    }
+    foes = strat.sortFoesByAscendingOrder(foes, questFoe);
+    weapons = strat.sortWeaponsByAscendingOrder(weapons);
 
     // instantiate the foeEncounter list
     List<Card> foeEncounter = new List<Card>();
@@ -259,6 +152,7 @@ public class iStrategyCPU2 : iStrategy
     int bpNeeded = (40 - strongFoe.minBP);
     // Add this foe to the foeEncounter as the foe to be played
     foeEncounter.Add(foes[0]);
+    hand.Remove(foes[0]);
 
     // initialize index as 0 to loop through the weapons
     int index = 0;
@@ -271,6 +165,7 @@ public class iStrategyCPU2 : iStrategy
       bpNeeded -= nextWeapon.battlePoints;
         // add this weapon to the encounter
       foeEncounter.Add(weapons[index]);
+      hand.Remove(weapons[index]);
         // increment index
       index++;
     }
@@ -282,8 +177,9 @@ public class iStrategyCPU2 : iStrategy
 
   // This sets up an early Foe Encounter, a Foe encounter before the last round of a Quest.
   // This strategy is to simply play the lowest BP foe from the hand with NO weapons attached
-  public List<Card> setUpEarlyFoeEncounter(List<Card> hand)
+  public List<Card> setUpEarlyFoeEncounter(List<Card> hand, string questFoe)
   {
+    strategyUtil strat = new strategyUtil();
     // get the list of foe cards from the user's hand
     List<Card> foes = new List<Card>();
     for (var i = 0; i < hand.Count; i++){
@@ -292,51 +188,30 @@ public class iStrategyCPU2 : iStrategy
       }
     }
 
-    // bubble sort the user's foes so that the first item in the list is the lowest BP foe
-    for (int x = 0; x < foes.Count; x++){
-      for (int i = 0; i < (foes.Count - 1); i++){
-        FoeCard foe1 = (FoeCard)foes[i];
-        FoeCard foe2 = (FoeCard)foes[i + 1];
-        if (foe1.minBP < foe2.minBP){
-          var temp = foes[i + 1];
-          foes[i + 1] = foes[i];
-          foes[i] = temp;
-        }
-      }
-    }
+    foes = strat.sortFoesByAscendingOrder(foes, questFoe);
 
     // make a list, add the lowest BP foe and return it
-
     List<Card> foeEncounter = new List<Card>();
     foeEncounter.Add(foes[0]);
+    hand.Remove(foes[0]);
     return foeEncounter;
   }
 
 // returns the test card from the user's hand with the highest minimum
   public List<Card> setupTestStage(List<Card> hand)
   {
+    strategyUtil strat = new strategyUtil();
     List<Card> tests = new List<Card>();
     for (int i = 0; i < hand.Count; i++){
       if (hand[i].type == "Test Card"){
         tests.Add(hand[i]);
       }
     }
-    // sort tests in ascending order of minimum bid
-    for (int x = 0; x < tests.Count; x++){
-      for (int i = 0; i < (tests.Count - 1); i++){
-        TestCard test1 = (TestCard)tests[i];
-        TestCard test2 = (TestCard)tests[i + 1];
-        if (test1.minimum < test2.minimum){
-          var temp = tests[i + 1];
-            tests[i + 1] = tests[i];
-          tests[i] = temp;
-        }
-      }
-    }
-
+    tests = strat.sortTetstsbyAscendingOrder(tests);
     List<Card> test = new List<Card>();
     // return a list with only the highest minimum test
     test.Add(tests[0]);
+    hand.Remove(test[0]);
     return test;
     // get the test card with the highest bid test card in the hand
   }
@@ -363,6 +238,7 @@ public class iStrategyCPU2 : iStrategy
   The player simply tallies their BP, only counting 1 Amour card to see if they can play in the Quest
   */
   public bool canIIncrement(int stages, List<Card> hand){
+    strategyUtil strat = new strategyUtil();
     int bpNeeded = 0;
     for (int x = 1; x <= stages; x++) {
       bpNeeded += (10 * x);
@@ -373,7 +249,7 @@ public class iStrategyCPU2 : iStrategy
       if (hand[i].type == "Weapon Card"){
         validCards.Add(hand[i]);
       }
-      if (hand[i].type == "Amour Card" && checkDuplicate(hand[i], validCards, "Amour Card")){
+      if (hand[i].type == "Amour Card" && strat.checkDuplicate(hand[i], validCards, "Amour Card")){
         validCards.Add(hand[i]);
       }
       if (hand[i].type == "Ally Card"){
@@ -405,22 +281,21 @@ public class iStrategyCPU2 : iStrategy
     return (count >= 2);
   }
 
-  public List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour)
+  public List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour, string questName, List<Player> players)
   {
     // if it is the final stage we play final foe (most powerful combination available)
     if (stage == stages){
-      List<Card> foeEncounter = playFinalFoe(hand, amour);
-      return foeEncounter;
+      return playFinalFoe(hand, amour);
 
     } else {
       // else we play the earlier foe strategy, where we try to increment by 10 based on the previous stage
-      List<Card> foeEncounter = playEarlierFoe(hand, previous, amour);
-      return foeEncounter;
+      return playEarlierFoe(hand, previous, amour);
     }
   }
 
   // earlier foe behavior, we try to play using the smallest cards possible until we play 10 more than the previous foe encounter
   public List<Card> playEarlierFoe(List<Card> hand, int previous, bool amour){
+    strategyUtil strat = new strategyUtil();
     // set our threshold
     int bpNeeded = previous + 10;
     // instantiate the list of cards were going to play and return
@@ -440,7 +315,7 @@ public class iStrategyCPU2 : iStrategy
     // make a list of the valid cards to play, non-duplicate weapons and Allies with more than 0 BP.
     List<Card> validCards = new List<Card>();
     for (int i = 0; i < hand.Count; i++){
-      if (hand[i].type == "Weapon Card" && checkDuplicate(hand[i], validCards, "Weapon Card")){
+      if (hand[i].type == "Weapon Card" && strat.checkDuplicate(hand[i], validCards, "Weapon Card")){
         validCards.Add(hand[i]);
       }
       if (hand[i].type == "Ally Card"){
@@ -451,34 +326,26 @@ public class iStrategyCPU2 : iStrategy
       }
     }
 
-    // sort in descending order of BP
-    for (int x = 0; x <= validCards.Count; x++){
-      for (int i = 0; i <= validCards.Count; i++){
-        if (getValidCardBP(validCards[i]) >  getValidCardBP(validCards[i + 1])){
-          var temp = validCards[i + 1];
-          validCards[i + 1] = validCards[i];
-          validCards[i] = temp;
-        }
-      }
-    }
+    validCards = strat.sortAllValidCardsByAscendingBP(validCards);
 
     // while we still need BP, loop through add the cards with the lowest BP possible
     int index = 0;
     while(bpNeeded > 0 && index < hand.Count) {
       bpNeeded -= getValidCardBP(validCards[index]);
       foeEncounter.Add(validCards[index]);
+      hand.Remove(validCards[index]);
       index ++;
     }
-
     // return the resulting list
     return foeEncounter;
   }
 
   public List<Card> playFinalFoe(List<Card> hand, bool amour){
+    strategyUtil strat = new strategyUtil();
     List<Card> foeEncounter = new List<Card>();
 
     for (int i = 0; i < hand.Count; i++){
-      if (hand[i].type == "Weapon Card" && checkDuplicate(hand[i], foeEncounter, "Weapon Card")){
+      if (hand[i].type == "Weapon Card" && strat.checkDuplicate(hand[i], foeEncounter, "Weapon Card")){
         foeEncounter.Add(hand[i]);
       }
       if (hand[i].type == "Ally"){// && hand[i].battlePoints > 0){
@@ -490,6 +357,10 @@ public class iStrategyCPU2 : iStrategy
       if (hand[i].type == "Amour Card" && (amour == false)){
         foeEncounter.Add(hand[i]);
       }
+    }
+    for (int i = 0; i < foeEncounter.Count; i++)
+    {
+      hand.Remove(foeEncounter[i]);
     }
     return foeEncounter;
 
@@ -513,12 +384,13 @@ public class iStrategyCPU2 : iStrategy
   // generates the list that is the actual bid to be played by the user, given the round they are bidding in
   public List<Card> playBid(List<Card> hand, int round)
   {
+    strategyUtil strat = new strategyUtil();
     // instantiate a list that represents the bid we're willing to play
     List<Card> bid = new List<Card>();
     // In Round 1 this AI will bid foes with less than 25 BP, no duplicates
     if (round == 1){
       for (int i = 0; i < hand.Count; i++){
-        if ((hand[i].type == "Foe Card" && checkDuplicate(hand[i], bid, "Foe Card"))){ //        hand[i].minBP < 25)
+        if ((hand[i].type == "Foe Card" && strat.checkDuplicate(hand[i], bid, "Foe Card"))){ //        hand[i].minBP < 25)
           FoeCard foe = (FoeCard)hand[i];
           if (foe.minBP > 25){
             bid.Add(hand[i]);
@@ -543,72 +415,14 @@ public class iStrategyCPU2 : iStrategy
 
   public List<Card> discardWeapon(List<Card> hand)
   {
-    List<Card> weapons = new List<Card>();
-    List<Card> discard = new List<Card>();
-
-    for (int i = 0; i < hand.Count; i++)
-    {
-      if (hand[i].type == "Weapon Card")
-      {
-        weapons.Add(hand[i]);
-      }
-    }
-
-    // bubble sort weapons into ascending order
-    for (int x = 0; x < weapons.Count; x++){
-      for (int i = 0; i < (weapons.Count - 1); i++){
-        WeaponCard weapon1 = (WeaponCard)weapons[i];
-        WeaponCard weapon2 = (WeaponCard)weapons[i + 1];
-        if (weapon1.battlePoints > weapon2.battlePoints){
-          var temp = weapons[i + 1];
-          weapons[i + 1] = weapons[i];
-          weapons[i] = temp;
-        }
-      }
-    }
-
-    discard.Add(weapons[0]);
-    return discard;
+    strategyUtil strat = new strategyUtil();
+    return strat.discardWeapon(hand);
   }
 
   // Discard 2 lowest BP foes for the King's Call Event
   public List<Card> discardFoesForKing(List<Card> hand)
   {
-    List<Card> foes = new List<Card>();
-    List<Card> discard = new List<Card>();
-
-    // Get Foes from hand
-    for (int i = 0; i < hand.Count; i++)
-    {
-      if (hand[i].type == "Foe Card")
-      {
-        foes.Add(hand[i]);
-      }
-    }
-
-    // if there is only one foe return that
-    if (foes.Count == 1)
-    {
-      discard.Add(foes[0]);
-      return discard;
-    }
-      // else return the 2 lowest by bubble sorting
-    else {
-      // bubble sort into ascending order by min bp
-      for (int x = 0; x < foes.Count; x++){
-        for (int i = 0; i < (foes.Count - 1); i++){
-          FoeCard foe1 = (FoeCard)foes[i];
-          FoeCard foe2 = (FoeCard)foes[i + 1];
-          if (foe1.minBP > foe2.minBP){
-            var temp = foes[i + 1];
-            foes[i + 1] = foes[i];
-            foes[i] = temp;
-          }
-        }
-      }
-      discard.Add(foes[0]);
-      discard.Add(foes[1]);
-      return discard;
-    }
+    strategyUtil strat = new strategyUtil();
+    return strat.discardFoesForKing(hand);
   }
 }

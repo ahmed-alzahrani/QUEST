@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public interface iStrategy
-{ 
+{
     //tournament strategy
     int participateInTourney(List<Player> players, int shields, GameController gameController);
     int participateInQuest(int stages, List<Card> hand, GameController game);
@@ -11,10 +11,10 @@ public interface iStrategy
 
     // Quest Strategy
     int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game);
-    List<List<Card>> setupQuest(int stages, List<Card> hand);
-    List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand);
+    List<List<Card>> setupQuest(int stages, List<Card> hand, string questFoe);
+    List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe);
     List<Card> setupTestStage(List<Card> hand);
-    List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour);
+    List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour, string questName, List<Player> players);
 
 
     // Test strategy

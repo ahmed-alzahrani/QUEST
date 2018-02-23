@@ -55,7 +55,7 @@ public class iStoryKingsCallToArmsTest{
     Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyCPU2() , "");
     player4.addShields(1);
     player4.hand.Add(new AmourCard("Amour Card", "Amour", "Textures/Amour/amour", 1, 10));
-    player4.hand.Add(new AllyCard("Ally Card", "Sir Gaiwan", "Textures/Ally/sirGawain", 10, "+20 on the Test of the Green Knight Quest"));
+    player4.hand.Add(new AllyCard("Ally Card", "Sir Gaiwan", "Textures/Ally/sirGawain", 10, 0, "+20 on the Test of the Green Knight Quest", "", "", 0, 0, new NoBuff()));
     players.Add(player4);
 
     // Player 5 will have a weapon and a foe, but will have a hand that remains unchanged becauset they are not tied for 1st

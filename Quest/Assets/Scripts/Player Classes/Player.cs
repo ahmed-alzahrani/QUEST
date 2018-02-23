@@ -55,6 +55,16 @@ public class Player
         }
     }
 
+    public int calculateBid()
+    {
+      int total = 0;
+      for (int i = 0; i < activeAllies.Count; i++)
+      {
+        total += activeAllies[i].getFreeBid("", new List<Player>());
+      }
+      return total;
+    }
+
     public int CalculateBP()
     {
         int total = 0;
@@ -195,55 +205,6 @@ public class Player
         }
     }
 
-    /*
-    public void drawFromAdvenutreDeck(int count)
-    {
-      List<Card> cardsToDraw = game.drawFromAdvenutreDeck(count);
-      if(hand.Count + cardsToDraw.Count <= 12)
-      {
-        for(int i = 0; i < cardsToDraw.Count; i++)
-        {
-          hand.Add(cardsToDraw[i]);
-        }
-      } else{
-        // resolveHandIssue(cardsToDraw, hand);
-      }
-
-    }
-*/
-
-
-    /*
-      public void resolveHandIssue(List<Card> extra, List<Card> hand)
-      {
-        for(int i = 0; i < extra.Count; i++)
-        {
-          if (extra[i].type == "Ally")
-          {
-            activeAllies.Add(extra[i]);
-          }
-        }
-
-        for(int i = 0; i < extra.Count; i++)
-        {
-          if (extra[i].type == "Ally")
-          {
-            activeAllies.Add(extra[i]);
-          }
-        }
-
-        if ((extra.Count + hand.Count) > 12)
-        {
-          List<Card> cardsToDiscard = strategy.getDiscards(extra, hand);
-        }
-
-        for(int i = 0; i < extra.Count; i++)
-        {
-          hand.Add(extra[i]);
-        }
-      }
-      */
-
     public List<Card> kingsCall()
     {
         if (hasWeapon())
@@ -286,6 +247,18 @@ public class Player
             }
         }
         return false;
+    }
+
+    public bool hasAlly(string Ally)
+    {
+      for (int i = 0; i < activeAllies.Count; i++)
+      {
+        if (activeAllies[i].name == Ally)
+        {
+          return true;
+        }
+      }
+      return false;
     }
 
     // public void drawCard(deckToDrawFrom){}

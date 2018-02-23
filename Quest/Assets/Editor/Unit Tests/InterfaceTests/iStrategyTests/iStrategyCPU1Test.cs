@@ -63,8 +63,8 @@ public class iStrategyCPU1Test{
     player1.hand.Add(new WeaponCard("Weapon Card", "Excalibur", "Textures/weapons/excalibur", 30));
 
     //Queen Guinevere should be left over in the hand because it has 0bp, cant be played
-    player1.hand.Add(new AllyCard("Ally Card", "Queen Guinevere", "Textures/Ally/queenGuinevere", 0, "+ 2 Bids"));
-    player1.hand.Add(new AllyCard("Ally Card", "Sir Galahad", "Textures/Ally/sirGalahad", 15, ""));
+    player1.hand.Add(new AllyCard("Ally Card", "Queen Guinevere", "Textures/Ally/queenGuinevere", 0, 0, "+ 2 Bids", "", "", 0, 0, new NoBuff()));
+    player1.hand.Add(new AllyCard("Ally Card", "Sir Galahad", "Textures/Ally/sirGalahad", 15, 0, "", "", "", 0, 0, new NoBuff()));
 
     List<Card> strongestHand = player1.strategy.playTournament(players, player1.hand, 5, 3);
     Assert.AreEqual(strongestHand.Count, 4);
@@ -92,8 +92,8 @@ public class iStrategyCPU1Test{
     player1.hand.Add(new WeaponCard("Weapon Card", "Excalibur", "Textures/weapons/excalibur", 30));
 
     //Queen Guinevere should be left over in the hand because it has 0bp, cant be played
-    player1.hand.Add(new AllyCard("Ally Card", "Queen Guinevere", "Textures/Ally/queenGuinevere", 0, "+ 2 Bids"));
-    player1.hand.Add(new AllyCard("Ally Card", "Sir Galahad", "Textures/Ally/sirGalahad", 15, ""));
+    player1.hand.Add(new AllyCard("Ally Card", "Queen Guinevere", "Textures/Ally/queenGuinevere", 0, 0, "+ 2 Bids", "", "", 0, 0, new NoBuff()));
+    player1.hand.Add(new AllyCard("Ally Card", "Sir Galahad", "Textures/Ally/sirGalahad", 15, 0, "", "", "", 0, 0, new NoBuff()));
 
     List<Card> lowStakesPlay = player1.strategy.playTournament(players, player1.hand, 5, 3);
 
@@ -172,8 +172,9 @@ public class iStrategyCPU1Test{
     player1.hand.Add(new FoeCard("Foe Card", "Thieves", "Textures/foe/thieves", 5, 5));
     player1.hand.Add(new WeaponCard("Weapon Card", "Horse", "Textures/weapons/horse", 10));
     player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "Textures/weapons/sword", 10));
+    string foe = "";
 
-    List<Card> foeStage = player1.strategy.setupFoeStage(1, 5, player1.hand);
+    List<Card> foeStage = player1.strategy.setupFoeStage(1, 5, player1.hand, foe);
 
     Assert.AreEqual(player1.hand.Count, 4);
     Assert.AreEqual(foeStage.Count, 1);
@@ -193,8 +194,9 @@ public class iStrategyCPU1Test{
     player1.hand.Add(new WeaponCard("Weapon Card", "Horse", "Textures/weapons/horse", 10));
     player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "Textures/weapons/sword", 10));
     player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "Textures/weapons/sword", 10));
+    string foe = "";
 
-    List<Card> foeStage = player1.strategy.setupFoeStage(1, 5, player1.hand);
+    List<Card> foeStage = player1.strategy.setupFoeStage(1, 5, player1.hand, foe);
 
     Assert.AreEqual(player1.hand.Count, 4);
     Assert.AreEqual(foeStage.Count, 2);
@@ -217,8 +219,9 @@ public class iStrategyCPU1Test{
     player1.hand.Add(new WeaponCard("Weapon Card", "Horse", "Textures/weapons/horse", 10));
     player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "Textures/weapons/sword", 10));
     player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "Textures/weapons/sword", 10));
+    string foe = "";
 
-    List<Card> foeStage = player1.strategy.setupFoeStage(1, 5, player1.hand);
+    List<Card> foeStage = player1.strategy.setupFoeStage(1, 5, player1.hand, foe);
 
     Assert.AreEqual(player1.hand.Count, 4);
     Assert.AreEqual(foeStage.Count, 3);
@@ -248,11 +251,12 @@ public class iStrategyCPU1Test{
     player1.hand.Add(new WeaponCard("Weapon Card", "Horse", "Textures/weapons/horse", 10));
 
     // Amour and Ally should be ignored by the computer playing a final foe stage
-    player1.hand.Add(new AllyCard("Ally Card", "Sir Gawain", "Textures/Ally/sirGawain", 10, "+20 on the Test of the Green Knight Quest"));
+    player1.hand.Add(new AllyCard("Ally Card", "Sir Gawain", "Textures/Ally/sirGawain", 10, 0, "+20 on the Test of the Green Knight Quest", "", "", 0, 0, new NoBuff()));
     player1.hand.Add(new AmourCard("Amour Card", "Amour", "Textures/Amour/amour", 1, 10));
+    string foe = "";
 
     // For the final stage this CPU should play a Robber Knight, with a Sword and a Horse
-    List<Card> finalFoeStage = player1.strategy.setupFoeStage(4, 4, player1.hand);
+    List<Card> finalFoeStage = player1.strategy.setupFoeStage(4, 4, player1.hand, foe);
     player1.discardCards(finalFoeStage);
 
     /*
@@ -280,6 +284,40 @@ public class iStrategyCPU1Test{
     {
             player1.hand[i].display();
     } */
+    }
+
+    [Test]
+    public void setupFoeStage_FinalFoe_WithQuestContext_getFoeWithStrongMax()
+    {
+
+      Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU1());
+      // should skip past this foe for the strongest foe
+      player1.hand.Add(new FoeCard("Foe Card", "Thieves", "Textures/foe/thieves", 5, 5));
+      player1.hand.Add(new FoeCard("Foe Card", "Green Knight", "Textures/foe/greenKnight", 10, 40));
+      // Should only play 1 of these two duplicates
+      player1.hand.Add(new FoeCard("Foe Card", "Robber Knight", "Textures/foe/robberKnight", 15, 15));
+      player1.hand.Add(new FoeCard("Foe Card", "Robber Knight", "Textures/foe/robberKnight", 15, 15));
+
+      // Should only play one of the following duplicate weapons
+      player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "Textures/weapons/sword", 10));
+      player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "Textures/weapons/sword", 10));
+      player1.hand.Add(new WeaponCard("Weapon Card", "Horse", "Textures/weapons/horse", 10));
+
+      // Amour and Ally should be ignored by the computer playing a final foe stage
+      player1.hand.Add(new AllyCard("Ally Card", "Sir Gawain", "Textures/Ally/sirGawain", 10, 0, "+20 on the Test of the Green Knight Quest", "", "", 0, 0, new NoBuff()));
+      player1.hand.Add(new AmourCard("Amour Card", "Amour", "Textures/Amour/amour", 1, 10));
+      string foe = "Green Knight";
+
+      // For the final stage this CPU should play a Robber Knight, with a Sword and a Horse
+      List<Card> finalFoeStage = player1.strategy.setupFoeStage(4, 4, player1.hand, foe);
+      player1.discardCards(finalFoeStage);
+
+      // Check that the finalFoeStage list is as we'd expect
+      Assert.AreEqual(3, finalFoeStage.Count);
+      Assert.AreEqual(finalFoeStage[0].name, "Green Knight");
+      Assert.AreEqual(finalFoeStage[1].name, "Sword");
+      Assert.AreEqual(finalFoeStage[2].name, "Horse");
+
     }
 
   // Tests that the user automatically selects their best test card for the test stage
@@ -319,9 +357,10 @@ public class iStrategyCPU1Test{
 
     // add an amour / ally to know that these cards arent being involved in the quest set up
     player1.hand.Add(new AmourCard("Amour Card", "Amour", "", 1, 10));
-    player1.hand.Add(new AllyCard("Ally Card", "Sir Gawain", "Textures/Ally/sirGawain", 10, "+20 on the Test of the Green Knight Quest"));
+    player1.hand.Add(new AllyCard("Ally Card", "Sir Gawain", "Textures/Ally/sirGawain", 10, 0, "+20 on the Test of the Green Knight Quest", "", "", 0, 0, new NoBuff()));
+    string foe = "";
 
-    List<List<Card>> questLine = player1.strategy.setupQuest(4, player1.hand);
+    List<List<Card>> questLine = player1.strategy.setupQuest(4, player1.hand, foe);
 
     for (int i = 0; i < questLine.Count; i++)
     {
@@ -395,8 +434,9 @@ public class iStrategyCPU1Test{
         player1.hand.Add(new WeaponCard("Weapon Card", "Horse", "texture", 10));
         player1.hand.Add(new WeaponCard("Weapon Card", "Horse", "texture", 10));
         player1.hand.Add(new TestCard("Test Card", "Test of the Questing Beast", "Textures/tests/testOfTheQuestingBeast", 4));
+        string foe = "";
 
-        List<List<Card>> questLine = player1.strategy.setupQuest(4, player1.hand);
+        List<List<Card>> questLine = player1.strategy.setupQuest(4, player1.hand, foe);
 
         //Assert that the player second last stage of the quest is the Test stage;
 
@@ -453,13 +493,13 @@ public class iStrategyCPU1Test{
   {
         Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU1());
         player1.hand.Add(new AmourCard("Amour Card", "Amour", "Textures/Amour/amour", 1, 10));
-        player1.hand.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, "Player may preview any 1 stage per Quest"));
-        player1.hand.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, "+ 20 on the Search for the Holy Grail Quest"));
-        player1.hand.Add(new AllyCard("Ally Card", "King Arthur", "Textures/Ally/kingArthur", 10, "+ 2 Bids"));
+        player1.hand.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, 0, "Player may preview any 1 stage per Quest", "", "", 0, 0, new NoBuff()));
+        player1.hand.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, 0, "+ 20 on the Search for the Holy Grail Quest", "", "", 0, 0, new NoBuff()));
+        player1.hand.Add(new AllyCard("Ally Card", "King Arthur", "Textures/Ally/kingArthur", 10, 0, "+ 2 Bids", "", "", 0, 0, new NoBuff()));
         player1.hand.Add(new WeaponCard("Weapon Card", "Battle-Axe", "Textures/weapons/battle-ax", 15));
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 30, 30));
 
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, false);
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, false, "questName", new List<Player>());
 
         /*
         We can assert that:
@@ -478,13 +518,13 @@ public class iStrategyCPU1Test{
   {
         Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU1());
         player1.hand.Add(new AmourCard("Amour Card", "Amour", "Textures/Amour/amour", 1, 10));
-        player1.hand.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, "Player may preview any 1 stage per Quest"));
-        player1.hand.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, "+ 20 on the Search for the Holy Grail Quest"));
-        player1.hand.Add(new AllyCard("Ally Card", "King Arthur", "Textures/Ally/kingArthur", 10, "+ 2 Bids"));
+        player1.hand.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, 0, "Player may preview any 1 stage per Quest", "", "", 0, 0, new NoBuff()));
+        player1.hand.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, 0, "+ 20 on the Search for the Holy Grail Quest", "", "", 0, 0, new NoBuff()));
+        player1.hand.Add(new AllyCard("Ally Card", "King Arthur", "Textures/Ally/kingArthur", 10, 0, "+ 2 Bids", "", "", 0, 0, new NoBuff()));
         player1.hand.Add(new WeaponCard("Weapon Card", "Battle-Axe", "Textures/weapons/battle-ax", 15));
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 30, 30));
 
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true);
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true, "questName", new List<Player>());
 
         /*
         We can assert that:
@@ -506,12 +546,12 @@ public class iStrategyCPU1Test{
   {
         Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU1());
         player1.hand.Add(new AmourCard("Amour Card", "Amour", "Textures/Amour/amour", 1, 10));
-        player1.hand.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, "Player may preview any 1 stage per Quest"));
-        player1.hand.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, "+ 20 on the Search for the Holy Grail Quest"));
+        player1.hand.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, 0, "Player may preview any 1 stage per Quest", "", "", 0, 0, new NoBuff()));
+        player1.hand.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, 0, "+ 20 on the Search for the Holy Grail Quest", "", "", 0, 0, new NoBuff()));
         player1.hand.Add(new WeaponCard("Weapon Card", "Battle-Axe", "Textures/weapons/battle-ax", 15));
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 30, 30));
 
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true);
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true, "questName", new List<Player>());
 
         /*
         We can assert that:
@@ -532,12 +572,12 @@ public class iStrategyCPU1Test{
   {
         Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU1());
         player1.hand.Add(new AmourCard("Amour Card", "Amour", "Textures/Amour/amour", 1, 10));
-        player1.hand.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, "Player may preview any 1 stage per Quest"));
+        player1.hand.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, 0, "Player may preview any 1 stage per Quest", "", "", 0, 0, new NoBuff()));
         player1.hand.Add(new WeaponCard("Weapon Card", "Battle-Axe", "Textures/weapons/battle-ax", 15));
         player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "textures/weapons/sword", 10));
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 30, 30));
 
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true);
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true, "questName", new List<Player>());
 
         /*
         We can assert that:
@@ -558,11 +598,11 @@ public class iStrategyCPU1Test{
   {
         Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU1());
         player1.hand.Add(new AmourCard("Amour Card", "Amour", "Textures/Amour/amour", 1, 10));
-        player1.hand.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, "Player may preview any 1 stage per Quest"));
+        player1.hand.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, 0, "Player may preview any 1 stage per Quest", "", "", 0, 0, new NoBuff()));
         player1.hand.Add(new WeaponCard("Weapon Card", "Battle-Axe", "Textures/weapons/battle-ax", 15));
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 30, 30));
 
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true);
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true, "questName", new List<Player>());
 
         Assert.AreEqual(foeEncounter.Count, 1);
         Assert.AreEqual(foeEncounter[0].name, "Battle-Axe");
@@ -574,7 +614,7 @@ public class iStrategyCPU1Test{
   public void playFoeEncounter_EarlierFoe_NoCards()
   {
         Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU1());
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true);
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true, "questName", new List<Player>());
         Assert.AreEqual(0, foeEncounter.Count);
     }
 
@@ -589,10 +629,10 @@ public class iStrategyCPU1Test{
         player1.hand.Add(new WeaponCard("Weapon Card", "Excalibur", " ", 30));
         player1.hand.Add(new WeaponCard("Weapon Card", "Dagger", " ", 5));
         player1.hand.Add(new WeaponCard("Weapon Card", "Horse", " ", 10));
-        player1.hand.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, "Player may preview any 1 stage per Quest"));
-        player1.hand.Add(new AllyCard("Ally Card", "Sir Gaiwan", " ", 10, "some effect"));
+        player1.hand.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, 0, "Player may preview any 1 stage per Quest", "", "", 0, 0, new NoBuff()));
+        player1.hand.Add(new AllyCard("Ally Card", "Sir Gaiwan", " ", 10, 0, "some effect", "", "", 0, 0, new NoBuff()));
 
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(6, 6, player1.hand, 0, true);
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(6, 6, player1.hand, 0, true, "questName", new List<Player>());
 
         // player should play their strongest hand, this means more than 2 cards, should play the Lance, 1 Excalibur, the dagger, the horse, and Gaiwan
 

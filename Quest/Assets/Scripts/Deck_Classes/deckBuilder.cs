@@ -245,17 +245,25 @@ public class deckBuilder
 
     public List<Card> generateAllyCards()
     {
+        string gaiwan = "+20 BP ON the Test of the Green Knight Quest";
+        string pellinore = "+4 Bids on the Search for the Questing Beast Quest";
+        string percival = "+20 BP on the Search for the Holy Grail";
+        string tristan = "+20 BP When Queen Iseult is in play";
+        string merlin = "Player may preview any 1 stage per Quest";
+        string iseult = "+ 4 Bids when Sir Tristan is in play";
+        string lance = "+25 BP When on the Quest to Defend the Queen's Honor";
+
         List<Card> allyCards = new List<Card>();
-        allyCards.Add(new AllyCard("Ally Card", "Sir Gaiwan", "Textures/Ally/sirGawain", 10, "+20 on the Test of the Green Knight Quest"));
-        allyCards.Add(new AllyCard("Ally Card", "King Pellinore", "Textures/Ally/kingPellinore", 10, "4 Bids on the Search for the Questing Beast Quest"));
-        allyCards.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, "+ 20 on the Search for the Holy Grail Quest"));
-        allyCards.Add(new AllyCard("Ally Card", "Sir Tristan", "Textures/Ally/sirTristan", 10, "+ 20 when Queen Iseult is in play"));
-        allyCards.Add(new AllyCard("Ally Card", "King Arthur", "Textures/Ally/kingArthur", 10, "+ 2 Bids"));
-        allyCards.Add(new AllyCard("Ally Card", "Queen Guinevere", "Textures/Ally/queenGuinevere", 0, "+ 2 Bids"));
-        allyCards.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, "Player may preview any 1 stage per Quest"));
-        allyCards.Add(new AllyCard("Ally Card", "Queen Iseult", "Textures/Ally/queenIseult", 0, "2 Bids. 4 Bids when Tristan is in play"));
-        allyCards.Add(new AllyCard("Ally Card", "Sir Lancelot", "Textures/Ally/sirLancelot", 15, "+ 25 When on the Quest to Defend the Queen's Honor"));
-        allyCards.Add(new AllyCard("Ally Card", "Sir Galahad", "Textures/Ally/sirGalahad", 15, ""));
+        allyCards.Add(new AllyCard("Ally Card", "Sir Gaiwan", "Textures/Ally/sirGawain", 10, 0, gaiwan, "Test of the Green Knight", "", 0, 20, new BuffOnQuestEffect()));
+        allyCards.Add(new AllyCard("Ally Card", "King Pellinore", "Textures/Ally/kingPellinore", 10, 0, pellinore, "Search for the Questing Beast", "", 4, 0, new BuffOnQuestEffect()));
+        allyCards.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, 0, percival, "Search for the Holy Grail", "", 0, 20, new BuffOnQuestEffect()));
+        allyCards.Add(new AllyCard("Ally Card", "Sir Tristan", "Textures/Ally/sirTristan", 10, 0, tristan, "", "Queen Iseult", 0, 20, new BuffOnCardInPlayEffect()));
+        allyCards.Add(new AllyCard("Ally Card", "King Arthur", "Textures/Ally/kingArthur", 10, 2, "", "", "", 0, 0, new NoBuff()));
+        allyCards.Add(new AllyCard("Ally Card", "Queen Guinevere", "Textures/Ally/queenGuinevere", 0, 3, "", "", "", 0, 0, new NoBuff()));
+        allyCards.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, 0, merlin, "", "", 0, 0, new NoBuff()));
+        allyCards.Add(new AllyCard("Ally Card", "Queen Iseult", "Textures/Ally/queenIseult", 0, 2, iseult, "", "Sir Tristan", 4, 0, new BuffOnCardInPlayEffect()));
+        allyCards.Add(new AllyCard("Ally Card", "Sir Lancelot", "Textures/Ally/sirLancelot", 15, 0, lance, "Defend the Queen's Honor", "", 0, 25, new BuffOnQuestEffect()));
+        allyCards.Add(new AllyCard("Ally Card", "Sir Galahad", "Textures/Ally/sirGalahad", 15, 0, "", "", "", 0, 0, new NoBuff()));
 
         return allyCards;
     }

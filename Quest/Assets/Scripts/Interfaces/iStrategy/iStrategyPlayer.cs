@@ -21,8 +21,8 @@ public class iStrategyPlayer : iStrategy
         }
         else
         {
-            //still checking 
-            //Debug.Log("still checking");  
+            //still checking
+            //Debug.Log("still checking");
             return 2;
         }
     }
@@ -39,16 +39,16 @@ public class iStrategyPlayer : iStrategy
     public int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game)
     {
         // its the same for players
-         return participateInTourney(players , 0 , game);  
+         return participateInTourney(players , 0 , game);
     }
 
-    public List<List<Card>> setupQuest(int stages, List<Card> hand)
+    public List<List<Card>> setupQuest(int stages, List<Card> hand, string questFoe)
     {
       //List<List<Card>> questLine = new List<List<Card>>();
       return null;
     }
 
-    public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand)
+    public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe)
     {
       return hand;
     }
@@ -65,7 +65,7 @@ public class iStrategyPlayer : iStrategy
       return 1;
     }
 
-    public List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour)
+    public List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour, string questName, List<Player> players)
     {
       return hand;
     }

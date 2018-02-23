@@ -136,12 +136,12 @@ public class PlayerTest{
   public void courtCalled_emptiesActiveAllies()
   {
     var player = new Player("Ahmed", new List<Card>(), new iStrategyPlayer());
-    player.activeAllies.Add(new AllyCard("Ally Card", "Sir Gaiwan", "Textures/Ally/sirGawain", 10, "+20 on the Test of the Green Knight Quest"));
-    player.activeAllies.Add(new AllyCard("Ally Card", "King Pellinore", "Textures/Ally/kingPellinore", 10, "4 Bids on the Search for the Questing Beast Quest"));
-    player.activeAllies.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, "+ 20 on the Search for the Holy Grail Quest"));
-    player.activeAllies.Add(new AllyCard("Ally Card", "Sir Tristan", "Textures/Ally/sirTristan", 10, "+ 20 when Queen Iseult is in play"));
-    player.activeAllies.Add(new AllyCard("Ally Card", "King Arthur", "Textures/Ally/kingArthur", 10, "+ 2 Bids"));
-    player.activeAllies.Add(new AllyCard("Ally Card", "Queen Guinevere", "Textures/Ally/queenGuinevere", 0, "+ 2 Bids"));
+    player.activeAllies.Add(new AllyCard("Ally Card", "Sir Gaiwan", "Textures/Ally/sirGawain", 10, 0,"+20 on the Test of the Green Knight Quest", "", "", 0, 0, new NoBuff()));
+    player.activeAllies.Add(new AllyCard("Ally Card", "King Pellinore", "Textures/Ally/kingPellinore", 10, 0, "4 Bids on the Search for the Questing Beast Quest", "", "", 0, 0, new NoBuff()));
+    player.activeAllies.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, 0, "+ 20 on the Search for the Holy Grail Quest", "", "", 0, 0, new NoBuff()));
+    player.activeAllies.Add(new AllyCard("Ally Card", "Sir Tristan", "Textures/Ally/sirTristan", 10, 0, "+ 20 when Queen Iseult is in play", "", "", 0, 0, new NoBuff()));
+    player.activeAllies.Add(new AllyCard("Ally Card", "King Arthur", "Textures/Ally/kingArthur", 10, 0, "+ 2 Bids", "", "", 0, 0, new NoBuff()));
+    player.activeAllies.Add(new AllyCard("Ally Card", "Queen Guinevere", "Textures/Ally/queenGuinevere", 0, 0, "+ 2 Bids", "", "", 0, 0, new NoBuff()));
 
     Assert.AreEqual(6, player.activeAllies.Count);
 
@@ -237,21 +237,33 @@ public class PlayerTest{
     List<Card> cards = player.kingsCall();
     Assert.AreEqual(0, cards.Count);
   }
-/*
+
   [Test]
-	public void Player_CreatedWithGiven_WillHaveTheVariables() {
-		var player = new Player("Ahmed", new List<Card>(), new iStrategyPlayer());
-		Assert.AreEqual("Ahmed", player.name);
-    Assert.AreEqual(0, player.score);
-    Assert.AreEqual(0, player.activeAllies.Count);
-    Assert.AreEqual(2, player.rankCards.Count);
-		Assert.IsNotNull(player.hand);
-    Assert.IsNotNull(player.activeAllies);
-    Assert.IsNotNull(player.rankCard);
-    Assert.IsNotNull(player.rankCards);
-    Assert.IsNotNull(player.strategy);
-  //  Assert.IsNotNull(player.game);
-		// Use the Assert class to test conditions.
-	}
-  */
+  public void calculateBid_Sums_A_Players_ActiveAllies()
+  {
+    List<Player> players = new List<Player>();
+
+    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU1());
+    player1.activeAllies.Add(new AllyCard("Ally Card", "Some Ally", "texture", 5, 1, "some ability", "", "", 0, 0, new NoBuff()));
+    players.Add(player1);
+
+    Player player2 = new Player("Kazma", new List<Card>(), new iStrategyPlayer());
+    player2.activeAllies.Add(new AllyCard("Ally Card", "Some Ally", "texture", 5, 1, "some ability", "", "", 0, 0, new NoBuff()));
+    player2.activeAllies.Add(new AllyCard("Ally Card", "Some Ally", "texture", 5, 1, "some ability", "", "", 0, 0, new NoBuff()));
+    players.Add(player2);
+
+    Player player3 = new Player("Rotharn", new List<Card>(), new iStrategyPlayer());
+    player3.activeAllies.Add(new AllyCard("Ally Card", "Some Ally", "texture", 5, 1, "some ability", "", "", 0, 0, new NoBuff()));
+    player3.activeAllies.Add(new AllyCard("Ally Card", "Some Ally", "texture", 5, 1, "some ability", "", "", 0, 0, new NoBuff()));
+    player3.activeAllies.Add(new AllyCard("Ally Card", "Some Ally", "texture", 5, 1, "some ability", "", "", 0, 0, new NoBuff()));
+    players.Add(player3);
+
+    Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer());
+    players.Add(player4);
+
+    Assert.AreEqual(0, player4.calculateBid());
+    Assert.AreEqual(1, player1.calculateBid());
+    Assert.AreEqual(2, player2.calculateBid());
+    Assert.AreEqual(3, player3.calculateBid());
+  }
 }

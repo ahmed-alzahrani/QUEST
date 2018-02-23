@@ -20,19 +20,19 @@ public class iStoryCourtCalledTest{
      List<Player> players = new List<Player>();
 
     Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyPlayer() , "");
-    player1.activeAllies.Add(new AllyCard("Ally Card", "Sir Gaiwan", "Textures/Ally/sirGawain", 10, "+20 on the Test of the Green Knight Quest"));
+    player1.activeAllies.Add(new AllyCard("Ally Card", "Sir Gaiwan", "Textures/Ally/sirGawain", 10, 2, "", "", "", 0, 0, new NoBuff()));
     players.Add(player1);
 
     Player player2 = new Player("Kazma", new List<Card>(), new iStrategyPlayer() , "");
-    player2.activeAllies.Add(new AllyCard("Ally Card", "King Pellinore", "Textures/Ally/kingPellinore", 10, "4 Bids on the Search for the Questing Beast Quest"));
+    player2.activeAllies.Add(new AllyCard("Ally Card", "King Pellinore", "Textures/Ally/kingPellinore", 10, 1, "", "", "", 0, 0, new NoBuff()));
     players.Add(player2);
 
     Player player3 = new Player("Rotharn", new List<Card>(), new iStrategyPlayer() , "");
-    player3.activeAllies.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, "+ 20 on the Search for the Holy Grail Quest"));
+    player3.activeAllies.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, 1, "", "", "", 0, 0, new NoBuff()));
     players.Add(player3);
 
     Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer() , "");
-    player4.activeAllies.Add(new AllyCard("Ally Card", "Sir Tristan", "Textures/Ally/sirTristan", 10, "+ 20 when Queen Iseult is in play"));
+    player4.activeAllies.Add(new AllyCard("Ally Card", "Sir Tristan", "Textures/Ally/sirTristan", 10, 1, "+ 20 when Queen Iseult is in play", "", "", 0, 0, new NoBuff()));
     players.Add(player4);
 
     Assert.AreEqual(1, player1.activeAllies.Count);
