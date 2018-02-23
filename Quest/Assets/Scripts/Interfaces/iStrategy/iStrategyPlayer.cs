@@ -38,13 +38,14 @@ public class iStrategyPlayer : iStrategy
     // Quest Strategy
     public int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game)
     {
-      return 1;
+        // its the same for players
+         return participateInTourney(players , 0 , game);  
     }
 
     public List<List<Card>> setupQuest(int stages, List<Card> hand)
     {
-      List<List<Card>> questLine = new List<List<Card>>();
-      return questLine;
+      //List<List<Card>> questLine = new List<List<Card>>();
+      return null;
     }
 
     public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand)

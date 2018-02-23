@@ -21,7 +21,7 @@ public class deckBuilder
         List<Card> questCards = generateQuestCards();
         foreach (Card c in questCards)
         {
-            //storyCards.Add(c);
+            storyCards.Add(c);
         }
 
         List<Card> tournamentCards = generateTournamentCards();
@@ -32,7 +32,7 @@ public class deckBuilder
         List<Card> eventCards = generateEventCards();
         foreach (Card c in eventCards)
         {
-            //storyCards.Add(c);
+            storyCards.Add(c);
         }
 
 

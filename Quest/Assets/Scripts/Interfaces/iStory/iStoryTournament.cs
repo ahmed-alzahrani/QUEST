@@ -89,7 +89,6 @@ public class iStoryTournament : iStory
                     TournamentState.undiscardedCards = new List<Card>[game.queriedCards.Length];
                     //copy everything
                     System.Array.Copy(game.queriedCards, TournamentState.undiscardedCards, game.queriedCards.Length);
-                    //TournamentState.undiscardedCards = new List<Card>[game.queriedCards.Length];
                 }
                 else
                 {
@@ -118,11 +117,8 @@ public class iStoryTournament : iStory
                     }
                 }
 
-                //Debug.Log(TournamentState.undiscardedCards.Count);
-
                 for (int i = 0; i < TournamentState.undiscardedCards.Length; i++)
                 {
-                    //if (i >= game.numPlayers) break;
                     //not participating
                     if (!(game.players[i].participating)) { playerTotals.Add(-100); continue; }
                     else
@@ -136,11 +132,6 @@ public class iStoryTournament : iStory
                                 {
                                     WeaponCard weapon = (WeaponCard)TournamentState.undiscardedCards[i][j];
                                     totalPlayer += weapon.battlePoints;
-                                }
-                                else if (TournamentState.undiscardedCards[i][j].type == "Ally Card")
-                                {
-                                    AllyCard ally = (AllyCard)TournamentState.undiscardedCards[i][j];
-                                    totalPlayer += ally.battlePoints;
                                 }
                                 else if (TournamentState.undiscardedCards[i][j].type == "Amour Card")
                                 {
@@ -197,7 +188,13 @@ public class iStoryTournament : iStory
                 {
                     //discard everything
                     //discard undiscarded cards
-                    // game.adventureDeck.discardCards(TournamentState.undiscardedCards); this will become a for loop
+                    for (int i = 0; i < TournamentState.undiscardedCards.Length; i++)
+                    {
+                        if (TournamentState.undiscardedCards[i] != null)
+                        {
+                            game.adventureDeck.discardCards(TournamentState.undiscardedCards[i]); 
+                        }
+                    }
                 }
 
                 game.adventureDeckDiscardPileUIButton.myCard = game.adventureDeck.discard[game.adventureDeck.discard.Count - 1];
@@ -254,10 +251,7 @@ public class iStoryTournament : iStory
                     TournamentState.numberOfParticipants = 0;
                     TournamentState.tourneyRound = 1;
                     System.Array.Clear(game.queriedCards, 0, game.queriedCards.Length);
-                    //game.queriedCards.Clear();
-                    //TournamentState.undiscardedCards.Clear();
                     System.Array.Clear(TournamentState.undiscardedCards, 0, TournamentState.undiscardedCards.Length);
-
                     TournamentState.cardsToBeDiscarded.Clear();
                 }
             }
