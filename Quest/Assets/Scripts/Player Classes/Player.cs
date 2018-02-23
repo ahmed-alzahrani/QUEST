@@ -55,12 +55,12 @@ public class Player
         }
     }
 
-    public int calculateBid()
+    public int calculateBid(string questName, List<Player> players)
     {
       int total = 0;
       for (int i = 0; i < activeAllies.Count; i++)
       {
-        total += activeAllies[i].getFreeBid("", new List<Player>());
+        total += activeAllies[i].getFreeBid(questName, players);
       }
       return total;
     }

@@ -261,9 +261,9 @@ public class PlayerTest{
     Player player4 = new Player("Cheldon", new List<Card>(), new iStrategyPlayer());
     players.Add(player4);
 
-    Assert.AreEqual(0, player4.calculateBid());
-    Assert.AreEqual(1, player1.calculateBid());
-    Assert.AreEqual(2, player2.calculateBid());
-    Assert.AreEqual(3, player3.calculateBid());
+    Assert.AreEqual(0, player4.calculateBid("", players));
+    Assert.AreEqual(1, player1.calculateBid("", players));
+    Assert.AreEqual(2, player2.calculateBid("", players));
+    Assert.AreEqual(3, player3.calculateBid("", players));
   }
 }
