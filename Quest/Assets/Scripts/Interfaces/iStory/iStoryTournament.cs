@@ -180,25 +180,25 @@ public class iStoryTournament : iStory
                     }
                 }
 
-                //might need to do this somewhere else
-                game.adventureDeck.discardCards(TournamentState.cardsToBeDiscarded);
-                                
-                //discard all intourney round 2 here!!!!
+                //discard weapon cards
+                if (TournamentState.cardsToBeDiscarded != null && TournamentState.cardsToBeDiscarded.Count > 0)
+                {
+                    game.DiscardAdvenureCards(TournamentState.cardsToBeDiscarded);
+                }
+
+                //discard all cards at the end of tourney
                 if (TournamentState.tourneyRound == 2)
                 {
                     //discard everything
                     //discard undiscarded cards
                     for (int i = 0; i < TournamentState.undiscardedCards.Length; i++)
                     {
-                        if (TournamentState.undiscardedCards[i] != null)
+                        if (TournamentState.undiscardedCards[i] != null && TournamentState.undiscardedCards[i].Count > 0)
                         {
-                            game.adventureDeck.discardCards(TournamentState.undiscardedCards[i]); 
+                            game.DiscardAdvenureCards(TournamentState.undiscardedCards[i]); 
                         }
                     }
                 }
-
-                game.adventureDeckDiscardPileUIButton.myCard = game.adventureDeck.discard[game.adventureDeck.discard.Count - 1];
-                game.adventureDeckDiscardPileUIButton.ChangeTexture();
 
 
                 Debug.Log("Deciding winners");

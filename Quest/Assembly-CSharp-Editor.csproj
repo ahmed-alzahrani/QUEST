@@ -53,6 +53,9 @@
   <ItemGroup>
      <Compile Include="Assets\Editor\Unit Tests\CardTests\AllyCardTest.cs" />
      <Compile Include="Assets\Editor\Unit Tests\CardTests\AmourTest.cs" />
+     <Compile Include="Assets\Editor\Unit Tests\CardTests\EffectsTest\BuffOnCardInPlayEffectTest.cs" />
+     <Compile Include="Assets\Editor\Unit Tests\CardTests\EffectsTest\BuffOnQuestEffectTest.cs" />
+     <Compile Include="Assets\Editor\Unit Tests\CardTests\EffectsTest\NoBuffTest.cs" />
      <Compile Include="Assets\Editor\Unit Tests\CardTests\EventTest.cs" />
      <Compile Include="Assets\Editor\Unit Tests\CardTests\FoeTest.cs" />
      <Compile Include="Assets\Editor\Unit Tests\CardTests\QuestTest.cs" />

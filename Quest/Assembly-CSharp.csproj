@@ -54,6 +54,10 @@
      <Compile Include="Assets\Scripts\Card_Classes\AllyCard.cs" />
      <Compile Include="Assets\Scripts\Card_Classes\AmourCard.cs" />
      <Compile Include="Assets\Scripts\Card_Classes\Card.cs" />
+     <Compile Include="Assets\Scripts\Card_Classes\Effects\AllyEffect.cs" />
+     <Compile Include="Assets\Scripts\Card_Classes\Effects\BuffOnCardInPlayEffect.cs" />
+     <Compile Include="Assets\Scripts\Card_Classes\Effects\BuffOnQuestEffect.cs" />
+     <Compile Include="Assets\Scripts\Card_Classes\Effects\NoBuff.cs" />
      <Compile Include="Assets\Scripts\Card_Classes\EventCard.cs" />
      <Compile Include="Assets\Scripts\Card_Classes\FoeCard.cs" />
      <Compile Include="Assets\Scripts\Card_Classes\QuestCard.cs" />
@@ -87,6 +91,7 @@
      <Compile Include="Assets\Scripts\Interfaces\iStrategy\iStrategyCPU1.cs" />
      <Compile Include="Assets\Scripts\Interfaces\iStrategy\iStrategyCPU2.cs" />
      <Compile Include="Assets\Scripts\Interfaces\iStrategy\iStrategyPlayer.cs" />
+     <Compile Include="Assets\Scripts\Interfaces\iStrategy\strategyUtil\strategyUtil.cs" />
      <Compile Include="Assets\Scripts\MainMenuScript.cs" />
      <Compile Include="Assets\Scripts\ParticleSystemScript.cs" />
      <Compile Include="Assets\Scripts\Player Classes\Player.cs" />

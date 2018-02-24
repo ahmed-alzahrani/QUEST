@@ -67,13 +67,8 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
 
     public void flipCard()
     {
-        if (isHandCard)
-        {
-            //faceDown = false;
-            //happens only to adventure cards
             Debug.Log("flipped card");
             button.image.overrideSprite = Resources.Load<Sprite>("Textures/Backings/a_backing");
-        }
     }
 
     public void ChangeTexture()
