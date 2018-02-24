@@ -5,6 +5,9 @@ using UnityEngine;
 public class iStrategyPlayer : iStrategy
 {
   public iStrategyPlayer() {}
+
+    
+
     // Tournament Strategy
     public int participateInTourney(List<Player> players, int shields, GameController gameController)
     {
@@ -94,4 +97,28 @@ public class iStrategyPlayer : iStrategy
     public List<Card> discardFoesForKing(List<Card> hand){
       return hand;
     }
+
+
+    //Called when there is a binary resposne required from the player
+    public int respondToPrompt(GameController game)
+    {
+        //check the yes / No buttons
+        if (game.userInput.buttonResult == "Yes")
+        {
+            Debug.Log("Yes");
+            return 1;
+        }
+        else if (game.userInput.buttonResult == "No")
+        {
+            Debug.Log("No");
+            return 0;
+        }
+        else
+        {
+            //still checking 
+            //Debug.Log("still checking");  
+            return 2;
+        }
+    }
+
 }

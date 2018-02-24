@@ -28,4 +28,8 @@ public interface iStrategy
     List<Card> discardFoesForKing(List<Card> hand);
 
     // evaluating what cards to discard if the hand becomes too full
+
+
+    //Called when there is a binary resposne required from the player
+    int respondToPrompt(GameController game);
 }

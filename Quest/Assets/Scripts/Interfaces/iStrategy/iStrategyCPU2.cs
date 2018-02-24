@@ -425,4 +425,17 @@ public class iStrategyCPU2 : iStrategy
     strategyUtil strat = new strategyUtil();
     return strat.discardFoesForKing(hand);
   }
+
+
+
+
+    //Called when there is a binary resposne required from the player
+    public int respondToPrompt(GameController game)
+    {
+
+        //still checking 
+        //Debug.Log("still checking");  
+        return 2;
+    }
+
 }
