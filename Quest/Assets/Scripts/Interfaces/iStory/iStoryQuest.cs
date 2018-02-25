@@ -190,7 +190,6 @@ public class iStoryQuest : iStory
 
                     if (game.numIterations >= game.numPlayers)
                     {
-                        game.CardQuerying();
 
                         for (int i = 0; i < game.queriedCards.Length; i++)
                         {
