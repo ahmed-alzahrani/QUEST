@@ -177,7 +177,7 @@ public class UIInput
 
         for (int i = 0; i < selectedCards.Count; i++)
         {
-            if (selectedCards[i].type == "FoeCard")
+            if (selectedCards[i].type == "Foe Card")
             {
                 FoeCard foe = (FoeCard)selectedCards[i];
                 total += foe.minBP;
@@ -489,7 +489,8 @@ public class GameController : MonoBehaviour
             }
             else if (currentQuest != null)
             {
-                currentQuest.quest.execute(null, currentQuest, this);
+                // currentQuest.quest.execute(null, currentQuest, this);
+                currentQuest.quest.execute(players, currentQuest, this);
 
                 //CHECK HERE IF CARDS TO BE ADDED BY SPONSOR BREAK THE RULES RETURN ALL THESE CARDS TO HIS HAND AND FORCE HIM TO REDECIDE
                 //if (QuestState.state == "Sponsoring")
@@ -750,6 +751,7 @@ public class GameController : MonoBehaviour
 
     public void CalculateUIPlayerInfo()
     {
+        Debug.Log("Players is ... " + players);
         //might need a function in player that calculates the BP at any time
         for (int i = 0; i < players.Count; i++)
         {
@@ -1455,7 +1457,7 @@ public class GameController : MonoBehaviour
                     {
                         //ai here
                         //conversion
-                        for (int i = 0; i < sponsorQueriedCards.Length; i++)
+                        for (int i = 0; i < returnVal.Count; i++)
                         {
                             sponsorQueriedCards[i] = new List<Card>(returnVal[i]);
                         }

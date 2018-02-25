@@ -25,6 +25,5 @@ public class StoryDeckController : MonoBehaviour
     {
     }
   public void display(){
-    storyDeck.display();
   }
 }

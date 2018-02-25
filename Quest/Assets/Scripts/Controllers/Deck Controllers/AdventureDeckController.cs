@@ -25,6 +25,5 @@ public class AdventureDeckController : MonoBehaviour
     {
     }
   public void display(){
-    adventureDeck.display();
   }
 }
