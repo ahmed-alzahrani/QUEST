@@ -171,7 +171,7 @@ public class iStoryQuest : iStory
                             QuestState.bidsOver = true;
                             game.userInput.DeactivateUI();
                             game.populatePlayerBoard();
-                            game.userInput.ActivateCardUIPanel("Please submit " + QuestState.testBids[game.currentPlayerIndex].ToString() + " cards to discard.");
+                            game.userInput.ActivateCardUIPanel("Please submit " + (Mathf.Max(QuestState.testBids[game.currentPlayerIndex] - game.players[game.currentPlayerIndex].calculateBid(game.currentQuest.name, game.players),0)).ToString() + " cards to discard.");
                         }
                     }
                     else
@@ -190,6 +190,7 @@ public class iStoryQuest : iStory
 
                     if (game.numIterations >= game.numPlayers)
                     {
+                        game.CardQuerying();
 
                         for (int i = 0; i < game.queriedCards.Length; i++)
                         {
@@ -199,6 +200,7 @@ public class iStoryQuest : iStory
                                 continue;
 
                             int sum = 0;
+
                             if (game.queriedCards[i] != null)
                             {
                                 for (int j = 0; j < game.queriedCards[i].Count; j++)
@@ -208,8 +210,9 @@ public class iStoryQuest : iStory
 
                                     if (game.queriedCards[i][j].type == "Weapon Card")
                                     {
-                                        WeaponCard submittedWeaponCard = (WeaponCard)game.queriedCards[i][j];
-                                        sum += submittedWeaponCard.battlePoints;
+                                      
+                                        Debug.Log("Weapon Card at " + j.ToString() + " bp value is " + ((WeaponCard)game.queriedCards[i][j]).battlePoints.ToString());
+                                        sum += ((WeaponCard)game.queriedCards[i][j]).battlePoints;
                                     }
                                     else if (game.queriedCards[i][j].type == "Amour Card")
                                     {
@@ -221,17 +224,20 @@ public class iStoryQuest : iStory
                             }
                             if (QuestState.amours[i] != null)
                             {
-                                for (int j = 0; j < QuestState.amours[i].Count; j++)
-                                {
-                                    AmourCard tempAmourCard = (AmourCard)QuestState.amours[i][j];
-                                    sum += tempAmourCard.battlePoints;
-                                }
+                                Debug.Log("Amours Present");
+                                sum += QuestState.amours[i].Count;                           
                             }
 
+                            Debug.Log("Player Base BP:");
+                            Debug.Log(game.players[i].CalculateBP().ToString());
+                            Debug.Log(game.players[i].rankCard.battlePoints.ToString());
                             sum += game.players[i].CalculateBP();
+                            Debug.Log(sum.ToString());
 
                             if (sum < GetStageBP(QuestState.currentStage, game.currentQuest))
                             {
+
+                                Debug.Log("Stage Failed Result: GetStageBP = " + GetStageBP(QuestState.currentStage, game.currentQuest).ToString() + " Sum of player strength = " + sum.ToString());
                                 game.players[i].participating = false;
                             }
                         }
@@ -425,15 +431,25 @@ public class iStoryQuest : iStory
                 {
                     List<Card> testDiscardCards = new List<Card>(game.userInput.selectedCards);
 
-                    if (testDiscardCards.Count != QuestState.testBids[game.currentPlayerIndex])
+                    if (testDiscardCards.Count != Mathf.Max(QuestState.testBids[game.currentPlayerIndex] - game.players[game.currentPlayerIndex].calculateBid(game.currentQuest.name, game.players),0))
                     {
-                        game.players[game.currentPlayerIndex].hand.AddRange(testDiscardCards);
+                        game.returnToPlayerHand();
                         game.userInput.DeactivateUI();
-                        game.userInput.ActivateCardUIPanel("Invalid number of cards submitted, please submit " + QuestState.testBids[game.currentPlayerIndex].ToString() + " cards.");
+                        game.userInput.ActivateCardUIPanel("Invalid number of cards submitted, please submit " + (Mathf.Max(QuestState.testBids[game.currentPlayerIndex] - game.players[game.currentPlayerIndex].calculateBid(game.currentQuest.name, game.players), 0)).ToString() + " cards.");
                     }
 
                     else
                     {
+                        for (int i = 0; i < testDiscardCards.Count; i++)
+                        {
+                            if(testDiscardCards[i].type == "Amour Card")
+                            {
+
+                                QuestState.amours[game.currentPlayerIndex].Add(testDiscardCards[i]);
+                                testDiscardCards.RemoveAt(i);
+                                i--;
+                            }
+                        }
                         game.DiscardAdvenureCards(testDiscardCards);
                         game.numIterations = game.numPlayers + 1;
                     }
@@ -446,58 +462,56 @@ public class iStoryQuest : iStory
     public int GetStageBP(int index, QuestCard q)
     {
 
+        strategyUtil util = new strategyUtil();
         int sum = 0;
-
-        if (QuestState.stages[index] == null)
-        {
-            Debug.Log("null index given to GetStageBP");
-            return -2;
-        }
+        Debug.Log("GetStageBP index: " + index.ToString());
         if (index >= QuestState.stages.Length)
         {
             Debug.Log("Invalid index given to GetStageBP");
             return -2;
         }
+        if (QuestState.stages[index] == null)
+        {
+            Debug.Log("null index given to GetStageBP");
+            return -2;
+        }
+        if (QuestState.stages[index].Count < 1)
+        {
+            Debug.Log("Blank Stage");
+            return -2;
+
+        }
+        if (QuestState.stages[index][0] == null)
+        {
+            Debug.Log("Blank Stage");
+            return -2;
+        }
+        if (QuestState.stages[index][0].type != "Foe Card" && QuestState.stages[index][0].type != "Test Card")
+        {
+            Debug.Log("First card in stage[" + index.ToString() + "] is not a Foe or Test card");
+            return -2;
+        }
         else
         {
-            for (int i = 0; i < QuestState.stages[index].Count; i++)
-            {
-                if (QuestState.stages[index][i].type == "Foe Card")
+            if (QuestState.stages[index][0].type == "Test Card")
+                return -1;
+            else {
+                sum += util.getContextBP((FoeCard)QuestState.stages[index][0],QuestState.currentQuest.foe);
+                for (int i = 1; i < QuestState.stages[index].Count; i++)
                 {
-                    FoeCard stageFoe = (FoeCard)QuestState.stages[index][i];
-                    sum += GetFoeBP(q, stageFoe);
-                }
-                else if (QuestState.stages[index][i].type == "Test Card")
-                {
-                    if (QuestState.stages[index].Count > 1)
+                    if (QuestState.stages[index][i].type != "Weapon Card")
                     {
-                        Debug.Log("Attempted to add more than 1 card to a stage with a Test");
-                        sum = -2;
+                        Debug.Log("Invalid quest stage config, stage[" + index.ToString() + "] has a " + QuestState.stages[index][i].type + " at index " + i.ToString() + ".");
+                        return -2;
                     }
                     else
-                        sum = -1;
-                    return sum;
-                }
-                else
-                {
-                    Debug.Log("Invalid card type added to quest stage: " + i.ToString());
-                    return -2;
+                        sum += ((WeaponCard)QuestState.stages[index][i]).battlePoints;
                 }
             }
             return sum;
         }
     }
 
-    public int GetFoeBP(QuestCard q, FoeCard f)
-    {
-        if (q.foe == f.name)
-        {
-            return f.getMaxBP();
-        }
-        else
-            return f.getMinBP();
-
-    }
 
     public bool ValidQuest()
     {
@@ -521,6 +535,8 @@ public class iStoryQuest : iStory
             }
             int bpCheck = GetStageBP(i, QuestState.currentQuest);
 
+            Debug.Log(bpCheck.ToString());
+
             if (bpCheck == -2)
             {
                 Debug.Log("In ValidQuest(), error recieved from GetStageBP");
@@ -530,7 +546,18 @@ public class iStoryQuest : iStory
             else if (i > 0)
             {
                 if (stageBP[i - 1] < bpCheck)
-                    stageBP[i] = bpCheck;
+                {
+                    if (stageBP[i - 1] == -1 && i > 1)
+                    {
+                        if (stageBP[i - 2] < bpCheck)
+                            stageBP[i] = bpCheck;
+                        else
+                            return false;
+                    }
+                    else
+                        stageBP[i] = bpCheck;
+
+                }
 
                 else if (bpCheck == -1 && testAdded == false)
                 {
@@ -540,7 +567,7 @@ public class iStoryQuest : iStory
 
                 else
                 {
-                    Debug.Log("Failed on stage number: " + i.ToString() + "BP of current stage: " + bpCheck.ToString() + "BP of previous stage: " + stageBP[(int)Mathf.Max(i - 1, 0)]);
+                    Debug.Log("Failed on stage number: " + (i + 1).ToString() + " BP of current stage: " + bpCheck.ToString() + "BP of previous stage: " + stageBP[(int)Mathf.Max(i - 1, 0)]);
                     return false;
                 }
             }

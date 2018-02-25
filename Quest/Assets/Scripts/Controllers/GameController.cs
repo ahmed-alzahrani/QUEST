@@ -414,6 +414,7 @@ public class GameController : MonoBehaviour
                 if (drawnStoryCard.type == "Event Card")
                 {
                     currentEvent = (EventCard)drawnStoryCard;
+                    isDoneStoryEvent = true;
                 }
                 else if (drawnStoryCard.type == "Tournament Card")
                 {
@@ -1380,42 +1381,37 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public bool SponsorCapabilityCheck()
+    public bool SponsorCapabilityEasyCheck()
     {
-        int duplicates = 0;
-        bool testAdded = false;
-        List<FoeCard> testHand = new List<FoeCard>();
+        int validStageCardsCount = 0;
+        bool testInhand = false;
 
-        int requirementToSponsor = currentQuest.stages;
-
-        bool testInHand = false;
-
-        for (int i = 0; i < players[currentPlayerIndex].hand.Count; i++)
+        for(int i = 0; i < players[currentPlayerIndex].hand.Count; i++)
         {
-            if (players[currentPlayerIndex].hand[i].type == "Foe Card")
+            if (players[currentPlayerIndex].hand[i] != null)
             {
-                int validDuplicates = 0;
-                for (int j = 0; j < testHand.Count; j++)
+                if (players[currentPlayerIndex].hand[i].type == "Foe Card")
+                    validStageCardsCount++;
+                else if(!testInhand && players[currentPlayerIndex].hand[i].type == "Test Card")
                 {
-                    if (GetFoeBP(testHand[j]) == GetFoeBP((FoeCard) players[currentPlayerIndex].hand[i]))
-                    {
-                        validDuplicates++;
-                    }
+                    testInhand = true;
+                    validStageCardsCount++;
                 }
-                if (validDuplicates % 2 == 1)
-                    duplicates++;
-                testHand.Add(((FoeCard)(players[currentPlayerIndex].hand[i])));
             }
-            else if (players[currentPlayerIndex].hand[i].type == "test" && testAdded == false)
-                testHand.Add((FoeCard)players[currentPlayerIndex].hand[i]);
-
         }
 
-        if (testInHand)
-            requirementToSponsor--;
-
-        if (testHand.Count >= (requirementToSponsor + duplicates))
+        if (validStageCardsCount >= currentQuest.stages)
             return true;
+        else
+            return false;
+    }
+
+    public bool SponsorCapabilityCheck()
+    {
+        if (SponsorCapabilityEasyCheck())
+            return true;
+        //else if (SponsorCapabilityHardCheck)
+        //    return true;
         else
             return false;
     }
@@ -1446,7 +1442,7 @@ public class GameController : MonoBehaviour
                 {
                     //calling check sponsorship for debugging since it should never come in here if there is no player sponsoring
                     List<List<Card>> returnVal = new List<List<Card>>();
-                    returnVal = players[CheckSponsorship()].strategy.setupQuest(currentQuest.stages, players[CheckSponsorship()].hand);
+                    returnVal = players[CheckSponsorship()].strategy.setupQuest(currentQuest.stages, players[CheckSponsorship()].hand, currentQuest.foe);
 
                     if (returnVal != null)
                     {
