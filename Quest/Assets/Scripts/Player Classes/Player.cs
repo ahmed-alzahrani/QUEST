@@ -83,7 +83,7 @@ public class Player
         score += shields;
     }
 
-    public void rankUpCheck(int score, int shields)
+    public bool rankUpCheck(int score, int shields)
     {
         // Can rank up from Squire to Knight
         if (score < knightScore && (score + shields) >= knightScore)
@@ -99,7 +99,9 @@ public class Player
         if (score < kotrkScore && (score + shields) > kotrkScore)
         {
             Debug.Log("We have a winner!");
+            return true;
         }
+        return false;
     }
 
     public void rankChangeToChampionKnight()
@@ -197,12 +199,16 @@ public class Player
         }
     }
 
-    public void handCheck()
+    public bool handCheck()
     {
+        return hand.Count > 12;
+        /*
         if (hand.Count > 12) {
             Debug.Log("You have more than 12 cards you need to fix your hand");
+            retyr
             // fix your hand
         }
+        */
     }
 
     public List<Card> kingsCall()
