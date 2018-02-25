@@ -476,7 +476,7 @@ public class GameController : MonoBehaviour
                 drawStoryCard = true;
                 ToggleDeckAnimation();
                 userInput.DeactivateUI(); // just in case
-                UpdatePlayerTurn();       //go to next turn
+                UpdatePlayerTurn();       // go to next turn
             }
             //Run story card here
             else if (currentEvent != null)
@@ -677,8 +677,6 @@ public class GameController : MonoBehaviour
             }
 
 
-
-            //Calculates UI player information
             CalculateUIPlayerInfo();
         }
     }
@@ -933,7 +931,12 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < players.Count; i++)
         {
             //check for special ally abilities
-            UIBPS[i].text = "BP: " + players[i].CalculateBP();
+            if (currentQuest != null){
+              UIBPS[i].text = "BP: " + players[i].CalculateBP(currentQuest.name, players);
+            } else {
+              UIBPS[i].text = "BP: " + players[i].CalculateBP("", players);
+
+            }
 
             //participating in a quest tourneys don't matter really
             if (players[i].participating)
@@ -1446,7 +1449,7 @@ public class GameController : MonoBehaviour
                 {
                     //calling check sponsorship for debugging since it should never come in here if there is no player sponsoring
                     List<List<Card>> returnVal = new List<List<Card>>();
-                    returnVal = players[CheckSponsorship()].strategy.setupQuest(currentQuest.stages, players[CheckSponsorship()].hand);
+                    returnVal = players[CheckSponsorship()].strategy.setupQuest(currentQuest.stages, players[CheckSponsorship()].hand, currentQuest.foe);
 
                     if (returnVal != null)
                     {

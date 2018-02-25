@@ -11,5 +11,6 @@ public class iStoryKingsRecognition : iStory{
       Debug.Log("The Next player(s) to complete a Quest will receive 2 extra shields");
       game.kingsRecognition = true;
     }
+    game.isDoneStoryEvent = true;
   }
 }

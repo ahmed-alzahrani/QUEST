@@ -32,5 +32,6 @@ public class iStoryQueensFavor : iStory{
         lowestPlayers[i].drawCards(game.adventureDeck.drawCards(2));
       }
     }
+    game.isDoneStoryEvent = true;
   }
 }

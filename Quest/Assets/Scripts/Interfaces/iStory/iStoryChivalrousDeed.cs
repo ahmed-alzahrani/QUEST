@@ -17,6 +17,7 @@ public class iStoryChivalrousDeed : iStory{
       }
        Debug.Log("Player(s) with both lowest rank and least amount of shields, receives 3 shields");
     }
+    game.isDoneStoryEvent = true;
   }
 
   // getLowest loops through the list of players and gets the current lowest score in the game

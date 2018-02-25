@@ -10,5 +10,6 @@ public class iStoryPlague : iStory{
       Debug.Log("Drawer loses 2 shields if possible");
       players[0].removeShields(2);
     }
+    game.isDoneStoryEvent = true;
   }
 }

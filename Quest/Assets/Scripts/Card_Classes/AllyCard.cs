@@ -40,11 +40,11 @@ public class AllyCard : Card
       {
         return battlePoints;
       }
-      if (specialQuest != "")
+      if (specialQuest != "None")
       {
         return battlePoints + allyEffect.BuffOnQuest(specialQuest, questName, bpBuff);
       }
-      if (specialAlly != "")
+      if (specialAlly != "None")
       {
         return battlePoints + allyEffect.BuffOnCardInPlay(players, specialAlly, bidBuff);
       }

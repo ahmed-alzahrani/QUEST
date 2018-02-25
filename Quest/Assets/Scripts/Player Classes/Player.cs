@@ -65,12 +65,12 @@ public class Player
       return total;
     }
 
-    public int CalculateBP()
+    public int CalculateBP(string questName, List<Player> players)
     {
         int total = 0;
         for (int i = 0; i < activeAllies.Count; i++)
         {
-            total += activeAllies[i].battlePoints;
+            total += activeAllies[i].getBattlePoints(questName, players);
         }
 
         return total + rankCard.battlePoints;

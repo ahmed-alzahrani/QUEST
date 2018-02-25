@@ -11,5 +11,6 @@ public class iStoryPox : iStory{
         players[i].removeShields(1);
       }
     }
+    game.isDoneStoryEvent = true;
   }
 }

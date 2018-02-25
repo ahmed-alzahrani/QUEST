@@ -228,7 +228,7 @@ public class iStoryQuest : iStory
                                 }
                             }
 
-                            sum += game.players[i].CalculateBP();
+                            sum += game.players[i].CalculateBP(storyCard.name, players);
 
                             if (sum < GetStageBP(QuestState.currentStage, game.currentQuest))
                             {

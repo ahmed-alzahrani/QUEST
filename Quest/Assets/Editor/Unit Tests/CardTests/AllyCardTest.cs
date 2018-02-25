@@ -22,8 +22,8 @@ public class AllyCardTest{
 	[Test]
 	public void getBattlePoints_returnsBattlePoints_Adds_allyEffectBuffOnCardInPlay(){
 		List<Player> players = new List<Player>();
-		var ally1 = new AllyCard("Ally Card", "Ayrton", "", 5, 5, "Special", "", "ally", 1, 1, new BuffOnCardInPlayEffect());
-		var ally2 = new AllyCard("Ally Card", "ally", "", 0, 0, "Special", "quest", "", 0, 0, new NoBuff());
+		var ally1 = new AllyCard("Ally Card", "Ayrton", "", 5, 5, "Special", "None", "ally", 1, 1, new BuffOnCardInPlayEffect());
+		var ally2 = new AllyCard("Ally Card", "ally", "", 0, 0, "Special", "quest", "None", 0, 0, new NoBuff());
 		Player player1 = new Player("ahmed", new List<Card>(), new iStrategyPlayer());
 		players.Add(player1);
 		player1.activeAllies.Add(ally2);
