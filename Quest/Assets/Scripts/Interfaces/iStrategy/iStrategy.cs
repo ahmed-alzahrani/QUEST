@@ -32,4 +32,6 @@ public interface iStrategy
 
     //Called when there is a binary resposne required from the player
     int respondToPrompt(GameController game);
+
+    List<Card> fixHandDiscrepancy(List<Card> hand);
 }

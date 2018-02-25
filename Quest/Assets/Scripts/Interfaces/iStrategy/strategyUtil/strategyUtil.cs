@@ -305,13 +305,13 @@ public class strategyUtil
   }
 
   // Sorts a list of all VALID cards with BP by ASCENDING order of Bp
-  public List<Card> sortAllValidCardsByAscendingBP(List<Card> validCards)
+  public List<Card> sortAllValidCardsByAscendingBP(List<Card> validCards, List<Player> players, string questName)
   {
     // Sort the list in order of BP using bubble sort
     for (int x = 0; x < validCards.Count; x++){
       for (int i = 0; i < (validCards.Count - 1); i++){
-        int bp1 = getValidCardBP(validCards[i]);
-        int bp2 = getValidCardBP(validCards[i + 1]);
+        int bp1 = getValidCardBP(validCards[i], players, questName);
+        int bp2 = getValidCardBP(validCards[i + 1], players, questName);
         if (bp1 > bp2){
           var temp = validCards[i + 1];
           validCards[i + 1] = validCards[i];
@@ -323,11 +323,31 @@ public class strategyUtil
     return validCards;
   }
 
+  // Sorts a list of all VALID cards with BP by ASCENDING order of Bp
+  public List<Card> sortAllValidCardsByDescendingBP(List<Card> validCards, List<Player> players, string questName)
+  {
+    // Sort the list in order of BP using bubble sort
+    for (int x = 0; x < validCards.Count; x++){
+      for (int i = 0; i < (validCards.Count - 1); i++){
+        int bp1 = getValidCardBP(validCards[i], players, questName);
+        int bp2 = getValidCardBP(validCards[i + 1], players, questName);
+        if (bp1 < bp2){
+          var temp = validCards[i + 1];
+          validCards[i + 1] = validCards[i];
+          validCards[i] = temp;
+        }
+      }
+    }
+
+    return validCards;
+  }
+
+
   // gets the BP of a single 'valid' card
-  public int getValidCardBP(Card card){
+  public int getValidCardBP(Card card, List<Player> players, string questName){
     if (card.type == "Ally Card"){
       AllyCard ally = (AllyCard)card;
-      return ally.battlePoints;
+      return ally.getBattlePoints(questName, players);
     }
     if (card.type == "Weapon Card"){
       WeaponCard weapon = (WeaponCard)card;

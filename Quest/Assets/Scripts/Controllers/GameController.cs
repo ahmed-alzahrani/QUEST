@@ -16,10 +16,8 @@ using UnityEngine.UI;
 */
 
 //WIN CONDITIONS
-//check decks for whether they are empty or not and add discard piles if they are
 // what if a player wants to sponsor but doesn't have enough cards to sponsor a quest how would we check that
 // uncomment deck builder stuff
-// uncomment create player stuff
 //kings recognition quest stuff
 //card querying stuff
 //CAN ONLY SELECT CARDS DURING CARD UI PANEL CHECKS SINCE THERE IS PANEL OVER IT AT OTHER TIMES
@@ -61,11 +59,21 @@ public class UIInput
     public List<Card> selectedCards;
     public List<GameObject> UICardsSelected;
 
+    //for ui discard panel prompt
+    public GameObject discardPanel;
+    public Text userDiscardMessage;
+    public GameObject chosenDiscardsPanel;
+    public Button discardSubmitButton;
+    public List<Card> discardSelectedCards;
+    public List<GameObject> UIDiscardsSelected;
+
+
     //bools for each ui value
     public bool UIEnabled;
     public bool booleanUIEnabled;
     public bool keyboardInputUIEnabled;
     public bool cardPanelUIEnabled;
+    public bool discardPanelUIEnabled;
     public bool doneAddingCards;
 
     public void SetupUI()
@@ -91,10 +99,12 @@ public class UIInput
         booleanUIEnabled = true;
         keyboardInputUIEnabled = false;
         cardPanelUIEnabled = false;
+        discardPanelUIEnabled = false;
         doneAddingCards = false;
 
         foregroundPanel.SetActive(true);
         booleanPanel.SetActive(true);
+        discardPanel.SetActive(false);
         cardPanel.SetActive(false);
         inputPanel.SetActive(false);
         userMessage.text = userMsg;
@@ -106,11 +116,13 @@ public class UIInput
         keyboardInputUIEnabled = true;
         booleanUIEnabled = false;
         cardPanelUIEnabled = false;
+        discardPanelUIEnabled = false;
         doneAddingCards = false;
 
         foregroundPanel.SetActive(true);
         inputPanel.SetActive(true);
         cardPanel.SetActive(false);
+        discardPanel.SetActive(false);
         booleanPanel.SetActive(false);
         KeyboardInput.text = "";
         userMessage1.text = userMsg;
@@ -120,18 +132,19 @@ public class UIInput
     {
         UIEnabled = true;
         cardPanelUIEnabled = true;
+        discardPanelUIEnabled = false;
         keyboardInputUIEnabled = false;
         booleanUIEnabled = false;
         doneAddingCards = false;
 
         //foregroundPanel.SetActive(true);
         cardPanel.SetActive(true);
+        discardPanel.SetActive(false);
         inputPanel.SetActive(false);
         booleanPanel.SetActive(false);
         userMessage2.text = userMsg;
         totalBP.text = "BP: " + totalBPCount.ToString();
     }
-
     public GameObject CheckCard(Card card)
     {
         for (int i = 0; i < selectedCards.Count; i++)
@@ -156,6 +169,18 @@ public class UIInput
 
         //add card to panel
         card.transform.SetParent(chosenCardsPanel.transform);
+    }
+
+    // currently same as above but doesn't calculate BP?
+    public void AddToUIDiscardPanel(GameObject card)
+    {
+      CardUIScript script = card.GetComponent<CardUIScript>();
+      script.isHandCard = true;
+
+      selectedCards.Add(script.myCard);
+      UICardsSelected.Add(card);
+
+      card.transform.SetParent(chosenCardsPanel.transform);
     }
 
     //Destroy's the children of a given game object by finding said object by its tag.
@@ -217,9 +242,11 @@ public class UIInput
     {
         foregroundPanel.SetActive(false);
         cardPanel.SetActive(false);
+        discardPanel.SetActive(false);
         UIEnabled = false;
         keyboardInputUIEnabled = false;
         booleanUIEnabled = false;
+        discardPanelUIEnabled = false;
         cardPanelUIEnabled = false;
         doneAddingCards = false;
         buttonResult = "";
@@ -1093,13 +1120,13 @@ public class GameController : MonoBehaviour
             Debug.Log(cpuStrategies[i]);
 
             //log resulting strategy
-           // if (cpuStrategies[i] == 1) { newPlayer = new Player("CPU" + (i + 1).ToString(), DrawFromDeck(adventureDeck, 12), new iStrategyCPU1(), shieldPaths[shield]); }
-           // else if(cpuStrategies[i] == 2) { newPlayer = new Player("CPU" + (i + 1).ToString(), DrawFromDeck(adventureDeck , 12) , new iStrategyCPU2() , shieldPaths[shield]); }
+          //  if (cpuStrategies[i] == 1) { newPlayer = new Player("CPU" + (i + 1).ToString(), DrawFromDeck(adventureDeck, 12), new iStrategyCPU1(), shieldPaths[shield]); }
+        //    else if(cpuStrategies[i] == 2) { newPlayer = new Player("CPU" + (i + 1).ToString(), DrawFromDeck(adventureDeck , 12) , new iStrategyCPU2() , shieldPaths[shield]); }
 
             newPlayer = new Player("CPU" + (i + 1).ToString(), DrawFromDeck(adventureDeck, 12), new iStrategyCPU1(), shieldPaths[shield]);
 
             playerPanels[i + numHumanPlayers].SetActive(true);    //add a ui panel for each player
-            shieldPaths.RemoveAt(shield);                         //Each player has unique shields
+            shieldPaths.RemoveAt(shield); //Each player has unique shields
             myPlayers.Add(newPlayer);
         }
 
@@ -1522,7 +1549,7 @@ public class GameController : MonoBehaviour
 
                     if (players[currentPlayerIndex].participating)
                     {
-                         result = players[currentPlayerIndex].strategy.playTournament(players, players[currentPlayerIndex].hand, 0, 0);
+                         result = players[currentPlayerIndex].strategy.playTournament(players, players[currentPlayerIndex].hand, players[currentPlayerIndex].CalculateBP("", players), currentTournament.shields);
                     }
                     if (players[currentPlayerIndex].sponsoring || !(players[currentPlayerIndex].participating))
                     {

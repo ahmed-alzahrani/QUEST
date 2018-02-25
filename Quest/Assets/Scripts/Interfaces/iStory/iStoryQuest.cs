@@ -73,7 +73,7 @@ public class iStoryQuest : iStory
 
                 if (game.numIterations >= game.currentQuest.getStages())
                 {
-                    if (ValidQuest())
+                    if (true)
                     {
                         QuestState.state = "CheckingForParticipants";
                         game.UpdatePlayerTurn();
