@@ -8,6 +8,30 @@ using NUnit.Framework;
 public class DeckTest{
 
   [Test]
+  public void refillFromDiscard_PopulatesEmptyDeck_WithDiscardCards()
+  {
+    Deck deck = new Deck("Type", new List<Card>());
+
+    // add 3 cards to the deck's discard pile
+    deck.discard.Add(new AllyCard("Ally Card", "Some Ally", "texture", 5, 1, "some ability", "", "", 0, 0, new NoBuff()));
+    deck.discard.Add(new AllyCard("Ally Card", "Some Ally", "texture", 5, 1, "some ability", "", "", 0, 0, new NoBuff()));
+    deck.discard.Add(new AllyCard("Ally Card", "Some Ally", "texture", 5, 1, "some ability", "", "", 0, 0, new NoBuff()));
+
+    // add a single card to the deck's deck
+    deck.deck.Add(new AllyCard("Ally Card", "Some Ally", "texture", 5, 1, "some ability", "", "", 0, 0, new NoBuff()));
+
+    // We know the counts before a card is removed from deck
+    Assert.AreEqual(deck.discard.Count, 3);
+    Assert.AreEqual(deck.deck.Count, 1);
+
+    Card card = deck.drawCard();
+
+    // Now the count of deck should be 3 (it was filled from discard) and the count of discard should be 0
+    Assert.AreEqual(0, deck.discard.Count);
+    Assert.AreEqual(3, deck.deck.Count);
+  }
+
+  [Test]
   public void Deck_CreatedWithGiven_WillHaveTheVariables(){
     var deck = new Deck("Type", new List<Card>());
 

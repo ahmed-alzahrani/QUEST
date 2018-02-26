@@ -10,6 +10,8 @@ public class iStoryPlagueTest{
   public void execute_removes2ShieldsFromDrawer()
   {
     iStoryPlague plague = new iStoryPlague();
+    GameController game = new GameController();
+    game.isDoneStoryEvent = false;
     EventCard eCard = new EventCard("Event Card", "Test Event", "description", "path", plague);
     List<Player> players = new List<Player>();
 
@@ -35,11 +37,12 @@ public class iStoryPlagueTest{
     Assert.AreEqual(player3.score, 2);
     Assert.AreEqual(player4.score, 2);
 
-    plague.execute(players, eCard, null);
+    plague.execute(players, eCard, game);
 
     Assert.AreEqual(player1.score, 1);
     Assert.AreEqual(player2.score, 2);
     Assert.AreEqual(player3.score, 2);
     Assert.AreEqual(player4.score, 2);
+    Assert.AreEqual(true, game.isDoneStoryEvent);
   }
 }

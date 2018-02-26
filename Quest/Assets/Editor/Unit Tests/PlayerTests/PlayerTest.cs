@@ -266,4 +266,14 @@ public class PlayerTest{
     Assert.AreEqual(2, player2.calculateBid("", players));
     Assert.AreEqual(3, player3.calculateBid("", players));
   }
+
+  [Test]
+  public void calculateBP_Sums_A_Playes_BP_BasedOnRankAnd_ActiveAllies()
+  {
+    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU1());
+    List<Player> players = new List<Player>();
+    players.Add(player1);
+    player1.activeAllies.Add(new AllyCard("Ally Card", "Some Ally", "texture", 5, 1, "some ability", "None", "None", 0, 0, new NoBuff()));
+    Assert.AreEqual(player1.CalculateBP("", players), 10);
+  }
 }

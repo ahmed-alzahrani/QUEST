@@ -16,5 +16,6 @@ public class iStoryCourtCalled : iStory{
       }
       Debug.Log("All Allies in play must be discarded");
     }
+    game.isDoneStoryEvent = true;
   }
 }

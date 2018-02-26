@@ -6,7 +6,7 @@ public class iStrategyPlayer : iStrategy
 {
   public iStrategyPlayer() {}
 
-    
+
 
     // Tournament Strategy
     public int participateInTourney(List<Player> players, int shields, GameController gameController)
@@ -115,10 +115,14 @@ public class iStrategyPlayer : iStrategy
         }
         else
         {
-            //still checking 
-            //Debug.Log("still checking");  
+            //still checking
+            //Debug.Log("still checking");
             return 2;
         }
+    }
+
+    public List<Card> fixHandDiscrepancy(List<Card> hand){
+      return null;
     }
 
 }
