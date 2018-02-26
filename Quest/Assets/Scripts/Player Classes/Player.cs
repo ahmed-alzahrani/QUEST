@@ -219,7 +219,7 @@ public class Player
             discard(discardCards);
             return discardCards;
         }
-        if (hasFoe())
+        else if (hasFoes())
         {
             List<Card> discardCards = strategy.discardFoesForKing(hand);
             discard(discardCards);
@@ -243,16 +243,19 @@ public class Player
         return false;
     }
 
-    public bool hasFoe()
+    public bool hasFoes()
     {
+        int numFoes = 0;
+
         for (int i = 0; i < hand.Count; i++)
         {
             if (hand[i].type == "Foe Card")
             {
-                return true;
+                numFoes++;
             }
         }
-        return false;
+
+        return numFoes > 1;
     }
 
     public bool hasAlly(string Ally)

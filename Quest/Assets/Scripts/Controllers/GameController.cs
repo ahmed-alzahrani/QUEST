@@ -15,12 +15,10 @@ using UnityEngine.UI;
     Participants: only use weapon and amour cards to boost bp only
 */
 
+//CHECK THE ISTRATEGIES FOR HAVING ALL THE CORRECT FUNCTIONS
 //WIN CONDITIONS
-// what if a player wants to sponsor but doesn't have enough cards to sponsor a quest how would we check that
 // uncomment deck builder stuff
 //kings recognition quest stuff
-//card querying stuff
-//CAN ONLY SELECT CARDS DURING CARD UI PANEL CHECKS SINCE THERE IS PANEL OVER IT AT OTHER TIMES
 //CHECK MERLIN"S ABILITY
 //CHECK MORDRED
 
@@ -28,7 +26,6 @@ using UnityEngine.UI;
 //QUESTS
 //SPECIAL EFFECTS
 //TEST CARDS
-//Checking if player is over 12 cards ask for discarding
 //mordred will use separate input for each button
 
 
@@ -414,7 +411,7 @@ public class GameController : MonoBehaviour
         isSettingUpGame = true;
         currentPlayerIndex = 0;
         setupState = 0;
-        shieldPaths = new List<string> { "Textures/Backings/s_backing", "Textures/Backings/s_backing", "Textures/Backings/s_backing", "Textures/Backings/s_backing" };
+        shieldPaths = new List<string> {"Textures/Backings/s_backing" , "Textures/Backings/s_backing" , "Textures/Backings/s_backing" , "Textures/Backings/s_backing"};
         players = new List<Player>();
         drawnAdventureCards = new List<Card>();
         cpuStrategies = new List<int>();
@@ -533,6 +530,7 @@ public class GameController : MonoBehaviour
                         }
                         else if (currentQuest != null)
                         {
+
                             storyDeckDiscardPileUIButton.myCard = currentQuest;
                             storyDeckDiscardPileUIButton.ChangeTexture();
                             storyDeck.discard.Add(currentQuest);
@@ -741,6 +739,11 @@ public class GameController : MonoBehaviour
                                         }
                                     }
                                 }
+                                else if (currentEvent != null)
+                                {
+                                    //kings call to arms here mostly so just add it to the panel discarded allies get activated above others are discarded
+                                    addToPanel = true;
+                                }
 
                                 //result
                                 if (addToPanel)
@@ -826,6 +829,7 @@ public class GameController : MonoBehaviour
                 return true; 
             }
         }
+
         return false;
     }
 
@@ -904,7 +908,7 @@ public class GameController : MonoBehaviour
     }
 
     //update quest data of a certain stage
-    public void AddQuestData(int stageNumber, int totalBP)
+    public void AddQuestData(int stageNumber , int totalBP)
     {
         questStageNumber.text = "Stage: " + stageNumber.ToString();
         questStageBPTotal.text = "BP: " + totalBP.ToString();
@@ -934,7 +938,7 @@ public class GameController : MonoBehaviour
         //have a draw from adventure deck that takes a certain number of cards to be drawn instead doing it one by one that way click only happens once
         if (drawAdventureCard)
         {
-            drawnAdventureCards = DrawFromDeck(adventureDeck, numCardsToBeDrawn);
+            drawnAdventureCards = DrawFromDeck(adventureDeck , numCardsToBeDrawn);
             drawAdventureCard = false;
         }
         ToggleDeckAnimation();
@@ -945,7 +949,7 @@ public class GameController : MonoBehaviour
         //only one story card is ever drawn
         if (drawStoryCard)
         {
-            drawnStoryCard = DrawFromDeck(storyDeck, 1)[0];
+            drawnStoryCard = DrawFromDeck(storyDeck , 1)[0];
             drawStoryCard = false;
         }
         ToggleDeckAnimation();
@@ -996,7 +1000,7 @@ public class GameController : MonoBehaviour
         UICard.transform.SetParent(panel.transform);
     }
 
-    public List<Card> DrawFromDeck(Deck deckToDrawFrom, int numCards)
+    public List<Card> DrawFromDeck(Deck deckToDrawFrom , int numCards)
     {
         List<Card> drawnCards = new List<Card>();
 
@@ -1098,6 +1102,7 @@ public class GameController : MonoBehaviour
               UIBPS[i].text = "BP: " + players[i].CalculateBP(currentQuest.name, players);
             } else {
               UIBPS[i].text = "BP: " + players[i].CalculateBP("", players);
+
             }
 
             //participating in a quest tourneys don't matter really
@@ -1181,7 +1186,7 @@ public class GameController : MonoBehaviour
                 {
                     card.GetComponent<CardUIScript>().ChangeTexture();
                 }
-                AddToPanel(card, questStagePanel);
+                AddToPanel(card , questStagePanel);
             }
         }
     }
@@ -1235,7 +1240,7 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < numHumanPlayers; i++)
         {
             int shield = Random.Range(0, shieldPaths.Count - 1);
-            Player myPlayer = new Player("Player" + (i + 1).ToString(), DrawFromDeck(adventureDeck, 12), new iStrategyPlayer(), shieldPaths[shield]);
+            Player myPlayer = new Player("Player" + (i + 1).ToString(), DrawFromDeck(adventureDeck , 12), new iStrategyPlayer(), shieldPaths[shield]);
             shieldPaths.RemoveAt(shield);       //Each player has unique shields
             myPlayer.gameController = this;
             playerPanels[i].SetActive(true);    //add a ui panel for each player
@@ -1269,7 +1274,7 @@ public class GameController : MonoBehaviour
         return myPlayers;
     }
 
-
+    //players over 12 cards 
     public void DiscardCards()
     {
         if (userInput.discardPanelUIEnabled)
@@ -1372,7 +1377,7 @@ public class GameController : MonoBehaviour
             Debug.Log("NUMBER OF CPUS: " + numCpus);
 
             numIterations = 0;
-            userInput.ActivateUserInputCheck("what strategy do you want for cpu " + (numIterations + 1).ToString() + " ?");
+            userInput.ActivateUserInputCheck("what strategy do you want for cpu " + (numIterations+1).ToString() + " ?");
             setupState = 3; //won't go in here agaim
         }
     }
@@ -1466,9 +1471,7 @@ public class GameController : MonoBehaviour
                     }
                     else if (participation == 0)
                     {
-
-                        //do whatever
-                        //print("No");
+                        //not joining
                         players[currentPlayerIndex].participating = false; // just in case
                         UpdatePlayerTurn();
                         populatePlayerBoard();
@@ -1478,9 +1481,8 @@ public class GameController : MonoBehaviour
                     }
                     else if (participation == 1)
                     {
-                        //print("Yes");
+                        //joining
                         players[currentPlayerIndex].participating = true;
-                        //participants.Add(players[currentPlayerIndex]);
                         UpdatePlayerTurn();
                         populatePlayerBoard();
                         userInput.DeactivateUI();
@@ -1494,17 +1496,6 @@ public class GameController : MonoBehaviour
                     userInput.DeactivateUI();
                 }
             }
-        }
-        else
-        {
-            /*
-            //return participants
-            for (int i = 0; i < players.Count; i++)
-            {
-                if (players[i].participating)
-                Debug.Log("Paricipant" + (i + 1) + ": " + players[i].name);
-            }
-            */
         }
     }
 
@@ -1532,6 +1523,7 @@ public class GameController : MonoBehaviour
                         }
                     }
 
+
                     if (sponsoring == 0)
                     {
                         print("No");
@@ -1553,7 +1545,7 @@ public class GameController : MonoBehaviour
                         //circumvent this
                         numIterations = 5;
                     }
-                    else if (sponsoring == 2)
+                    else if(sponsoring == 2)
                     {
                         //Do Nothing
                     }
@@ -1588,235 +1580,41 @@ public class GameController : MonoBehaviour
         }
     }
 
-
-    public bool SponsorCapabilitySoftCheck()
-    {
-        int validStageCardsCount = 0;
-        bool testInhand = false;
-
-        for (int i = 0; i < players[currentPlayerIndex].hand.Count; i++)
-        {
-            if (players[currentPlayerIndex].hand[i] != null)
-            {
-                if (players[currentPlayerIndex].hand[i].type == "Foe Card")
-                    validStageCardsCount++;
-                else if (!testInhand && players[currentPlayerIndex].hand[i].type == "Test Card")
-                {
-                    testInhand = true;
-                    validStageCardsCount++;
-                }
-            }
-        }
-
-        if (validStageCardsCount >= currentQuest.stages)
-            return true;
-        else
-            return false;
-    }
-
-    public bool SponsorCapabilityHardCheck()
-    {
-        //Current number of possible valid stages that can be created.
-        int validStageCardsCount = 0;
-        //Number of weapons in the player's hand.
-        int weaponCount = 0;
-        bool testInhand = false;
-        strategyUtil util = new strategyUtil();
-        //Parallel array of booleans for the player's hand representing available weapon slots in the hand.
-        bool[] weaponAvailable = new bool[players[currentPlayerIndex].hand.Count];
-
-        //Integer array which stores the number of instances of a given BP found in the player's hand.
-        //All battle points are a multiple of 5, which means they're translatable from a 5 - 70 scale to a 0 - 14 scale
-        //This is then widened to account for the highest possible BP to prevent a index out of bounds error    
-        //Maximum BP size of a stage 
-        //(Max Dragon + Excalibur + Lance + Battle Axe + Sword + Horse + Dagger)
-        //(70 + 30 + 20 + 15 + 10 + 10 + 5) / 5 = 32
-        int[] foeValues = new int[(70 + 30 + 20 + 15 + 10 + 10 + 5) / 5];
-
-
-        //Setting values to 0
-        for (int i = 0; i < foeValues.Length; i++)
-        {
-            foeValues[i] = 0;
-        }
-
-
-        for (int i = 0; i < players[currentPlayerIndex].hand.Count; i++)
-        {
-            if (players[currentPlayerIndex].hand[i] != null)
-            {
-                if (players[currentPlayerIndex].hand[i].type == "Foe Card")
-                {
-                    foeValues[(util.getContextBP((FoeCard)players[currentPlayerIndex].hand[i], currentQuest.name) / 5) - 1]++;
-                    //Non-weapon found, thus weapon unavailable at i
-                    weaponAvailable[i] = false;
-                }
-
-                //If a test is found in the hand, validStageCardsCount is incremented and will never be less than 1, 
-                //reducing the number of unique BPs required by 1.
-                else if (!testInhand && players[currentPlayerIndex].hand[i].type == "Test Card")
-                {
-                    testInhand = true;
-                    validStageCardsCount++;
-                    //Non-weapon found, thus weapon unavailable at i
-                    weaponAvailable[i] = false;
-                }
-                else if (players[currentPlayerIndex].hand[i].type == "Weapon Card")
-                {
-                    weaponCount++;
-                    //Weapon found, thus weapon available at i
-                    weaponAvailable[i] = true;
-                }
-            }
-        }
-
-        //Checks to see if there are 3 foes with unique BPs
-        for (int i = 0; i < foeValues.Length; i++)
-        {
-            if(foeValues[i] != 0)
-            {
-                validStageCardsCount++;
-            }
-        }
-        if (validStageCardsCount >= currentQuest.stages)
-            return true;
-
-        //If the number foes with unique BPs plus
-        else if (validStageCardsCount + weaponCount < currentQuest.stages)
-            return false;
-
-        //Begins the check of whether or not adding weapon cards can create a valid hand
-        else
-        {
-            //If there is a test in the player's hand, reduce the total
-            //number of uniqueBP values required by one.
-            if (testInhand)
-                validStageCardsCount = 1;
-            else
-                validStageCardsCount = 0;
-
-            //Goes through the array of foe values, if a given index has a value greater than 1
-            //weapon cards are introduced to attempt finding a unique BP.
-            for (int i = 0; i < foeValues.Length; i++)
-            {
-                if (foeValues[i] > 1)
-                {
-                    for (int j = 0; j < players[currentPlayerIndex].hand.Count; j++)
-                    {
-                        if (players[currentPlayerIndex].hand[j].type == "Weapon Card" && weaponAvailable[j])
-                        {
-                            //Stores the BP value of the weaponcard found.
-                            int wbp = ((WeaponCard)players[currentPlayerIndex].hand[j]).battlePoints;
-
-                            //Second check if foeValues[i] is a unique BP as this for loop will be 
-                            //run for the length of the hand, this prevents reducing foeValues[i] below 1.
-                            if (foeValues[i] > 1)
-                            {
-                                //A new valid unique BP has been found using one weapon card, the value at foeValues[i]
-                                //is decremented and the value at a new index equal to the the current index plus the weapon bp
-                                //is incremented.
-                                if (foeValues[i + (wbp / 5)] < 1)
-                                {
-                                    foeValues[i]--;
-                                    foeValues[i + (wbp / 5)]++;
-                                    weaponAvailable[j] = false;
-                                    //Checks to see if this addition of a new unique BP value creates a valid quest configuration
-                                    if (CVQP(validStageCardsCount, foeValues))
-                                        return true;
-                                }
-                                else
-                                {
-                                    //Itterates for each of the duplicate BPs at foeValues[i]
-                                    for (int dupe_it = 0; dupe_it < foeValues[i]; dupe_it++)
-                                    {
-                                        //List of weapons already added to the foe.
-                                        List<WeaponCard> addedWeapons = new List<WeaponCard>();
-                                        addedWeapons.Add((WeaponCard)players[currentPlayerIndex].hand[j]);
-
-                                        //A "Hopping Index" which carries the current foeBP + sum of weapon BPs added
-                                        int ii = i + (wbp / 5);
-                                        //This is the section which tests if adding multiple weapons to a single foe allows the creation of a valid Quest
-                                        for (int k = j + 1; k < players[currentPlayerIndex].hand.Count; k++)
-                                        {
-                                            if (players[currentPlayerIndex].hand[k].type == "Weapon Card" && weaponAvailable[k])
-                                            {
-                                                //holds the weapon card found in the player's hand, done in order to reduce line length
-                                                WeaponCard foundWeaponCard = (WeaponCard) players[currentPlayerIndex].hand[k];
-
-                                                //Checks to see if the weapon card found is a duplicate of 
-                                                //a weapon card already applied to the foe.
-                                                bool duplicateWeaponCheck = false;
-                                                for (int aW_it = 0; aW_it < addedWeapons.Count; aW_it++)
-                                                    if (addedWeapons[aW_it].name == foundWeaponCard.name)
-                                                        duplicateWeaponCheck = true;
-                                                if (duplicateWeaponCheck)
-                                                    continue;
-
-                                                //alternate variable name performing the same duties as wbp
-                                                int wbp_VERSION_K = foundWeaponCard.battlePoints;
-
-                                                //A new valid unique BP has been found using multiple weapon cards, the value at foeValues[i]
-                                                //is decremented and the value at a new index equal to the the current index plus the sum bp
-                                                //of all weapons used is incremented.
-                                                if (foeValues[ii + (wbp_VERSION_K / 5)] < 1)
-                                                {
-                                                    foeValues[i]--;
-                                                    foeValues[ii + (wbp_VERSION_K / 5)]++;
-                                                    weaponAvailable[j] = false;
-                                                    //Checks to see if this addition of a new unique BP value creates a valid quest configuration
-                                                    if (CVQP(validStageCardsCount, foeValues))
-                                                        return true;
-                                                    //new unique BP found, break loop and attempt to find another valid BP for the next dupicate BP at i
-                                                    break;
-                                                }
-
-                                                //A weapon is added to the current list of weapons being applied to the foe
-                                                else
-                                                {
-                                                    addedWeapons.Add(foundWeaponCard);
-                                                    ii += wbp_VERSION_K;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            //Final check if there are enough unique BP values to fill the quest before returning false
-            if (CVQP(validStageCardsCount, foeValues))
-                return true;
-            else
-                return false;
-        }
-    }
-
-    //Checks to see if the number of unique BP's available to the
-    //player is equal to or greater than the number of stages in the quest.
-    public bool CVQP(int vSCC, int[] foeValues)
-    {
-
-        for (int i = 0; i < foeValues.Length; i++)
-        {
-            if (foeValues[i] != 0)
-            {
-                vSCC++;
-            }
-        }
-
-        if (vSCC >= currentQuest.stages)
-            return true;
-        else
-            return false;
-    }
-
     public bool SponsorCapabilityCheck()
     {
-        if (!SponsorCapabilitySoftCheck())
-            return false;
-        else if (SponsorCapabilityHardCheck())
+        int duplicates = 0;
+        bool testAdded = false;
+        List<FoeCard> testHand = new List<FoeCard>();
+
+        int requirementToSponsor = currentQuest.stages;
+
+        bool testInHand = false;
+
+        for (int i = 0; i < players[currentPlayerIndex].hand.Count; i++)
+        {
+            if (players[currentPlayerIndex].hand[i].type == "Foe Card")
+            {
+                int validDuplicates = 0;
+                for (int j = 0; j < testHand.Count; j++)
+                {
+                    if (GetFoeBP(testHand[j]) == GetFoeBP((FoeCard) players[currentPlayerIndex].hand[i]))
+                    {
+                        validDuplicates++;
+                    }
+                }
+                if (validDuplicates % 2 == 1)
+                    duplicates++;
+                testHand.Add(((FoeCard)(players[currentPlayerIndex].hand[i])));
+            }
+            else if (players[currentPlayerIndex].hand[i].type == "test" && testAdded == false)
+                testHand.Add((FoeCard)players[currentPlayerIndex].hand[i]);
+
+        }
+
+        if (testInHand)
+            requirementToSponsor--;
+
+        if (testHand.Count >= (requirementToSponsor + duplicates))
             return true;
         else
             return false;
@@ -1867,8 +1665,6 @@ public class GameController : MonoBehaviour
                     }
                     else if (userInput.doneAddingCards)
                     {
-                        //player check
-                        //Debug.Log("player");
                         sponsorQueriedCards[numIterations] = new List<Card>(userInput.selectedCards);
                         userInput.DeactivateUI();
                         numIterations++;
@@ -1901,7 +1697,7 @@ public class GameController : MonoBehaviour
 
 
     //NEEDS FIXING TO ADD SHIELDS AND BASE BP AND ADD A STRING TO USE BOTH QUEST AND TOURNAMENTS
-    public void CardQuerying()
+    public void CardQuerying(string state)
     {
         if (userInput.UIEnabled)
         {
@@ -1914,20 +1710,28 @@ public class GameController : MonoBehaviour
 
                     if (players[currentPlayerIndex].participating)
                     {
-                         result = players[currentPlayerIndex].strategy.playTournament(players, players[currentPlayerIndex].hand, players[currentPlayerIndex].CalculateBP("", players), currentTournament.shields);
+                        if (state == "Tournament")
+                        {
+                            result = players[currentPlayerIndex].strategy.playTournament(players, players[currentPlayerIndex].hand, players[currentPlayerIndex].CalculateBP("", players), currentTournament.shields);
+                        }
+                        else if (state == "Quest")
+                        {
+                            //check if it is a bid or foe encounter
+                            //CALCULATE PREVIOUS IN QUESTSTATE
+                            result = players[currentPlayerIndex].strategy.playFoeEncounter(QuestState.currentStage , currentQuest.stages , players[currentPlayerIndex].hand , 0 , QuestState.amours[currentPlayerIndex].Count == 1 , currentQuest.name , players);
+                        }
                     }
                     if (players[currentPlayerIndex].sponsoring || !(players[currentPlayerIndex].participating))
                     {
-                        //skip if sponsoring or not participating
                         //this will help generalize querying in both tournaments and quests
-                        queriedCards[currentPlayerIndex] = null;
                         numIterations++;
+                        queriedCards[currentPlayerIndex] = null;
                         UpdatePlayerTurn();
-                        //queriedCards.Add(null); //setup sizes of both queried lists to be empty
+
                     }
                     else if (userInput.doneAddingCards)
                     {
-                        //Debug.Log("player");
+                        // human player card querying
                         queriedCards[currentPlayerIndex] = new List<Card>(userInput.selectedCards);
                         userInput.DeactivateUI();
                         numIterations++;
@@ -1937,7 +1741,6 @@ public class GameController : MonoBehaviour
                     }
                     else if (result != null)
                     {
-                        //Debug.Log("AI here");
                         //ai player here
                         queriedCards[currentPlayerIndex] = new List<Card>(result);
                         userInput.DeactivateUI();
@@ -1960,7 +1763,7 @@ public class GameController : MonoBehaviour
                         {
                             for (int j = 0; j < queriedCards[i].Count; j++)
                             {
-                                Debug.Log(i.ToString() + ": " + queriedCards[i][j].name);
+                                Debug.Log(i.ToString()+ ": " + queriedCards[i][j].name);
                             }
                         }
                     }

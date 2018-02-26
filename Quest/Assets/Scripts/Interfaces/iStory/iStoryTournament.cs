@@ -71,7 +71,7 @@ public class iStoryTournament : iStory
         else if (TournamentState.state == "CardQuery")
         {
             //query players for cards
-            game.CardQuerying();
+            game.CardQuerying("Tournament");
 
             //done querying
             if (game.numIterations >= game.numPlayers)
