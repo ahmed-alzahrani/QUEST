@@ -313,10 +313,9 @@ public class iStrategyCPU1Test{
       player1.discardCards(finalFoeStage);
 
       // Check that the finalFoeStage list is as we'd expect
-      Assert.AreEqual(3, finalFoeStage.Count);
+      Assert.AreEqual(2, finalFoeStage.Count);
       Assert.AreEqual(finalFoeStage[0].name, "Green Knight");
       Assert.AreEqual(finalFoeStage[1].name, "Sword");
-      Assert.AreEqual(finalFoeStage[2].name, "Horse");
 
     }
 

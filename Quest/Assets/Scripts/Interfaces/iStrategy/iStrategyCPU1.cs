@@ -11,11 +11,14 @@ public class iStrategyCPU1 : iStrategy
     // Strategy #1, the player participates if anyone, including themselves, can stand to rank up
     public int participateInTourney(List<Player> players, int shields, GameController game)
     {
+        Debug.Log("I was asked If I want to participate in a tournament!");
         strategyUtil strat = new strategyUtil();
         if (strat.canSomeoneRankUp(players, shields))
         {
+            Debug.Log("I'm going to say yes... because its possible for someone to rank up during this tourney!");
             return 1;
         }
+        Debug.Log("I'm going to say no... because its NOT possible for someone to rank up during this tourney!");
         return 0;
     }
 
@@ -105,6 +108,7 @@ public class iStrategyCPU1 : iStrategy
 
     public List<List<Card>> setupQuest(int stages, List<Card> hand, string questFoe)
     {
+        Debug.Log("CPU Strategy #1 has been queried!!!!!");
         // instantiate the quest line
         strategyUtil strat = new strategyUtil();
         List<List<Card>> questLine = new List<List<Card>>();
@@ -138,10 +142,13 @@ public class iStrategyCPU1 : iStrategy
 
     public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe)
     {
+        Debug.Log("I have been queried for a foe stage!");
         if (currentStage == stages)
         {
+            Debug.Log("I'm going to try set up a final foe stage!");
             return setUpFinalFoe(hand, questFoe);
         }
+        Debug.Log("I'm setting up an earlier foe encounter!");
         return setUpEarlyFoeEncounter(hand, questFoe);
     }
 
@@ -182,10 +189,11 @@ public class iStrategyCPU1 : iStrategy
         // instantiate a List of foes and weapons from the user's hand
         List<Card> foes = new List<Card>();
         List<Card> weapons = new List<Card>();
-
+        Debug.Log("I'm inside final foe rn");
         // seperate the foes and weapons into their own lists from the hand
         for (var i = 0; i < hand.Count; i++)
         {
+            hand[i].display();
             if (hand[i].type == "Foe Card")
             {
                 foes.Add(hand[i]);
@@ -205,7 +213,9 @@ public class iStrategyCPU1 : iStrategy
 
         // subtract the foe with the MOST BP in the user's hand from 40, the AI threshold
         FoeCard firstFoe = (FoeCard)foes[0];
-        int bpNeeded = (50 - firstFoe.minBP);
+        Debug.Log("I am going to play my strongest foe... this is him!");
+        foes[0].display();
+        int bpNeeded = (50 - strat.getContextBP(firstFoe, questFoe));
         // Add this foe to the foeEncounter as the foe to be played
         foeEncounter.Add(foes[0]);
         hand.Remove(foes[0]);
@@ -221,13 +231,27 @@ public class iStrategyCPU1 : iStrategy
             WeaponCard weapon = (WeaponCard)weapons[index];
             bpNeeded -= weapon.battlePoints;
             // add this weapon to the encounter
+            Debug.Log("im adding this weapon to the stage.... ");
+            weapons[index].display();
             foeEncounter.Add(weapons[index]);
             hand.Remove(weapons[index]);
             // increment index
             index++;
         }
 
+        Debug.Log("This is what is left of my hand...");
+
+        for (int i = 0; i < hand.Count; i++)
+        {
+          hand[i].display();
+        }
+
         // return the most powerful foe we have with the set of weapons that most quickly gets us to 50 BP.
+        Debug.Log("This is my foe encounter...");
+        for(int i = 0; i < foeEncounter.Count; i++)
+        {
+          foeEncounter[i].display();
+        }
         return foeEncounter;
     }
 
@@ -470,9 +494,15 @@ public class iStrategyCPU1 : iStrategy
     public int respondToPrompt(GameController game)
     {
 
-        //still checking 
-        //Debug.Log("still checking");  
+        //still checking
+        //Debug.Log("still checking");
         return 2;
+    }
+
+    public List<Card> fixHandDiscrepancy(List<Card> hand){
+      List<Card> toDiscard = new List<Card>();
+      return toDiscard;
+      // while hand.Count > 12 start by removing allies with no BP, then remove the lowest weapon
     }
 
 }

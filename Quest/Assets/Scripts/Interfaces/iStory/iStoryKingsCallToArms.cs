@@ -16,6 +16,7 @@ public class iStoryKingsCallToArms : iStory{
       }
       Debug.Log("The highest ranked player(s) must place 1 weapon in the discard pile, or if they can not, 2 foe cards");
     }
+    game.isDoneStoryEvent = true;
   }
 
   public int getHighest(List<Player> players){

@@ -66,7 +66,6 @@ public class iStoryQuest : iStory
 
                 if (game.numIterations >= game.currentQuest.stages)
                 {
-                    //add arrays after receiving everything
                     QuestState.stages = new List<Card>[game.currentQuest.stages];
                     System.Array.Copy(game.sponsorQueriedCards, QuestState.stages, game.currentQuest.stages);
                     game.numIterations = 0;
@@ -221,12 +220,7 @@ public class iStoryQuest : iStory
                                 sum += QuestState.amours[i].Count;
                             }
 
-                            Debug.Log("Player Base BP:");
-                            Debug.Log(game.players[i].CalculateBP().ToString());
-                            Debug.Log(game.players[i].rankCard.battlePoints.ToString());
-                            sum += game.players[i].CalculateBP();
-                            Debug.Log(sum.ToString());
-
+                            sum += game.players[i].CalculateBP(storyCard.name, players);
                             if (sum < GetStageBP(QuestState.currentStage, game.currentQuest))
                             {
 
@@ -424,9 +418,10 @@ public class iStoryQuest : iStory
                 {
                     List<Card> testDiscardCards = new List<Card>(game.userInput.selectedCards);
 
-                    if (testDiscardCards.Count != Mathf.Max(QuestState.testBids[game.currentPlayerIndex] - game.players[game.currentPlayerIndex].calculateBid(game.currentQuest.name, game.players), 0))
-                    {
+                    if (testDiscardCards.Count != Mathf.Max(QuestState.testBids[game.currentPlayerIndex] - game.players[game.currentPlayerIndex].calculateBid(game.currentQuest.name, game.players),0))
+                    
                         game.returnToPlayerHand();
+                        game.populatePlayerBoard();
                         game.userInput.DeactivateUI();
                         game.userInput.ActivateCardUIPanel("Invalid number of cards submitted, please submit " + (Mathf.Max(QuestState.testBids[game.currentPlayerIndex] - game.players[game.currentPlayerIndex].calculateBid(game.currentQuest.name, game.players), 0)).ToString() + " cards.");
                     }

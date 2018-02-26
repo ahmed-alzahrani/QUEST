@@ -43,6 +43,7 @@ public class Deck {
         int r = Random.Range (0, deck.Count - 1);
         Card card = deck[r];
         deck.Remove(card);
+        emptyCheck();
         return card;
     }
 
@@ -52,6 +53,7 @@ public class Deck {
             int r = Random.Range(0, deck.Count - 1);
             Card card = deck[r];
             deck.Remove(card);
+            emptyCheck();
             drawnCards.Add(card);
         }
         return drawnCards;
@@ -63,5 +65,29 @@ public class Deck {
         }
     }
 
-    // public Card drawNext(){}
+    public void emptyCheck()
+    {
+      if (deck.Count == 0)
+      {
+        refillFromDiscard();
+      }
+    }
+
+    public void refillFromDiscard()
+    {
+      List<Card> cards = new List<Card>();
+
+      // fills deck with the contents of discard
+      for (int i = 0; i < discard.Count; i++)
+      {
+        deck.Add(discard[i]);
+      }
+
+      // loops backward through discard and empties it
+      for (int i = deck.Count; i > 0; i--)
+      {
+        discard.Remove(discard[i - 1]);
+      }
+
+    }
 }

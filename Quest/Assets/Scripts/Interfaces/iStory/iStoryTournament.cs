@@ -15,7 +15,7 @@ public class iStoryTournament : iStory
 {
     public void execute(List<Player> player, Card storyCard, GameController game)
     {
-        //Ally cards on field do not matter !!!!!!! so only player rank and what he adds in 
+        //Ally cards on field do not matter !!!!!!! so only player rank and what he adds in
         if (TournamentState.state == "Participation" && TournamentState.tourneyRound == 1)
         {
             //do participation check code
@@ -80,7 +80,7 @@ public class iStoryTournament : iStory
                 int totalPlayer = 0;
                 List<int> playerTotals = new List<int>();
 
-                //concatonate results 
+                //concatonate results
                 //ensuring deep copy
                 List<List<Card>> temp = new List<List<Card>>(game.queriedCards);
 
@@ -140,12 +140,12 @@ public class iStoryTournament : iStory
                                 }
                             }
                             //add player's rank BP only
-                            totalPlayer += game.players[i].CalculateBP();
+                            totalPlayer += game.players[i].CalculateBP("", player);
                         }
                         else
                         {
                             //if he is participating and didn't add anything use his rank only
-                            totalPlayer = game.players[i].CalculateBP();
+                            totalPlayer = game.players[i].CalculateBP("", player);
                         }
                     }
 
@@ -161,7 +161,7 @@ public class iStoryTournament : iStory
                     totalPlayer = 0;
                 }
 
-                
+
                 //discard weapon Cards
                 for (int i = 0; i < TournamentState.undiscardedCards.Length; i++)
                 {
@@ -195,7 +195,7 @@ public class iStoryTournament : iStory
                     {
                         if (TournamentState.undiscardedCards[i] != null && TournamentState.undiscardedCards[i].Count > 0)
                         {
-                            game.DiscardAdvenureCards(TournamentState.undiscardedCards[i]); 
+                            game.DiscardAdvenureCards(TournamentState.undiscardedCards[i]);
                         }
                     }
                 }
@@ -229,7 +229,7 @@ public class iStoryTournament : iStory
                     Debug.Log("There is a draw");
                     //requery cards
                     System.Array.Clear(game.queriedCards , 0 , game.queriedCards.Length);
-                   
+
                     // game.queriedCards.Clear();
                     TournamentState.cardsToBeDiscarded.Clear();
                 }
@@ -237,7 +237,7 @@ public class iStoryTournament : iStory
                 {
                     Debug.Log("found winners");
 
-                    //we are done we have a winner or winners 
+                    //we are done we have a winner or winners
                     for (int i = 0; i < winners.Count; i++)
                     {
                         TournamentCard myCard = (TournamentCard)storyCard;

@@ -10,6 +10,8 @@ public class iStoryPoxTest{
   public void execute_removes1ShieldFromAllButDrawer()
   {
     iStoryPox pox = new iStoryPox();
+    GameController game = new GameController();
+    game.isDoneStoryEvent = false;
     EventCard eCard = new EventCard("Event Card", "Test Event", "description", "path", pox);
     List<Player> players = new List<Player>();
 
@@ -35,11 +37,12 @@ public class iStoryPoxTest{
     Assert.AreEqual(player3.score, 2);
     Assert.AreEqual(player4.score, 1);
 
-    pox.execute(players, eCard, null);
+    pox.execute(players, eCard, game);
 
     Assert.AreEqual(player1.score, 4);
     Assert.AreEqual(player2.score, 2);
     Assert.AreEqual(player3.score, 1);
     Assert.AreEqual(player4.score, 0);
+    Assert.AreEqual(game.isDoneStoryEvent, true);
   }
 }

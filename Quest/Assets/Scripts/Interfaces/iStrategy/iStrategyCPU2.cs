@@ -13,21 +13,6 @@ public class iStrategyCPU2 : iStrategy
     return 1;
   }
 
-  public int getValidCardBP(Card card){
-    if (card.type == "Ally Card"){
-      AllyCard ally = (AllyCard)card;
-      return ally.battlePoints;
-    }
-    if (card.type == "Weapon Card"){
-      WeaponCard weapon = (WeaponCard)card;
-      return weapon.battlePoints;
-    } else {
-      // amour
-      return 10;
-    }
-  }
-
-
   // We play the fewest cards possible to get to 50 or our best possible total
   public List<Card> playTournament(List<Player> players, List<Card> hand, int baseBP, int shields)
   {
@@ -40,7 +25,7 @@ public class iStrategyCPU2 : iStrategy
         validCards.Add(hand[i]);
       }
     }
-    validCards = strat.sortAllValidCardsByAscendingBP(validCards);
+    validCards = strat.sortAllValidCardsByDescendingBP(validCards, players, "");
     // get how much BP we need left by subtracting our base
     int bpNeeded = 50 - baseBP;
 
@@ -51,12 +36,12 @@ public class iStrategyCPU2 : iStrategy
     int index = 0;
 
     // until either we run out of validCards or we have gone above the BP threshold we wish to hit (50)
-    while (bpNeeded >= 0 && index < validCards.Count){
+    while (bpNeeded > 0 && index < validCards.Count){
       // first make sure that we still have cards in validCards to evaluate
         // check that the card were trying to play isn't a duplicate weapon
       if (strat.checkDuplicate(validCards[index], cardsToPlay, "Weapon Card")){
         // add the card to our cards to be played
-        bpNeeded -= strat.getValidCardBP(validCards[index]);
+        bpNeeded -= strat.getValidCardBP(validCards[index], players, "");
         cardsToPlay.Add(validCards[index]);
         hand.Remove(validCards[index]);
       }
@@ -141,8 +126,8 @@ public class iStrategyCPU2 : iStrategy
         weapons.Add(hand[i]);
       }
     }
-    foes = strat.sortFoesByAscendingOrder(foes, questFoe);
-    weapons = strat.sortWeaponsByAscendingOrder(weapons);
+    foes = strat.sortFoesByDescendingOrder(foes, questFoe);
+    weapons = strat.sortWeaponsByDescendingOrder(weapons);
 
     // instantiate the foeEncounter list
     List<Card> foeEncounter = new List<Card>();
@@ -220,7 +205,7 @@ public class iStrategyCPU2 : iStrategy
     public int participateInQuest(int stages, List<Card> hand, GameController game)
     {
         // Simply calls both the tests to see if the CPU can play sufficient BP to progress and discard Foes for a Test
-        if ((canIIncrement(stages, hand) && canIDiscard(hand)))
+        if ((canIIncrement(stages, hand, game.players, game.currentQuest) && canIDiscard(hand)))
         {
             return 1;
         }
@@ -230,42 +215,70 @@ public class iStrategyCPU2 : iStrategy
         }
     }
 
-  /*
-  Knowing that the player wants to increment by 10BP each round, that means that for x rounds,the minimum number of BP needed to play would be
+  public bool canIIncrement(int stages, List<Card> hand, List<Player> players, QuestCard card)
+  {
 
-  10 * 1 + 10 * 2 + 10 * 3 ---> 10 * x for x rounds.
-
-  The player simply tallies their BP, only counting 1 Amour card to see if they can play in the Quest
-  */
-  public bool canIIncrement(int stages, List<Card> hand){
     strategyUtil strat = new strategyUtil();
-    int bpNeeded = 0;
-    for (int x = 1; x <= stages; x++) {
-      bpNeeded += (10 * x);
-    }
+    int firstStageToFill = 1;
+    bool hasAmour = false;
+    int prev = 0;
 
-    List<Card> validCards = new List<Card>();
+    List<Card> allies = new List<Card>();
+    List<Card> weapons = new List<Card>();
+    // Seperately fill lists with our weapons and allies
     for (int i = 0; i < hand.Count; i++){
       if (hand[i].type == "Weapon Card"){
-        validCards.Add(hand[i]);
+        weapons.Add(hand[i]);
       }
-      if (hand[i].type == "Amour Card" && strat.checkDuplicate(hand[i], validCards, "Amour Card")){
-        validCards.Add(hand[i]);
+      // If we have an Amour Card, it will immediately be played meaning we start filling stages from round 2 (bc round 1 will be 10BP)
+      if (hand[i].type == "Amour Card" && (hasAmour == false)){
+        hasAmour = true;
+        firstStageToFill = 2;
+        prev = 10;
       }
       if (hand[i].type == "Ally Card"){
         AllyCard ally = (AllyCard)hand[i];
-        if (ally.battlePoints > 0){
-          validCards.Add(hand[i]);
+        if (ally.getBattlePoints(card.name, players) > 0){
+          allies.Add(hand[i]);
         }
       }
     }
+    // sort them by ascending order
+    allies = strat.sortAlliesByAscendingOrder(allies, card.name, players);
+    weapons = strat.sortWeaponsByAscendingOrder(weapons);
 
-    int bpInPosession = 0;
-    for (int i = 0; i < validCards.Count; i++){
-      bpInPosession += getValidCardBP(validCards[i]);
+    // Now we walk through each stage of the quest
+    for (int i = firstStageToFill; i <= stages; i++){
+      // instantiate a list of unique weapon to ensure each stage doesn't have duplicate weapons
+      List<Card> uniqueWeapons = new List<Card>();
+      // set our threshold for how many BP this stage needs (incremented by 10)
+      int pointThreshold = (10 + prev);
+      // our current points for this stage
+      int points = 0;
+      // while we still have allies to play and we have yet to hit our point threshold
+      while (allies.Count > 0 && (points < pointThreshold)){
+        // play our allies and increment points to include their battlePoints
+        AllyCard ally = (AllyCard)allies[0];
+        points += ally.getBattlePoints(card.name, players);
+        allies.Remove(allies[0]);
+      }
+      // if we run out of allies, we can loop through weapons and make sure that were not gonna play a duplicate weapon
+      while (weapons.Count > 0 && (points < pointThreshold) && strat.checkDuplicate(weapons[0], uniqueWeapons, "Weapon Card")){
+        WeaponCard weapon = (WeaponCard)weapons[0];
+        points += weapon.battlePoints;
+        weapons.Remove(weapons[0]);
+      }
+      // if we've run out of allies AND weapons but haven't filled in this current stage yet then return false
+      if (points < pointThreshold){
+        return false;
+      }
+      // set prev to whatever our points ended up as
+      prev = points;
     }
-    return (bpInPosession >= bpNeeded);
+    // return true if weve made it through all stages
+    return true;
   }
+
 
   // checks that the player has at LEAST 2 foes with less than 25 BP that they can discard if need be
   public bool canIDiscard(List<Card> hand){
@@ -289,12 +302,12 @@ public class iStrategyCPU2 : iStrategy
 
     } else {
       // else we play the earlier foe strategy, where we try to increment by 10 based on the previous stage
-      return playEarlierFoe(hand, previous, amour);
+      return playEarlierFoe(hand, previous, amour, questName, players);
     }
   }
 
   // earlier foe behavior, we try to play using the smallest cards possible until we play 10 more than the previous foe encounter
-  public List<Card> playEarlierFoe(List<Card> hand, int previous, bool amour){
+  public List<Card> playEarlierFoe(List<Card> hand, int previous, bool amour, string questName, List<Player> players){
     strategyUtil strat = new strategyUtil();
     // set our threshold
     int bpNeeded = previous + 10;
@@ -312,29 +325,39 @@ public class iStrategyCPU2 : iStrategy
       }
     }
 
+    List<Card> weapons = new List<Card>();
+    List<Card> allies = new List<Card>();
+
     // make a list of the valid cards to play, non-duplicate weapons and Allies with more than 0 BP.
     List<Card> validCards = new List<Card>();
     for (int i = 0; i < hand.Count; i++){
-      if (hand[i].type == "Weapon Card" && strat.checkDuplicate(hand[i], validCards, "Weapon Card")){
-        validCards.Add(hand[i]);
+      if (hand[i].type == "Weapon Card" && strat.checkDuplicate(hand[i], weapons, "Weapon Card")){
+        weapons.Add(hand[i]);
       }
       if (hand[i].type == "Ally Card"){
         AllyCard ally = (AllyCard)hand[i];
-        if (ally.battlePoints > 0){
-          validCards.Add(hand[i]);
+        if (ally.getBattlePoints(questName, players) > 0){
+          allies.Add(hand[i]);
         }
       }
     }
 
-    validCards = strat.sortAllValidCardsByAscendingBP(validCards);
+    // sort them by ascending order
+    allies = strat.sortAlliesByAscendingOrder(allies, questName, players);
+    weapons = strat.sortWeaponsByAscendingOrder(weapons);
 
-    // while we still need BP, loop through add the cards with the lowest BP possible
-    int index = 0;
-    while(bpNeeded > 0 && index < hand.Count) {
-      bpNeeded -= getValidCardBP(validCards[index]);
-      foeEncounter.Add(validCards[index]);
-      hand.Remove(validCards[index]);
-      index ++;
+    while (allies.Count > 0 && bpNeeded > 0){
+      foeEncounter.Add(allies[0]);
+      AllyCard ally = (AllyCard)allies[0];
+      bpNeeded -= ally.getBattlePoints(questName, players);
+      allies.Remove(allies[0]);
+    }
+
+    while (weapons.Count > 0 && bpNeeded > 0){
+      foeEncounter.Add(weapons[0]);
+      WeaponCard weapon = (WeaponCard)weapons[0];
+      bpNeeded -= weapon.battlePoints;
+      weapons.Remove(weapons[0]);
     }
     // return the resulting list
     return foeEncounter;
@@ -348,7 +371,7 @@ public class iStrategyCPU2 : iStrategy
       if (hand[i].type == "Weapon Card" && strat.checkDuplicate(hand[i], foeEncounter, "Weapon Card")){
         foeEncounter.Add(hand[i]);
       }
-      if (hand[i].type == "Ally"){// && hand[i].battlePoints > 0){
+      if (hand[i].type == "Ally Card"){// && hand[i].battlePoints > 0){
         AllyCard ally = (AllyCard)hand[i];
         if (ally.battlePoints > 0){
           foeEncounter.Add(hand[i]);
@@ -392,7 +415,7 @@ public class iStrategyCPU2 : iStrategy
       for (int i = 0; i < hand.Count; i++){
         if ((hand[i].type == "Foe Card" && strat.checkDuplicate(hand[i], bid, "Foe Card"))){ //        hand[i].minBP < 25)
           FoeCard foe = (FoeCard)hand[i];
-          if (foe.minBP > 25){
+          if (foe.minBP < 25){
             bid.Add(hand[i]);
           }
         }
@@ -433,9 +456,15 @@ public class iStrategyCPU2 : iStrategy
     public int respondToPrompt(GameController game)
     {
 
-        //still checking 
-        //Debug.Log("still checking");  
+        //still checking
+        //Debug.Log("still checking");
         return 2;
+    }
+
+    public List<Card> fixHandDiscrepancy(List<Card> hand){
+      List<Card> toDiscard = new List<Card>();
+      return toDiscard;
+      // while hand.Count > 12 start by removing allies with no BP, then remove the lowest weapon
     }
 
 }
