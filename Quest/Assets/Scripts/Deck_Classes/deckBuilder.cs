@@ -146,10 +146,10 @@ public class deckBuilder
         foeCards.Add(new FoeCard("Foe Card", "Saxons", "Textures/foe/saxons", 10, 20));
         foeCards.Add(new FoeCard("Foe Card", "Saxons", "Textures/foe/saxons", 10, 20));
         foeCards.Add(new FoeCard("Foe Card", "Saxons", "Textures/foe/saxons", 10, 20));
-        foeCards.Add(new FoeCard("Foe Card", "Boar", "Textures/foe/saxons", 5, 15));
-        foeCards.Add(new FoeCard("Foe Card", "Boar", "Textures/foe/saxons", 5, 15));
-        foeCards.Add(new FoeCard("Foe Card", "Boar", "Textures/foe/saxons", 5, 15));
-        foeCards.Add(new FoeCard("Foe Card", "Boar", "Textures/foe/saxons", 5, 15));
+        foeCards.Add(new FoeCard("Foe Card", "Boar", "Textures/foe/boar", 5, 15));
+        foeCards.Add(new FoeCard("Foe Card", "Boar", "Textures/foe/boar", 5, 15));
+        foeCards.Add(new FoeCard("Foe Card", "Boar", "Textures/foe/boar", 5, 15));
+        foeCards.Add(new FoeCard("Foe Card", "Boar", "Textures/foe/boar", 5, 15));
         foeCards.Add(new FoeCard("Foe Card", "Thieves", "Textures/foe/thieves", 5, 5));
         foeCards.Add(new FoeCard("Foe Card", "Thieves", "Textures/foe/thieves", 5, 5));
         foeCards.Add(new FoeCard("Foe Card", "Thieves", "Textures/foe/thieves", 5, 5));
