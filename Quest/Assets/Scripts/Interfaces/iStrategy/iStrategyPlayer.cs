@@ -65,7 +65,7 @@ public class iStrategyPlayer : iStrategy
 
     public int participateInQuest(int stages, List<Card> hand, GameController game)
     {
-      return 1;
+      return participateInTourney(null , 0 , game);
     }
 
     public List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour, string questName, List<Player> players)
