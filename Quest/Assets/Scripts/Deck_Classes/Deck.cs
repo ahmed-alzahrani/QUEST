@@ -37,11 +37,19 @@ public class Deck {
         }
     }
 
-    public Card drawCard () {
-
+    public Card drawCard()
+    {
+        //CHANGE HERE FOR SCENARIO CHECKING 
+        /*
         //int r = rnd.Next(count);
-        int r = Random.Range (0, deck.Count - 1);
+        int r = Random.Range(0, deck.Count - 1);
         Card card = deck[r];
+        deck.Remove(card);
+        emptyCheck();
+        return card;
+        */
+        //int r = Random.Range(0, deck.Count - 1);
+        Card card = deck[0];
         deck.Remove(card);
         emptyCheck();
         return card;

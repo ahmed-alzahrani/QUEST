@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /*
     Quests:
     sponsors only use foes with weapons
-    or one test card   (CHECK THESE IN UPDATE??????????????)
+    or one test card  
 
     Participants: only use weapon and amour cards to boost bp only
 */
@@ -65,7 +65,6 @@ public class UIInput
     public Button discardSubmitButton;
     public List<Card> discardSelectedCards;
     public List<GameObject> UIDiscardsSelected;
-
 
     //bools for each ui value
     public bool UIEnabled;
@@ -404,6 +403,8 @@ public class GameController : MonoBehaviour
     public bool foundWinner;
     public bool playerStillOffending;      // players with over 12 cards exist
 
+    public string[] cards;
+
     // Use this for initialization
     void Start()
     {
@@ -434,6 +435,51 @@ public class GameController : MonoBehaviour
         storyDeck = decks.buildStoryDeck();
         adventureDeck = decks.buildAdventureDeck();
 
+        //REMEMBER THE CHANGED DRAW FUNCTION IN DECKS.CS THAT DOESN"T DRAW RANDOMLY
+        //rigging decks here
+        //load scenerios here
+        //THE WAY THE TEXT FILE WILL WORK IS ADVENTURE CARDS THEN STORY CARDS 
+
+        TextAsset text = Resources.Load("TextAssets/Scenario1") as TextAsset;
+        //TextAsset text = Resources.Load("TextAssets/Scenario2") as TextAsset;
+        //TextAsset text = Resources.Load("TextAssets/Scenario3") as TextAsset;
+
+        Debug.Log(text);
+        cards = text.text.Split('\n');
+
+        for (int i = 0; i < adventureDeck.deck.Count; i++)
+        {
+            for (int j = 0; j < adventureDeck.deck.Count; j++)
+            {
+                //shuffle according to the following values
+                if (adventureDeck.deck[j].name == cards[i])
+                {
+                    //move from j to i 
+                    Card tempCard = adventureDeck.deck[j];
+                    adventureDeck.deck[j] = adventureDeck.deck[i];
+                    adventureDeck.deck[i] = tempCard;
+                }
+            }
+        }
+
+        //storyCards now
+        for (int i = 0; i < storyDeck.deck.Count; i++)
+        {
+            for (int j = 0; j < storyDeck.deck.Count; j++)
+            {
+                //shuffle according to the following values
+                if (storyDeck.deck[j].name == cards[i + adventureDeck.deck.Count - 1])
+                {
+                    //move from j to i 
+                    Card tempCard = storyDeck.deck[j];
+                    storyDeck.deck[j] = storyDeck.deck[i + adventureDeck.deck.Count - 1];
+                    storyDeck.deck[i] = tempCard;
+                }
+            }
+        }
+
+        //maybe debug the decks here to check if we successfully rigged the decks
+
         //Setup UI buttons for cards (event listeners etc....)
         adventureDeckUIButton.GetComponent<Button>().onClick.AddListener(DrawFromAdventureDeck);
         storyDeckUIButton.GetComponent<Button>().onClick.AddListener(DrawFromStoryDeck);
@@ -454,15 +500,6 @@ public class GameController : MonoBehaviour
         //UI building
         userInput.SetupUI();
         userInput.ActivateUserInputCheck("How many players are playing the game??");
-
-        //Other stuff
-        /*
-        To-Do Here:
-            1. Somehow communicate with main menu to grab player's name and create player
-
-            2. Create list of players with human player and CPU players
-        */
-
     }
 
     // Update is called once per frame
@@ -513,9 +550,6 @@ public class GameController : MonoBehaviour
                         AddToPanel(CreateUIElement(drawnStoryCard), questPanel);
                         drawnStoryCard = null;
                     }
-
-
-
 
                     //check if story event is done
                     if (isDoneStoryEvent)
@@ -916,7 +950,7 @@ public class GameController : MonoBehaviour
 
     public void CalculateUIPlayerInfo()
     {
-        Debug.Log("Players is ... " + players);
+        //Debug.Log("Players is ... " + players);
         //might need a function in player that calculates the BP at any time
         for (int i = 0; i < players.Count; i++)
         {
