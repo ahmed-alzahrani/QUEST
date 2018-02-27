@@ -1614,57 +1614,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public bool SponsorCapabilityCheck()
-    {
-        int duplicates = 0;
-        bool testAdded = false;
-        List<FoeCard> testHand = new List<FoeCard>();
-
-        int requirementToSponsor = currentQuest.stages;
-
-        bool testInHand = false;
-
-        for (int i = 0; i < players[currentPlayerIndex].hand.Count; i++)
-        {
-            if (players[currentPlayerIndex].hand[i].type == "Foe Card")
-            {
-                int validDuplicates = 0;
-                for (int j = 0; j < testHand.Count; j++)
-                {
-                    if (GetFoeBP(testHand[j]) == GetFoeBP((FoeCard) players[currentPlayerIndex].hand[i]))
-                    {
-                        validDuplicates++;
-                    }
-                }
-                if (validDuplicates % 2 == 1)
-                    duplicates++;
-                testHand.Add(((FoeCard)(players[currentPlayerIndex].hand[i])));
-            }
-            else if (players[currentPlayerIndex].hand[i].type == "test" && testAdded == false)
-                testHand.Add((FoeCard)players[currentPlayerIndex].hand[i]);
-
-        }
-
-        if (testInHand)
-            requirementToSponsor--;
-
-        if (testHand.Count >= (requirementToSponsor + duplicates))
-            return true;
-        else
-            return false;
-    }
-
-    public int GetFoeBP(FoeCard f)
-    {
-        if (currentQuest.foe == f.name)
-        {
-            return f.getMaxBP();
-        }
-        else
-            return f.getMinBP();
-
-    }
-
 
     //query sponsor for his cards for the quest
     //IF SPONSOR ADDS NOTHING OR WE DO NOT
@@ -1728,7 +1677,241 @@ public class GameController : MonoBehaviour
             }
         }
     }
+    
 
+    public bool SponsorCapabilityCheck()
+    {
+        if (!SponsorCapabilitySoftCheck())
+            return false;
+        else if (SponsorCapabilityHardCheck())
+            return true;
+        else
+            return false;
+    }
+
+
+    public bool SponsorCapabilitySoftCheck()
+    {
+        int validStageCardsCount = 0;
+        bool testInhand = false;
+
+        for (int i = 0; i < players[currentPlayerIndex].hand.Count; i++)
+        {
+            if (players[currentPlayerIndex].hand[i] != null)
+            {
+                if (players[currentPlayerIndex].hand[i].type == "Foe Card")
+                    validStageCardsCount++;
+                else if (!testInhand && players[currentPlayerIndex].hand[i].type == "Test Card")
+                {
+                    testInhand = true;
+                    validStageCardsCount++;
+                }
+            }
+        }
+
+        if (validStageCardsCount >= currentQuest.stages)
+            return true;
+        else
+            return false;
+    }
+
+    public bool SponsorCapabilityHardCheck()
+    {
+        //Current number of possible valid stages that can be created.
+        int validStageCardsCount = 0;
+        //Number of weapons in the player's hand.
+        int weaponCount = 0;
+        bool testInhand = false;
+        strategyUtil util = new strategyUtil();
+        //Parallel array of booleans for the player's hand representing available weapon slots in the hand.
+        bool[] weaponAvailable = new bool[players[currentPlayerIndex].hand.Count];
+
+        //Integer array which stores the number of instances of a given BP found in the player's hand.
+        //All battle points are a multiple of 5, which means they're translatable from a 5 - 70 scale to a 0 - 14 scale
+        //This is then widened to account for the highest possible BP to prevent a index out of bounds error    
+        //Maximum BP size of a stage 
+        //(Max Dragon + Excalibur + Lance + Battle Axe + Sword + Horse + Dagger)
+        //(70 + 30 + 20 + 15 + 10 + 10 + 5) / 5 = 32
+        int[] foeValues = new int[(70 + 30 + 20 + 15 + 10 + 10 + 5) / 5];
+
+
+        //Setting values to 0
+        for (int i = 0; i < foeValues.Length; i++)
+        {
+            foeValues[i] = 0;
+        }
+
+
+        for (int i = 0; i < players[currentPlayerIndex].hand.Count; i++)
+        {
+            if (players[currentPlayerIndex].hand[i] != null)
+            {
+                if (players[currentPlayerIndex].hand[i].type == "Foe Card")
+                {
+                    foeValues[(util.getContextBP((FoeCard)players[currentPlayerIndex].hand[i], currentQuest.name) / 5) - 1]++;
+                    //Non-weapon found, thus weapon unavailable at i
+                    weaponAvailable[i] = false;
+                }
+
+                //If a test is found in the hand, validStageCardsCount is incremented and will never be less than 1, 
+                //reducing the number of unique BPs required by 1.
+                else if (!testInhand && players[currentPlayerIndex].hand[i].type == "Test Card")
+                {
+                    testInhand = true;
+                    validStageCardsCount++;
+                    //Non-weapon found, thus weapon unavailable at i
+                    weaponAvailable[i] = false;
+                }
+                else if (players[currentPlayerIndex].hand[i].type == "Weapon Card")
+                {
+                    weaponCount++;
+                    //Weapon found, thus weapon available at i
+                    weaponAvailable[i] = true;
+                }
+            }
+        }
+
+        //Checks to see if there are 3 foes with unique BPs
+        for (int i = 0; i < foeValues.Length; i++)
+        {
+            if(foeValues[i] != 0)
+            {
+                validStageCardsCount++;
+            }
+        }
+        if (validStageCardsCount >= currentQuest.stages)
+            return true;
+
+        //If the number foes with unique BPs plus
+        else if (validStageCardsCount + weaponCount < currentQuest.stages)
+            return false;
+
+        //Begins the check of whether or not adding weapon cards can create a valid hand
+        else
+        {
+            //If there is a test in the player's hand, reduce the total
+            //number of uniqueBP values required by one.
+            if (testInhand)
+                validStageCardsCount = 1;
+            else
+                validStageCardsCount = 0;
+
+            //Goes through the array of foe values, if a given index has a value greater than 1
+            //weapon cards are introduced to attempt finding a unique BP.
+            for (int i = 0; i < foeValues.Length; i++)
+            {
+                if (foeValues[i] > 1)
+                {
+                    for (int j = 0; j < players[currentPlayerIndex].hand.Count; j++)
+                    {
+                        if (players[currentPlayerIndex].hand[j].type == "Weapon Card" && weaponAvailable[j])
+                        {
+                            //Stores the BP value of the weaponcard found.
+                            int wbp = ((WeaponCard)players[currentPlayerIndex].hand[j]).battlePoints;
+
+                            //Second check if foeValues[i] is a unique BP as this for loop will be 
+                            //run for the length of the hand, this prevents reducing foeValues[i] below 1.
+                            if (foeValues[i] > 1)
+                            {
+                                //A new valid unique BP has been found using one weapon card, the value at foeValues[i]
+                                //is decremented and the value at a new index equal to the the current index plus the weapon bp
+                                //is incremented.
+                                if (foeValues[i + (wbp / 5)] < 1)
+                                {
+                                    foeValues[i]--;
+                                    foeValues[i + (wbp / 5)]++;
+                                    weaponAvailable[j] = false;
+                                    //Checks to see if this addition of a new unique BP value creates a valid quest configuration
+                                    if (CVQP(validStageCardsCount, foeValues))
+                                        return true;
+                                }
+                                else
+                                {
+                                    //Itterates for each of the duplicate BPs at foeValues[i]
+                                    for (int dupe_it = 0; dupe_it < foeValues[i]; dupe_it++)
+                                    {
+                                        //List of weapons already added to the foe.
+                                        List<WeaponCard> addedWeapons = new List<WeaponCard>();
+                                        addedWeapons.Add((WeaponCard)players[currentPlayerIndex].hand[j]);
+
+                                        //A "Hopping Index" which carries the current foeBP + sum of weapon BPs added
+                                        int ii = i + (wbp / 5);
+                                        //This is the section which tests if adding multiple weapons to a single foe allows the creation of a valid Quest
+                                        for (int k = j + 1; k < players[currentPlayerIndex].hand.Count; k++)
+                                        {
+                                            if (players[currentPlayerIndex].hand[k].type == "Weapon Card" && weaponAvailable[k])
+                                            {
+                                                //holds the weapon card found in the player's hand, done in order to reduce line length
+                                                WeaponCard foundWeaponCard = (WeaponCard) players[currentPlayerIndex].hand[k];
+
+                                                //Checks to see if the weapon card found is a duplicate of 
+                                                //a weapon card already applied to the foe.
+                                                bool duplicateWeaponCheck = false;
+                                                for (int aW_it = 0; aW_it < addedWeapons.Count; aW_it++)
+                                                    if (addedWeapons[aW_it].name == foundWeaponCard.name)
+                                                        duplicateWeaponCheck = true;
+                                                if (duplicateWeaponCheck)
+                                                    continue;
+
+                                                //alternate variable name performing the same duties as wbp
+                                                int wbp_VERSION_K = foundWeaponCard.battlePoints;
+
+                                                //A new valid unique BP has been found using multiple weapon cards, the value at foeValues[i]
+                                                //is decremented and the value at a new index equal to the the current index plus the sum bp
+                                                //of all weapons used is incremented.
+                                                if (foeValues[ii + (wbp_VERSION_K / 5)] < 1)
+                                                {
+                                                    foeValues[i]--;
+                                                    foeValues[ii + (wbp_VERSION_K / 5)]++;
+                                                    weaponAvailable[j] = false;
+                                                    //Checks to see if this addition of a new unique BP value creates a valid quest configuration
+                                                    if (CVQP(validStageCardsCount, foeValues))
+                                                        return true;
+                                                    //new unique BP found, break loop and attempt to find another valid BP for the next dupicate BP at i
+                                                    break;
+                                                }
+
+                                                //A weapon is added to the current list of weapons being applied to the foe
+                                                else
+                                                {
+                                                    addedWeapons.Add(foundWeaponCard);
+                                                    ii += wbp_VERSION_K;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            //Final check if there are enough unique BP values to fill the quest before returning false
+            if (CVQP(validStageCardsCount, foeValues))
+                return true;
+            else
+                return false;
+        }
+    }
+
+    //Checks to see if the number of unique BP's available to the
+    //player is equal to or greater than the number of stages in the quest.
+    public bool CVQP(int vSCC, int[] foeValues)
+    {
+
+        for (int i = 0; i < foeValues.Length; i++)
+        {
+            if (foeValues[i] != 0)
+            {
+                vSCC++;
+            }
+        }
+
+        if (vSCC >= currentQuest.stages)
+            return true;
+        else
+            return false;
+    }
 
     //NEEDS FIXING TO ADD SHIELDS AND BASE BP AND ADD A STRING TO USE BOTH QUEST AND TOURNAMENTS
     public void CardQuerying(string state)
