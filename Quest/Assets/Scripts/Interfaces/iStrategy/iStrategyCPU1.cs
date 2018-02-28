@@ -500,9 +500,9 @@ public class iStrategyCPU1 : iStrategy
     }
 
     public List<Card> fixHandDiscrepancy(List<Card> hand){
-      List<Card> toDiscard = new List<Card>();
+      strategyUtil strat = new strategyUtil();
+      List<Card> toDiscard = strat.fixHandCPU(hand);
       return toDiscard;
-      // while hand.Count > 12 start by removing allies with no BP, then remove the lowest weapon
     }
 
 }

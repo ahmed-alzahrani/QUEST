@@ -358,5 +358,17 @@ public class strategyUtil
     }
   }
 
+  public List<Card> fixHandCPU(List<Card> hand)
+  {
+    List<Card> discard = new List<Card>();
+
+    while (hand.Count > 12){
+      discard.Add(hand[hand.Count - 1]);
+      hand.RemoveAt(hand.Count - 1);
+    }
+
+    return discard;
+  }
+
 
 }

@@ -550,4 +550,29 @@ public class iStrategyCPU2Test{
     List<Card> cards = strat.playBid(player1.hand, 2);
     Assert.AreEqual(7, cards.Count);
   }
+
+  [Test]
+  public void fixesHandDiscrepancyByDiscardingLatestAdditions()
+  {
+      Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU2());
+      player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
+      player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
+      player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
+      player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
+      player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
+      player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
+      player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
+      player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
+      player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
+      player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
+      player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
+      player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 10, 10));
+      player1.hand.Add(new FoeCard("Foe Card", "Random Foe", "", 45, 45));
+
+      List<Card> discard = player1.strategy.fixHandDiscrepancy(player1.hand);
+
+      Assert.AreEqual(12, player1.hand.Count);
+      Assert.AreEqual(1, discard.Count);
+      Assert.AreEqual("Random Foe", discard[0].name);
+  }
 }

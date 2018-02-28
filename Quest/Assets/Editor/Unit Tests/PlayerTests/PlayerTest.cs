@@ -200,15 +200,15 @@ public class PlayerTest{
   }
 
   [Test]
-  public void kingsCall_PlayerHasOneFoe()
+  public void kingsCall_PlayerHasOneFoe_wont_discard()
   {
     var player = new Player("Ahmed", new List<Card>(), new iStrategyCPU1());
     player.hand.Add(new FoeCard("Foe Card", "Robber Knight", "Textures/foe/robberKnight", 15, 15));
 
     List<Card> discard = player.kingsCall();
-    Assert.AreEqual(discard.Count, 1);
-    Assert.AreEqual(discard[0].type, "Foe Card");
-    Assert.AreEqual(player.hand.Count, 0);
+    Assert.AreEqual(discard.Count, 0);
+    Assert.AreEqual(player.hand[0].type, "Foe Card");
+    Assert.AreEqual(player.hand.Count, 1);
   }
 
   [Test]
@@ -275,5 +275,30 @@ public class PlayerTest{
     players.Add(player1);
     player1.activeAllies.Add(new AllyCard("Ally Card", "Some Ally", "texture", 5, 1, "some ability", "None", "None", 0, 0, new NoBuff()));
     Assert.AreEqual(player1.CalculateBP("", players), 10);
+  }
+
+  [Test]
+  public void handCheck_returns_handCountGreaterThan12()
+  {
+    Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU1());
+    player1.hand.Add(new FoeCard("Foe Card", "Robber Knight1", "Textures/foe/robberKnight", 15, 15));
+    player1.hand.Add(new FoeCard("Foe Card", "Robber Knight2", "Textures/foe/robberKnight", 20, 20));
+    player1.hand.Add(new FoeCard("Foe Card", "Robber Knight3", "Textures/foe/robberKnight", 25, 25));
+    player1.hand.Add(new FoeCard("Foe Card", "Robber Knight1", "Textures/foe/robberKnight", 15, 15));
+    player1.hand.Add(new FoeCard("Foe Card", "Robber Knight2", "Textures/foe/robberKnight", 20, 20));
+    player1.hand.Add(new FoeCard("Foe Card", "Robber Knight3", "Textures/foe/robberKnight", 25, 25));
+    player1.hand.Add(new FoeCard("Foe Card", "Robber Knight1", "Textures/foe/robberKnight", 15, 15));
+    player1.hand.Add(new FoeCard("Foe Card", "Robber Knight2", "Textures/foe/robberKnight", 20, 20));
+    player1.hand.Add(new FoeCard("Foe Card", "Robber Knight3", "Textures/foe/robberKnight", 25, 25));
+    player1.hand.Add(new FoeCard("Foe Card", "Robber Knight1", "Textures/foe/robberKnight", 15, 15));
+    player1.hand.Add(new FoeCard("Foe Card", "Robber Knight2", "Textures/foe/robberKnight", 20, 20));
+    player1.hand.Add(new FoeCard("Foe Card", "Robber Knight3", "Textures/foe/robberKnight", 25, 25));
+
+    Assert.AreEqual(player1.hand.Count, 12);
+    Assert.AreEqual(player1.handCheck(), false);
+
+    player1.hand.Add(new FoeCard("Foe Card", "Robber Knight3", "Textures/foe/robberKnight", 25, 25));
+    Assert.AreEqual(player1.hand.Count, 13);
+    Assert.AreEqual(player1.handCheck(), true);
   }
 }

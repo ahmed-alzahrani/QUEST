@@ -202,13 +202,6 @@ public class Player
     public bool handCheck()
     {
         return hand.Count > 12;
-        /*
-        if (hand.Count > 12) {
-            Debug.Log("You have more than 12 cards you need to fix your hand");
-            retyr
-            // fix your hand
-        }
-        */
     }
 
     public List<Card> kingsCall()
@@ -269,8 +262,4 @@ public class Player
       }
       return false;
     }
-
-    // public void drawCard(deckToDrawFrom){}
-
-    //public Card playCard(){}
 }
