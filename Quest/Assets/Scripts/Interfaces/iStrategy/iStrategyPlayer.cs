@@ -78,7 +78,7 @@ public class iStrategyPlayer : iStrategy
 
     public int willIBid(int currentBid, List<Card> hand, int round, GameController game)
     {
-      return currentBid + 1;
+      return -1;
     }
 
     public List<Card> playBid(List<Card> hand, int round)
