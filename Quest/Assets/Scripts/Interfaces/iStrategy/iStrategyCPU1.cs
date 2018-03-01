@@ -137,6 +137,14 @@ public class iStrategyCPU1 : iStrategy
             }
         }
         questLine.Reverse();
+
+        for (int i = 0; i < questLine.Count; i++)
+        {
+            for (int j = 0; j < questLine[i].Count; j++)
+            {
+                questLine[i][j].display();
+            }
+        }
         return questLine;
     }
 
@@ -193,7 +201,7 @@ public class iStrategyCPU1 : iStrategy
         // seperate the foes and weapons into their own lists from the hand
         for (var i = 0; i < hand.Count; i++)
         {
-            hand[i].display();
+            //hand[i].display();
             if (hand[i].type == "Foe Card")
             {
                 foes.Add(hand[i]);
@@ -214,7 +222,7 @@ public class iStrategyCPU1 : iStrategy
         // subtract the foe with the MOST BP in the user's hand from 40, the AI threshold
         FoeCard firstFoe = (FoeCard)foes[0];
         Debug.Log("I am going to play my strongest foe... this is him!");
-        foes[0].display();
+        //foes[0].display();
         int bpNeeded = (50 - strat.getContextBP(firstFoe, questFoe));
         // Add this foe to the foeEncounter as the foe to be played
         foeEncounter.Add(foes[0]);
@@ -232,7 +240,7 @@ public class iStrategyCPU1 : iStrategy
             bpNeeded -= weapon.battlePoints;
             // add this weapon to the encounter
             Debug.Log("im adding this weapon to the stage.... ");
-            weapons[index].display();
+           // weapons[index].display();
             foeEncounter.Add(weapons[index]);
             hand.Remove(weapons[index]);
             // increment index
@@ -243,14 +251,14 @@ public class iStrategyCPU1 : iStrategy
 
         for (int i = 0; i < hand.Count; i++)
         {
-          hand[i].display();
+          //hand[i].display();
         }
 
         // return the most powerful foe we have with the set of weapons that most quickly gets us to 50 BP.
         Debug.Log("This is my foe encounter...");
         for(int i = 0; i < foeEncounter.Count; i++)
         {
-          foeEncounter[i].display();
+          //foeEncounter[i].display();
         }
         return foeEncounter;
     }
@@ -445,7 +453,7 @@ public class iStrategyCPU1 : iStrategy
         List<Card> bid = playBid(hand, round);
         for (int i = 0; i < bid.Count; i++)
         {
-          bid[i].display();
+          //bid[i].display();
         }
         if (bid.Count > currentBid)
         {

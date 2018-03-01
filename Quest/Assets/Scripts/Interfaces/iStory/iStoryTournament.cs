@@ -161,7 +161,6 @@ public class iStoryTournament : iStory
                     totalPlayer = 0;
                 }
 
-
                 //discard weapon Cards
                 for (int i = 0; i < TournamentState.undiscardedCards.Length; i++)
                 {
@@ -200,7 +199,6 @@ public class iStoryTournament : iStory
                     }
                 }
 
-
                 Debug.Log("Deciding winners");
 
                 List<int> winners = new List<int>();
@@ -217,6 +215,9 @@ public class iStoryTournament : iStory
                         winners.Add(i);
                     }
                 }
+
+                //check for player discard
+                game.playerStillOffending = game.PlayerOffending();
 
                 //undecided another round
                 if (winners.Count >= 2 && TournamentState.tourneyRound == 1)

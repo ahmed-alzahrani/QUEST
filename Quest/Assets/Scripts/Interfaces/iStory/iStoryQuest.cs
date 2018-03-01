@@ -21,13 +21,15 @@ public class QuestState
     public static int questDrawer;
 
     public static bool invalidQuestSubmitted;
-    public static int previousQuestBP;
+    public static int previousQuestBP = 0;
+    public static int minBid;
 }
 
 public class iStoryQuest : iStory
 {
     public void execute(List<Player> players, Card storyCard, GameController game)
     {
+        //FIND A SPONSOR FOR THE QUEST 
         if (QuestState.state == "FindingSponsor")
         {
             QuestState.currentQuest = game.currentQuest;
@@ -54,6 +56,8 @@ public class iStoryQuest : iStory
                 }
             }
         }
+
+        // GET SPONSOR'S CARDS FOR THE QUEST 
         if (QuestState.state == "Sponsoring")
         {
             //Displays a prompt for the player if the quest they submitted is invalid.
@@ -102,6 +106,7 @@ public class iStoryQuest : iStory
             }
         }
 
+        //CHECKING FOR QUEST PARTICIPANTS
         if (QuestState.state == "CheckingForParticipants")
         {
             game.ParticipationCheck("Quest");
@@ -121,7 +126,6 @@ public class iStoryQuest : iStory
                     QuestState.testBidSubmitted = false;
                     QuestState.bidsOver = false;
 
-
                     DrawForStageStart(game);
                     game.populatePlayerBoard();
                     game.populateQuestBoard(false);
@@ -132,8 +136,8 @@ public class iStoryQuest : iStory
                         QuestState.round = 0;
                         TestCard tempTestCard = (TestCard)QuestState.stages[0][0];
                         string[] minBidString = new string[1];
-                        minBidString[0] = tempTestCard.getMinimum().ToString();
-                        game.userInput.ActivateUserInputCheck("A Test is in play, the minimum bid is: " + tempTestCard.getMinimum().ToString());
+                        minBidString[0] = GetMinRequiredBid().ToString();
+                        game.userInput.ActivateUserInputCheck("A Test is in play, the minimum bid is: " + GetMinRequiredBid().ToString());
                     }
                     else
                         game.userInput.ActivateCardUIPanel("Play Ally, Weapon and/or Amour cards for this stage of the quest");
@@ -142,7 +146,7 @@ public class iStoryQuest : iStory
             }
         }
 
-
+        //QUEST GAMEPLAY HERE
         else if (QuestState.state == "PlayingQuest")
         {
             if (QuestState.currentStage >= game.currentQuest.getStages() || game.CheckParticipation() < 1)
@@ -154,12 +158,13 @@ public class iStoryQuest : iStory
             {
                 if (QuestState.stages[QuestState.currentStage][0].type == "Test Card")
                 {
-
                     if (!QuestState.bidsOver)
                     {
                         TestQuery(game);
                         if (game.CheckParticipation() < 2 && QuestState.testBidSubmitted == true)
                         {
+                            //check for test card thing 
+
                             QuestState.bidsOver = true;
                             game.userInput.DeactivateUI();
                             game.populatePlayerBoard();
@@ -245,6 +250,11 @@ public class iStoryQuest : iStory
                 Debug.Log("currentStage: " + QuestState.currentStage);
                 game.populateQuestBoard(true);
 
+                //check for discard
+                game.playerStillOffending = game.PlayerOffending();
+
+                if (!(QuestState.stages[QuestState.currentStage][0].type == "Test Card"))
+                    QuestState.previousQuestBP = GetStageBP(QuestState.currentStage, QuestState.currentQuest);
 
                 QuestState.currentStage++;
                 if (QuestState.currentStage >= game.currentQuest.getStages())
@@ -266,8 +276,8 @@ public class iStoryQuest : iStory
                         QuestState.round = 0;
                         TestCard tempTestCard = (TestCard)QuestState.stages[QuestState.currentStage][0];
                         string[] minBidString = new string[1];
-                        minBidString[0] = tempTestCard.getMinimum().ToString();
-                        game.userInput.ActivateUserInputCheck("A Test is in play, the minimum bid you must make is: " + (tempTestCard.getMinimum()).ToString());
+                        minBidString[0] = GetMinRequiredBid().ToString();
+                        game.userInput.ActivateUserInputCheck("A Test is in play, the minimum bid you must make is: " + (GetMinRequiredBid()).ToString());
                     }
                     else
                         game.userInput.ActivateCardUIPanel("Play Ally, Weapon and/or Amour cards for this stage of the quest");
@@ -313,7 +323,6 @@ public class iStoryQuest : iStory
 
 
         //reset static values
-
         QuestState.state = "FindingSponsor";
         QuestState.currentQuest = null;
         QuestState.numberOfParticipants = 0;
@@ -355,6 +364,11 @@ public class iStoryQuest : iStory
 
         int currentMinBid = ((TestCard)QuestState.stages[QuestState.currentStage][0]).getMinimum();
 
+        if (QuestState.stages[QuestState.currentStage][0].name == "Test of the Questing Beast" && QuestState.currentQuest.name == "Search for the Questing Beast")
+        {
+            currentMinBid++;
+        }
+
         if (QuestState.testBids != null)
         {
             for (int i = 0; i < QuestState.testBids.Length; i++)
@@ -368,8 +382,6 @@ public class iStoryQuest : iStory
         }
 
         return currentMinBid;
-
-
     }
 
 
@@ -389,16 +401,15 @@ public class iStoryQuest : iStory
 
                     if (aiBid == 0)
                     {
-
                         game.players[game.currentPlayerIndex].participating = false;
                         game.UpdatePlayerTurn();
                         game.populatePlayerBoard();
                         game.userInput.DeactivateUI();
                         game.userInput.ActivateUserInputCheck("A Test is in play, the minimum bid is: " + GetMinRequiredBid().ToString());
                     }
-
                     else if (aiBid != -1)
                     {
+                        //ai bid smthg other than 0
                         int submittedBid = 0;
                         bool result = int.TryParse(game.userInput.KeyboardInput.text, out submittedBid);
 
@@ -420,9 +431,9 @@ public class iStoryQuest : iStory
                             game.userInput.ActivateUserInputCheck("Please enter a bid equal to, or greater than: " + GetMinRequiredBid().ToString() + ". Press enter with without typing a bid to quit.");
                         }
                     }
-
                     else if (game.userInput.KeyboardInput.text.Length > 0 && Input.GetKeyDown("return"))
                     {
+                        // player finished bidding
                         int submittedBid = 0;
                         bool result = int.TryParse(game.userInput.KeyboardInput.text, out submittedBid);
 
@@ -442,9 +453,6 @@ public class iStoryQuest : iStory
                             game.userInput.DeactivateUI();
                             //submits query again with error statement
                             game.userInput.ActivateUserInputCheck("Please enter a bid equal to, or greater than: " + GetMinRequiredBid().ToString() + ". Press enter with without typing a bid to quit.");
-
-
-
                         }
                     }
 
@@ -462,18 +470,14 @@ public class iStoryQuest : iStory
         }
     }
 
-
-
-
     public void DiscardCards(GameController game)
     {
         if (game.userInput.UIEnabled)
         {
             if (game.userInput.cardPanelUIEnabled)
             {
-
-
                 List<Card> testDiscardCards = new List<Card>(game.userInput.selectedCards);
+
                 if (game.userInput.doneAddingCards)
                 {
 
@@ -523,10 +527,11 @@ public class iStoryQuest : iStory
 
     public int GetStageBP(int index, QuestCard q)
     {
-
         strategyUtil util = new strategyUtil();
         int sum = 0;
+
         Debug.Log("GetStageBP index: " + index.ToString());
+
         if (index >= QuestState.stages.Length)
         {
             Debug.Log("Invalid index given to GetStageBP");
@@ -559,6 +564,7 @@ public class iStoryQuest : iStory
                 return -1;
             else
             {
+                //We have a foe and weapon card
                 sum += util.getContextBP((FoeCard)QuestState.stages[index][0], QuestState.currentQuest.foe);
                 for (int i = 1; i < QuestState.stages[index].Count; i++)
                 {
@@ -568,13 +574,14 @@ public class iStoryQuest : iStory
                         return -2;
                     }
                     else
+                    {
                         sum += ((WeaponCard)QuestState.stages[index][i]).battlePoints;
+                    }
                 }
             }
             return sum;
         }
     }
-
 
     public bool ValidQuest()
     {
@@ -582,7 +589,9 @@ public class iStoryQuest : iStory
 
         for (int i = 0; i < stageBP.Length; i++)
             stageBP[i] = 0;
+
         bool testAdded = false;
+
         for (int i = 0; i < QuestState.stages.Length; i++)
         {
             if (QuestState.stages[i] == null)
@@ -596,6 +605,7 @@ public class iStoryQuest : iStory
                     return false;
                 }
             }
+
             int bpCheck = GetStageBP(i, QuestState.currentQuest);
 
             Debug.Log(bpCheck.ToString());

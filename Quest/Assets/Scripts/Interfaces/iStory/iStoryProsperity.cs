@@ -15,6 +15,8 @@ public class iStoryProsperity : iStory{
                 players[i].drawCards(game.adventureDeck.drawCards(2));
       }
     }
+    //check for discard
+    game.playerStillOffending = game.PlayerOffending();
     game.isDoneStoryEvent = true;
   }
 }

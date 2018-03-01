@@ -23,7 +23,7 @@ abstract public class Card
 
     public void display()
     {
-        Debug.Log("Card Type: " + type);
+        //Debug.Log("Card Type: " + type);
         Debug.Log("Card Name: " + name);
     }
 }

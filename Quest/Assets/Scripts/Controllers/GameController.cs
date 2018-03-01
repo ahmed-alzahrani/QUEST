@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /*
     Tournaments:
@@ -15,12 +16,16 @@ using UnityEngine.UI;
     Participants: only use weapon and amour cards to boost bp only
 */
 
+//WHAT WE HAVE LEFT
+//KIGNS CALL TO ARMS 
+//DISCARD 
+//UI THING for BP
+//UI FOR WINNING THE GAME 
+
 //CHECK THE ISTRATEGIES FOR HAVING ALL THE CORRECT FUNCTIONS
 //WIN CONDITIONS
-// uncomment deck builder stuff
-//kings recognition quest stuff
+//uncomment deck builder stuff
 //CHECK MERLIN"S ABILITY
-//CHECK MORDRED
 
 //TOURNAMENTS                          DONEEEEEEE
 //QUESTS
@@ -104,6 +109,7 @@ public class UIInput
         discardPanel.SetActive(true);
         userDiscardMessage.text = userMsg;
     }
+
     public void DeactivateDiscardPanel()
     {
         discardPanel.SetActive(false);
@@ -120,6 +126,7 @@ public class UIInput
 
         UIDiscardsSelected.Clear();
     }
+
     public void CheckDiscardCard(Card card)
     {
         for (int i = 0; i < discardSelectedCards.Count; i++)
@@ -130,6 +137,7 @@ public class UIInput
             }
         }
     }
+
     public void RemoveFromDiscardPanel(int index)
     {
         // if u change ur mind
@@ -138,6 +146,7 @@ public class UIInput
         Object.Destroy(UICardsSelected[index]);
         UICardsSelected.RemoveAt(index);
     }
+
     public void AddToUIDiscardPanel(GameObject card)
     {
         CardUIScript script = card.GetComponent<CardUIScript>();
@@ -148,7 +157,6 @@ public class UIInput
 
         card.transform.SetParent(chosenDiscardsPanel.transform);
     }
-
 
     public void ActivateBooleanCheck(string userMsg)
     {
@@ -167,6 +175,7 @@ public class UIInput
         inputPanel.SetActive(false);
         userMessage.text = userMsg;
     }
+
     public void ActivateUserInputCheck(string userMsg)
     {
         UIEnabled = true;
@@ -184,6 +193,7 @@ public class UIInput
         KeyboardInput.text = "";
         userMessage1.text = userMsg;
     }
+
     public void ActivateCardUIPanel(string userMsg)
     {
         UIEnabled = true;
@@ -202,7 +212,6 @@ public class UIInput
         totalBP.text = "BP: " + totalBPCount.ToString();
     }
 
-
     public GameObject CheckCard(Card card)
     {
         for (int i = 0; i < selectedCards.Count; i++)
@@ -214,6 +223,7 @@ public class UIInput
         }
         return null;
     }
+
     public void AddToUICardPanel(GameObject card)
     {
         CardUIScript script = card.GetComponent<CardUIScript>();
@@ -228,7 +238,6 @@ public class UIInput
         card.transform.SetParent(chosenCardsPanel.transform);
     }
 
-
     //Destroy's the children of a given game object by finding said object by its tag.
     public void DestroyChildren(string gameObjectTag)
     {
@@ -241,17 +250,26 @@ public class UIInput
             }
     }
 
-
     public void CalculateTotalBP()
     {
         int total = 0;
+
+        strategyUtil util = new strategyUtil();
 
         for (int i = 0; i < selectedCards.Count; i++)
         {
             if (selectedCards[i].type == "Foe Card")
             {
                 FoeCard foe = (FoeCard)selectedCards[i];
-                total += foe.minBP;
+
+                if (QuestState.currentQuest != null)
+                {
+                    total += util.getContextBP(foe, QuestState.currentQuest.foe);
+                }
+                else
+                {
+                    total += foe.minBP;
+                }
             }
             else if (selectedCards[i].type == "Weapon Card")
             {
@@ -404,6 +422,8 @@ public class GameController : MonoBehaviour
     public bool playerStillOffending;      // players with over 12 cards exist
 
     public string[] cards;
+    public int[] mordredControllerBeta;
+    public int mordCurr;
 
     // Use this for initialization
     void Start()
@@ -412,7 +432,7 @@ public class GameController : MonoBehaviour
         isSettingUpGame = true;
         currentPlayerIndex = 0;
         setupState = 0;
-        shieldPaths = new List<string> {"Textures/Backings/s_backing" , "Textures/Backings/s_backing" , "Textures/Backings/s_backing" , "Textures/Backings/s_backing"};
+        shieldPaths = new List<string> { "Textures/Backings/s_backing", "Textures/Backings/s_backing", "Textures/Backings/s_backing", "Textures/Backings/s_backing" };
         players = new List<Player>();
         drawnAdventureCards = new List<Card>();
         cpuStrategies = new List<int>();
@@ -439,7 +459,7 @@ public class GameController : MonoBehaviour
         //rigging decks here
         //load scenerios here
         //THE WAY THE TEXT FILE WILL WORK IS ADVENTURE CARDS THEN STORY CARDS 
-
+        /*
         TextAsset text = Resources.Load("TextAssets/Scenario1") as TextAsset;
         //TextAsset text = Resources.Load("TextAssets/Scenario2") as TextAsset;
         //TextAsset text = Resources.Load("TextAssets/Scenario3") as TextAsset;
@@ -477,6 +497,7 @@ public class GameController : MonoBehaviour
                 }
             }
         }
+        */
 
         //maybe debug the decks here to check if we successfully rigged the decks
 
@@ -500,6 +521,11 @@ public class GameController : MonoBehaviour
         //UI building
         userInput.SetupUI();
         userInput.ActivateUserInputCheck("How many players are playing the game??");
+
+        mordredControllerBeta = new int[3];
+        for (int i = 0; i < mordredControllerBeta.Length; i++)
+            mordredControllerBeta[i] = -1;
+        mordCurr = 0;
     }
 
     // Update is called once per frame
@@ -519,13 +545,58 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    //check for drawn adventure cards No need for that still need to check cards though
-                    //have a state here that checks for having over 12 cards
+                    //check for mordred
+                    if (Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Keypad1))
+                    {
+                        mordredControllerBeta[mordCurr] = 0;
+                        mordCurr = Mathf.Min(mordCurr + 1, 2);
+                    }
+                    else if (Input.GetKey(KeyCode.Alpha2) || Input.GetKey(KeyCode.Keypad2))
+                    {
+                        mordredControllerBeta[mordCurr] = 1;
+                        mordCurr = Mathf.Min(mordCurr + 1, 2);
+                    }
+                    else if (Input.GetKey(KeyCode.Alpha3) || Input.GetKey(KeyCode.Keypad3))
+                    {
+                        mordredControllerBeta[mordCurr] = 2;
+                        mordCurr = Mathf.Min(mordCurr + 1, 2);
+                    }
+                    else if (Input.GetKey(KeyCode.Alpha4) || Input.GetKey(KeyCode.Keypad4))
+                    {
+                        mordredControllerBeta[mordCurr] = 3;
+                        mordCurr = Mathf.Min(mordCurr + 1, 2);
+                    }
+
+                    if (mordCurr >= mordredControllerBeta.Length)
+                    {
+                        if (mordredControllerBeta[0] < numPlayers && mordredControllerBeta[1] < numPlayers)
+                        {
+                            if (players[mordredControllerBeta[1]].activeAllies.Count > mordredControllerBeta[2])
+                            {
+                                for (int i = 0; i < players[mordredControllerBeta[0]].hand.Count; i++)
+                                {
+                                    if (players[mordredControllerBeta[0]].hand[i].name == "Mordred")
+                                    {
+                                        List<Card> tempCards = new List<Card>();
+
+                                        tempCards.Add(players[mordredControllerBeta[0]].hand[i]);
+                                        tempCards.Add(players[mordredControllerBeta[1]].activeAllies[mordredControllerBeta[2]]);
+
+                                        players[mordredControllerBeta[0]].hand.RemoveAt(i);
+                                        players[mordredControllerBeta[1]].activeAllies.RemoveAt(mordredControllerBeta[2]);
+
+                                        DiscardAdvenureCards(tempCards);
+                                    }
+                                }
+                            }
+                        }
+                        mordCurr = 0;
+                    }
 
                     //check for drawn story cards
                     if (drawnStoryCard != null)
                     {
-                        Debug.Log("DRAWN STORY CARD: " + drawnStoryCard.type);
+                        Debug.Log("DRAWN STORY CARD: " + drawnStoryCard.name);
                         EmptyQuestPanel();
 
                         //setup quest , tournament or event
@@ -560,18 +631,15 @@ public class GameController : MonoBehaviour
                             storyDeckDiscardPileUIButton.myCard = currentEvent;
                             storyDeckDiscardPileUIButton.ChangeTexture();
                             storyDeck.discard.Add(currentEvent);
-
                         }
                         else if (currentQuest != null)
                         {
-
                             storyDeckDiscardPileUIButton.myCard = currentQuest;
                             storyDeckDiscardPileUIButton.ChangeTexture();
                             storyDeck.discard.Add(currentQuest);
                         }
                         else if (currentTournament != null)
                         {
-
                             storyDeckDiscardPileUIButton.myCard = currentTournament;
                             storyDeckDiscardPileUIButton.ChangeTexture();
                             storyDeck.discard.Add(currentTournament);
@@ -604,18 +672,17 @@ public class GameController : MonoBehaviour
                     }
                     else if (currentQuest != null)
                     {
-                        // currentQuest.quest.execute(null, currentQuest, this);
                         currentQuest.quest.execute(players, currentQuest, this);
 
                         //CHECK HERE IF CARDS TO BE ADDED BY SPONSOR BREAK THE RULES RETURN ALL THESE CARDS TO HIS HAND AND FORCE HIM TO REDECIDE
-                        //if (QuestState.state == "Sponsoring")
-                        //{
-                        //    if (!AnyFoes() && AnyWeapons())
-                        //    {
-                        //        //there are foes but no weapons return all cards to hand and start again
-                        //        returnToPlayerHand();
-                        //    }
-                        //}
+                        if (QuestState.state == "Sponsoring")
+                        {
+                            if (!AnyFoes() && AnyWeapons())
+                            {
+                                //there are foes but no weapons return all cards to hand and start again
+                                returnToPlayerHand();
+                            }
+                        }
                     }
 
                     if (selectedCard != null)
@@ -661,6 +728,17 @@ public class GameController : MonoBehaviour
                                     }
                                     else if (selectedCard.type == "Amour Card")
                                     {
+                                        //check for any amours already played 
+                                        if (!PlayedAmour(TournamentState.undiscardedCards))
+                                        {
+                                            addToPanel = true;
+                                        }
+                                        else
+                                        {
+                                            addToPanel = false;
+                                        }
+
+                                        //check amours at the moment
                                         for (int i = 0; i < userInput.selectedCards.Count; i++)
                                         {
                                             if (userInput.selectedCards[i].type == "Amour Card")
@@ -691,7 +769,14 @@ public class GameController : MonoBehaviour
                                         else if (selectedCard.type == "Foe Card")
                                         {
                                             // I think we always add foes when u r the sponsor
-                                            addToPanel = true;
+                                            if (!AnyFoes())
+                                            {
+                                                addToPanel = true;
+                                            }
+                                            else
+                                            {
+                                                addToPanel = false;
+                                            }
                                         }
                                         else if (selectedCard.type == "Weapon Card")
                                         {
@@ -734,6 +819,17 @@ public class GameController : MonoBehaviour
                                         }
                                         else if (selectedCard.type == "Amour Card")
                                         {
+                                            //check for any amours already played 
+                                            if (!PlayedAmour(QuestState.amours))
+                                            {
+                                                addToPanel = true;
+                                            }
+                                            else
+                                            {
+                                                addToPanel = false;
+                                            }
+
+                                            //check for amours played at this instance 
                                             for (int i = 0; i < userInput.selectedCards.Count; i++)
                                             {
                                                 if (userInput.selectedCards[i].type == "Amour Card")
@@ -839,17 +935,21 @@ public class GameController : MonoBehaviour
 
             //check winners here
             FindWinners();
+
             if (winners.Count > 1)
             {
                 //game is over
                 foundWinner = true;
-                //Add ui element here
-                //code for showing winners here
-                for (int i = 0; i < winners.Count; i++)
-                {
-                    Debug.Log("Winner: " + players[winners[i]].name);
-                }           
-            } 
+            }
+        }
+        else
+        {
+            //check for yes or no 
+            if (userInput.buttonResult != "")
+            {
+                //go back to mainMenu
+                SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            }
         }
     }
 
@@ -860,7 +960,7 @@ public class GameController : MonoBehaviour
             if (players[i].handCheck())
             {
                 // we are over 12 on a player 
-                return true; 
+                return true;
             }
         }
 
@@ -873,11 +973,27 @@ public class GameController : MonoBehaviour
         //check for winners
         for (int i = 0; i < players.Count; i++)
         {
-            if (players[i].rankUpCheck(players[i].score , 0))
+            if (players[i].rankUpCheck(players[i].score, 0))
             {
                 //store the index of the winners of the game
                 winners.Add(i);
             }
+        }
+
+        //create a userPrompt for the winners
+        if (winners.Count > 0)
+        {
+            string winner = "";
+
+            //code for showing winners here
+            for (int i = 0; i < winners.Count; i++)
+            {
+                winner += players[winners[i]].name;
+            }
+
+            winner += " Won the Game!!!";
+
+            userInput.ActivateBooleanCheck(winner);
         }
     }
 
@@ -933,6 +1049,23 @@ public class GameController : MonoBehaviour
         return false;
     }
 
+    public bool PlayedAmour(List<Card>[] playedCards)
+    {
+        if (playedCards == null || playedCards[currentPlayerIndex] == null) { return false; }
+        else
+        {
+            for (int i = 0; i < playedCards[currentPlayerIndex].Count; i++)
+            {
+                if (playedCards[currentPlayerIndex][i].type == "Amour Card")
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public void DiscardAdvenureCards(List<Card> discardCards)
     {
         //logic discard as well as UI one
@@ -942,7 +1075,7 @@ public class GameController : MonoBehaviour
     }
 
     //update quest data of a certain stage
-    public void AddQuestData(int stageNumber , int totalBP)
+    public void AddQuestData(int stageNumber, int totalBP)
     {
         questStageNumber.text = "Stage: " + stageNumber.ToString();
         questStageBPTotal.text = "BP: " + totalBP.ToString();
@@ -972,7 +1105,7 @@ public class GameController : MonoBehaviour
         //have a draw from adventure deck that takes a certain number of cards to be drawn instead doing it one by one that way click only happens once
         if (drawAdventureCard)
         {
-            drawnAdventureCards = DrawFromDeck(adventureDeck , numCardsToBeDrawn);
+            drawnAdventureCards = DrawFromDeck(adventureDeck, numCardsToBeDrawn);
             drawAdventureCard = false;
         }
         ToggleDeckAnimation();
@@ -983,7 +1116,7 @@ public class GameController : MonoBehaviour
         //only one story card is ever drawn
         if (drawStoryCard)
         {
-            drawnStoryCard = DrawFromDeck(storyDeck , 1)[0];
+            drawnStoryCard = DrawFromDeck(storyDeck, 1)[0];
             drawStoryCard = false;
         }
         ToggleDeckAnimation();
@@ -1034,7 +1167,7 @@ public class GameController : MonoBehaviour
         UICard.transform.SetParent(panel.transform);
     }
 
-    public List<Card> DrawFromDeck(Deck deckToDrawFrom , int numCards)
+    public List<Card> DrawFromDeck(Deck deckToDrawFrom, int numCards)
     {
         List<Card> drawnCards = new List<Card>();
 
@@ -1132,10 +1265,13 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < players.Count; i++)
         {
             //check for special ally abilities
-            if (currentQuest != null){
-              UIBPS[i].text = "BP: " + players[i].CalculateBP(currentQuest.name, players);
-            } else {
-              UIBPS[i].text = "BP: " + players[i].CalculateBP("", players);
+            if (currentQuest != null)
+            {
+                UIBPS[i].text = "BP: " + players[i].CalculateBP(currentQuest.name, players);
+            }
+            else
+            {
+                UIBPS[i].text = "BP: " + players[i].CalculateBP("", players);
 
             }
 
@@ -1220,7 +1356,7 @@ public class GameController : MonoBehaviour
                 {
                     card.GetComponent<CardUIScript>().ChangeTexture();
                 }
-                AddToPanel(card , questStagePanel);
+                AddToPanel(card, questStagePanel);
             }
         }
     }
@@ -1274,7 +1410,7 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < numHumanPlayers; i++)
         {
             int shield = Random.Range(0, shieldPaths.Count - 1);
-            Player myPlayer = new Player("Player" + (i + 1).ToString(), DrawFromDeck(adventureDeck , 12), new iStrategyPlayer(), shieldPaths[shield]);
+            Player myPlayer = new Player("Player" + (i + 1).ToString(), DrawFromDeck(adventureDeck, 12), new iStrategyPlayer(), shieldPaths[shield]);
             shieldPaths.RemoveAt(shield);       //Each player has unique shields
             myPlayer.gameController = this;
             playerPanels[i].SetActive(true);    //add a ui panel for each player
@@ -1293,7 +1429,7 @@ public class GameController : MonoBehaviour
 
             //log resulting strategy
             if (cpuStrategies[i] == 1) { newPlayer = new Player("CPU" + (i + 1).ToString(), DrawFromDeck(adventureDeck, 12), new iStrategyCPU1(), shieldPaths[shield]); }
-            else { newPlayer = new Player("CPU" + (i + 1).ToString(), DrawFromDeck(adventureDeck , 12) , new iStrategyCPU2() , shieldPaths[shield]); }
+            else { newPlayer = new Player("CPU" + (i + 1).ToString(), DrawFromDeck(adventureDeck, 12), new iStrategyCPU2(), shieldPaths[shield]); }
 
             //newPlayer = new Player("CPU" + (i + 1).ToString(), DrawFromDeck(adventureDeck, 12), new iStrategyCPU1(), shieldPaths[shield]);
 
@@ -1327,7 +1463,12 @@ public class GameController : MonoBehaviour
 
                     if (discards != null)
                     {
-                        //ai discarded we are done
+                        //ai discarded we are done just discard his cards
+                        DiscardAdvenureCards(discards);
+
+                        //get rid of those cards 
+                        discards.Clear();
+
                         numIterations++;
                         UpdatePlayerTurn();
                         userInput.DeactivateDiscardPanel();
@@ -1411,8 +1552,8 @@ public class GameController : MonoBehaviour
             Debug.Log("NUMBER OF CPUS: " + numCpus);
 
             numIterations = 0;
-            userInput.ActivateUserInputCheck("what strategy do you want for cpu " + (numIterations+1).ToString() + " ?");
-            setupState = 3; //won't go in here agaim
+            userInput.ActivateUserInputCheck("what strategy do you want for cpu " + (numIterations + 1).ToString() + " ?");
+            setupState = 3; //won't go in here again
         }
     }
 
@@ -1579,7 +1720,7 @@ public class GameController : MonoBehaviour
                         //circumvent this
                         numIterations = 5;
                     }
-                    else if(sponsoring == 2)
+                    else if (sponsoring == 2)
                     {
                         //Do Nothing
                     }
@@ -1613,7 +1754,6 @@ public class GameController : MonoBehaviour
             }
         }
     }
-
 
     //query sponsor for his cards for the quest
     //IF SPONSOR ADDS NOTHING OR WE DO NOT
@@ -1677,7 +1817,6 @@ public class GameController : MonoBehaviour
             }
         }
     }
-    
 
     public bool SponsorCapabilityCheck()
     {
@@ -1688,7 +1827,6 @@ public class GameController : MonoBehaviour
         else
             return false;
     }
-
 
     public bool SponsorCapabilitySoftCheck()
     {
@@ -1734,13 +1872,11 @@ public class GameController : MonoBehaviour
         //(70 + 30 + 20 + 15 + 10 + 10 + 5) / 5 = 32
         int[] foeValues = new int[(70 + 30 + 20 + 15 + 10 + 10 + 5) / 5];
 
-
         //Setting values to 0
         for (int i = 0; i < foeValues.Length; i++)
         {
             foeValues[i] = 0;
         }
-
 
         for (int i = 0; i < players[currentPlayerIndex].hand.Count; i++)
         {
@@ -1774,7 +1910,7 @@ public class GameController : MonoBehaviour
         //Checks to see if there are 3 foes with unique BPs
         for (int i = 0; i < foeValues.Length; i++)
         {
-            if(foeValues[i] != 0)
+            if (foeValues[i] != 0)
             {
                 validStageCardsCount++;
             }
@@ -1833,6 +1969,7 @@ public class GameController : MonoBehaviour
                                         //List of weapons already added to the foe.
                                         List<WeaponCard> addedWeapons = new List<WeaponCard>();
                                         addedWeapons.Add((WeaponCard)players[currentPlayerIndex].hand[j]);
+                                        List<int> usedWeapons = new List<int>();
 
                                         //A "Hopping Index" which carries the current foeBP + sum of weapon BPs added
                                         int ii = i + (wbp / 5);
@@ -1842,7 +1979,7 @@ public class GameController : MonoBehaviour
                                             if (players[currentPlayerIndex].hand[k].type == "Weapon Card" && weaponAvailable[k])
                                             {
                                                 //holds the weapon card found in the player's hand, done in order to reduce line length
-                                                WeaponCard foundWeaponCard = (WeaponCard) players[currentPlayerIndex].hand[k];
+                                                WeaponCard foundWeaponCard = (WeaponCard)players[currentPlayerIndex].hand[k];
 
                                                 //Checks to see if the weapon card found is a duplicate of 
                                                 //a weapon card already applied to the foe.
@@ -1855,6 +1992,7 @@ public class GameController : MonoBehaviour
 
                                                 //alternate variable name performing the same duties as wbp
                                                 int wbp_VERSION_K = foundWeaponCard.battlePoints;
+                                                usedWeapons.Add(k);
 
                                                 //A new valid unique BP has been found using multiple weapon cards, the value at foeValues[i]
                                                 //is decremented and the value at a new index equal to the the current index plus the sum bp
@@ -1863,6 +2001,12 @@ public class GameController : MonoBehaviour
                                                 {
                                                     foeValues[i]--;
                                                     foeValues[ii + (wbp_VERSION_K / 5)]++;
+
+                                                    for (int clean_up_it = 0; clean_up_it < usedWeapons.Count; clean_up_it++)
+                                                    {
+                                                        weaponAvailable[clean_up_it] = false;
+                                                    }
+
                                                     weaponAvailable[j] = false;
                                                     //Checks to see if this addition of a new unique BP value creates a valid quest configuration
                                                     if (CVQP(validStageCardsCount, foeValues))
@@ -1886,6 +2030,7 @@ public class GameController : MonoBehaviour
                     }
                 }
             }
+
             //Final check if there are enough unique BP values to fill the quest before returning false
             if (CVQP(validStageCardsCount, foeValues))
                 return true;
@@ -1933,54 +2078,60 @@ public class GameController : MonoBehaviour
                         }
                         else if (state == "Quest")
                         {
-                            //check if it is a bid or foe encounter
-                            //CALCULATE PREVIOUS IN QUESTSTATE
-                            result = players[currentPlayerIndex].strategy.playFoeEncounter(QuestState.currentStage , currentQuest.stages , players[currentPlayerIndex].hand , 0 , QuestState.amours[currentPlayerIndex].Count == 1 , currentQuest.name , players);
+                            // foe encounter stuff here
+                            if (QuestState.amours != null && QuestState.amours[currentPlayerIndex] != null)
+                            {
+                                result = players[currentPlayerIndex].strategy.playFoeEncounter(QuestState.currentStage, currentQuest.stages, players[currentPlayerIndex].hand, QuestState.previousQuestBP, QuestState.amours[currentPlayerIndex].Count == 1, currentQuest.name, players);
+                            }
+                            else
+                            {
+                                result = players[currentPlayerIndex].strategy.playFoeEncounter(QuestState.currentStage, currentQuest.stages, players[currentPlayerIndex].hand, QuestState.previousQuestBP, false, currentQuest.name, players);
+                            }
+                        }
+                        if (players[currentPlayerIndex].sponsoring || !(players[currentPlayerIndex].participating))
+                        {
+                            //this will help generalize querying in both tournaments and quests
+                            numIterations++;
+                            queriedCards[currentPlayerIndex] = null;
+                            UpdatePlayerTurn();
+
+                        }
+                        else if (userInput.doneAddingCards)
+                        {
+                            // human player card querying
+                            queriedCards[currentPlayerIndex] = new List<Card>(userInput.selectedCards);
+                            userInput.DeactivateUI();
+                            numIterations++;
+                            UpdatePlayerTurn();
+                            populatePlayerBoard();
+                            userInput.ActivateCardUIPanel("What AMOUR , ALLY , OR WEAPON CARDS do you want to use?");
+                        }
+                        else if (result != null)
+                        {
+                            //ai player here
+                            queriedCards[currentPlayerIndex] = new List<Card>(result);
+                            userInput.DeactivateUI();
+                            numIterations++;
+                            UpdatePlayerTurn();
+                            populatePlayerBoard();
+                            userInput.ActivateCardUIPanel("What AMOUR , ALLY , OR WEAPON CARDS do you want to use?");
                         }
                     }
-                    if (players[currentPlayerIndex].sponsoring || !(players[currentPlayerIndex].participating))
+                    else
                     {
-                        //this will help generalize querying in both tournaments and quests
-                        numIterations++;
-                        queriedCards[currentPlayerIndex] = null;
-                        UpdatePlayerTurn();
-
-                    }
-                    else if (userInput.doneAddingCards)
-                    {
-                        // human player card querying
-                        queriedCards[currentPlayerIndex] = new List<Card>(userInput.selectedCards);
                         userInput.DeactivateUI();
-                        numIterations++;
-                        UpdatePlayerTurn();
-                        populatePlayerBoard();
-                        userInput.ActivateCardUIPanel("What AMOUR , ALLY , OR WEAPON CARDS do you want to use?");
-                    }
-                    else if (result != null)
-                    {
-                        //ai player here
-                        queriedCards[currentPlayerIndex] = new List<Card>(result);
-                        userInput.DeactivateUI();
-                        numIterations++;
-                        UpdatePlayerTurn();
-                        populatePlayerBoard();
-                        userInput.ActivateCardUIPanel("What AMOUR , ALLY , OR WEAPON CARDS do you want to use?");
-                    }
-                }
-                else
-                {
-                    userInput.DeactivateUI();
 
-                    Debug.Log("all cards have been selected");
-                    //we are done
+                        Debug.Log("all cards have been selected");
+                        //we are done
 
-                    for (int i = 0; i < queriedCards.Length; i++)
-                    {
-                        if (queriedCards[i] != null)
+                        for (int i = 0; i < queriedCards.Length; i++)
                         {
-                            for (int j = 0; j < queriedCards[i].Count; j++)
+                            if (queriedCards[i] != null)
                             {
-                                Debug.Log(i.ToString()+ ": " + queriedCards[i][j].name);
+                                for (int j = 0; j < queriedCards[i].Count; j++)
+                                {
+                                    Debug.Log(i.ToString() + ": " + queriedCards[i][j].name);
+                                }
                             }
                         }
                     }
@@ -1988,5 +2139,4 @@ public class GameController : MonoBehaviour
             }
         }
     }
-
 }

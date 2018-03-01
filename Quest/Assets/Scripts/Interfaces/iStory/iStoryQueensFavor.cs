@@ -32,6 +32,8 @@ public class iStoryQueensFavor : iStory{
         lowestPlayers[i].drawCards(game.adventureDeck.drawCards(2));
       }
     }
+    //check for discarding 
+    game.playerStillOffending = game.PlayerOffending();
     game.isDoneStoryEvent = true;
   }
 }
