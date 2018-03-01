@@ -120,8 +120,15 @@ public class iStoryQuest : iStory
                 }
                 else
                 {
+                    Debug.Log("Got Here");
                     QuestState.state = "PlayingQuest";
                     QuestState.amours = new List<Card>[game.numPlayers];
+
+                    for(int i = 0; i < QuestState.amours.Length; i++)
+                    {
+                        QuestState.amours[i] = new List<Card>();
+                    }
+
                     QuestState.testBids = new int[game.numPlayers];
                     QuestState.testBidSubmitted = false;
                     QuestState.bidsOver = false;
@@ -217,28 +224,24 @@ public class iStoryQuest : iStory
                                         j--;
                                     }
                                 }
-                            }
-                            else
-                            {
-                                Debug.Log((i + 1).ToString() + "Nothing there");
-                            }
 
-                            if (QuestState.amours[i] != null)
-                            {
-
-                                for (int j = 0; j < QuestState.amours[i].Count; j++)
+                                if (QuestState.amours[i] != null)
                                 {
-                                    AmourCard tempAmourCard = (AmourCard)QuestState.amours[i][j];
-                                    sum += tempAmourCard.battlePoints;
+
+                                    for (int j = 0; j < QuestState.amours[i].Count; j++)
+                                    {
+                                        AmourCard tempAmourCard = (AmourCard)QuestState.amours[i][j];
+                                        sum += tempAmourCard.battlePoints;
+                                    }
                                 }
-                            }
 
-                            sum += game.players[i].CalculateBP(storyCard.name, players);
-                            if (sum < GetStageBP(QuestState.currentStage, game.currentQuest))
-                            {
+                                sum += game.players[i].CalculateBP(storyCard.name, players);
+                                if (sum < GetStageBP(QuestState.currentStage, game.currentQuest))
+                                {
 
-                                Debug.Log("Stage Failed Result: GetStageBP = " + GetStageBP(QuestState.currentStage, game.currentQuest).ToString() + " Sum of player strength = " + sum.ToString());
-                                game.players[i].participating = false;
+                                    Debug.Log("Stage Failed Result: GetStageBP = " + GetStageBP(QuestState.currentStage, game.currentQuest).ToString() + " Sum of player strength = " + sum.ToString());
+                                    game.players[i].participating = false;
+                                }
                             }
                         }
                     }
@@ -252,6 +255,11 @@ public class iStoryQuest : iStory
 
                 //check for discard
                 game.playerStillOffending = game.PlayerOffending();
+
+                if (game.playerStillOffending)
+                {
+                    game.userInput.ActivateDiscardCheck("Discard Cards");
+                }
 
                 if (!(QuestState.stages[QuestState.currentStage][0].type == "Test Card"))
                     QuestState.previousQuestBP = GetStageBP(QuestState.currentStage, QuestState.currentQuest);
@@ -300,6 +308,15 @@ public class iStoryQuest : iStory
         for (int i = 0; i < numDrawCount; i++)
             game.players[game.CheckSponsorship()].hand.Add(game.DrawFromDeck(game.adventureDeck, 1)[0]);
 
+
+        game.playerStillOffending = game.PlayerOffending();
+
+        if (game.playerStillOffending)
+        {
+            game.numIterations = 0;
+            game.userInput.ActivateDiscardCheck("Discard " + (game.players[game.CheckSponsorship()].hand.Count - 12).ToString() + " Cards");
+        }
+
         if (QuestState.state == "PlayingQuest")
         {
             int kingsUsed = 0;
@@ -318,6 +335,7 @@ public class iStoryQuest : iStory
             }
             if (kingsUsed == 2)
                 game.kingsRecognition = false;
+
         }
 
 

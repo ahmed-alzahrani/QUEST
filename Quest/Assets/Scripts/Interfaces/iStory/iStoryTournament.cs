@@ -219,6 +219,11 @@ public class iStoryTournament : iStory
                 //check for player discard
                 game.playerStillOffending = game.PlayerOffending();
 
+                if (game.playerStillOffending)
+                {
+                    game.userInput.ActivateDiscardCheck("Discard Cards");
+                }
+
                 //undecided another round
                 if (winners.Count >= 2 && TournamentState.tourneyRound == 1)
                 {

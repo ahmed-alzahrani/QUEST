@@ -423,6 +423,7 @@ public class GameController : MonoBehaviour
     public bool playerStillOffending;      // players with over 12 cards exist
 
     public string[] cards;
+    public string[] cardsStory;
     public int[] mordredControllerBeta;
     public int mordCurr;
 
@@ -460,14 +461,16 @@ public class GameController : MonoBehaviour
         //rigging decks here
         //load scenerios here
         //THE WAY THE TEXT FILE WILL WORK IS ADVENTURE CARDS THEN STORY CARDS 
-        
+
         TextAsset text = Resources.Load("TextAssets/Scenarios/Scenario1/Scenario1") as TextAsset;
         //TextAsset text = Resources.Load("TextAssets/Scenario2") as TextAsset;
         //TextAsset text = Resources.Load("TextAssets/Scenario3") as TextAsset;
 
         Debug.Log(text);
         //cards = text.text.Split('\n');
-        cards = File.ReadAllLines("C:/Users/mohamed/Desktop/QUEST/Quest/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1.txt");
+        Debug.Log(Directory.GetCurrentDirectory());
+        cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1.txt");
+        cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1Story.txt");
         //Debug.Log(cards[0]);
 
         for (int i = 0; i < adventureDeck.deck.Count; i++)
@@ -490,18 +493,21 @@ public class GameController : MonoBehaviour
             }
         }
 
+        List<Card> tempDeck = new List<Card>();
         //storyCards now
         for (int i = 0; i < storyDeck.deck.Count; i++)
         {
             //shuffle according to the following values
-            if (storyDeck.deck[i].name != cards[i + adventureDeck.deck.Count])
+            if (storyDeck.deck[i].name != cardsStory[i])
             {
                 //find a card that matches and switch
                 for (int j = i; j < storyDeck.deck.Count; j++)
                 {
-                    if (storyDeck.deck[j].name == cards[i + adventureDeck.deck.Count])
+                    if (storyDeck.deck[j].name == cardsStory[i])
                     {
                         Debug.Log("here");
+                        tempDeck.Add(storyDeck.deck[j]);
+                        break;
                         //move from j to i 
                         Card tempCard = storyDeck.deck[j];
                         storyDeck.deck[j] = storyDeck.deck[i];
@@ -510,8 +516,9 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-        
-       
+
+        storyDeck.deck.Clear();
+        storyDeck.deck = tempDeck;
         //maybe debug the decks here to check if we successfully rigged the decks
 
         //Setup UI buttons for cards (event listeners etc....)
@@ -914,6 +921,9 @@ public class GameController : MonoBehaviour
                 //We need to discard some cards 
                 //The checks for discarding are done in the iStories
                 //querying discards occurs here
+                userInput.discardPanelUIEnabled = true;
+                Debug.Log("Current player index: " + currentPlayerIndex.ToString());
+                Debug.Log("num iterations: " + numIterations.ToString());
                 DiscardCards();
 
                 if (selectedCard != null)
@@ -927,12 +937,15 @@ public class GameController : MonoBehaviour
                         players[currentPlayerIndex].hand.Remove(selectedCard);
                         AddToPanel(CreateUIElement(selectedCard), allyPanel);
                     }
-                }
-                else
-                {
-                    //add it into the panel
-                    players[currentPlayerIndex].hand.Remove(selectedCard);
-                    userInput.AddToUICardPanel(CreateUIElement(selectedCard));
+                    else
+                    {
+                        //add it into the panel
+                        players[currentPlayerIndex].hand.Remove(selectedCard);
+
+                        //Debug.Log(selectedCard.name);
+                        userInput.AddToUIDiscardPanel(CreateUIElement(selectedCard));
+                    }
+                    selectedCard = null;
                 }
 
                 //end discard state
@@ -1141,6 +1154,7 @@ public class GameController : MonoBehaviour
         GameObject UICard = Instantiate(cardPrefab, new Vector3(0, 0, 0), new Quaternion());
 
         //add card logic to the ui card
+        //Debug.Log(cardLogic.texturePath);
         CardUIScript script = UICard.GetComponent<CardUIScript>();
         script.myCard = cardLogic;
         script.ChangeTexture();
@@ -1462,8 +1476,10 @@ public class GameController : MonoBehaviour
     {
         if (userInput.discardPanelUIEnabled)
         {
+            Debug.Log("Whatever@#23@#");
             if (numIterations < numPlayers)
             {
+                Debug.Log("Whatever");
                 if (!players[currentPlayerIndex].handCheck())
                 {
                     //doesn't need to discard update turn
@@ -1485,7 +1501,7 @@ public class GameController : MonoBehaviour
                         numIterations++;
                         UpdatePlayerTurn();
                         userInput.DeactivateDiscardPanel();
-                        userInput.ActivateDiscardCheck("You need to Discard" + (12 - players[currentPlayerIndex].hand.Count).ToString() + "Cards");
+                        userInput.ActivateDiscardCheck("You need to Discard " + (players[currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
                     }
                     else if (userInput.doneDiscardingCards)
                     {
@@ -2101,50 +2117,51 @@ public class GameController : MonoBehaviour
                                 result = players[currentPlayerIndex].strategy.playFoeEncounter(QuestState.currentStage, currentQuest.stages, players[currentPlayerIndex].hand, QuestState.previousQuestBP, false, currentQuest.name, players);
                             }
                         }
-                        if (players[currentPlayerIndex].sponsoring || !(players[currentPlayerIndex].participating))
-                        {
-                            //this will help generalize querying in both tournaments and quests
-                            numIterations++;
-                            queriedCards[currentPlayerIndex] = null;
-                            UpdatePlayerTurn();
-
-                        }
-                        else if (userInput.doneAddingCards)
-                        {
-                            // human player card querying
-                            queriedCards[currentPlayerIndex] = new List<Card>(userInput.selectedCards);
-                            userInput.DeactivateUI();
-                            numIterations++;
-                            UpdatePlayerTurn();
-                            populatePlayerBoard();
-                            userInput.ActivateCardUIPanel("What AMOUR , ALLY , OR WEAPON CARDS do you want to use?");
-                        }
-                        else if (result != null)
-                        {
-                            //ai player here
-                            queriedCards[currentPlayerIndex] = new List<Card>(result);
-                            userInput.DeactivateUI();
-                            numIterations++;
-                            UpdatePlayerTurn();
-                            populatePlayerBoard();
-                            userInput.ActivateCardUIPanel("What AMOUR , ALLY , OR WEAPON CARDS do you want to use?");
-                        }
                     }
-                    else
+
+                    if (players[currentPlayerIndex].sponsoring || !(players[currentPlayerIndex].participating))
                     {
+                        //this will help generalize querying in both tournaments and quests
+                        numIterations++;
+                        queriedCards[currentPlayerIndex] = null;
+                        UpdatePlayerTurn();
+
+                    }
+                    else if (userInput.doneAddingCards)
+                    {
+                        // human player card querying
+                        queriedCards[currentPlayerIndex] = new List<Card>(userInput.selectedCards);
                         userInput.DeactivateUI();
+                        numIterations++;
+                        UpdatePlayerTurn();
+                        populatePlayerBoard();
+                        userInput.ActivateCardUIPanel("What AMOUR , ALLY , OR WEAPON CARDS do you want to use?");
+                    }
+                    else if (result != null)
+                    {
+                        //ai player here
+                        queriedCards[currentPlayerIndex] = new List<Card>(result);
+                        userInput.DeactivateUI();
+                        numIterations++;
+                        UpdatePlayerTurn();
+                        populatePlayerBoard();
+                        userInput.ActivateCardUIPanel("What AMOUR , ALLY , OR WEAPON CARDS do you want to use?");
+                    }
+                }
+                else
+                {
+                    userInput.DeactivateUI();
 
-                        Debug.Log("all cards have been selected");
-                        //we are done
+                    Debug.Log("all cards have been selected");
+                    //we are done
 
-                        for (int i = 0; i < queriedCards.Length; i++)
+                    for (int i = 0; i < queriedCards.Length; i++)
+                    {
+                        if (queriedCards[i] != null)
                         {
-                            if (queriedCards[i] != null)
+                            for (int j = 0; j < queriedCards[i].Count; j++)
                             {
-                                for (int j = 0; j < queriedCards[i].Count; j++)
-                                {
-                                    Debug.Log(i.ToString() + ": " + queriedCards[i][j].name);
-                                }
+                                Debug.Log(i.ToString() + ": " + queriedCards[i][j].name);
                             }
                         }
                     }

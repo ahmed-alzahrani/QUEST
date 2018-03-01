@@ -84,7 +84,7 @@ public class deckBuilder
         eventCards.Add(new EventCard("Event Card", "Court Called to Camelot", "All Allies in play must be discarded", "Textures/events/courtCalledToCamelot", new iStoryCourtCalled()));
         eventCards.Add(new EventCard("Event Card", "Court Called to Camelot", "All Allies in play must be discarded", "Textures/events/courtCalledToCamelot", new iStoryCourtCalled()));
         eventCards.Add(new EventCard("Event Card", "King's Call to Arms", "The highest ranked player(s) must place 1 weapon in the discard pile. If unable to do so, 2 Foe Cards must be discarded", "Textures/events/kingsCallToArms", new iStoryKingsCallToArms()));
-        eventCards.Add(new EventCard("Event Card", "Prosperity throughout the Realm", "All players may immediately draw 2 Adventure Cards", "Textures/events/prosperityThroughoutTheRealm", new iStoryProsperity()));
+        eventCards.Add(new EventCard("Event Card", "Prosperity Throughout the Realm", "All players may immediately draw 2 Adventure Cards", "Textures/events/prosperityThroughoutTheRealm", new iStoryProsperity()));
         return eventCards;
     }
 

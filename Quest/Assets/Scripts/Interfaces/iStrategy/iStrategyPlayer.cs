@@ -53,7 +53,7 @@ public class iStrategyPlayer : iStrategy
 
     public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe, int prev)
     {
-      return hand;
+      return null;
     }
 
     public List<Card> setupTestStage(List<Card> hand)
@@ -70,7 +70,7 @@ public class iStrategyPlayer : iStrategy
 
     public List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour, string questName, List<Player> players)
     {
-      return hand;
+      return null;
     }
 
 
@@ -83,19 +83,19 @@ public class iStrategyPlayer : iStrategy
 
     public List<Card> playBid(List<Card> hand, int round)
     {
-      return hand;
+      return null;
     }
 
     public List<Card> kingsCall(List<Card> hand)
     {
-      return hand;
+      return null;
     }
 
     public List<Card> discardWeapon(List<Card> hand){
-      return hand;
+      return null;
     }
     public List<Card> discardFoesForKing(List<Card> hand){
-      return hand;
+      return null;
     }
 
 

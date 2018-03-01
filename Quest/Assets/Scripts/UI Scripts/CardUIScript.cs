@@ -50,7 +50,7 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
         // If we have a card from our hand 
         // this might change
         //maybe check for certain cards like mordred 
-        if (isHandCard && gameController.userInput.cardPanelUIEnabled)
+        if (isHandCard && gameController.userInput.cardPanelUIEnabled || gameController.userInput.discardPanelUIEnabled)
         {
             // you can check gameState either here or gameController or both
             // add selected card then destroy the UI gameObject
