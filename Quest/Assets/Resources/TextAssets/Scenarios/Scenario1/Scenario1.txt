@@ -2,6 +2,7 @@ Amour
 Thieves
 Merlin
 Sword
+Sword
 Horse
 Test of Valor
 Saxon Knight
@@ -75,7 +76,6 @@ Battle-Ax
 Battle-Ax
 Battle-Ax
 Battle-Ax
-Sword
 Sword
 Sword
 Sword

@@ -462,15 +462,15 @@ public class GameController : MonoBehaviour
         //load scenerios here
         //THE WAY THE TEXT FILE WILL WORK IS ADVENTURE CARDS THEN STORY CARDS 
 
-        TextAsset text = Resources.Load("TextAssets/Scenarios/Scenario1/Scenario1") as TextAsset;
-        //TextAsset text = Resources.Load("TextAssets/Scenario2") as TextAsset;
+        TextAsset text = Resources.Load("TextAssets/Scenarios/Scenario3/Scenario3") as TextAsset;
+        //TextAsset text = Resources.Load("TextAssets/Scenario3") as TextAsset;
         //TextAsset text = Resources.Load("TextAssets/Scenario3") as TextAsset;
 
         Debug.Log(text);
         //cards = text.text.Split('\n');
         Debug.Log(Directory.GetCurrentDirectory());
-        cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1.txt");
-        cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1Story.txt");
+        cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario3/Scenario3.txt");
+        cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario3/Scenario3Story.txt");
         //Debug.Log(cards[0]);
 
         for (int i = 0; i < adventureDeck.deck.Count; i++)

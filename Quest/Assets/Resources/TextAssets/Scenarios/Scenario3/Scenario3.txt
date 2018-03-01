@@ -1,4 +1,4 @@
-Amour
+Sir Percival
 Sword
 Lance
 Thieves
@@ -43,10 +43,10 @@ Horse
 Horse
 Horse
 Dagger
-Dagger
+Black Knight
 Dagger
 Sword
-Black Knight
+Dagger
 Evil Knight
 Evil Knight
 Evil Knight
@@ -115,7 +115,7 @@ Test of the Questing Beast
 Sir Galahad
 King Arthur
 Sir Gawain
-Sir Percival
+Amour
 Queen Guinevere
 Queen Iseult
 Merlin
