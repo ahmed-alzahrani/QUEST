@@ -358,6 +358,16 @@ public class strategyUtil
     }
   }
 
+  public int sumFoeEncounterCards(List<Card> cards, string questFoe)
+  {
+    int sum = 0;
+    for (int i = 0; i < cards.Count; i++)
+    {
+      sum += getValidCardBP(cards[i], new List<Player>(), questFoe);
+    }
+    return sum;
+  }
+
   public List<Card> fixHandCPU(List<Card> hand)
   {
     List<Card> discard = new List<Card>();

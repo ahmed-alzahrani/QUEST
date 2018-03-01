@@ -51,7 +51,7 @@ public class iStrategyPlayer : iStrategy
       return null;
     }
 
-    public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe)
+    public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe, int prev)
     {
       return hand;
     }

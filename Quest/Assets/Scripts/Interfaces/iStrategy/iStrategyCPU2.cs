@@ -74,20 +74,20 @@ public class iStrategyCPU2 : iStrategy
     List<List<Card>> questLine = new List<List<Card>>();
 
     // create the final stage first
-    List<Card> finalStage = setupFoeStage(stages, stages, hand, questFoe);
+    List<Card> finalStage = setupFoeStage(stages, stages, hand, questFoe, 0);
 
     // if we have a test, create a test stage and then work from the first stage to fill in the foe stages
     if (strat.haveTest(hand)){
       List<Card> testStage = setupTestStage(hand);
       for (int i = 0; i < (stages - 2); i++){
-        List<Card> foeStage = setupFoeStage(i, stages, hand, questFoe);
+        List<Card> foeStage = setupFoeStage(i, stages, hand, questFoe, 0);
         questLine.Add(foeStage);
       }
       questLine.Add(testStage);
       // else we don't have a test, we fill in foe stages the same way but 1 more for the missing test
     } else {
       for (int i = 0; i < (stages - 1); i++){
-        List<Card> foeStage = setupFoeStage(i, stages, hand, questFoe);
+        List<Card> foeStage = setupFoeStage(i, stages, hand, questFoe, 0);
         questLine.Add(foeStage);
       }
     }
@@ -97,7 +97,7 @@ public class iStrategyCPU2 : iStrategy
   }
 
   // evaluates whether its the last stage or not and sets up either a Final Foe stage or an early Foe Stage
-  public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe)
+  public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe, int prev)
   {
     if (currentStage == stages){
       return setUpFinalFoe(hand, questFoe);

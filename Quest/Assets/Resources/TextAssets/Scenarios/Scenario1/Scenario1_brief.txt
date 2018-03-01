@@ -1,0 +1,18 @@
+Scenario 1:
+
+Boar Hunt is played, P2 (Human) sponsors the quest:
+
+Stage 1 --> Saxons
+Stage 2 --> Boar + Sword + Dagger
+
+CPU1 --> Participate because he has both 4 allies/weapons and 2 weak foes to discard with
+CPU2 --> Participates because he can increment by 10 per round and has 2 weak foes to discard with
+P1 --> Joins because human decides
+
+P1 plays nothing on the first round (loses)
+CPU1 plays an Amour and an Ally (passes)
+CPU2 plays just an amour and passes
+
+In round 2, both play their strongest hands and win.
+
+Next, Prosperity throughout the Realm is played and then Chivalrous Deed.

@@ -114,7 +114,8 @@ public class iStrategyCPU1 : iStrategy
         List<List<Card>> questLine = new List<List<Card>>();
 
         // create the final stage first
-        List<Card> finalStage = setupFoeStage(stages, stages, hand, questFoe);
+        List<Card> finalStage = setupFoeStage(stages, stages, hand, questFoe, 0);
+        int prevBP = strat.sumFoeEncounterCards(finalStage, questFoe);
         questLine.Add(finalStage);
 
         // if we have a test, create a test stage and then work from the first stage to fill in the foe stages
@@ -124,16 +125,18 @@ public class iStrategyCPU1 : iStrategy
             questLine.Add(testStage);
             for (int i = 0; i < (stages - 2); i++)
             {
-                List<Card> foeStage = setupFoeStage(i, stages, hand, questFoe);
+                List<Card> foeStage = setupFoeStage(i, stages, hand, questFoe, prevBP);
                 questLine.Add(foeStage);
+                prevBP = strat.sumFoeEncounterCards(foeStage, questFoe);
             }
             // else we don't have a test, we fill in foe stages the same way but 1 more for the missing test
         }
         else {
             for (int i = 0; i < (stages - 1); i++)
             {
-                List<Card> foeStage = setupFoeStage(i, stages, hand, questFoe);
+                List<Card> foeStage = setupFoeStage(i, stages, hand, questFoe, prevBP);
                 questLine.Add(foeStage);
+                prevBP = strat.sumFoeEncounterCards(foeStage, questFoe);
             }
         }
         questLine.Reverse();
@@ -148,19 +151,16 @@ public class iStrategyCPU1 : iStrategy
         return questLine;
     }
 
-    public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe)
+    public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe, int prev)
     {
-        Debug.Log("I have been queried for a foe stage!");
         if (currentStage == stages)
         {
-            Debug.Log("I'm going to try set up a final foe stage!");
             return setUpFinalFoe(hand, questFoe);
         }
-        Debug.Log("I'm setting up an earlier foe encounter!");
-        return setUpEarlyFoeEncounter(hand, questFoe);
+        return setUpEarlyFoeEncounter(hand, questFoe, prev);
     }
 
-    public List<Card> setUpEarlyFoeEncounter(List<Card> hand, string questFoe)
+    public List<Card> setUpEarlyFoeEncounter(List<Card> hand, string questFoe, int prev)
     {
         strategyUtil strat = new strategyUtil();
         List<Card> foeEncounter = new List<Card>();
@@ -168,7 +168,7 @@ public class iStrategyCPU1 : iStrategy
 
         for (int i = 0; i < hand.Count; i++)
         {
-            if (hand[i].type == "Foe Card")
+            if (hand[i].type == "Foe Card" && strat.getValidCardBP(hand[i], new List<Player>(), questFoe) < prev)
             {
                 foes.Add(hand[i]);
             }
@@ -180,7 +180,7 @@ public class iStrategyCPU1 : iStrategy
 
         for (int i = 0; i < hand.Count; i++)
         {
-            if (hand[i].type == "Weapon Card" && strat.hasMultiple(hand, hand[i].name) && strat.checkDuplicate(hand[i], foeEncounter, "Weapon Card"))
+            if (hand[i].type == "Weapon Card" && strat.hasMultiple(hand, hand[i].name) && strat.checkDuplicate(hand[i], foeEncounter, "Weapon Card") && ((strat.sumFoeEncounterCards(foeEncounter, questFoe) + strat.getValidCardBP(hand[i], new List<Player>(), questFoe) < prev)))
             {
                 foeEncounter.Add(hand[i]);
                 hand.Remove(hand[i]);

@@ -1,0 +1,30 @@
+Scenario 3:
+
+
+- P1 Pulls the Defend the Queen's Honor Story Card
+      P1 declines to sponsor
+      P2 declines to sponsor
+      CPU1 declines, he only has 2 foes and cant cover the stages
+      CPU2 accepts, he has enough foes and even a test, he sets it up:
+            1. Thieves
+            2. Boar
+            3. Test of Morgan Le Fey
+            4. Dragon
+
+P1 Joins the Quest
+P2 Joins
+CPU1 Declines, he only has 5 weapons/allies total and cant play the Quest properly
+
+P1 plays:
+    1. Sword + Amour
+    2. Lance
+    3. Bids 3
+    4. Excalibur, Lance, Sword, Horse, Ax
+
+P2 plays:
+  1. Sword + Amour
+  2. Dagger (loses because Boar is buffed by the quest)
+
+
+
+** This scenario is just to show the implementation of quests with a foe of "All"

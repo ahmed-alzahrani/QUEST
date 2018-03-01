@@ -174,7 +174,7 @@ public class iStrategyCPU1Test{
     player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "Textures/weapons/sword", 10));
     string foe = "";
 
-    List<Card> foeStage = player1.strategy.setupFoeStage(1, 5, player1.hand, foe);
+    List<Card> foeStage = player1.strategy.setupFoeStage(1, 5, player1.hand, foe, 100);
 
     Assert.AreEqual(player1.hand.Count, 4);
     Assert.AreEqual(foeStage.Count, 1);
@@ -196,7 +196,7 @@ public class iStrategyCPU1Test{
     player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "Textures/weapons/sword", 10));
     string foe = "";
 
-    List<Card> foeStage = player1.strategy.setupFoeStage(1, 5, player1.hand, foe);
+    List<Card> foeStage = player1.strategy.setupFoeStage(1, 5, player1.hand, foe, 100);
 
     Assert.AreEqual(player1.hand.Count, 4);
     Assert.AreEqual(foeStage.Count, 2);
@@ -221,7 +221,7 @@ public class iStrategyCPU1Test{
     player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "Textures/weapons/sword", 10));
     string foe = "";
 
-    List<Card> foeStage = player1.strategy.setupFoeStage(1, 5, player1.hand, foe);
+    List<Card> foeStage = player1.strategy.setupFoeStage(1, 5, player1.hand, foe, 100);
 
     Assert.AreEqual(player1.hand.Count, 4);
     Assert.AreEqual(foeStage.Count, 3);
@@ -256,7 +256,7 @@ public class iStrategyCPU1Test{
     string foe = "";
 
     // For the final stage this CPU should play a Robber Knight, with a Sword and a Horse
-    List<Card> finalFoeStage = player1.strategy.setupFoeStage(4, 4, player1.hand, foe);
+    List<Card> finalFoeStage = player1.strategy.setupFoeStage(4, 4, player1.hand, foe, 0);
     player1.discardCards(finalFoeStage);
 
     /*
@@ -309,7 +309,7 @@ public class iStrategyCPU1Test{
       string foe = "Green Knight";
 
       // For the final stage this CPU should play a Robber Knight, with a Sword and a Horse
-      List<Card> finalFoeStage = player1.strategy.setupFoeStage(4, 4, player1.hand, foe);
+      List<Card> finalFoeStage = player1.strategy.setupFoeStage(4, 4, player1.hand, foe, 0);
       player1.discardCards(finalFoeStage);
 
       // Check that the finalFoeStage list is as we'd expect

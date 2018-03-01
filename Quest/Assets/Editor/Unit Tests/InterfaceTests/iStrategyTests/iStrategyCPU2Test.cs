@@ -156,7 +156,7 @@ public class iStrategyCPU2Test{
     string foe = "Dragon";
 
     // For the final stage this CPU should play a Robber Knight, with a Sword and a Horse
-    List<Card> finalFoeStage = player1.strategy.setupFoeStage(4, 4, player1.hand, foe);
+    List<Card> finalFoeStage = player1.strategy.setupFoeStage(4, 4, player1.hand, foe, 0);
     player1.discardCards(finalFoeStage);
 
     // Check that the finalFoeStage list is as we'd expect
@@ -181,7 +181,7 @@ public class iStrategyCPU2Test{
     player1.hand.Add(new WeaponCard("Weapon Card", "Horse", "Textures/weapons/horse", 10));
 
     string foe = "dragon";
-    List<Card> finalFoeStage = player1.strategy.setupFoeStage(4, 4, player1.hand, foe);
+    List<Card> finalFoeStage = player1.strategy.setupFoeStage(4, 4, player1.hand, foe, 0);
     // Check that the finalFoeStage list is as we'd expect
     Assert.AreEqual(2, finalFoeStage.Count);
     Assert.AreEqual(finalFoeStage[0].name, "Green Knight");
@@ -197,7 +197,7 @@ public class iStrategyCPU2Test{
       player1.hand.Add(new FoeCard("Foe Card", "Thieves", "Textures/foe/robberKnight", 5, 5));
       player1.hand.Add(new FoeCard("Foe Card", "Robber Knight", "Textures/foe/robberKnight", 15, 15));
       string foe = "dragon";
-      List<Card> finalFoeStage = player1.strategy.setupFoeStage(1, 4, player1.hand, foe);
+      List<Card> finalFoeStage = player1.strategy.setupFoeStage(1, 4, player1.hand, foe, 0);
 
       Assert.AreEqual(1, finalFoeStage.Count);
       Assert.AreEqual("Thieves", finalFoeStage[0].name);
@@ -211,7 +211,7 @@ public class iStrategyCPU2Test{
     player1.hand.Add(new FoeCard("Foe Card", "Thieves", "Textures/foe/robberKnight", 5, 20));
     player1.hand.Add(new FoeCard("Foe Card", "Robber Knight", "Textures/foe/robberKnight", 15, 15));
     string foe = "Thieves";
-    List<Card> finalFoeStage = player1.strategy.setupFoeStage(1, 4, player1.hand, foe);
+    List<Card> finalFoeStage = player1.strategy.setupFoeStage(1, 4, player1.hand, foe, 0);
 
     Assert.AreEqual(1, finalFoeStage.Count);
     Assert.AreEqual("Robber Knight", finalFoeStage[0].name);

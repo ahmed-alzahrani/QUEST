@@ -1,0 +1,52 @@
+Scenario 2:
+
+- Chivalrous Deed is drawn (everyone +2 shields)
+
+- Pox is drawn (everyone but P2 loses 1 shield)
+
+- Tournament at Camelot is drawn by CPU1
+
+      CPU1 joins because he can tell someone is eligible to level up from this tournament
+      CPU2 joins because CPU2 always joins tournaments
+      P1 Joins to play nothing
+      P2 Does NOT JOIN (human decision)
+
+- Because P2 (the one who could rank up) is NOT in the quest, CPU1 ONLY plays duplicate weapons whereas CPU2 plays his quickest hand to 50 BP.
+  CPU2 wins and ranks up with the shields just gained.
+
+- Next, CPU2 draws Plague and loses 2 shields.
+
+- P1 then draws Queen's Favor and, along with CPU1, gain an additional 2 adventure cards
+
+- P2 Draws King's Call next and discards 1 weapon as the leader
+
+- CPU1 then draw's King's Recognition, providing bonus shields to the next winner of a Quest
+
+- CPU2 draws the Test of the Green Knight Quest (4 stages):
+            CPU2 declines to sponsor because someone can rank up
+            P1 Sponsors as follows (human):
+                    1. Thieves + Dagger
+                    2. Mordred
+                    3. Test of Morgan Le Fey
+                    4. Green Knight + Lance
+
+- P2 Enters the Quest
+- CPU1 joins because he has the correct # of foes to discard and cards to play
+- CPU2 declines because he does not have two weak foes to dicard in case of a test
+
+CPU1 Plays:
+    1. Amour + Pellinore
+    2. Gawain
+    3. Bid of 4 on the first round, 0 on the second round
+
+
+P2 Plays (Human):
+    1. Lance
+    2. Excalibur
+    3. A bid of 3 on the first round, then 5
+    4. Ax, Lance, excalibur
+
+P2 wins and receives the bonus shields from King's Recognition
+
+
+- Lastly, P1 draws Court Called --> This should flush active allies (Pellinore) from all players (CPU1)

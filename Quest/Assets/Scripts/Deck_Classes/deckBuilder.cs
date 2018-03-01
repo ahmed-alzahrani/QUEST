@@ -245,7 +245,7 @@ public class deckBuilder
 
     public List<Card> generateAllyCards()
     {
-        string gaiwan = "+20 BP ON the Test of the Green Knight Quest";
+        string gawain = "+20 BP ON the Test of the Green Knight Quest";
         string pellinore = "+4 Bids on the Search for the Questing Beast Quest";
         string percival = "+20 BP on the Search for the Holy Grail";
         string tristan = "+20 BP When Queen Iseult is in play";
@@ -254,7 +254,7 @@ public class deckBuilder
         string lance = "+25 BP When on the Quest to Defend the Queen's Honor";
 
         List<Card> allyCards = new List<Card>();
-        allyCards.Add(new AllyCard("Ally Card", "Sir Gaiwan", "Textures/Ally/sirGawain", 10, 0, gaiwan, "Test of the Green Knight", "None", 0, 20, new BuffOnQuestEffect()));
+        allyCards.Add(new AllyCard("Ally Card", "Sir Gawain", "Textures/Ally/sirGawain", 10, 0, gawain, "Test of the Green Knight", "None", 0, 20, new BuffOnQuestEffect()));
         allyCards.Add(new AllyCard("Ally Card", "King Pellinore", "Textures/Ally/kingPellinore", 10, 0, pellinore, "Search for the Questing Beast", "None", 4, 0, new BuffOnQuestEffect()));
         allyCards.Add(new AllyCard("Ally Card", "Sir Percival", "Textures/Ally/sirPercival", 5, 0, percival, "Search for the Holy Grail", "None", 0, 20, new BuffOnQuestEffect()));
         allyCards.Add(new AllyCard("Ally Card", "Sir Tristan", "Textures/Ally/sirTristan", 10, 0, tristan, "None", "Queen Iseult", 0, 20, new BuffOnCardInPlayEffect()));

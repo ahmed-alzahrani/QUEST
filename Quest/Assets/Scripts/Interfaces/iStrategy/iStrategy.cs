@@ -12,7 +12,7 @@ public interface iStrategy
     // Quest Strategy
     int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game);
     List<List<Card>> setupQuest(int stages, List<Card> hand, string questFoe);
-    List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe);
+    List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe, int prev);
     List<Card> setupTestStage(List<Card> hand);
     List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour, string questName, List<Player> players);
 
