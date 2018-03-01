@@ -102,7 +102,13 @@
      <Compile Include="Assets\Scripts\UI Scripts\PreviewCardScript.cs" />
      <None Include="Assets\Resources\TextAssets\Scenario3.txt" />
      <None Include="Assets\Resources\TextAssets\Scenario1.txt" />
+     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario3\Scenario3_brief.txt" />
+     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario3\Scenario3.txt" />
      <None Include="Assets\Resources\TextAssets\Scenario2.txt" />
+     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario1\Scenario1_brief.txt" />
+     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario2\Scenario2_brief.txt" />
+     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario1\Scenario1.txt" />
+     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario2\Scenario2.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

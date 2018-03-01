@@ -348,6 +348,8 @@ MonoBehaviour:
   foundWinner: 0
   playerStillOffending: 0
   cards: []
+  mordredControllerBeta: 
+  mordCurr: 0
 --- !u!4 &10073658
 Transform:
   m_ObjectHideFlags: 0

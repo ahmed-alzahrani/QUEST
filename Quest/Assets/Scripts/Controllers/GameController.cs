@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 /*
     Tournaments:
@@ -459,25 +460,32 @@ public class GameController : MonoBehaviour
         //rigging decks here
         //load scenerios here
         //THE WAY THE TEXT FILE WILL WORK IS ADVENTURE CARDS THEN STORY CARDS 
-        /*
-        TextAsset text = Resources.Load("TextAssets/Scenario1") as TextAsset;
+        
+        TextAsset text = Resources.Load("TextAssets/Scenarios/Scenario1/Scenario1") as TextAsset;
         //TextAsset text = Resources.Load("TextAssets/Scenario2") as TextAsset;
         //TextAsset text = Resources.Load("TextAssets/Scenario3") as TextAsset;
 
         Debug.Log(text);
-        cards = text.text.Split('\n');
+        //cards = text.text.Split('\n');
+        cards = File.ReadAllLines("C:/Users/mohamed/Desktop/QUEST/Quest/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1.txt");
+        //Debug.Log(cards[0]);
 
         for (int i = 0; i < adventureDeck.deck.Count; i++)
         {
-            for (int j = 0; j < adventureDeck.deck.Count; j++)
+            //shuffle according to the following values
+            if (adventureDeck.deck[i].name != cards[i])
             {
-                //shuffle according to the following values
-                if (adventureDeck.deck[j].name == cards[i])
+                //find a card that matches and switch
+                for (int j = i; j < adventureDeck.deck.Count; j++)
                 {
-                    //move from j to i 
-                    Card tempCard = adventureDeck.deck[j];
-                    adventureDeck.deck[j] = adventureDeck.deck[i];
-                    adventureDeck.deck[i] = tempCard;
+                    if (adventureDeck.deck[j].name == cards[i])
+                    {
+                        Debug.Log("here");
+                        //move from j to i 
+                        Card tempCard = adventureDeck.deck[j];
+                        adventureDeck.deck[j] = adventureDeck.deck[i];
+                        adventureDeck.deck[i] = tempCard;
+                    }
                 }
             }
         }
@@ -485,20 +493,25 @@ public class GameController : MonoBehaviour
         //storyCards now
         for (int i = 0; i < storyDeck.deck.Count; i++)
         {
-            for (int j = 0; j < storyDeck.deck.Count; j++)
+            //shuffle according to the following values
+            if (storyDeck.deck[i].name != cards[i + adventureDeck.deck.Count])
             {
-                //shuffle according to the following values
-                if (storyDeck.deck[j].name == cards[i + adventureDeck.deck.Count - 1])
+                //find a card that matches and switch
+                for (int j = i; j < storyDeck.deck.Count; j++)
                 {
-                    //move from j to i 
-                    Card tempCard = storyDeck.deck[j];
-                    storyDeck.deck[j] = storyDeck.deck[i + adventureDeck.deck.Count - 1];
-                    storyDeck.deck[i] = tempCard;
+                    if (storyDeck.deck[j].name == cards[i + adventureDeck.deck.Count])
+                    {
+                        Debug.Log("here");
+                        //move from j to i 
+                        Card tempCard = storyDeck.deck[j];
+                        storyDeck.deck[j] = storyDeck.deck[i];
+                        storyDeck.deck[i] = tempCard;
+                    }
                 }
             }
         }
-        */
-
+        
+       
         //maybe debug the decks here to check if we successfully rigged the decks
 
         //Setup UI buttons for cards (event listeners etc....)
