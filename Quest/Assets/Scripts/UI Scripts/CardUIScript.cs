@@ -67,7 +67,7 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
 
     public void flipCard()
     {
-            Debug.Log("flipped card");
+            //Debug.Log("flipped card");
             button.image.overrideSprite = Resources.Load<Sprite>("Textures/Backings/a_backing");
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class iStrategyPlayer : iStrategy
 {
-  public iStrategyPlayer() {}
+    public iStrategyPlayer() { }
 
 
 
@@ -32,7 +32,7 @@ public class iStrategyPlayer : iStrategy
 
     public List<Card> playTournament(List<Player> players, List<Card> hand, int baseBP, int shields)
     {
-      return null;
+        return null;
 
     }
 
@@ -42,35 +42,35 @@ public class iStrategyPlayer : iStrategy
     public int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game)
     {
         // its the same for players
-         return participateInTourney(players , 0 , game);
+        return participateInTourney(players, 0, game);
     }
 
     public List<List<Card>> setupQuest(int stages, List<Card> hand, string questFoe)
     {
-      //List<List<Card>> questLine = new List<List<Card>>();
-      return null;
+        //List<List<Card>> questLine = new List<List<Card>>();
+        return null;
     }
 
     public List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe, int prev)
     {
-      return null;
+        return null;
     }
 
     public List<Card> setupTestStage(List<Card> hand)
     {
-      List<Card> test = new List<Card>();
-      return test;
-      // get the test card with the highest bid test card in the hand
+        List<Card> test = new List<Card>();
+        return test;
+        // get the test card with the highest bid test card in the hand
     }
 
     public int participateInQuest(int stages, List<Card> hand, GameController game)
     {
-      return participateInTourney(null , 0 , game);
+        return participateInTourney(null, 0, game);
     }
 
     public List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour, string questName, List<Player> players)
     {
-      return null;
+        return null;
     }
 
 
@@ -78,24 +78,26 @@ public class iStrategyPlayer : iStrategy
 
     public int willIBid(int currentBid, List<Card> hand, int round, GameController game)
     {
-      return -1;
+        return -1;
     }
 
     public List<Card> playBid(List<Card> hand, int round)
     {
-      return null;
+        return null;
     }
 
     public List<Card> kingsCall(List<Card> hand)
     {
-      return null;
+        return null;
     }
 
-    public List<Card> discardWeapon(List<Card> hand){
-      return null;
+    public List<Card> discardWeapon(List<Card> hand)
+    {
+        return null;
     }
-    public List<Card> discardFoesForKing(List<Card> hand){
-      return null;
+    public List<Card> discardFoesForKing(List<Card> hand)
+    {
+        return null;
     }
 
 
@@ -121,8 +123,9 @@ public class iStrategyPlayer : iStrategy
         }
     }
 
-    public List<Card> fixHandDiscrepancy(List<Card> hand){
-      return null;
+    public List<Card> fixHandDiscrepancy(List<Card> hand)
+    {
+        return null;
     }
 
 }

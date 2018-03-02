@@ -120,7 +120,6 @@ public class iStoryQuest : iStory
                 }
                 else
                 {
-                    Debug.Log("Got Here");
                     QuestState.state = "PlayingQuest";
                     QuestState.amours = new List<Card>[game.numPlayers];
 
@@ -253,14 +252,6 @@ public class iStoryQuest : iStory
                 Debug.Log("currentStage: " + QuestState.currentStage);
                 game.populateQuestBoard(true);
 
-                //check for discard
-                game.playerStillOffending = game.PlayerOffending();
-
-                if (game.playerStillOffending)
-                {
-                    game.userInput.ActivateDiscardCheck("Discard Cards");
-                }
-
                 if (!(QuestState.stages[QuestState.currentStage][0].type == "Test Card"))
                     QuestState.previousQuestBP = GetStageBP(QuestState.currentStage, QuestState.currentQuest);
 
@@ -278,6 +269,22 @@ public class iStoryQuest : iStory
                     game.userInput.DeactivateUI();
                     System.Array.Clear(game.queriedCards, 0, game.queriedCards.Length);
 
+                    //check for discard
+                    game.playerStillOffending = game.PlayerOffending();
+
+                    if (game.playerStillOffending)
+                    {
+                        game.numIterations = 0;
+                        //find first offending player
+                        while (!game.players[game.currentPlayerIndex].handCheck() && game.numIterations < game.numPlayers)
+                        {
+                            //doesn't need to discard update turn
+                            game.numIterations++;
+                            game.UpdatePlayerTurn();
+                        }
+                        game.userInput.ActivateDiscardCheck("You need to Discard " + (players[game.currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
+                    }
+
                     if (QuestState.stages[QuestState.currentStage][0].type == "Test Card")
                     {
 
@@ -292,8 +299,6 @@ public class iStoryQuest : iStory
                 }
             }
         }
-
-
     }
 
     public void EndQuest(GameController game)
@@ -314,7 +319,14 @@ public class iStoryQuest : iStory
         if (game.playerStillOffending)
         {
             game.numIterations = 0;
-            game.userInput.ActivateDiscardCheck("Discard " + (game.players[game.CheckSponsorship()].hand.Count - 12).ToString() + " Cards");
+            //find first offending player
+            while (!game.players[game.currentPlayerIndex].handCheck() && game.numIterations < game.numPlayers)
+            {
+                //doesn't need to discard update turn
+                game.numIterations++;
+                game.UpdatePlayerTurn();
+            }
+            game.userInput.ActivateDiscardCheck("You need to Discard " + (game.players[game.currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
         }
 
         if (QuestState.state == "PlayingQuest")
@@ -337,8 +349,6 @@ public class iStoryQuest : iStory
                 game.kingsRecognition = false;
 
         }
-
-
 
         //reset static values
         QuestState.state = "FindingSponsor";

@@ -221,7 +221,18 @@ public class iStoryTournament : iStory
 
                 if (game.playerStillOffending)
                 {
-                    game.userInput.ActivateDiscardCheck("Discard Cards");
+                    game.numIterations = 0;
+
+                    //find first offending player
+                    while (!game.players[game.currentPlayerIndex].handCheck() && game.numIterations < game.numPlayers)
+                    {
+                        //doesn't need to discard update turn
+                        game.numIterations++;
+                        game.UpdatePlayerTurn();
+                    }
+
+                    game.numIterations = 0;
+                    game.userInput.ActivateDiscardCheck("You need to Discard " + (game.players[game.currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
                 }
 
                 //undecided another round

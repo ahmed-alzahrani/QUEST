@@ -507,10 +507,12 @@ public class iStrategyCPU1 : iStrategy
         return 2;
     }
 
-    public List<Card> fixHandDiscrepancy(List<Card> hand){
-      strategyUtil strat = new strategyUtil();
-      List<Card> toDiscard = strat.fixHandCPU(hand);
-      return toDiscard;
+    //GONNA NEED TO MAKE A SMALL CHANGE HERE
+    public List<Card> fixHandDiscrepancy(List<Card> hand)
+    {       
+        strategyUtil strat = new strategyUtil();
+        List<Card> toDiscard = strat.fixHandCPU(hand);
+        return toDiscard;
     }
 
 }

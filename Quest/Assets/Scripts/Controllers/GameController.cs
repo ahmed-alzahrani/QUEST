@@ -119,6 +119,8 @@ public class UIInput
 
         discardSelectedCards.Clear();
 
+        Debug.Log(UIDiscardsSelected.Count);
+
         //Destroy panel cards
         for (int i = 0; i < UIDiscardsSelected.Count; i++)
         {
@@ -128,15 +130,17 @@ public class UIInput
         UIDiscardsSelected.Clear();
     }
 
-    public void CheckDiscardCard(Card card)
+    public bool CheckDiscardCard(Card card)
     {
         for (int i = 0; i < discardSelectedCards.Count; i++)
         {
             if (card == discardSelectedCards[i])
             {
-                RemoveFromCardUIPanel(i);
+                RemoveFromDiscardPanel(i);
+                return true;
             }
         }
+        return false;
     }
 
     public void RemoveFromDiscardPanel(int index)
@@ -166,12 +170,10 @@ public class UIInput
         booleanUIEnabled = true;
         keyboardInputUIEnabled = false;
         cardPanelUIEnabled = false;
-        discardPanelUIEnabled = false;
         doneAddingCards = false;
 
         foregroundPanel.SetActive(true);
         booleanPanel.SetActive(true);
-        discardPanel.SetActive(false);
         cardPanel.SetActive(false);
         inputPanel.SetActive(false);
         userMessage.text = userMsg;
@@ -183,13 +185,11 @@ public class UIInput
         keyboardInputUIEnabled = true;
         booleanUIEnabled = false;
         cardPanelUIEnabled = false;
-        discardPanelUIEnabled = false;
         doneAddingCards = false;
 
         foregroundPanel.SetActive(true);
         inputPanel.SetActive(true);
         cardPanel.SetActive(false);
-        discardPanel.SetActive(false);
         booleanPanel.SetActive(false);
         KeyboardInput.text = "";
         userMessage1.text = userMsg;
@@ -199,14 +199,12 @@ public class UIInput
     {
         UIEnabled = true;
         cardPanelUIEnabled = true;
-        discardPanelUIEnabled = false;
         keyboardInputUIEnabled = false;
         booleanUIEnabled = false;
         doneAddingCards = false;
 
         //foregroundPanel.SetActive(true);
         cardPanel.SetActive(true);
-        discardPanel.SetActive(false);
         inputPanel.SetActive(false);
         booleanPanel.SetActive(false);
         userMessage2.text = userMsg;
@@ -307,11 +305,9 @@ public class UIInput
     {
         foregroundPanel.SetActive(false);
         cardPanel.SetActive(false);
-        discardPanel.SetActive(false);
         UIEnabled = false;
         keyboardInputUIEnabled = false;
         booleanUIEnabled = false;
-        discardPanelUIEnabled = false;
         cardPanelUIEnabled = false;
         doneAddingCards = false;
         buttonResult = "";
@@ -483,7 +479,7 @@ public class GameController : MonoBehaviour
                 {
                     if (adventureDeck.deck[j].name == cards[i])
                     {
-                        Debug.Log("here");
+                        //Debug.Log("here");
                         //move from j to i 
                         Card tempCard = adventureDeck.deck[j];
                         adventureDeck.deck[j] = adventureDeck.deck[i];
@@ -505,7 +501,6 @@ public class GameController : MonoBehaviour
                 {
                     if (storyDeck.deck[j].name == cardsStory[i])
                     {
-                        Debug.Log("here");
                         tempDeck.Add(storyDeck.deck[j]);
                         break;
                         //move from j to i 
@@ -921,9 +916,9 @@ public class GameController : MonoBehaviour
                 //We need to discard some cards 
                 //The checks for discarding are done in the iStories
                 //querying discards occurs here
-                userInput.discardPanelUIEnabled = true;
-                Debug.Log("Current player index: " + currentPlayerIndex.ToString());
-                Debug.Log("num iterations: " + numIterations.ToString());
+                //userInput.discardPanelUIEnabled = true;
+                //Debug.Log("Current player index: " + currentPlayerIndex.ToString());
+                //Debug.Log("num iterations: " + numIterations.ToString());
                 DiscardCards();
 
                 if (selectedCard != null)
@@ -939,12 +934,22 @@ public class GameController : MonoBehaviour
                     }
                     else
                     {
-                        //add it into the panel
-                        players[currentPlayerIndex].hand.Remove(selectedCard);
+                        bool removed = userInput.CheckDiscardCard(selectedCard);
+                        if (removed)
+                        {
+                            //add card back to player 
+                            players[currentPlayerIndex].hand.Add(selectedCard);
+                        }
+                        else
+                        {
+                            //add it into the panel
+                            players[currentPlayerIndex].hand.Remove(selectedCard);
 
-                        //Debug.Log(selectedCard.name);
-                        userInput.AddToUIDiscardPanel(CreateUIElement(selectedCard));
+                            //Debug.Log(selectedCard.name);
+                            userInput.AddToUIDiscardPanel(CreateUIElement(selectedCard));
+                        }
                     }
+
                     selectedCard = null;
                 }
 
@@ -1474,53 +1479,64 @@ public class GameController : MonoBehaviour
     //players over 12 cards 
     public void DiscardCards()
     {
+        Debug.Log("IS DONE DISCARDING: " + userInput.doneDiscardingCards);
+
         if (userInput.discardPanelUIEnabled)
         {
-            Debug.Log("Whatever@#23@#");
+            //Debug.Log("Whatever@#23@#");
             if (numIterations < numPlayers)
             {
-                Debug.Log("Whatever");
-                if (!players[currentPlayerIndex].handCheck())
+                List<Card> discards = players[currentPlayerIndex].strategy.fixHandDiscrepancy(players[currentPlayerIndex].hand);
+
+                if (discards != null)
                 {
-                    //doesn't need to discard update turn
+                    //ai discarded we are done just discard his cards
+                    DiscardAdvenureCards(discards);
+
+                    //get rid of those cards 
+                    discards.Clear();
                     numIterations++;
                     UpdatePlayerTurn();
-                }
-                else
-                {
-                    List<Card> discards = players[currentPlayerIndex].strategy.fixHandDiscrepancy(players[currentPlayerIndex].hand);
 
-                    if (discards != null)
+                    while (!players[currentPlayerIndex].handCheck() && numIterations < numPlayers)
                     {
-                        //ai discarded we are done just discard his cards
-                        DiscardAdvenureCards(discards);
+                        //doesn't need to discard update turn
+                        numIterations++;
+                        UpdatePlayerTurn();
+                    }
 
-                        //get rid of those cards 
-                        discards.Clear();
+                    userInput.DeactivateDiscardPanel();
+                    userInput.ActivateDiscardCheck("You need to Discard " + (players[currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
+                    Debug.Log("discarded AI Stuff");
+                }
+                else if (userInput.doneDiscardingCards)
+                {
+                    //if things don't go well
+                    if (players[currentPlayerIndex].handCheck())
+                    {
+                        Debug.Log("Not enough cards where discarded");
+                        //add back to players hand 
+                        returnToPlayerHand();
+                        userInput.doneDiscardingCards = false;
+                    }
+                    else
+                    {
+                        Debug.Log("Discarded player Cards");
+                        //if things go well
+                        DiscardAdvenureCards(userInput.discardSelectedCards);
 
                         numIterations++;
                         UpdatePlayerTurn();
-                        userInput.DeactivateDiscardPanel();
-                        userInput.ActivateDiscardCheck("You need to Discard " + (players[currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
-                    }
-                    else if (userInput.doneDiscardingCards)
-                    {
-                        //if things don't go well
-                        if (players[currentPlayerIndex].handCheck())
+
+                        while (!players[currentPlayerIndex].handCheck() && numIterations < numPlayers)
                         {
-                            //add back to players hand 
-                            returnToPlayerHand();
-                            userInput.doneDiscardingCards = false;
-                        }
-                        else
-                        {
-                            //if things go well
-                            DiscardAdvenureCards(userInput.selectedCards);
+                            //doesn't need to discard update turn
                             numIterations++;
                             UpdatePlayerTurn();
-                            userInput.DeactivateDiscardPanel();
-                            userInput.ActivateDiscardCheck("You need to Discard" + (12 - players[currentPlayerIndex].hand.Count).ToString() + "Cards");
                         }
+
+                        userInput.DeactivateDiscardPanel();
+                        userInput.ActivateDiscardCheck("You need to Discard" + (12 - players[currentPlayerIndex].hand.Count).ToString() + "Cards");
                     }
                 }
             }
