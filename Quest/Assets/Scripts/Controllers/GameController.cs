@@ -453,21 +453,16 @@ public class GameController : MonoBehaviour
         storyDeck = decks.buildStoryDeck();
         adventureDeck = decks.buildAdventureDeck();
 
-        //REMEMBER THE CHANGED DRAW FUNCTION IN DECKS.CS THAT DOESN"T DRAW RANDOMLY
-        //rigging decks here
-        //load scenerios here
-        //THE WAY THE TEXT FILE WILL WORK IS ADVENTURE CARDS THEN STORY CARDS 
-
-        TextAsset text = Resources.Load("TextAssets/Scenarios/Scenario3/Scenario3") as TextAsset;
-        //TextAsset text = Resources.Load("TextAssets/Scenario3") as TextAsset;
-        //TextAsset text = Resources.Load("TextAssets/Scenario3") as TextAsset;
-
-        Debug.Log(text);
-        //cards = text.text.Split('\n');
+        //uncomment here for different scenarios
         Debug.Log(Directory.GetCurrentDirectory());
-        cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario3/Scenario3.txt");
-        cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario3/Scenario3Story.txt");
-        //Debug.Log(cards[0]);
+        cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1.txt");
+        cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1Story.txt");
+
+        //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario2/Scenario2.txt");
+        //cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario2/Scenario2Story.txt");
+
+        //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario3/Scenario3.txt");
+        //cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario3/Scenario3Story.txt");
 
         for (int i = 0; i < adventureDeck.deck.Count; i++)
         {
