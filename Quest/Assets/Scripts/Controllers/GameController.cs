@@ -172,7 +172,7 @@ public class UIInput
         cardPanelUIEnabled = false;
         doneAddingCards = false;
 
-        foregroundPanel.SetActive(true);
+        //foregroundPanel.SetActive(true);
         booleanPanel.SetActive(true);
         cardPanel.SetActive(false);
         inputPanel.SetActive(false);
@@ -187,7 +187,7 @@ public class UIInput
         cardPanelUIEnabled = false;
         doneAddingCards = false;
 
-        foregroundPanel.SetActive(true);
+        //foregroundPanel.SetActive(true);
         inputPanel.SetActive(true);
         cardPanel.SetActive(false);
         booleanPanel.SetActive(false);
@@ -303,7 +303,9 @@ public class UIInput
 
     public void DeactivateUI()
     {
-        foregroundPanel.SetActive(false);
+        //foregroundPanel.SetActive(false);
+        cardPanel.SetActive(false);
+        inputPanel.SetActive(false);
         cardPanel.SetActive(false);
         UIEnabled = false;
         keyboardInputUIEnabled = false;
@@ -455,13 +457,13 @@ public class GameController : MonoBehaviour
 
         //uncomment here for different scenarios
         Debug.Log(Directory.GetCurrentDirectory());
-        cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1Adventure.txt");
+        cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1.txt");
         cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1Story.txt");
 
-        //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario2/Scenario2Adventure.txt");
+        //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario2/Scenario2.txt");
         //cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario2/Scenario2Story.txt");
 
-        //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario3/Scenario3Adventure.txt");
+        //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario3/Scenario3.txt");
         //cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario3/Scenario3Story.txt");
 
         for (int i = 0; i < adventureDeck.deck.Count; i++)
@@ -556,66 +558,29 @@ public class GameController : MonoBehaviour
                 else
                 {
                     //check for mordred
-                    if (mordCurr < 3)
+                    if (Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Keypad1))
                     {
-                        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
-                        {
-                            mordredControllerBeta[mordCurr] = 0;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
-                        {
-                            mordredControllerBeta[mordCurr] = 1;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
-                        {
-                            mordredControllerBeta[mordCurr] = 2;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
-                        {
-                            mordredControllerBeta[mordCurr] = 3;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
-                        {
-                            mordredControllerBeta[mordCurr] = 4;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
-                        {
-                            mordredControllerBeta[mordCurr] = 5;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
-                        {
-                            mordredControllerBeta[mordCurr] = 6;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8))
-                        {
-                            mordredControllerBeta[mordCurr] = 7;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
-                        {
-                            mordredControllerBeta[mordCurr] = 8;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
-                        {
-                            mordredControllerBeta[mordCurr] = 9;
-                            mordCurr++;
-                        }
-
+                        mordredControllerBeta[mordCurr] = 0;
+                        mordCurr = Mathf.Min(mordCurr + 1, 2);
                     }
-
+                    else if (Input.GetKey(KeyCode.Alpha2) || Input.GetKey(KeyCode.Keypad2))
+                    {
+                        mordredControllerBeta[mordCurr] = 1;
+                        mordCurr = Mathf.Min(mordCurr + 1, 2);
+                    }
+                    else if (Input.GetKey(KeyCode.Alpha3) || Input.GetKey(KeyCode.Keypad3))
+                    {
+                        mordredControllerBeta[mordCurr] = 2;
+                        mordCurr = Mathf.Min(mordCurr + 1, 2);
+                    }
+                    else if (Input.GetKey(KeyCode.Alpha4) || Input.GetKey(KeyCode.Keypad4))
+                    {
+                        mordredControllerBeta[mordCurr] = 3;
+                        mordCurr = Mathf.Min(mordCurr + 1, 2);
+                    }
 
                     if (mordCurr >= mordredControllerBeta.Length)
                     {
-                        Debug.Log("Player " + (mordredControllerBeta[0] + 1).ToString() + " Casting Mordred on Player " +
-                            (mordredControllerBeta[1] + 1).ToString() + "'s Ally number " + (mordredControllerBeta[2] + 1).ToString());
                         if (mordredControllerBeta[0] < numPlayers && mordredControllerBeta[1] < numPlayers)
                         {
                             if (players[mordredControllerBeta[1]].activeAllies.Count > mordredControllerBeta[2])
@@ -1437,10 +1402,10 @@ public class GameController : MonoBehaviour
     {
         //using current player once we setup player turn change will update this
         EmptyPanel(handPanel);
-        EmptyPanel(amourPanel);
+        //EmptyPanel(amourPanel);
         EmptyPanel(allyPanel);
-        EmptyPanel(weaponPanel);
-        EmptyPanel(activatedPanel);
+        //EmptyPanel(weaponPanel);
+        //EmptyPanel(activatedPanel);
 
         Player myPlayer = players[currentPlayerIndex];
 
