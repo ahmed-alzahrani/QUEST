@@ -1,0 +1,45 @@
+Game Stuff:
+
+1. When the decks are created, their size
+
+2. When a card is drawn from either the story or adventure deck, log it
+
+3. When a card is added to a deck's discard, log it
+
+4. if the Story card is an event, log the name and effect
+
+
+
+Player Decisions/logs:
+
+1. If a player accepts/rejects sponsoring a quest, log it
+
+2. If a player accepts/rejects participating in a quest, log it
+
+3. If a player plays a foe round, log the cards (or just the bp?) they play
+
+4. If a player accepts/rejects participating in a tourney, log it
+
+5. If a player plays in a tourney log what they play (or the bp)
+
+6. When a player gains/loses shields
+
+7. when a player has to discard
+
+8. Log when a player gains/loses shields
+
+
+Tournament Logs:
+        - Log the winner and how many shields given
+
+
+Quest Logs:
+        - Log when a player is knocked out of a quest
+        - Log when a player succeeds in a stage
+        - Log a player's bid
+        - Log the BP of each foe stage
+
+
+Tournament Logs:
+        - Log what a player plays (or their bp)
+        - Log the tourney winner

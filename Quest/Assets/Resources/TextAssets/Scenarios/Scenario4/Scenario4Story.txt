@@ -1,15 +1,13 @@
-Boar Hunt
-Rescue the Fair Maiden
-Chivalrous Deed
 Search for the Holy Grail
+Defend the Queen's Honor
 Test of the Green Knight
 Search for the Questing Beast
-Defend the Queen's Honor
-Prosperity Throughout the Realm
+Rescue the Fair Maiden
 Journey through the Enchanted Forest
 Vanquish King Arthur's Enemies
 Vanquish King Arthur's Enemies
 Slay the Dragon
+Boar Hunt
 Boar Hunt
 Repel the Saxon Raiders
 Repel the Saxon Raiders
@@ -25,4 +23,6 @@ Court Called to Camelot
 Court Called to Camelot
 Pox
 Plague
+Chivalrous Deed
+Prosperity Throughout the Realm
 King's Call to Arms

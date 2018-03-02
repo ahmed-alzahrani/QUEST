@@ -1,0 +1,22 @@
+Scenario 4:
+
+This scenario, played with 4 human players, proves the following:
+          - Is "Search for the Holy Grail" correctly supported (all foes)
+          - Is Percival worth 20 for this quest
+
+
+1. Search for the Holy Grail is drawn
+        P1 should decline
+        P2 should decline
+        P3 should decline
+        P4 should accept they have the Dragon and a test to set up the quest with
+
+        P4 Can set the quest up as such:
+                - Thieves (5)
+                - Boar (15)
+                - Black Knight (35)
+                - Test of Morgan Le Fey
+                - Dragon (70)
+
+
+Important for P1 to join the quest as they can play Sir Percival to prove he gets his buff, the rest of the quest can play out naturally, everything else in this quest is shown in other scenarios.  

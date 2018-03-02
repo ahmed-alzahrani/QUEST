@@ -1,18 +1,76 @@
 Scenario 1:
 
-Boar Hunt is played, P2 (Human) sponsors the quest:
+This scenario, played with four human players, will demonstrate the following:
 
-Stage 1 --> Saxons
-Stage 2 --> Boar + Sword + Dagger
+        - A quest can be sponsored by the player who drew the Quest Card
+        - P1 who drew the card can accept/decline the quest
+        - P1 is able to select cards for BOTH stages
+        - The quest is correctly set up with two foes
+        - The rule of increasing BPs is enforced
+        - The rule of no repeated weapons is enforced
+        - The UI helps enforce these rules
+        - Players 2, 3, and 4 are asked whether or not they want to participate
+        - Each participant in the Quest is offered an Adventure Card
+        - The rule of 12 cards max is enforced, a player is given the chance to PLAY in the stage before being asked to discard
+        - Hotseat works to allow P2,P3,P4 to see their OWN cards
+        - A player can play 0 cards to contest a foe stage
+        - The resolution of a foe stage is correctly done
+        - The cards played are correctly discarded
+        - Player 2 (who played nothing) is correctly eliminated
+        - Do p3, p4 get another adventure card and properly discard
+        - Once p3, p4 have played, do we get the correct winner and do they get the right # of shields
+        - Are p1s cards from setting the Quest discarded?
+        - Does P1 get the correct # of cards back after sponsoring?
+        - Can the second story card (Prosperity Throughout The Realm) be drawn by P2?
+        - Does Prosperity properly give everyone cards / handle discarding for hands with more than 12
+        - Does p3 draw the event card Chivalrous deed?
+        - Does it give everybody 3 shields?
 
-CPU1 --> Participate because he has both 4 allies/weapons and 2 weak foes to discard with
-CPU2 --> Participates because he can increment by 10 per round and has 2 weak foes to discard with
-P1 --> Joins because human decides
 
-P1 plays nothing on the first round (loses)
-CPU1 plays an Amour and an Ally (passes)
-CPU2 plays just an amour and passes
+Instructions:
 
-In round 2, both play their strongest hands and win.
+1. Boar Hunt is played, P1 decides to sponsor the quest as follows:
 
-Next, Prosperity throughout the Realm is played and then Chivalrous Deed.
+Stage 1 --> Saxons (10)
+Stage 2 --> Boar + Sword + Dagger (30)
+P2 --> Participate
+P3 --> Participate
+P4 --> Participate
+
+Round 1:
+P2 Should play: Nothing (0)
+P3 Should play: Horse (10)
+P4 Should play: Battle-Ax (15)
+
+P2 will be knocked out, P3 and 4 will continue
+
+
+Round 2:
+P3 Should play --> Lance (20)
+P4 Should play --> Excalibur (30)
+
+P3 will be knocked out and P4 will both win and be appropriately awarded shields.
+
+2. Prosperity Throughout The Realm is played, every player is given two adventure cards and prompted to discard.
+
+3. Chivalrous Deed is played, all players except P4 will receive 3 shields.
+
+
+
+CPU Version:
+
+What this proves:
+
+      - CPU1 and CPU2 strategies for playing foe encounters in the quest
+      - CPU1 and CPU2 strategies for taking part in a quest
+      - CPU1 and CPU2 strategies discard cards properly
+
+The only difference is that P3 will be CPUStrategy1 and P4 will be CPUStrategy2.
+
+P1 still sponsors the quest, P2 still joins and plays nothing in the first round.
+
+CPU1 will play an Amour and an Ally as per Strategy 1
+CPU2 will play just an Amour to increment by 10 ASAP.
+P2 should still play nothing.
+
+CPU 1 and 2 will both play their strongest hands as per their strategies and win round 2 so they will both win, the rest of the scenario plays out exactly like the human version.

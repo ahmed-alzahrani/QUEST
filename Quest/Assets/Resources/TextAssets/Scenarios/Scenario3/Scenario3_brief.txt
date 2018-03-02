@@ -1,30 +1,97 @@
 Scenario 3:
 
-
-- P1 Pulls the Defend the Queen's Honor Story Card
-      P1 declines to sponsor
-      P2 declines to sponsor
-      CPU1 declines, he only has 2 foes and cant cover the stages
-      CPU2 accepts, he has enough foes and even a test, he sets it up:
-            1. Thieves
-            2. Boar
-            3. Test of Morgan Le Fey
-            4. Dragon
-
-P1 Joins the Quest
-P2 Joins
-CPU1 Declines, he only has 5 weapons/allies total and cant play the Quest properly
-
-P1 plays:
-    1. Sword + Amour
-    2. Lance
-    3. Bids 3
-    4. Excalibur, Lance, Sword, Horse, Ax
-
-P2 plays:
-  1. Sword + Amour
-  2. Dagger (loses because Boar is buffed by the quest)
+This scenario, played with 4 human players will demonstrate the following:
+        - Tournament can be handled
+        - Pox can be handled
+        - Plague can be handled
+        - Queen's Favor can be handled
+        - Percival/Gawain can be handled
+        - King's Call To Arms can be handled
+        - Mordred can be used
+        - Court Called to Camelot
+        - A test is supported
 
 
 
-** This scenario is just to show the implementation of quests with a foe of "All"
+1. Chivalrous Deed is drawn (everyone +2 shields)
+
+2. Pox is drawn (everyone but P2 loses 1 shield)
+
+3. Tournament at Camelot is drawn by P3
+This tournament can be resolved however you'd like with the available tournament cards in the players hands
+
+4. Plague is drawn and P4 loses 2 shields
+
+5. P1 draws Queen's Favor and the lowest ranking player(s) draw
+
+6. P2 draws King's Call and the leader(s) discard
+
+7. P3 draws King's Call, the next winner of a quest receives the bonus
+
+8. P4 draws Test of the Green Knight
+      - It is best to let P1 sponsor, he has the Green Knight foe ;)
+      - This quest can resolve properly as our game logic only allows you to sponsor the quest if you have requisite cards
+      - Make sure to have P3 play King Pellinore during this quest, to prove the effect of Court Called to Camelot after the quest
+
+9. Court Called is played and flushes King Pellinore out of P3's active allies
+
+
+
+
+CPU Version:
+
+What this proves:
+      - CPU1 and CPU2 handling of a tournament
+      - CPU1 and CPU2 Handling of a Quest, specifically with a test stage
+
+
+1. Chivalrous Deed is drawn (everyone +2 shields)
+
+2. Pox is drawn (everyone but P2 loses 1 shield)
+
+3. Tournament at Camelot is drawn by CPU1
+        - CPU1 joins because someone is eligible to rank up
+        - CPU2 joins because CPU2 always joins tournaments
+        - P1 joins
+        - P2 does not join
+
+
+Because P2 (the one who could rank up) is NOT in the quest, CPU1 ONLY plays duplicate weapons whereas CPU2 plays his quickest hand to 50 BP.
+CPU2 wins and ranks up with the shields just gained.
+
+4. CPU2 draws Plague and loses 2 shields.
+
+5. P1 then draws Queen's Favor and, along with CPU1, gain an additional 2 adventure cards
+
+6. P2 Draws King's Call next and discards 1 weapon as the leader
+
+7. CPU1 then draw's King's Recognition, providing bonus shields to the next winner of a Quest
+
+8. CPU2 draws the Test of the Green Knight Quest (4 stages):
+            CPU2 declines to sponsor because someone can rank up
+            P1 Sponsors as follows (human):
+                    1. Thieves + Dagger
+                    2. Mordred
+                    3. Test of Morgan Le Fey
+                    4. Green Knight + Lance
+
+- P2 Enters the Quest
+- CPU1 joins because he has the correct # of foes to discard and cards to play
+- CPU2 declines because he does not have two weak foes to discard in case of a test
+
+CPU1 Plays:
+    1. Amour + Pellinore
+    2. Gawain
+    3. Bid of 4 on the first round, 0 on the second round
+
+
+P2 Plays (Human):
+    1. Lance
+    2. Excalibur
+    3. A bid of 3 on the first round, then 5
+    4. Ax, Lance, excalibur
+
+P2 wins and receives the bonus shields from King's Recognition
+
+
+- Lastly, P1 draws Court Called --> This should flush active allies (Pellinore) from all players (CPU1)
