@@ -17,25 +17,8 @@ using System.IO;
     Participants: only use weapon and amour cards to boost bp only
 */
 
-//WHAT WE HAVE LEFT
-//KIGNS CALL TO ARMS 
-//DISCARD 
-//UI THING for BP
-//UI FOR WINNING THE GAME 
-
-//CHECK THE ISTRATEGIES FOR HAVING ALL THE CORRECT FUNCTIONS
-//WIN CONDITIONS
-//uncomment deck builder stuff
-//CHECK MERLIN"S ABILITY
-
-//TOURNAMENTS                          DONEEEEEEE
-//QUESTS
-//SPECIAL EFFECTS
-//TEST CARDS
-//mordred will use separate input for each button
-
-
 //should create objects for the ui objects but too late now 
+
 [System.Serializable]
 public class UIInput
 {
@@ -468,8 +451,7 @@ public class GameController : MonoBehaviour
 
         //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario4/Scenario4Adventure.txt");
         //cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario4/Scenario4Story.txt");
-        
- 
+
         for (int i = 0; i < adventureDeck.deck.Count; i++)
         {
             //shuffle according to the following values
@@ -515,7 +497,6 @@ public class GameController : MonoBehaviour
 
         storyDeck.deck.Clear();
         storyDeck.deck = tempDeck;
-
         //maybe debug the decks here to check if we successfully rigged the decks
 
         //Setup UI buttons for cards (event listeners etc....)
@@ -974,7 +955,6 @@ public class GameController : MonoBehaviour
                     else
                     {
                         bool removed = userInput.CheckDiscardCard(selectedCard);
-
                         if (removed)
                         {
                             //add card back to player 
@@ -1520,6 +1500,8 @@ public class GameController : MonoBehaviour
     //players over 12 cards 
     public void DiscardCards()
     {
+        Debug.Log("IS DONE DISCARDING: " + userInput.doneDiscardingCards);
+
         if (userInput.discardPanelUIEnabled)
         {
             //Debug.Log("Whatever@#23@#");
