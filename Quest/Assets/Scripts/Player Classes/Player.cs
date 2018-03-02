@@ -209,13 +209,11 @@ public class Player
         if (hasWeapon())
         {
             List<Card> discardCards = strategy.discardWeapon(hand);
-            discard(discardCards);
             return discardCards;
         }
         else if (hasFoes())
         {
             List<Card> discardCards = strategy.discardFoesForKing(hand);
-            discard(discardCards);
             return discardCards;
         }
         else

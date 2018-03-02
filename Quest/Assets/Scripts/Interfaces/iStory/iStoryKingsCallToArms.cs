@@ -96,6 +96,11 @@ public class iStoryKingsCallToArms : iStory
 
         game.numIterations = 0;
 
+        for (int i = 0; i < highestPlayers.Count; i++)
+        {
+            Debug.Log("Discarding Player: " + highestPlayers[i]);
+        }
+
         //return indeces of highest players
         return highestPlayers;
     }
@@ -142,10 +147,15 @@ public class iStoryKingsCallToArms : iStory
             {
                 if (game.numIterations < game.numPlayers)
                 {
-                    List<Card> result = game.players[game.currentPlayerIndex].kingsCall();
 
+                    if (EventState.highestRankedPlayers.Count == 0)
+                    {
+                        //MIGHT NEED TO BE FIXEDDD!!
+                        game.numIterations++;
+                        game.UpdatePlayerTurn();
+                    }
                     //if he is not the highest or he is but doesn't have proper cards to discard go to next player  
-                    if (game.currentPlayerIndex != EventState.highestRankedPlayers[0] || (!EventState.discardTwoFoes && !EventState.discardWeapons))
+                    else if (game.currentPlayerIndex != EventState.highestRankedPlayers[0] || (!EventState.discardTwoFoes && !EventState.discardWeapons))
                     {
                         //player shouldn't need to discard
                         game.UpdatePlayerTurn();
@@ -163,83 +173,106 @@ public class iStoryKingsCallToArms : iStory
                             game.userInput.ActivateCardUIPanel("Discard 2 foe cards");
                         }
                     }
-                    else if (result != null)
+                    else
                     {
-                        //ai here 
-                        //no need to check since we knw its right
-                        game.DiscardAdvenureCards(result);
-                        game.UpdatePlayerTurn();
-                        //decide discards for next player 
-                        DecideDiscards(game);
-                        game.numIterations++;
-                        game.userInput.DeactivateUI();
+                        //human players will return null
+                        List<Card> result = game.players[game.currentPlayerIndex].kingsCall();
 
-                        if (EventState.discardWeapons)
+                        if (result != null)
                         {
-                            game.userInput.ActivateCardUIPanel("Discard a weapon card");
-                        }
-                        else if (EventState.discardTwoFoes)
-                        {
-                            game.userInput.ActivateCardUIPanel("Discard 2 foe cards");
-                        }
-                    }
-                    else if (game.userInput.doneAddingCards)
-                    {
-                        // human player card querying
-                        //check if cards added are correct
+                            //ai here 
+                            //no need to check since we knw its right
+                            game.DiscardAdvenureCards(result);
+                            EventState.highestRankedPlayers.RemoveAt(0);
+                            game.UpdatePlayerTurn();
+                            //decide discards for next player 
+                            DecideDiscards(game);
+                            game.numIterations++;
+                            game.userInput.DeactivateUI();
 
-                        if (EventState.discardWeapons)
-                        {
-                            if (game.userInput.selectedCards.Count == 1 && game.userInput.selectedCards[0].type == "Weapon Card")
+                            if (EventState.discardWeapons)
                             {
-                                game.DiscardAdvenureCards(game.userInput.selectedCards);
-                                game.UpdatePlayerTurn();
-                                //decide discards for next player 
-                                DecideDiscards(game);
-                                game.numIterations++;
-                                game.userInput.DeactivateUI();
-
-                                if (EventState.discardWeapons)
-                                {
-                                    game.userInput.ActivateCardUIPanel("Discard a weapon card");
-                                }
-                                else if (EventState.discardTwoFoes)
-                                {
-                                    game.userInput.ActivateCardUIPanel("Discard 2 foe cards");
-                                }
+                                game.userInput.ActivateCardUIPanel("Discard a weapon card");
                             }
-                            else
+                            else if (EventState.discardTwoFoes)
                             {
-                                //reset cards to hand and try again
-                                game.returnToPlayerHand();
-                                game.userInput.doneAddingCards = false;
+                                game.userInput.ActivateCardUIPanel("Discard 2 foe cards");
                             }
                         }
-                        else if (EventState.discardTwoFoes)
+                        else if (game.userInput.doneAddingCards)
                         {
-                            if (game.userInput.selectedCards.Count == 2 && game.userInput.selectedCards[0].type == "Foe Card" && game.userInput.selectedCards[1].type == "Foe Card")
+                            // human player card querying
+                            //check if cards added are correct
+                            if (EventState.discardWeapons)
                             {
-                                game.DiscardAdvenureCards(game.userInput.selectedCards);
-                                game.UpdatePlayerTurn();
-                                //decide discards for next player 
-                                DecideDiscards(game);
-                                game.numIterations++;
-                                game.userInput.DeactivateUI();
+                                if (game.userInput.selectedCards.Count == 1 && game.userInput.selectedCards[0].type == "Weapon Card")
+                                {
+                                    game.DiscardAdvenureCards(game.userInput.selectedCards);
+                                    EventState.highestRankedPlayers.RemoveAt(0);
+                                    game.UpdatePlayerTurn();
+                                    //decide discards for next player 
+                                    DecideDiscards(game);
+                                    game.numIterations++;
+                                    game.userInput.DeactivateUI();
 
-                                if (EventState.discardWeapons)
-                                {
-                                    game.userInput.ActivateCardUIPanel("Discard a weapon card");
+                                    if (EventState.discardWeapons)
+                                    {
+                                        game.userInput.ActivateCardUIPanel("Discard a weapon card");
+                                    }
+                                    else if (EventState.discardTwoFoes)
+                                    {
+                                        game.userInput.ActivateCardUIPanel("Discard 2 foe cards");
+                                    }
                                 }
-                                else if (EventState.discardTwoFoes)
+                                else
                                 {
-                                    game.userInput.ActivateCardUIPanel("Discard 2 foe cards");
+                                    //reset cards to hand and try again
+                                    for (int i = 0; i < game.userInput.selectedCards.Count; i++)
+                                    {
+                                        //just in case
+                                        game.players[game.currentPlayerIndex].hand.Add(game.userInput.selectedCards[i]);
+                                        Object.Destroy(game.userInput.RemoveFromCardUIPanel(i));
+                                        i--;
+                                        game.populatePlayerBoard();
+                                    }
+
+                                    game.userInput.doneAddingCards = false;
                                 }
                             }
-                            else
+                            else if (EventState.discardTwoFoes)
                             {
-                                //reset cards to hand and try again
-                                game.returnToPlayerHand();
-                                game.userInput.doneAddingCards = false;
+                                if (game.userInput.selectedCards.Count == 2 && game.userInput.selectedCards[0].type == "Foe Card" && game.userInput.selectedCards[1].type == "Foe Card")
+                                {
+                                    game.DiscardAdvenureCards(game.userInput.selectedCards);
+                                    EventState.highestRankedPlayers.RemoveAt(0);
+                                    game.UpdatePlayerTurn();
+                                    //decide discards for next player 
+                                    DecideDiscards(game);
+                                    game.numIterations++;
+                                    game.userInput.DeactivateUI();
+
+                                    if (EventState.discardWeapons)
+                                    {
+                                        game.userInput.ActivateCardUIPanel("Discard a weapon card");
+                                    }
+                                    else if (EventState.discardTwoFoes)
+                                    {
+                                        game.userInput.ActivateCardUIPanel("Discard 2 foe cards");
+                                    }
+                                }
+                                else
+                                {
+                                    //reset cards to hand and try again
+                                    for (int i = 0; i < game.userInput.selectedCards.Count; i++)
+                                    {
+                                        //just in case
+                                        game.players[game.currentPlayerIndex].hand.Add(game.userInput.selectedCards[i]);
+                                        Object.Destroy(game.userInput.RemoveFromCardUIPanel(i));
+                                        i--;
+                                        game.populatePlayerBoard();
+                                    }
+                                    game.userInput.doneAddingCards = false;
+                                }
                             }
                         }
                     }
