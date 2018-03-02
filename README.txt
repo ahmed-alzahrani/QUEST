@@ -3,14 +3,22 @@ Ahmed Al-Zahrani 100900855
 Mohamed Kazma 101019719
 Julian Greppin 100899233
 
+Foreword:
+"./" refers to the current directory in which this README.txt file is located.
+In order to run this game and produce proper Log files, the game must be run from within
+Unity itself.
 
-TO START THE GAME:
+How to start the game:
+Navigate to the directory: ./Quest/Assets/Scenes and open the MainMenu.unity file with Unity.
+From within unity, press the "Play" button, located at the top-middle of the window next to the "Pause" button.
+This will launch the game in the "Game" tab of unity, you will be presented with our Main Menu.
+A good way to know for certain that the game has begun is that the animated fire effect to the
+left of the menu will be active.
+Press the Hot-Seat Game button on the main menu to begin the game.
 
-Go into quest/assets/scenes and open the MainMenu scene and then start using the arrow like button on the too then run a hotseat game.
+How to test the different Scenarios:
 
-TO TEST THE DIFFERENT SCENARIOS:
-
-Within QUEST/Quest/Assets/Resources/TextAssets/Scenarios you will find a folder for each scenario. Each folder includes the following:
+Within ./Quest/Assets/Resources/TextAssets/Scenarios you will find a folder for each scenario. Each folder includes the following:
           - Scenariox_brief.txt which gives an overview of what the scenario proves and how it executes
           - ScenarioxStory.txt which is a txt file that stores the order in which we want to rig the Story deck
           - ScenarioxAdventure.txt which is a txt file that stores the order in which we want to rig the Adventure deck
@@ -18,47 +26,70 @@ Within QUEST/Quest/Assets/Resources/TextAssets/Scenarios you will find a folder 
           Note** Scenario 1 and 3 both also outline in their _brief file a way to play the scenario with 2 CPUS (1 of each strategy) and what playing the scenario with these CPU proves
 
 
-Once you've understood the scenario, simply go into the Start function in gameController and look for these lines, comment out all except the one that pertains to the scenario you want to run
+To change which Scenario the game is currently running, please uncomment the corresponding code
+snippet in GameController.cs and comment out the scenario you no longer wish to use.
 
-"STARTING FROM LINE ~ 463"
-(THIS IS HOW THE CODE WILL LOOK LIKE THE DIFFERENCE WILL BE THE NAME OF THE SCENARIO)
-ex:     //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario2/Scenario2Adventure.txt");
-        //cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario2/Scenario2Story.txt");
+
+
+Located at approximately line 463 of GameController.CS
+The following is a snippet of what this section's code looks like:
+    //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario2/Scenario2Adventure.txt");
+     //cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario2/Scenario2Story.txt");
 
 Where the Strategy pattern is implemented?
 
-1. QUEST/Quest/Assets/Scripts/Interfaces/iStrategy to implement the different strategies for players as well as different types of CPUS (IStrategyCPU1 and IStrategyCPU2 are
-   the subclasses).
+1. QUEST/Quest/Assets/Scripts/Interfaces/iStrategy  Is the working directory for our player strategies, human players as well as our fully functioning AI player both use this strategy pattern.
 
-2. QUEST/Quest/Assets/Scripts/Interfaces/iStory to be able to treat the execution of any Story card be it event/tourney/quest in the same way within our game controller
+2. QUEST/Quest/Assets/Scripts/Interfaces/iStory Is the working directory for our Story Card interfaces which also use a strategy pattern so that the game can interface with a story card regardless of its type.
 
 
 Game Controls:
 
-To Draw a Story Card click the story deck to draw a story card.
-After drawing a story card there are generally 3 types of ui prompts:
-the yes/no (boolean) check for players(participation or sponsoring etc...) those can be visually answered using the buttons
-the keyboard userinput. That is almost entirely done in the game setup to get number of players and human ones as well as the strategies of each of the cpus.
-the card panel user input. That is used for when a player needs to add a card so adding a card to a quest or tournament or discarding cards etc...
-Allies always just get activated instead of being added to the prompt's card panel
+To Draw a Story Card click the story deck in the center of the board, marked with the letter S.
+Once a story card has been drawn, depending on the card, you may receive one of the following prompts:
 
-Mordred:
-first of all input for which player is playing mordred (1 , 2 , 3 , 4) (number of players)
-second which player to activate mordred against (1 , 2 , 3 , 4) (number of players)
-third which ally this player we want to remove (1 , 2 , 3 , 4 , ... 9)  // I HAVE NO IDEA IF THIS IS CORRECT OR NOT CHECK WITH JULIAN
+-The yes/no prompt used for polling the players for participating/sponsoring/etc..
+
+-The keyboard prompt which describes the input required of the player, this
+ is used to set up the game as well as during during Quests when bidding on Test Stages.
+
+-The Card prompt which prompts the player to select cards from their hand to add to the panel.
+ This is used throughout the game and is how the player plays cards.
+
+Ally Cards will not enter the Card prompt panel and will instead be played onto the field.
+
+How to use Mordred:
+First, press the number key associated with the player who is playing Mordred.
+Second, press the number key associated with the player who's Ally Card you wish to destroy.
+Third, press the number key associated with the Ally Card you wish to destroy.
+
+For example:
+Player 2 has played Merlin and Player 1 wishes to use his Mordred card to remove it.
+Player 1 presses the numbers 1 2 and 1 on the keyboard.
+This removes the Mordred Card from Player 1's hand and removes Player 2's Merlin Ally Card from play.
+
+This can be done at any point of the game in compliance with the rules.
+If any of the 3 inputs required are invalid, the input is rejected and you must begin entering the 3 inputs again.
 
 GUI:
 
-On the left, there is a bar of all the players information (Name , BP(rank + allies and in parenthesis what the player has active for the current quest or tournament) , Number of cards
-in hand , player rank , number of shields). If you are the current player (its your turn), you will have an outline around your gui status information.
+On the left of the screen there are several boxes which display the players' information:
+(ie. Name , BP** , Number of cards in hand , player rank , number of shields).
+**The bracketed number next to BP is what the player has active for the current quest or tournament (ie. Allies or Amours)
+The current active player has a distinct green outline around their green border
 
-On the top of board, There is the quest information (The quest card in play or story card , The stage number if he is in a quest , and the quest cards if the stage is not over 
-they are face down and the end of a stage they are face up until you select a new card then the next stage is started).
+At the top of the board is the quest information:
+-The Story Card in play (including Quests)
+-The current Stage's stage number
+-The quest cards of the stage, once the stage is over, these cards are flipped face up for the players to see.
+-
+Located in the middle of the board are the decks and discard piles 
+In order from left to right, they are:
+Adventure Deck, Adventure Discard, Story Deck, Story Discard, and the Rank Deck
 
-The middle of board, has the decks and discard piles (adventure deck , adventure deck discard pile , story deck , story deck discard pile , rank deck).
+At the right of the screen is the Card Preview Area. When you wish to get a closer look at a given card, 
+hover over it with the cursor and it will be displayed in this area.
 
-On the right there is the preview card, if you hover over cards, they will show up on the preview card to be able to read more about them.
+At the bottom of the screen is the current player's hand
 
-On the bottom left, there is the shields and the rank card 
-
-On the bottom, there is each player's hands  
+Located to the left of the current player's hand is their current rank and number of shields.
