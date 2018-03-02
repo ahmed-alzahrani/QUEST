@@ -148,8 +148,8 @@ public class UIInput
         // if u change ur mind
         //remove the discard selected card
         discardSelectedCards.RemoveAt(index);
-        Object.Destroy(UICardsSelected[index]);
-        UICardsSelected.RemoveAt(index);
+        Object.Destroy(UIDiscardsSelected[index]);
+        UIDiscardsSelected.RemoveAt(index);
     }
 
     public void AddToUIDiscardPanel(GameObject card)
@@ -306,7 +306,7 @@ public class UIInput
         //foregroundPanel.SetActive(false);
         cardPanel.SetActive(false);
         inputPanel.SetActive(false);
-        cardPanel.SetActive(false);
+        booleanPanel.SetActive(false);
         UIEnabled = false;
         keyboardInputUIEnabled = false;
         booleanUIEnabled = false;
@@ -468,7 +468,8 @@ public class GameController : MonoBehaviour
 
         //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario4/Scenario4Adventure.txt");
         //cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario4/Scenario4Story.txt");
-
+        
+ 
         for (int i = 0; i < adventureDeck.deck.Count; i++)
         {
             //shuffle according to the following values
@@ -514,6 +515,7 @@ public class GameController : MonoBehaviour
 
         storyDeck.deck.Clear();
         storyDeck.deck = tempDeck;
+
         //maybe debug the decks here to check if we successfully rigged the decks
 
         //Setup UI buttons for cards (event listeners etc....)
@@ -972,10 +974,12 @@ public class GameController : MonoBehaviour
                     else
                     {
                         bool removed = userInput.CheckDiscardCard(selectedCard);
+
                         if (removed)
                         {
                             //add card back to player 
                             players[currentPlayerIndex].hand.Add(selectedCard);
+                            populatePlayerBoard();
                         }
                         else
                         {
@@ -1516,8 +1520,6 @@ public class GameController : MonoBehaviour
     //players over 12 cards 
     public void DiscardCards()
     {
-        Debug.Log("IS DONE DISCARDING: " + userInput.doneDiscardingCards);
-
         if (userInput.discardPanelUIEnabled)
         {
             //Debug.Log("Whatever@#23@#");
@@ -1573,7 +1575,7 @@ public class GameController : MonoBehaviour
                         }
 
                         userInput.DeactivateDiscardPanel();
-                        userInput.ActivateDiscardCheck("You need to Discard" + (12 - players[currentPlayerIndex].hand.Count).ToString() + "Cards");
+                        userInput.ActivateDiscardCheck("You need to Discard " + (players[currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
                     }
                 }
             }
