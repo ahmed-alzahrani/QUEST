@@ -100,15 +100,18 @@
      <Compile Include="Assets\Scripts\UI Scripts\CardSpacingScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\CardUIScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\PreviewCardScript.cs" />
+     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario4\Scenario4Story.txt" />
+     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario3\Scenario3Adventure.txt" />
+     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario2\Scenario2Adventure.txt" />
      <None Include="Assets\Resources\TextAssets\Scenarios\Scenario3\Scenario3_brief.txt" />
+     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario4\Scenario4_brief.txt" />
      <None Include="Assets\Resources\TextAssets\Scenarios\Scenario2\Scenario2Story.txt" />
-     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario3\Scenario3.txt" />
      <None Include="Assets\Resources\TextAssets\Scenarios\Scenario1\Scenario1Story.txt" />
      <None Include="Assets\Resources\TextAssets\Scenarios\Scenario1\Scenario1_brief.txt" />
      <None Include="Assets\Resources\TextAssets\Scenarios\Scenario2\Scenario2_brief.txt" />
-     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario1\Scenario1.txt" />
      <None Include="Assets\Resources\TextAssets\Scenarios\Scenario3\Scenario3Story.txt" />
-     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario2\Scenario2.txt" />
+     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario1\Scenario1Adventure.txt" />
+     <None Include="Assets\Resources\TextAssets\Scenarios\Scenario4\Scenario4Adventure.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
