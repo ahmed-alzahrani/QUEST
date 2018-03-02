@@ -560,30 +560,66 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    //check for mordred
-                    if (Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Keypad1))
+                    if (mordCurr < 3)
                     {
-                        mordredControllerBeta[mordCurr] = 0;
-                        mordCurr = Mathf.Min(mordCurr + 1, 2);
+                        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+                        {
+                            mordredControllerBeta[mordCurr] = 0;
+                            mordCurr++;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+                        {
+                            mordredControllerBeta[mordCurr] = 1;
+                            mordCurr++;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+                        {
+                            mordredControllerBeta[mordCurr] = 2;
+                            mordCurr++;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+                        {
+                            mordredControllerBeta[mordCurr] = 3;
+                            mordCurr++;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+                        {
+                            mordredControllerBeta[mordCurr] = 4;
+                            mordCurr++;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
+                        {
+                            mordredControllerBeta[mordCurr] = 5;
+                            mordCurr++;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
+                        {
+                            mordredControllerBeta[mordCurr] = 6;
+                            mordCurr++;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8))
+                        {
+                            mordredControllerBeta[mordCurr] = 7;
+                            mordCurr++;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
+                        {
+                            mordredControllerBeta[mordCurr] = 8;
+                            mordCurr++;
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
+                        {
+                            mordredControllerBeta[mordCurr] = 9;
+                            mordCurr++;
+                        }
+
                     }
-                    else if (Input.GetKey(KeyCode.Alpha2) || Input.GetKey(KeyCode.Keypad2))
-                    {
-                        mordredControllerBeta[mordCurr] = 1;
-                        mordCurr = Mathf.Min(mordCurr + 1, 2);
-                    }
-                    else if (Input.GetKey(KeyCode.Alpha3) || Input.GetKey(KeyCode.Keypad3))
-                    {
-                        mordredControllerBeta[mordCurr] = 2;
-                        mordCurr = Mathf.Min(mordCurr + 1, 2);
-                    }
-                    else if (Input.GetKey(KeyCode.Alpha4) || Input.GetKey(KeyCode.Keypad4))
-                    {
-                        mordredControllerBeta[mordCurr] = 3;
-                        mordCurr = Mathf.Min(mordCurr + 1, 2);
-                    }
+
 
                     if (mordCurr >= mordredControllerBeta.Length)
                     {
+                        Debug.Log("Player " + (mordredControllerBeta[0] + 1).ToString() + " Casting Mordred on Player " +
+                            (mordredControllerBeta[1] + 1).ToString() + "'s Ally number " + (mordredControllerBeta[2] + 1).ToString());
                         if (mordredControllerBeta[0] < numPlayers && mordredControllerBeta[1] < numPlayers)
                         {
                             if (players[mordredControllerBeta[1]].activeAllies.Count > mordredControllerBeta[2])
@@ -607,6 +643,7 @@ public class GameController : MonoBehaviour
                         }
                         mordCurr = 0;
                     }
+
 
                     //check for drawn story cards
                     if (drawnStoryCard != null)
