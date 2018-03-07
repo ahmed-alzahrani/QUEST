@@ -32,6 +32,31 @@ public class strategyUtil
       return false;
   }
 
+  public int rankUpCount(List<Player> players, int shields)
+  {
+      int count = 0;
+      for (var i = 0; i < players.Count; i++)
+      {
+          int score = players[i].score;
+          // Can rank up from Squire to Knight
+          if (score < players[i].knightScore && (score + shields) >= players[i].knightScore)
+          {
+              count += 1;
+          }
+          // Can rank up from Knight to Champion Knight
+          if (score < players[i].champKnightScore && (score + shields) >= players[i].champKnightScore)
+          {
+              count += 1;
+          }
+          // Can become a Knight of the Round Table
+          if (score < players[i].kotrkScore && (score + shields) >= players[i].kotrkScore)
+          {
+              count += 1;
+          }
+      }
+      return count;
+  }
+
   // checks whether or not a CPU has the requisite cards to sponsor the quest
   public bool canISponsor(List<Card> hand, int stages)
   {

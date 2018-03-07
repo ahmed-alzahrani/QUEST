@@ -108,7 +108,6 @@ public class iStrategyCPU1 : iStrategy
 
     public List<List<Card>> setupQuest(int stages, List<Card> hand, string questFoe)
     {
-        Debug.Log("CPU Strategy #1 has been queried!!!!!");
         // instantiate the quest line
         strategyUtil strat = new strategyUtil();
         List<List<Card>> questLine = new List<List<Card>>();
@@ -141,6 +140,7 @@ public class iStrategyCPU1 : iStrategy
         }
         questLine.Reverse();
 
+        /*
         for (int i = 0; i < questLine.Count; i++)
         {
             for (int j = 0; j < questLine[i].Count; j++)
@@ -148,6 +148,7 @@ public class iStrategyCPU1 : iStrategy
                 questLine[i][j].display();
             }
         }
+        */
         return questLine;
     }
 
@@ -197,7 +198,6 @@ public class iStrategyCPU1 : iStrategy
         // instantiate a List of foes and weapons from the user's hand
         List<Card> foes = new List<Card>();
         List<Card> weapons = new List<Card>();
-        Debug.Log("I'm inside final foe rn");
         // seperate the foes and weapons into their own lists from the hand
         for (var i = 0; i < hand.Count; i++)
         {
@@ -221,7 +221,6 @@ public class iStrategyCPU1 : iStrategy
 
         // subtract the foe with the MOST BP in the user's hand from 40, the AI threshold
         FoeCard firstFoe = (FoeCard)foes[0];
-        Debug.Log("I am going to play my strongest foe... this is him!");
         //foes[0].display();
         int bpNeeded = (50 - strat.getContextBP(firstFoe, questFoe));
         // Add this foe to the foeEncounter as the foe to be played
@@ -239,7 +238,6 @@ public class iStrategyCPU1 : iStrategy
             WeaponCard weapon = (WeaponCard)weapons[index];
             bpNeeded -= weapon.battlePoints;
             // add this weapon to the encounter
-            Debug.Log("im adding this weapon to the stage.... ");
            // weapons[index].display();
             foeEncounter.Add(weapons[index]);
             hand.Remove(weapons[index]);
@@ -438,6 +436,7 @@ public class iStrategyCPU1 : iStrategy
             if (hand[i].type == "Amour Card" && (amour == false))
             {
                 foeEncounter.Add(hand[i]);
+                amour = true;
             }
         }
         return foeEncounter;
@@ -465,7 +464,7 @@ public class iStrategyCPU1 : iStrategy
     public List<Card> playBid(List<Card> hand, int round)
     {
         List<Card> bid = new List<Card>();
-        if (round == 2)
+        if (round > 1)
         {
             return bid;
         }
@@ -509,7 +508,7 @@ public class iStrategyCPU1 : iStrategy
 
     //GONNA NEED TO MAKE A SMALL CHANGE HERE
     public List<Card> fixHandDiscrepancy(List<Card> hand)
-    {       
+    {
         strategyUtil strat = new strategyUtil();
         List<Card> toDiscard = strat.fixHandCPU(hand);
         return toDiscard;
