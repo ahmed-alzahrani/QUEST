@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class iStrategyCPU3 : iStrategyCPU3
+public class iStrategyCPU3 : iStrategy
 {
-  public iStrategyCPU3(){ strategyUtil strat = new strategyUtil(); }
+  public iStrategyCPU3(){}
 
   // This CPU will participate in a tournament if there are more than 2 bonus shields on offer.
   public int participateInTourney(List<Player> players, int shields, GameController game)
@@ -19,6 +19,7 @@ public class iStrategyCPU3 : iStrategyCPU3
   // This CPU will play the stongest hand possible while NOT duplicating weapons
   public List<Card> playTournament(List<Player> players, List<Card> hand, int baseBP, int shields)
   {
+    strategyUtil strat = new strategyUtil();
     List<Card> validCards = new List<Card>();
     for (int i = 0; i < hand.Count; i++)
     {
@@ -40,6 +41,7 @@ public class iStrategyCPU3 : iStrategyCPU3
         hand.Remove(validCards[i]);
       }
     }
+    return cardsToPlay;
   }
 
   // This CPU sponsors a quest if EITHER of its two conditions are met.
@@ -56,6 +58,7 @@ public class iStrategyCPU3 : iStrategyCPU3
   // the first condition checks that more than one player can rank up in this quest and the CPU has valid sponsorship.
   public bool firstCondition(List<Player> players, int stages, List<Card> hand)
   {
+    strategyUtil strat = new strategyUtil();
     int count = strat.rankUpCount(players, stages);
     return (count > 1 && strat.canISponsor(hand, stages));
   }
@@ -63,25 +66,27 @@ public class iStrategyCPU3 : iStrategyCPU3
   // The second condition checks that the CPU has a valid sponsorship and 6 or more foes.
   public bool secondCondition(List<Card> hand, int stages)
   {
+    strategyUtil strat = new strategyUtil();
     int foeCount = 0;
     for (int i = 0; i < hand.Count; i++)
     {
       if (hand[i].type == "Foe Card")
       {
-        count += 1;
+        foeCount += 1;
       }
     }
-    return (count > 5 && strat.canISponsor(hand, stages));
+    return (foeCount > 5 && strat.canISponsor(hand, stages));
   }
 
 
   public List<List<Card>> setupQuest(int stages, List<Card> hand, string questFoe)
   {
+    strategyUtil strat = new strategyUtil();
     // initalize the quest line
     List<List<Card>> questLine = new List<List<Card>>();
 
     // call setupFoeStage with stage == stages so it'll know to set up the FINAL encounter.
-    List<Card> finalStage = setUpFoeStage(stages, stage, hand, questFoe, 0);
+    List<Card> finalStage = setupFoeStage(stages, stages, hand, questFoe, 0);
 
     // get the BP of the foe encounter and add it to the questLine
     int prevBP = strat.sumFoeEncounterCards(finalStage, questFoe);
@@ -127,6 +132,7 @@ public class iStrategyCPU3 : iStrategyCPU3
 
   public List<Card> setUpFinalFoe(List<Card> hand, string questFoe)
   {
+    strategyUtil strat = new strategyUtil();
     // get a list of our foes and weapons
     List<Card> foes = new List<Card>();
     List<Card> weapons = new List<Card>();
@@ -172,6 +178,7 @@ public class iStrategyCPU3 : iStrategyCPU3
 
   public List<Card> setUpEarlyFoeEncounter(List<Card> hand, string questFoe, int prev)
   {
+    strategyUtil strat = new strategyUtil();
     // instantiate a list of foes we have and the foe encounter
     List<Card> foeEncounter = new List<Card>();
     List<Card> foes = new List<Card>();
@@ -194,6 +201,7 @@ public class iStrategyCPU3 : iStrategyCPU3
 
   public List<Card> setupTestStage(List<Card> hand)
   {
+    strategyUtil strat = new strategyUtil();
     List<Card> tests = new List<Card>();
     // gather all of the tests in the CPU hand
     for (int i = 0; i < hand.Count; i++)
@@ -233,6 +241,7 @@ public class iStrategyCPU3 : iStrategyCPU3
 
   public List<Card> playEarlierFoe(List<Card> hand, int previous, bool amour, string questName, List<Player> players)
   {
+    strategyUtil strat = new strategyUtil();
     List<Card> foeEncounter = new List<Card>();
     List<Card> weapons = new List<Card>();
 
@@ -269,6 +278,7 @@ public class iStrategyCPU3 : iStrategyCPU3
 
   public List<Card> playFinalFoe(List<Card> hand, bool amour)
   {
+    strategyUtil strat = new strategyUtil();
     List<Card> foeEncounter = new List<Card>();
 
     // loop through our hand and play ALL non duplicate weapons allies and possible amours
@@ -277,7 +287,7 @@ public class iStrategyCPU3 : iStrategyCPU3
     {
       if (hand[i].type == "Weapon Card" && strat.checkDuplicate(hand[i], foeEncounter, "Weapon Card"))
       {
-        foeEncuonter.Add(hand[i]);
+        foeEncounter.Add(hand[i]);
       }
       if (hand[i].type == "Ally Card")
       {
@@ -305,6 +315,7 @@ public class iStrategyCPU3 : iStrategyCPU3
 
   public List<Card> playBid(List<Card> hand, int round)
   {
+    strategyUtil strat = new strategyUtil();
     // this CPU bids with any test cards, foe cards of less than 30bp and duplicate weapons (1 of each)
     List<Card> bid = playBid(hand, round);
     if (round > 1)
@@ -319,13 +330,13 @@ public class iStrategyCPU3 : iStrategyCPU3
       }
       if (hand[i].type == "Foe Card")
       {
-        FoeCard foe = (FoeCard)hand[i]
+        FoeCard foe = (FoeCard)hand[i];
         if (foe.minBP < 30)
         {
           bid.Add(hand[i]);
         }
       }
-      if (hand[i].type == "Weapon Card" && strat.hasMultiple(hand, hand[i].name) && checkDuplicate(hand[i], bid, hand[i].type))
+      if (hand[i].type == "Weapon Card" && strat.hasMultiple(hand, hand[i].name) && strat.checkDuplicate(hand[i], bid, hand[i].type))
       {
         bid.Add(hand[i]);
       }
@@ -336,11 +347,13 @@ public class iStrategyCPU3 : iStrategyCPU3
   // discardWeapon and discardFoesForKing are both taken from stratUtil
   public List<Card> discardWeapon(List<Card> hand)
   {
+    strategyUtil strat = new strategyUtil();
     return strat.discardWeapon(hand);
   }
 
   public List<Card> discardFoesForKing(List<Card> hand)
   {
+    strategyUtil strat = new strategyUtil();
     return strat.discardFoesForKing(hand);
   }
 
@@ -352,6 +365,7 @@ public class iStrategyCPU3 : iStrategyCPU3
   // taken from strategyUtil
   public List<Card> fixHandDiscrepancy(List<Card> hand)
   {
+    strategyUtil strat = new strategyUtil();
     List<Card> toDiscard = strat.fixHandCPU(hand);
     return toDiscard;
   }
