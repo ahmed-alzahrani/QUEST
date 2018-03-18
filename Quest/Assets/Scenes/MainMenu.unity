@@ -530,6 +530,23 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cca300a24e5cf864d885e72a7117da90, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &891781356 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1463934721033532, guid: 92563f403cd53f449b602bb05cb5e860,
+    type: 2}
+  m_PrefabInternal: {fileID: 1018986488}
+--- !u!114 &891781357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 891781356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c0f52f52b03054ab918b52c21b2f6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
 --- !u!1001 &1018986488
 Prefab:
   m_ObjectHideFlags: 0
@@ -644,12 +661,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1463934721033532, guid: 92563f403cd53f449b602bb05cb5e860, type: 2}
       propertyPath: m_Name
-      value: Dummy
+      value: Credits
       objectReference: {fileID: 0}
     - target: {fileID: 114658388768556134, guid: 92563f403cd53f449b602bb05cb5e860,
         type: 2}
       propertyPath: m_Text
-      value: Dummy Button
+      value: Credits
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114771744123280280, guid: 92563f403cd53f449b602bb05cb5e860, type: 2}
@@ -774,7 +791,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1463934721033532, guid: 92563f403cd53f449b602bb05cb5e860, type: 2}
       propertyPath: m_Name
-      value: Hot-SeatButton
+      value: HotSeat
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 92563f403cd53f449b602bb05cb5e860, type: 2}
@@ -847,6 +864,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1189559625}
+--- !u!1 &1249728291 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1463934721033532, guid: 92563f403cd53f449b602bb05cb5e860,
+    type: 2}
+  m_PrefabInternal: {fileID: 1577144745}
+--- !u!114 &1249728292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1249728291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c0f52f52b03054ab918b52c21b2f6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
 --- !u!1 &1346593391 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1147124334803702, guid: 68710d6945df29749bab329c485d85c4,
@@ -982,12 +1016,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1463934721033532, guid: 92563f403cd53f449b602bb05cb5e860, type: 2}
       propertyPath: m_Name
-      value: 'Dummy '
+      value: Lobby
       objectReference: {fileID: 0}
     - target: {fileID: 114658388768556134, guid: 92563f403cd53f449b602bb05cb5e860,
         type: 2}
       propertyPath: m_Text
-      value: Dummy Button
+      value: Lobby
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114771744123280280, guid: 92563f403cd53f449b602bb05cb5e860, type: 2}
@@ -998,6 +1032,23 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224261243695374224, guid: 92563f403cd53f449b602bb05cb5e860,
     type: 2}
   m_PrefabInternal: {fileID: 1352720477}
+--- !u!1 &1352720479 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1463934721033532, guid: 92563f403cd53f449b602bb05cb5e860,
+    type: 2}
+  m_PrefabInternal: {fileID: 1352720477}
+--- !u!114 &1352720481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1352720479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7c0f52f52b03054ab918b52c21b2f6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
 --- !u!1001 &1577144745
 Prefab:
   m_ObjectHideFlags: 0
@@ -1112,12 +1163,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1463934721033532, guid: 92563f403cd53f449b602bb05cb5e860, type: 2}
       propertyPath: m_Name
-      value: Dummy
+      value: OnlineGame
       objectReference: {fileID: 0}
     - target: {fileID: 114658388768556134, guid: 92563f403cd53f449b602bb05cb5e860,
         type: 2}
       propertyPath: m_Text
-      value: Dummy Button
+      value: Online Game
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114771744123280280, guid: 92563f403cd53f449b602bb05cb5e860, type: 2}

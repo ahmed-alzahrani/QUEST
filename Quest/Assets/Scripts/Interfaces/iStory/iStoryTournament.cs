@@ -19,13 +19,13 @@ public class iStoryTournament : iStory
         if (TournamentState.state == "Participation" && TournamentState.tourneyRound == 1)
         {
             //do participation check code
-            game.ParticipationCheck("Tournament");
+            QueryingUtil.ParticipationCheck("Tournament" , game);
 
             //done checking for participation
             if (game.numIterations >= game.numPlayers)
             {
-                TournamentState.numberOfParticipants = game.CheckParticipation();
-                if (game.CheckParticipation() > 1)
+                TournamentState.numberOfParticipants = GameUtil.CheckParticipation(game.players);
+                if (GameUtil.CheckParticipation(game.players) > 1)
                 {
                     //there are more than 1 person participating
                     TournamentState.state = "CardQuery";
@@ -35,10 +35,10 @@ public class iStoryTournament : iStory
                     {
                         if (game.players[i].participating)
                         {
-                            game.players[i].hand.Add(game.DrawFromDeck(game.adventureDeck, 1)[0]);
+                            game.players[i].hand.Add(GameUtil.DrawFromDeck(game.adventureDeck, 1)[0]);
                         }
                     }
-                    game.populatePlayerBoard(); //just in case
+                    UIUtil.PopulatePlayerBoard(game); //just in case
                     game.numIterations = 0; //for next part of tourney
                     game.userInput.DeactivateUI();
                     game.userInput.ActivateCardUIPanel("What AMOUR , ALLY , OR WEAPON CARDS do you want to use?");
@@ -71,7 +71,7 @@ public class iStoryTournament : iStory
         else if (TournamentState.state == "CardQuery")
         {
             //query players for cards
-            game.CardQuerying("Tournament");
+            QueryingUtil.CardQuerying("Tournament" , game);
 
             //done querying
             if (game.numIterations >= game.numPlayers)
@@ -182,7 +182,7 @@ public class iStoryTournament : iStory
                 //discard weapon cards
                 if (TournamentState.cardsToBeDiscarded != null && TournamentState.cardsToBeDiscarded.Count > 0)
                 {
-                    game.DiscardAdvenureCards(TournamentState.cardsToBeDiscarded);
+                    GameUtil.DiscardCards(game.adventureDeck , TournamentState.cardsToBeDiscarded , game.adventureDeckDiscardPileUIButton);
                 }
 
                 //discard all cards at the end of tourney
@@ -194,7 +194,7 @@ public class iStoryTournament : iStory
                     {
                         if (TournamentState.undiscardedCards[i] != null && TournamentState.undiscardedCards[i].Count > 0)
                         {
-                            game.DiscardAdvenureCards(TournamentState.undiscardedCards[i]);
+                            GameUtil.DiscardCards(game.adventureDeck , TournamentState.undiscardedCards[i] , game.adventureDeckDiscardPileUIButton);
                         }
                     }
                 }
@@ -217,7 +217,7 @@ public class iStoryTournament : iStory
                 }
 
                 //check for player discard
-                game.playerStillOffending = game.PlayerOffending();
+                game.playerStillOffending = GameUtil.PlayerOffending(game.players);
 
                 if (game.playerStillOffending)
                 {
@@ -231,7 +231,6 @@ public class iStoryTournament : iStory
                         game.UpdatePlayerTurn();
                     }
 
-                    game.numIterations = 0;
                     game.userInput.ActivateDiscardCheck("You need to Discard " + (game.players[game.currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
                 }
 

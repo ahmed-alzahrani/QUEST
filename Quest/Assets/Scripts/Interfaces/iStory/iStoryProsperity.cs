@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class iStoryProsperity : iStory{
-  public iStoryProsperity(){}
+public class iStoryProsperity : iStory
+{
+    public iStoryProsperity() { }
     public void execute(List<Player> players, Card storyCard, GameController game)
     {
         // implement Propserity Throughout the Realm
@@ -17,8 +18,9 @@ public class iStoryProsperity : iStory{
                 players[i].drawCards(game.adventureDeck.drawCards(2));
             }
         }
+
         //check for discard
-        game.playerStillOffending = game.PlayerOffending();
+        game.playerStillOffending = GameUtil.PlayerOffending(game.players);
 
         if (game.playerStillOffending)
         {

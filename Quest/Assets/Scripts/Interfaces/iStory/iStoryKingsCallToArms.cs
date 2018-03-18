@@ -143,7 +143,7 @@ public class iStoryKingsCallToArms : iStory
         //almost all the input checks occur here        
         if (game.userInput.UIEnabled)
         {
-            if (game.userInput.cardPanelUIEnabled)
+            if (game.userInput.cardPrompt.isActive)
             {
                 if (game.numIterations < game.numPlayers)
                 {
@@ -182,7 +182,8 @@ public class iStoryKingsCallToArms : iStory
                         {
                             //ai here 
                             //no need to check since we knw its right
-                            game.DiscardAdvenureCards(result);
+                            //game.DiscardAdvenureCards(result);
+                            GameUtil.DiscardCards(game.adventureDeck , result , game.adventureDeckDiscardPileUIButton);
                             EventState.highestRankedPlayers.RemoveAt(0);
                             game.UpdatePlayerTurn();
                             //decide discards for next player 
@@ -199,15 +200,17 @@ public class iStoryKingsCallToArms : iStory
                                 game.userInput.ActivateCardUIPanel("Discard 2 foe cards");
                             }
                         }
-                        else if (game.userInput.doneAddingCards)
+                        else if (game.userInput.cardPrompt.doneAddingCards)
                         {
                             // human player card querying
                             //check if cards added are correct
                             if (EventState.discardWeapons)
                             {
-                                if (game.userInput.selectedCards.Count == 1 && game.userInput.selectedCards[0].type == "Weapon Card")
+                                if (game.userInput.cardPrompt.selectedCards.Count == 1 && game.userInput.cardPrompt.selectedCards[0].type == "Weapon Card")
                                 {
-                                    game.DiscardAdvenureCards(game.userInput.selectedCards);
+                                    //game.DiscardAdvenureCards(game.userInput.cardPrompt.selectedCards);
+                                    GameUtil.DiscardCards(game.adventureDeck, game.userInput.cardPrompt.selectedCards, game.adventureDeckDiscardPileUIButton);
+
                                     EventState.highestRankedPlayers.RemoveAt(0);
                                     game.UpdatePlayerTurn();
                                     //decide discards for next player 
@@ -227,23 +230,26 @@ public class iStoryKingsCallToArms : iStory
                                 else
                                 {
                                     //reset cards to hand and try again
-                                    for (int i = 0; i < game.userInput.selectedCards.Count; i++)
+                                    for (int i = 0; i < game.userInput.cardPrompt.selectedCards.Count; i++)
                                     {
                                         //just in case
-                                        game.players[game.currentPlayerIndex].hand.Add(game.userInput.selectedCards[i]);
-                                        Object.Destroy(game.userInput.RemoveFromCardUIPanel(i));
+                                        game.players[game.currentPlayerIndex].hand.Add(game.userInput.cardPrompt.selectedCards[i]);
+                                        game.userInput.RemoveFromCardUIPanel(i);
                                         i--;
-                                        game.populatePlayerBoard();
+                                        //game.populatePlayerBoard();
+                                        UIUtil.PopulatePlayerBoard(game);
                                     }
 
-                                    game.userInput.doneAddingCards = false;
+                                    game.userInput.cardPrompt.doneAddingCards = false;
                                 }
                             }
                             else if (EventState.discardTwoFoes)
                             {
-                                if (game.userInput.selectedCards.Count == 2 && game.userInput.selectedCards[0].type == "Foe Card" && game.userInput.selectedCards[1].type == "Foe Card")
+                                if (game.userInput.cardPrompt.selectedCards.Count == 2 && game.userInput.cardPrompt.selectedCards[0].type == "Foe Card" && game.userInput.cardPrompt.selectedCards[1].type == "Foe Card")
                                 {
-                                    game.DiscardAdvenureCards(game.userInput.selectedCards);
+                                    //game.DiscardAdvenureCards(game.userInput.cardPrompt.selectedCards);
+                                    GameUtil.DiscardCards(game.adventureDeck, game.userInput.cardPrompt.selectedCards, game.adventureDeckDiscardPileUIButton);
+
                                     EventState.highestRankedPlayers.RemoveAt(0);
                                     game.UpdatePlayerTurn();
                                     //decide discards for next player 
@@ -263,15 +269,16 @@ public class iStoryKingsCallToArms : iStory
                                 else
                                 {
                                     //reset cards to hand and try again
-                                    for (int i = 0; i < game.userInput.selectedCards.Count; i++)
+                                    for (int i = 0; i < game.userInput.cardPrompt.selectedCards.Count; i++)
                                     {
                                         //just in case
-                                        game.players[game.currentPlayerIndex].hand.Add(game.userInput.selectedCards[i]);
-                                        Object.Destroy(game.userInput.RemoveFromCardUIPanel(i));
+                                        game.players[game.currentPlayerIndex].hand.Add(game.userInput.cardPrompt.selectedCards[i]);
+                                        game.userInput.RemoveFromCardUIPanel(i);
                                         i--;
-                                        game.populatePlayerBoard();
+                                        //game.populatePlayerBoard();
+                                        UIUtil.PopulatePlayerBoard(game);
                                     }
-                                    game.userInput.doneAddingCards = false;
+                                    game.userInput.cardPrompt.doneAddingCards = false;
                                 }
                             }
                         }

@@ -12,12 +12,12 @@ public class iStrategyPlayer : iStrategy
     public int participateInTourney(List<Player> players, int shields, GameController gameController)
     {
         //check the yes / No buttons
-        if (gameController.userInput.buttonResult == "Yes")
+        if (gameController.userInput.booleanPrompt.buttonResult == "Yes")
         {
             Debug.Log("Yes");
             return 1;
         }
-        else if (gameController.userInput.buttonResult == "No")
+        else if (gameController.userInput.booleanPrompt.buttonResult == "No")
         {
             Debug.Log("No");
             return 0;
@@ -105,12 +105,12 @@ public class iStrategyPlayer : iStrategy
     public int respondToPrompt(GameController game)
     {
         //check the yes / No buttons
-        if (game.userInput.buttonResult == "Yes")
+        if (game.userInput.booleanPrompt.buttonResult == "Yes")
         {
             Debug.Log("Yes");
             return 1;
         }
-        else if (game.userInput.buttonResult == "No")
+        else if (game.userInput.booleanPrompt.buttonResult == "No")
         {
             Debug.Log("No");
             return 0;

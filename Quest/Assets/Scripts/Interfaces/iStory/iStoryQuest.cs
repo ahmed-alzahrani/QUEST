@@ -33,14 +33,14 @@ public class iStoryQuest : iStory
         if (QuestState.state == "FindingSponsor")
         {
             QuestState.currentQuest = game.currentQuest;
-            game.SponsorCheck();
+            QueryingUtil.SponsorCheck(game);
 
             if (game.numIterations >= game.numPlayers)
             {
                 game.numIterations = 0;
 
-                Debug.Log("CheckSponsorship" + game.CheckSponsorship());
-                if (game.CheckSponsorship() != -1)
+                Debug.Log("CheckSponsorship" + GameUtil.CheckSponsorship(game.players));
+                if (GameUtil.CheckSponsorship(game.players) != -1)
                 {
                     QuestState.state = "Sponsoring";
 
@@ -67,7 +67,7 @@ public class iStoryQuest : iStory
             }
             else
             {
-                game.SponsorQuery();
+                QueryingUtil.SponsorQuery(game);
 
                 if (game.numIterations >= game.currentQuest.stages)
                 {
@@ -92,13 +92,13 @@ public class iStoryQuest : iStory
                                 for (int j = 0; j < game.sponsorQueriedCards[i].Count; j++)
                                 {
                                     game.players[game.currentPlayerIndex].hand.Add(game.sponsorQueriedCards[i][j]);
-                                    game.AddToPanel(game.CreateUIElement(game.sponsorQueriedCards[i][j]), game.handPanel);
+                                    UIUtil.AddCardToPanel(UIUtil.CreateUIElement(game.sponsorQueriedCards[i][j] , game.cardPrefab), game.handPanel);
                                     game.sponsorQueriedCards[i].RemoveAt(j);
                                     j--;
                                 }
                         }
 
-                        game.populatePlayerBoard();
+                        UIUtil.PopulatePlayerBoard(game);
                         game.userInput.DeactivateUI();
                         game.userInput.ActivateBooleanCheck("Invalid Quest Submitted. Please try again.");
                     }
@@ -109,12 +109,12 @@ public class iStoryQuest : iStory
         //CHECKING FOR QUEST PARTICIPANTS
         if (QuestState.state == "CheckingForParticipants")
         {
-            game.ParticipationCheck("Quest");
+            QueryingUtil.ParticipationCheck("Quest" , game);
 
             if (game.numIterations >= game.numPlayers)
             {
                 Debug.Log("Done Participation Check");
-                if (game.CheckParticipation() < 1)
+                if (GameUtil.CheckParticipation(game.players) < 1)
                 {
                     EndQuest(game);
                 }
@@ -133,8 +133,10 @@ public class iStoryQuest : iStory
                     QuestState.bidsOver = false;
 
                     DrawForStageStart(game);
-                    game.populatePlayerBoard();
-                    game.populateQuestBoard(false);
+                    //game.populatePlayerBoard();
+                    //game.populateQuestBoard(false);
+                    UIUtil.PopulatePlayerBoard(game);
+                    UIUtil.PopulateQuestBoard(game, false);
                     game.numIterations = 0;
                     game.userInput.DeactivateUI();
                     if (QuestState.stages[QuestState.currentStage][0].type == "Test Card")
@@ -155,7 +157,7 @@ public class iStoryQuest : iStory
         //QUEST GAMEPLAY HERE
         else if (QuestState.state == "PlayingQuest")
         {
-            if (QuestState.currentStage >= game.currentQuest.getStages() || game.CheckParticipation() < 1)
+            if (QuestState.currentStage >= game.currentQuest.getStages() || GameUtil.CheckParticipation(game.players) < 1)
             {
                 Debug.Log("Called EndQuest here");
                 EndQuest(game);
@@ -167,13 +169,14 @@ public class iStoryQuest : iStory
                     if (!QuestState.bidsOver)
                     {
                         TestQuery(game);
-                        if (game.CheckParticipation() < 2 && QuestState.testBidSubmitted == true)
+                        if (GameUtil.CheckParticipation(game.players) < 2 && QuestState.testBidSubmitted == true)
                         {
                             //check for test card thing 
 
                             QuestState.bidsOver = true;
                             game.userInput.DeactivateUI();
-                            game.populatePlayerBoard();
+                            //game.populatePlayerBoard();
+                            UIUtil.PopulatePlayerBoard(game);
                             game.userInput.ActivateCardUIPanel("Please submit " + (Mathf.Max(QuestState.testBids[game.currentPlayerIndex] - game.players[game.currentPlayerIndex].calculateBid(game.currentQuest.name, game.players), 0)).ToString() + " cards to discard.");
                         }
                     }
@@ -184,19 +187,21 @@ public class iStoryQuest : iStory
                 }
                 else
                 {
-                    game.CardQuerying("Quest");
+                    QueryingUtil.CardQuerying("Quest" , game);
 
                     //get player's cards for the quest
-                    if (game.userInput.selectedCards.Count > 0)
+                    if (game.userInput.cardPrompt.selectedCards.Count > 0)
                     {
-                        game.populateQuestBoard(false);
+                        //game.populateQuestBoard(false);
+
+                        UIUtil.PopulateQuestBoard(game , false);
                     }
                     if (game.numIterations >= game.numPlayers)
                     {
 
                         for (int i = 0; i < game.queriedCards.Length; i++)
                         {
-                            if (game.CheckSponsorship() == i)
+                            if (GameUtil.CheckSponsorship(game.players) == i)
                                 continue;
                             if (!game.players[i].participating)
                                 continue;
@@ -250,7 +255,8 @@ public class iStoryQuest : iStory
             if (game.numIterations >= game.numPlayers)
             {
                 Debug.Log("currentStage: " + QuestState.currentStage);
-                game.populateQuestBoard(true);
+                //game.populateQuestBoard(true);
+                UIUtil.PopulateQuestBoard(game , true);
 
                 if (!(QuestState.stages[QuestState.currentStage][0].type == "Test Card"))
                     QuestState.previousQuestBP = GetStageBP(QuestState.currentStage, QuestState.currentQuest);
@@ -258,19 +264,19 @@ public class iStoryQuest : iStory
                 QuestState.currentStage++;
                 if (QuestState.currentStage >= game.currentQuest.getStages())
                     EndQuest(game);
-                else if (game.CheckParticipation() < 1)
+                else if (GameUtil.CheckParticipation(game.players) < 1)
                     EndQuest(game);
                 else
                 {
 
                     DrawForStageStart(game);
-                    game.populatePlayerBoard();
+                    UIUtil.PopulatePlayerBoard(game);
                     game.numIterations = 0;
                     game.userInput.DeactivateUI();
                     System.Array.Clear(game.queriedCards, 0, game.queriedCards.Length);
 
-                    //check for discard
-                    game.playerStillOffending = game.PlayerOffending();
+                    //check for discard at the end of each stage
+                    game.playerStillOffending = GameUtil.PlayerOffending(game.players);
 
                     if (game.playerStillOffending)
                     {
@@ -311,23 +317,7 @@ public class iStoryQuest : iStory
                 numDrawCount += QuestState.stages[i].Count + 1;
 
         for (int i = 0; i < numDrawCount; i++)
-            game.players[game.CheckSponsorship()].hand.Add(game.DrawFromDeck(game.adventureDeck, 1)[0]);
-
-
-        game.playerStillOffending = game.PlayerOffending();
-
-        if (game.playerStillOffending)
-        {
-            game.numIterations = 0;
-            //find first offending player
-            while (!game.players[game.currentPlayerIndex].handCheck() && game.numIterations < game.numPlayers)
-            {
-                //doesn't need to discard update turn
-                game.numIterations++;
-                game.UpdatePlayerTurn();
-            }
-            game.userInput.ActivateDiscardCheck("You need to Discard " + (game.players[game.currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
-        }
+            game.players[GameUtil.CheckSponsorship(game.players)].hand.Add(GameUtil.DrawFromDeck(game.adventureDeck, 1)[0]);
 
         if (QuestState.state == "PlayingQuest")
         {
@@ -336,7 +326,7 @@ public class iStoryQuest : iStory
                 kingsUsed += 2;
             for (int i = 0; i < QuestState.amours.Length; i++)
                 if (QuestState.amours[i] != null && QuestState.amours[i].Count > 0)
-                    game.DiscardAdvenureCards(QuestState.amours[i]);
+                    GameUtil.DiscardCards(game.adventureDeck , QuestState.amours[i] , game.adventureDeckDiscardPileUIButton);
 
             for (int i = 0; i < game.numPlayers; i++)
             {
@@ -362,15 +352,35 @@ public class iStoryQuest : iStory
         QuestState.bidsOver = false;
         QuestState.testBids = null;
 
+        //DO I NEED TO UPDATE TURNS
         game.currentPlayerIndex = QuestState.questDrawer;
-        //game.EmptyQuestPanel();
-
 
         //Initializing the list of quest stages;
         System.Array.Clear(QuestState.stages, 0, QuestState.stages.Length);
         System.Array.Clear(QuestState.amours, 0, QuestState.amours.Length);
         if (QuestState.testBids != null)
             System.Array.Clear(QuestState.testBids, 0, QuestState.testBids.Length);
+
+
+        //Maybe add this to a function
+
+        //Check for players with over 12 cards
+        game.playerStillOffending = GameUtil.PlayerOffending(game.players);
+
+        if (game.playerStillOffending)
+        {
+            game.numIterations = 0;
+
+            //find first offending player
+            while (!game.players[game.currentPlayerIndex].handCheck() && game.numIterations < game.numPlayers)
+            {
+                //doesn't need to discard update turn
+                game.numIterations++;
+                game.UpdatePlayerTurn();
+            }
+
+            game.userInput.ActivateDiscardCheck("You need to Discard " + (game.players[game.currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
+        }
 
         game.isDoneStoryEvent = true;
     }
@@ -380,7 +390,7 @@ public class iStoryQuest : iStory
         for (int i = 0; i < game.numPlayers; i++)
         {
             if (game.players[i].participating)
-                game.players[i].hand.Add(game.DrawFromDeck(game.adventureDeck, 1)[0]);
+                game.players[i].hand.Add(GameUtil.DrawFromDeck(game.adventureDeck, 1)[0]);
         }
     }
 
@@ -417,7 +427,7 @@ public class iStoryQuest : iStory
     {
         if (game.userInput.UIEnabled)
         {
-            if (game.userInput.keyboardInputUIEnabled)
+            if (game.userInput.keyboardPrompt.isActive)
             {
                 if (game.players[game.currentPlayerIndex].sponsoring || !game.players[game.currentPlayerIndex].participating)
                 {
@@ -431,7 +441,8 @@ public class iStoryQuest : iStory
                     {
                         game.players[game.currentPlayerIndex].participating = false;
                         game.UpdatePlayerTurn();
-                        game.populatePlayerBoard();
+                        //game.populatePlayerBoard();
+                        UIUtil.PopulatePlayerBoard(game);
                         game.userInput.DeactivateUI();
                         game.userInput.ActivateUserInputCheck("A Test is in play, the minimum bid is: " + GetMinRequiredBid().ToString());
                     }
@@ -439,7 +450,7 @@ public class iStoryQuest : iStory
                     {
                         //ai bid smthg other than 0
                         int submittedBid = 0;
-                        bool result = int.TryParse(game.userInput.KeyboardInput.text, out submittedBid);
+                        bool result = int.TryParse(game.userInput.keyboardPrompt.KeyboardInput.text, out submittedBid);
 
                         if (submittedBid >= GetMinRequiredBid() && submittedBid <= game.players[game.currentPlayerIndex].hand.Count)
                         {
@@ -459,11 +470,11 @@ public class iStoryQuest : iStory
                             game.userInput.ActivateUserInputCheck("Please enter a bid equal to, or greater than: " + GetMinRequiredBid().ToString() + ". Press enter with without typing a bid to quit.");
                         }
                     }
-                    else if (game.userInput.KeyboardInput.text.Length > 0 && Input.GetKeyDown("return"))
+                    else if (game.userInput.keyboardPrompt.KeyboardInput.text.Length > 0 && Input.GetKeyDown("return"))
                     {
                         // player finished bidding
                         int submittedBid = 0;
-                        bool result = int.TryParse(game.userInput.KeyboardInput.text, out submittedBid);
+                        bool result = int.TryParse(game.userInput.keyboardPrompt.KeyboardInput.text, out submittedBid);
 
                         if (submittedBid >= GetMinRequiredBid() && submittedBid <= game.players[game.currentPlayerIndex].hand.Count)
                         {
@@ -484,12 +495,13 @@ public class iStoryQuest : iStory
                         }
                     }
 
-                    else if (game.userInput.KeyboardInput.text.Length == 0 && Input.GetKeyDown("return"))
+                    else if (game.userInput.keyboardPrompt.KeyboardInput.text.Length == 0 && Input.GetKeyDown("return"))
                     {
 
                         game.players[game.currentPlayerIndex].participating = false;
                         game.UpdatePlayerTurn();
-                        game.populatePlayerBoard();
+                        //game.populatePlayerBoard();
+                        UIUtil.PopulatePlayerBoard(game);
                         game.userInput.DeactivateUI();
                         game.userInput.ActivateUserInputCheck("A Test is in play, the minimum bid is: " + GetMinRequiredBid().ToString());
                     }
@@ -502,18 +514,21 @@ public class iStoryQuest : iStory
     {
         if (game.userInput.UIEnabled)
         {
-            if (game.userInput.cardPanelUIEnabled)
+            if (game.userInput.cardPrompt.isActive)
             {
-                List<Card> testDiscardCards = new List<Card>(game.userInput.selectedCards);
+                List<Card> testDiscardCards = new List<Card>(game.userInput.cardPrompt.selectedCards);
 
-                if (game.userInput.doneAddingCards)
+                if (game.userInput.cardPrompt.doneAddingCards)
                 {
 
                     if (testDiscardCards.Count != Mathf.Max(QuestState.testBids[game.currentPlayerIndex] - game.players[game.currentPlayerIndex].calculateBid(game.currentQuest.name, game.players), 0))
                     {
 
-                        game.returnToPlayerHand();
-                        game.populatePlayerBoard();
+                        //game.returnToPlayerHand();
+                        //game.populatePlayerBoard();
+                        UIUtil.ReturnToPlayerHand(game.players[game.currentPlayerIndex] , game.userInput.cardPrompt.selectedCards , game);
+                        UIUtil.PopulatePlayerBoard(game);
+
                         game.userInput.DeactivateUI();
                         game.userInput.ActivateCardUIPanel("Invalid number of cards submitted, please submit " + (Mathf.Max(QuestState.testBids[game.currentPlayerIndex] - game.players[game.currentPlayerIndex].calculateBid(game.currentQuest.name, game.players), 0)).ToString() + " cards.");
                     }
@@ -545,7 +560,8 @@ public class iStoryQuest : iStory
                                     i--;
                                 }
                             }
-                            game.DiscardAdvenureCards(testDiscardCards);
+                            //game.DiscardAdvenureCards(testDiscardCards);
+                            GameUtil.DiscardCards(game.adventureDeck , testDiscardCards , game.adventureDeckDiscardPileUIButton);
                         }
                     }
                 }
@@ -690,7 +706,7 @@ public class iStoryQuest : iStory
     {
         if (game.userInput.UIEnabled)
         {
-            if (game.userInput.booleanUIEnabled)
+            if (game.userInput.booleanPrompt.isActive)
             {
                 //check with currentplayerIndex
                 bool responseGiven = false;

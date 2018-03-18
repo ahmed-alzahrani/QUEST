@@ -17,307 +17,26 @@ using System.IO;
     Participants: only use weapon and amour cards to boost bp only
 */
 
-//should create objects for the ui objects but too late now 
+//CANNOT USE MORDRED WHEN WE HAVE TESTS CARDS ACTIVE
 
-[System.Serializable]
-public class UIInput
-{
-    //UIPanel
-    public GameObject foregroundPanel;
+//TO DO LIST:
+//MERLIN MAYBE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    //for boolean user check
-    public GameObject booleanPanel;
-    public Text userMessage;
-    public Button yesButton;
-    public Button noButton;
-    public string buttonResult;
+//Shield names CHANGEEEEEE         DONNNEEEEEEEEEE 
+//REDO DISCARDING                  DONNNEEEEEEEEEE
+//CHECK REPOPULATION OF DECKS      DONNNEEEEEEEEEE 
+//FIX KINGS CALL TO ARMS           DONNNEEEEEEEEEE
+//LOOK AT MORDRED                  DONNNEEEEEEEEEE 
+//LOOK AT ALL ISTORIES             DONNNEEEEEEEEEE 
+//CHECK THAT EVERYTHING STILL WORKS FINE AFTERWARDS     DONNNNEEEEEEEEEEEEE
 
-    //for actual input user check
-    public GameObject inputPanel;
-    public Text userMessage1;
-    public InputField KeyboardInput;
-
-    //for ui card panel prompt
-    public GameObject cardPanel;
-    public Text userMessage2;
-    public int totalBPCount;
-    public Text totalBP;
-    public GameObject chosenCardsPanel;
-    public Button submitButton;
-    public List<Card> selectedCards;
-    public List<GameObject> UICardsSelected;
-
-    //for ui discard panel prompt
-    public GameObject discardPanel;
-    public Text userDiscardMessage;
-    public GameObject chosenDiscardsPanel;
-    public Button discardSubmitButton;
-    public List<Card> discardSelectedCards;
-    public List<GameObject> UIDiscardsSelected;
-
-    //bools for each ui value
-    public bool UIEnabled;
-    public bool booleanUIEnabled;
-    public bool keyboardInputUIEnabled;
-    public bool cardPanelUIEnabled;
-    public bool doneAddingCards;
-
-    public bool discardPanelUIEnabled;
-    public bool doneDiscardingCards;
-
-    public void SetupUI()
-    {
-        selectedCards = new List<Card>();
-        UICardsSelected = new List<GameObject>();
-        discardSelectedCards = new List<Card>();
-        UIDiscardsSelected = new List<GameObject>();
-
-        // setup event listeners
-        yesButton.onClick.AddListener(Yes);
-        noButton.onClick.AddListener(No);
-        submitButton.onClick.AddListener(Submit);
-        discardSubmitButton.onClick.AddListener(SubmitDiscard);
-        buttonResult = "";
-    }
-
-    void Submit() { doneAddingCards = true; }
-    void SubmitDiscard() { doneDiscardingCards = true; }
-    void Yes() { buttonResult = "Yes"; }
-    void No() { buttonResult = "No"; }
-
-    public void ActivateDiscardCheck(string userMsg)
-    {
-        discardPanelUIEnabled = true;
-        doneDiscardingCards = false;
-
-        discardPanel.SetActive(true);
-        userDiscardMessage.text = userMsg;
-    }
-
-    public void DeactivateDiscardPanel()
-    {
-        discardPanel.SetActive(false);
-        doneDiscardingCards = false;
-        discardPanelUIEnabled = false;
-
-        discardSelectedCards.Clear();
-
-        Debug.Log(UIDiscardsSelected.Count);
-
-        //Destroy panel cards
-        for (int i = 0; i < UIDiscardsSelected.Count; i++)
-        {
-            Object.Destroy(UIDiscardsSelected[i]);
-        }
-
-        UIDiscardsSelected.Clear();
-    }
-
-    public bool CheckDiscardCard(Card card)
-    {
-        for (int i = 0; i < discardSelectedCards.Count; i++)
-        {
-            if (card == discardSelectedCards[i])
-            {
-                RemoveFromDiscardPanel(i);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void RemoveFromDiscardPanel(int index)
-    {
-        // if u change ur mind
-        //remove the discard selected card
-        discardSelectedCards.RemoveAt(index);
-        Object.Destroy(UIDiscardsSelected[index]);
-        UIDiscardsSelected.RemoveAt(index);
-    }
-
-    public void AddToUIDiscardPanel(GameObject card)
-    {
-        CardUIScript script = card.GetComponent<CardUIScript>();
-        script.isHandCard = true;
-
-        discardSelectedCards.Add(script.myCard);
-        UIDiscardsSelected.Add(card);
-
-        card.transform.SetParent(chosenDiscardsPanel.transform);
-    }
-
-    public void ActivateBooleanCheck(string userMsg)
-    {
-        buttonResult = "";
-        UIEnabled = true;
-        booleanUIEnabled = true;
-        keyboardInputUIEnabled = false;
-        cardPanelUIEnabled = false;
-        doneAddingCards = false;
-
-        //foregroundPanel.SetActive(true);
-        booleanPanel.SetActive(true);
-        cardPanel.SetActive(false);
-        inputPanel.SetActive(false);
-        userMessage.text = userMsg;
-    }
-
-    public void ActivateUserInputCheck(string userMsg)
-    {
-        UIEnabled = true;
-        keyboardInputUIEnabled = true;
-        booleanUIEnabled = false;
-        cardPanelUIEnabled = false;
-        doneAddingCards = false;
-
-        //foregroundPanel.SetActive(true);
-        inputPanel.SetActive(true);
-        cardPanel.SetActive(false);
-        booleanPanel.SetActive(false);
-        KeyboardInput.text = "";
-        userMessage1.text = userMsg;
-    }
-
-    public void ActivateCardUIPanel(string userMsg)
-    {
-        UIEnabled = true;
-        cardPanelUIEnabled = true;
-        keyboardInputUIEnabled = false;
-        booleanUIEnabled = false;
-        doneAddingCards = false;
-
-        //foregroundPanel.SetActive(true);
-        cardPanel.SetActive(true);
-        inputPanel.SetActive(false);
-        booleanPanel.SetActive(false);
-        userMessage2.text = userMsg;
-        totalBP.text = "BP: " + totalBPCount.ToString();
-    }
-
-    public GameObject CheckCard(Card card)
-    {
-        for (int i = 0; i < selectedCards.Count; i++)
-        {
-            if (card == selectedCards[i])
-            {
-                return RemoveFromCardUIPanel(i);
-            }
-        }
-        return null;
-    }
-
-    public void AddToUICardPanel(GameObject card)
-    {
-        CardUIScript script = card.GetComponent<CardUIScript>();
-        script.isHandCard = true;
-
-        selectedCards.Add(script.myCard);
-        UICardsSelected.Add(card);
-
-        CalculateTotalBP();
-
-        //add card to panel
-        card.transform.SetParent(chosenCardsPanel.transform);
-    }
-
-    //Destroy's the children of a given game object by finding said object by its tag.
-    public void DestroyChildren(string gameObjectTag)
-    {
-        Transform uiHand = GameObject.FindGameObjectWithTag(gameObjectTag).transform;
-
-        foreach (Transform child in uiHand)
-            while (uiHand.transform.childCount > 1)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
-    }
-
-    public void CalculateTotalBP()
-    {
-        int total = 0;
-
-        strategyUtil util = new strategyUtil();
-
-        for (int i = 0; i < selectedCards.Count; i++)
-        {
-            if (selectedCards[i].type == "Foe Card")
-            {
-                FoeCard foe = (FoeCard)selectedCards[i];
-
-                if (QuestState.currentQuest != null)
-                {
-                    total += util.getContextBP(foe, QuestState.currentQuest.foe);
-                }
-                else
-                {
-                    total += foe.minBP;
-                }
-            }
-            else if (selectedCards[i].type == "Weapon Card")
-            {
-                WeaponCard weapon = (WeaponCard)selectedCards[i];
-                total += weapon.battlePoints;
-            }
-            else if (selectedCards[i].type == "Ally Card")
-            {
-                AllyCard ally = (AllyCard)selectedCards[i];
-                total += ally.battlePoints;
-            }
-            else if (selectedCards[i].type == "Amour Card")
-            {
-                AmourCard amour = (AmourCard)selectedCards[i];
-                total += amour.battlePoints;
-            }
-        }
-
-        totalBP.text = "BP: " + total.ToString();
-    }
-
-    public GameObject RemoveFromCardUIPanel(int index)
-    {
-        selectedCards.RemoveAt(index);
-
-        GameObject result = UICardsSelected[index];
-        UICardsSelected.RemoveAt(index);
-
-        CalculateTotalBP();
-        return result;
-    }
-
-    public void DeactivateUI()
-    {
-        //foregroundPanel.SetActive(false);
-        cardPanel.SetActive(false);
-        inputPanel.SetActive(false);
-        booleanPanel.SetActive(false);
-        UIEnabled = false;
-        keyboardInputUIEnabled = false;
-        booleanUIEnabled = false;
-        cardPanelUIEnabled = false;
-        doneAddingCards = false;
-        buttonResult = "";
-        totalBP.text = "";
-        totalBPCount = 0;
-        selectedCards.Clear();
-
-        //Destroy panel cards
-        for (int i = 0; i < UICardsSelected.Count; i++)
-        {
-            Object.Destroy(UICardsSelected[i]);
-        }
-
-        UICardsSelected.Clear();
-    }
-}
-
-// Maybe we can have the description of a card where when we click a card it shows its description data on the screen
 public class GameController : MonoBehaviour
 {
     //deck initializer
     public deckBuilder decks;
     public Deck storyDeck;
     public Deck adventureDeck;
-    public bool kingsRecognition = false;
+    public bool kingsRecognition;
 
     //turn setup
     public int turnCount = 0;
@@ -372,7 +91,6 @@ public class GameController : MonoBehaviour
     public int numCpus;
     public int currentPlayerIndex;
 
-
     //for setting up gameboard and player information
     public bool isSettingUpGame;
     public int setupState;
@@ -412,42 +130,44 @@ public class GameController : MonoBehaviour
     void Start()
     {
         //setup game variables
+        shieldPaths = new List<string> { "Textures/Backings/Blue", "Textures/Backings/Green", "Textures/Backings/Red", "Textures/Backings/Gold" };
         isSettingUpGame = true;
         currentPlayerIndex = 0;
         setupState = 0;
-        shieldPaths = new List<string> { "Textures/Backings/s_backing", "Textures/Backings/s_backing", "Textures/Backings/s_backing", "Textures/Backings/s_backing" };
         players = new List<Player>();
         drawnAdventureCards = new List<Card>();
         cpuStrategies = new List<int>();
         winners = new List<int>();
         playerStillOffending = false;
         foundWinner = false;
+        kingsRecognition = false;
 
         adventureDeckDiscardPileUIButton = GameObject.FindGameObjectWithTag("AdventureDiscard").GetComponent<CardUIScript>();
         storyDeckDiscardPileUIButton = GameObject.FindGameObjectWithTag("StoryDiscard").GetComponent<CardUIScript>();
 
         //Whenever a change in drawing states is done toggle the deck animations
         drawStoryCard = true;
-        drawAdventureCard = false;
-        ToggleDeckAnimation();
+        //drawAdventureCard = false;
+        GameUtil.ToggleDeckAnimation(storyDeckUIButton , drawStoryCard);
 
-        numCardsToBeDrawn = 1;
+        //numCardsToBeDrawn = 1;
 
         //Deck building
         decks = new deckBuilder();
         storyDeck = decks.buildStoryDeck();
         adventureDeck = decks.buildAdventureDeck();
 
+        
         //uncomment here for different scenarios
         Debug.Log(Directory.GetCurrentDirectory());
-        cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1Adventure.txt");
-        cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1Story.txt");
+        //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1Adventure.txt");
+        //cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1Story.txt");
 
         //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario2/Scenario2Adventure.txt");
         //cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario2/Scenario2Story.txt");
 
-        //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario3/Scenario3Adventure.txt");
-        //cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario3/Scenario3Story.txt");
+        cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario3/Scenario3Adventure.txt");
+        cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario3/Scenario3Story.txt");
 
         //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario4/Scenario4Adventure.txt");
         //cardsStory = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario4/Scenario4Story.txt");
@@ -487,9 +207,9 @@ public class GameController : MonoBehaviour
                         tempDeck.Add(storyDeck.deck[j]);
                         break;
                         //move from j to i 
-                        Card tempCard = storyDeck.deck[j];
-                        storyDeck.deck[j] = storyDeck.deck[i];
-                        storyDeck.deck[i] = tempCard;
+                        //Card tempCard = storyDeck.deck[j];
+                        //storyDeck.deck[j] = storyDeck.deck[i];
+                        //storyDeck.deck[i] = tempCard;
                     }
                 }
             }
@@ -497,7 +217,6 @@ public class GameController : MonoBehaviour
 
         storyDeck.deck.Clear();
         storyDeck.deck = tempDeck;
-        //maybe debug the decks here to check if we successfully rigged the decks
 
         //Setup UI buttons for cards (event listeners etc....)
         adventureDeckUIButton.GetComponent<Button>().onClick.AddListener(DrawFromAdventureDeck);
@@ -520,498 +239,617 @@ public class GameController : MonoBehaviour
         userInput.SetupUI();
         userInput.ActivateUserInputCheck("How many players are playing the game??");
 
+        //Setup mordred functionality
         mordredControllerBeta = new int[3];
+
         for (int i = 0; i < mordredControllerBeta.Length; i++)
+        {
             mordredControllerBeta[i] = -1;
+        }
+
         mordCurr = 0;
     }
 
-    // Update is called once per frame
+    //Update is called once per frame
     //player discard piles for over 12 cards and etc...
     void Update()
     {
-        //Check if game is done with all players and if that is the case declare winner
-        //check decks for emptiness
         if (!foundWinner)
         {
+            //MAYBEEEEEE!!!!!
+            // MORDRED CHECK 
+            MordredCheck();
+
             if (!playerStillOffending)
             {
                 if (isSettingUpGame)
                 {
-                    PlayerSetup();
-                    QueryStrategies();
+                    QueryingUtil.PlayerSetup(this);
+                    QueryingUtil.QueryStrategies(this);
                 }
                 else
                 {
-                    if (mordCurr < 3)
-                    {
-                        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
-                        {
-                            mordredControllerBeta[mordCurr] = 0;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
-                        {
-                            mordredControllerBeta[mordCurr] = 1;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
-                        {
-                            mordredControllerBeta[mordCurr] = 2;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
-                        {
-                            mordredControllerBeta[mordCurr] = 3;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
-                        {
-                            mordredControllerBeta[mordCurr] = 4;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
-                        {
-                            mordredControllerBeta[mordCurr] = 5;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
-                        {
-                            mordredControllerBeta[mordCurr] = 6;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8))
-                        {
-                            mordredControllerBeta[mordCurr] = 7;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
-                        {
-                            mordredControllerBeta[mordCurr] = 8;
-                            mordCurr++;
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
-                        {
-                            mordredControllerBeta[mordCurr] = 9;
-                            mordCurr++;
-                        }
-
-                    }
-
-
-                    if (mordCurr >= mordredControllerBeta.Length)
-                    {
-                        Debug.Log("Player " + (mordredControllerBeta[0] + 1).ToString() + " Casting Mordred on Player " +
-                            (mordredControllerBeta[1] + 1).ToString() + "'s Ally number " + (mordredControllerBeta[2] + 1).ToString());
-                        if (mordredControllerBeta[0] < numPlayers && mordredControllerBeta[1] < numPlayers)
-                        {
-                            if (players[mordredControllerBeta[1]].activeAllies.Count > mordredControllerBeta[2])
-                            {
-                                for (int i = 0; i < players[mordredControllerBeta[0]].hand.Count; i++)
-                                {
-                                    if (players[mordredControllerBeta[0]].hand[i].name == "Mordred")
-                                    {
-                                        List<Card> tempCards = new List<Card>();
-
-                                        tempCards.Add(players[mordredControllerBeta[0]].hand[i]);
-                                        tempCards.Add(players[mordredControllerBeta[1]].activeAllies[mordredControllerBeta[2]]);
-
-                                        players[mordredControllerBeta[0]].hand.RemoveAt(i);
-                                        players[mordredControllerBeta[1]].activeAllies.RemoveAt(mordredControllerBeta[2]);
-
-                                        DiscardAdvenureCards(tempCards);
-                                    }
-                                }
-                            }
-                        }
-                        mordCurr = 0;
-                    }
-
-
-                    //check for drawn story cards
-                    if (drawnStoryCard != null)
-                    {
-                        Debug.Log("DRAWN STORY CARD: " + drawnStoryCard.name);
-                        EmptyQuestPanel();
-
-                        //setup quest , tournament or event
-                        if (drawnStoryCard.type == "Event Card")
-                        {
-                            currentEvent = (EventCard)drawnStoryCard;
-                        }
-                        else if (drawnStoryCard.type == "Tournament Card")
-                        {
-                            userInput.ActivateBooleanCheck("Do you want to participate?");
-                            currentTournament = (TournamentCard)drawnStoryCard;
-                        }
-                        else if (drawnStoryCard.type == "Quest Card")
-                        {
-                            //store player that first drew the quest card
-                            QuestState.questDrawer = currentPlayerIndex;
-                            userInput.ActivateBooleanCheck("Do you want to sponsor this quest?");
-                            currentQuest = (QuestCard)drawnStoryCard;
-                        }
-
-                        numIterations = 0;
-                        AddToPanel(CreateUIElement(drawnStoryCard), questPanel);
-                        drawnStoryCard = null;
-                    }
-
-                    //check if story event is done
-                    if (isDoneStoryEvent)
-                    {
-                        //discard story card into story discard pile
-                        if (currentEvent != null)
-                        {
-                            storyDeckDiscardPileUIButton.myCard = currentEvent;
-                            storyDeckDiscardPileUIButton.ChangeTexture();
-                            storyDeck.discard.Add(currentEvent);
-                        }
-                        else if (currentQuest != null)
-                        {
-                            storyDeckDiscardPileUIButton.myCard = currentQuest;
-                            storyDeckDiscardPileUIButton.ChangeTexture();
-                            storyDeck.discard.Add(currentQuest);
-                        }
-                        else if (currentTournament != null)
-                        {
-                            storyDeckDiscardPileUIButton.myCard = currentTournament;
-                            storyDeckDiscardPileUIButton.ChangeTexture();
-                            storyDeck.discard.Add(currentTournament);
-                        }
-
-                        isDoneStoryEvent = false;
-                        currentEvent = null;
-                        currentQuest = null;
-                        currentTournament = null;
-
-                        //reset players participation
-                        ResetPlayers();
-                        EmptyPanel(questPanel);
-                        System.Array.Clear(queriedCards, 0, queriedCards.Length);
-
-                        //reset turn to draw new story card
-                        drawStoryCard = true;
-                        ToggleDeckAnimation();
-                        userInput.DeactivateUI(); // just in case
-                        UpdatePlayerTurn();       // go to next turn
-                    }
-                    //Run story card here
-                    else if (currentEvent != null)
-                    {
-                        currentEvent.effect.execute(players, currentEvent, this);
-                    }
-                    else if (currentTournament != null)
-                    {
-                        currentTournament.tournament.execute(null, currentTournament, this);
-                    }
-                    else if (currentQuest != null)
-                    {
-                        currentQuest.quest.execute(players, currentQuest, this);
-
-                        //CHECK HERE IF CARDS TO BE ADDED BY SPONSOR BREAK THE RULES RETURN ALL THESE CARDS TO HIS HAND AND FORCE HIM TO REDECIDE
-                        if (QuestState.state == "Sponsoring")
-                        {
-                            if (!AnyFoes() && AnyWeapons())
-                            {
-                                //there are foes but no weapons return all cards to hand and start again
-                                returnToPlayerHand();
-                            }
-                        }
-                    }
-
-                    if (selectedCard != null)
-                    {
-                        //all ally cards activated are added to the board and active allies
-                        if (selectedCard.type == "Ally Card")
-                        {
-                            //ally cards always get added to active allies
-                            AllyCard ally = (AllyCard)selectedCard;
-                            players[currentPlayerIndex].activeAllies.Add(ally);
-                            players[currentPlayerIndex].hand.Remove(selectedCard);
-                            AddToPanel(CreateUIElement(selectedCard), allyPanel);
-                        }
-                        else
-                        {
-                            GameObject removedCard = userInput.CheckCard(selectedCard);
-
-                            if (removedCard != null)
-                            {
-                                //we want to remove this card from ui panel and back to player's hand since u changed ur mind
-                                Destroy(removedCard);
-                                players[currentPlayerIndex].hand.Add(selectedCard);
-                                AddToPanel(CreateUIElement(selectedCard), handPanel);
-                            }
-                            else
-                            {
-                                bool addToPanel = true;
-
-                                // rules for tournaments
-                                if (currentTournament != null)
-                                {
-                                    // we are in a tournament check for weapon, amour cards allies are always added
-                                    if (selectedCard.type == "Weapon Card")
-                                    {
-                                        for (int i = 0; i < userInput.selectedCards.Count; i++)
-                                        {
-                                            if (userInput.selectedCards[i].name == selectedCard.name)
-                                            {
-                                                //duplicate exists cannot add it in
-                                                addToPanel = false;
-                                            }
-                                        }
-                                    }
-                                    else if (selectedCard.type == "Amour Card")
-                                    {
-                                        //check for any amours already played 
-                                        if (!PlayedAmour(TournamentState.undiscardedCards))
-                                        {
-                                            addToPanel = true;
-                                        }
-                                        else
-                                        {
-                                            addToPanel = false;
-                                        }
-
-                                        //check amours at the moment
-                                        for (int i = 0; i < userInput.selectedCards.Count; i++)
-                                        {
-                                            if (userInput.selectedCards[i].type == "Amour Card")
-                                            {
-                                                //more than one amour cannot add it
-                                                addToPanel = false;
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // not weapon amour or ally
-                                        addToPanel = false;
-                                    }
-                                }
-                                else if (currentQuest != null)
-                                {
-                                    //if it is the sponsor check that he added cards properly
-                                    if (players[currentPlayerIndex].sponsoring)
-                                    {
-                                        if (AnyTests()) { addToPanel = false; }
-                                        else if (selectedCard.type == "Test Card")
-                                        {
-                                            //check that it is the only card in the panel and do not allow him to any more cards
-                                            if (userInput.selectedCards.Count > 0) { addToPanel = false; }
-                                            else { addToPanel = true; }
-                                        }
-                                        else if (selectedCard.type == "Foe Card")
-                                        {
-                                            // I think we always add foes when u r the sponsor
-                                            if (!AnyFoes())
-                                            {
-                                                addToPanel = true;
-                                            }
-                                            else
-                                            {
-                                                addToPanel = false;
-                                            }
-                                        }
-                                        else if (selectedCard.type == "Weapon Card")
-                                        {
-                                            // we have a weapon card which needs a special check
-                                            for (int i = 0; i < userInput.selectedCards.Count; i++)
-                                            {
-                                                if (userInput.selectedCards[i].name == selectedCard.name)
-                                                {
-                                                    //duplicate exists cannot add it in
-                                                    addToPanel = false;
-                                                    break;
-                                                }
-                                            }
-
-                                            //if no duplication check if there is a foe in there
-                                            if (addToPanel)
-                                            {
-                                                addToPanel = AnyFoes();
-                                            }
-                                        }
-                                        else
-                                        {
-                                            addToPanel = false;
-                                        }
-                                    }
-                                    else if (players[currentPlayerIndex].participating)
-                                    {
-                                        //only allowed weapon and amour cards
-                                        if (selectedCard.type == "Weapon Card")
-                                        {
-                                            for (int i = 0; i < userInput.selectedCards.Count; i++)
-                                            {
-                                                if (userInput.selectedCards[i].name == selectedCard.name)
-                                                {
-                                                    //duplicate exists cannot add it in
-                                                    addToPanel = false;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        else if (selectedCard.type == "Amour Card")
-                                        {
-                                            //check for any amours already played 
-                                            if (!PlayedAmour(QuestState.amours))
-                                            {
-                                                addToPanel = true;
-                                            }
-                                            else
-                                            {
-                                                addToPanel = false;
-                                            }
-
-                                            //check for amours played at this instance 
-                                            for (int i = 0; i < userInput.selectedCards.Count; i++)
-                                            {
-                                                if (userInput.selectedCards[i].type == "Amour Card")
-                                                {
-                                                    //more than one amour cannot add it
-                                                    addToPanel = false;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        else if (selectedCard.type == "Foe Card")
-                                        {
-                                            if (QuestState.stages != null)
-                                            {
-                                                if (QuestState.stages[QuestState.currentStage] != null)
-                                                {
-                                                    if (QuestState.stages[QuestState.currentStage][0] != null)
-                                                    {
-                                                        if (QuestState.stages[QuestState.currentStage][0].type == "Test Card")
-                                                            addToPanel = true;
-                                                        else
-                                                            addToPanel = false;
-                                                    }
-                                                    else
-                                                        addToPanel = false;
-                                                }
-                                                else
-                                                    addToPanel = false;
-                                            }
-                                            else
-                                                addToPanel = false;
-                                        }
-                                        else
-                                        {
-                                            // not weapon amour or ally
-                                            addToPanel = false;
-                                        }
-                                    }
-                                }
-                                else if (currentEvent != null)
-                                {
-                                    //kings call to arms here mostly so just add it to the panel discarded allies get activated above others are discarded
-                                    addToPanel = true;
-                                }
-
-                                //result
-                                if (addToPanel)
-                                {
-                                    //add it into the panel
-                                    players[currentPlayerIndex].hand.Remove(selectedCard);
-                                    userInput.AddToUICardPanel(CreateUIElement(selectedCard));
-                                }
-                                else
-                                {
-                                    //return it to hand since we didn't delete it from player we are fine
-                                    AddToPanel(CreateUIElement(selectedCard), handPanel);
-                                }
-                            }
-                        }
-
-                        //maybe we can check for certain cards like mordred here with some state
-                        selectedCard = null;
-                    }
-
+                    //CHECK FOR DRAWN STORY CARDS
+                    SetupStoryCardCheck();
+                    //CHECK IF STORY CARD IS DONE ELSE EXECUTE STORY CARD 
+                    if (!StoryCardDone()) { RunStoryCard(); }
+                    //ADDING CARDS
+                    CardAdditionCheck();
                 }
             }
             else
             {
                 //We need to discard some cards 
-                //The checks for discarding are done in the iStories
-                //querying discards occurs here
-                //userInput.discardPanelUIEnabled = true;
-                //Debug.Log("Current player index: " + currentPlayerIndex.ToString());
-                //Debug.Log("num iterations: " + numIterations.ToString());
-                DiscardCards();
-
-                if (selectedCard != null)
-                {
-                    //all ally cards activated are added to the board and active allies
-                    if (selectedCard.type == "Ally Card")
-                    {
-                        //ally cards always get added to active allies
-                        AllyCard ally = (AllyCard)selectedCard;
-                        players[currentPlayerIndex].activeAllies.Add(ally);
-                        players[currentPlayerIndex].hand.Remove(selectedCard);
-                        AddToPanel(CreateUIElement(selectedCard), allyPanel);
-                    }
-                    else
-                    {
-                        bool removed = userInput.CheckDiscardCard(selectedCard);
-                        if (removed)
-                        {
-                            //add card back to player 
-                            players[currentPlayerIndex].hand.Add(selectedCard);
-                            populatePlayerBoard();
-                        }
-                        else
-                        {
-                            //add it into the panel
-                            players[currentPlayerIndex].hand.Remove(selectedCard);
-
-                            //Debug.Log(selectedCard.name);
-                            userInput.AddToUIDiscardPanel(CreateUIElement(selectedCard));
-                        }
-                    }
-
-                    selectedCard = null;
-                }
-
-                //end discard state
-                if (numIterations >= numPlayers)
-                {
-                    //done discarding
-                    numIterations = 0;
-                    userInput.DeactivateDiscardPanel();
-                    playerStillOffending = false;
-                }
+                QueryingUtil.DiscardCards(this);
+                //Check for addition of cards to card panel
+                DiscardCardAddition();
+                //End discard state
+                CheckDiscardPhase();
             }
-            CalculateUIPlayerInfo();
-
-            //check winners here
-            FindWinners();
-
-            if (winners.Count > 1)
-            {
-                //game is over
-                foundWinner = true;
-            }
+            //Calculate player info
+            UIUtil.CalculateUIPlayerInfo(this);
+            //Get winners here
+            UIUtil.FindWinners(players , winners , userInput);
+            //Check if game is over
+            if (winners.Count > 1) { foundWinner = true; }
         }
         else
         {
-            //check for yes or no 
-            if (userInput.buttonResult != "")
+            //Check for yes or no and repeat game (go back to main menu)
+            if (userInput.booleanPrompt.buttonResult != "") { SceneManager.LoadScene("MainMenu", LoadSceneMode.Single); }
+        }
+    }
+
+
+    /* FUNCTIONS BASED ON THIS GAME */
+
+    //checks for cycles will occur elsewhere or maybe later
+    //updates turn to go to next turn
+    public void UpdatePlayerTurn()
+    {
+        playerPanels[currentPlayerIndex].GetComponent<Outline>().enabled = false;
+
+        //modify the value of the current player index to use the player array
+        if (currentPlayerIndex >= numPlayers - 1) { currentPlayerIndex = 0; }
+        else { currentPlayerIndex++; }
+
+        //resetup ui messages
+        UIUtil.CalculateUIPlayerInfo(this);
+        UIUtil.PopulatePlayerBoard(this);
+    }
+
+    public void DrawFromAdventureDeck()
+    {
+        //have a draw from adventure deck that takes a certain number of cards to be drawn instead doing it one by one that way click only happens once
+        if (drawAdventureCard)
+        {
+            drawnAdventureCards = GameUtil.DrawFromDeck(adventureDeck, numCardsToBeDrawn);
+            drawAdventureCard = false;
+        }
+
+        GameUtil.ToggleDeckAnimation(storyDeckUIButton , storyDeckDiscardPileUIButton);
+    }
+
+    public void DrawFromStoryDeck()
+    {
+        //only one story card is ever drawn
+        if (drawStoryCard)
+        {
+            drawnStoryCard = GameUtil.DrawFromDeck(storyDeck, 1)[0];
+            drawStoryCard = false;
+        }
+
+        GameUtil.ToggleDeckAnimation(storyDeckUIButton , storyDeckDiscardPileUIButton);
+    }
+
+    void MordredCheck()
+    {
+        //reset input if u change ur mind
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            mordCurr = 0;
+            Debug.Log("Reset Mordred Input");
+            return;
+        }
+
+        //shift and then numbers
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (mordCurr < 3)
             {
-                //go back to mainMenu
-                SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+                if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+                {
+                    mordredControllerBeta[mordCurr] = 0;
+                    mordCurr++;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+                {
+                    mordredControllerBeta[mordCurr] = 1;
+                    mordCurr++;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+                {
+                    mordredControllerBeta[mordCurr] = 2;
+                    mordCurr++;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+                {
+                    mordredControllerBeta[mordCurr] = 3;
+                    mordCurr++;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+                {
+                    mordredControllerBeta[mordCurr] = 4;
+                    mordCurr++;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
+                {
+                    mordredControllerBeta[mordCurr] = 5;
+                    mordCurr++;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
+                {
+                    mordredControllerBeta[mordCurr] = 6;
+                    mordCurr++;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8))
+                {
+                    mordredControllerBeta[mordCurr] = 7;
+                    mordCurr++;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
+                {
+                    mordredControllerBeta[mordCurr] = 8;
+                    mordCurr++;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
+                {
+                    mordredControllerBeta[mordCurr] = 9;
+                    mordCurr++;
+                }
+
+            }
+
+
+            if (mordCurr >= mordredControllerBeta.Length)
+            {
+                Debug.Log("Player " + (mordredControllerBeta[0] + 1).ToString() + " Casting Mordred on Player " +
+                    (mordredControllerBeta[1] + 1).ToString() + "'s Ally number " + (mordredControllerBeta[2] + 1).ToString());
+                if (mordredControllerBeta[0] < numPlayers && mordredControllerBeta[1] < numPlayers)
+                {
+                    if (players[mordredControllerBeta[1]].activeAllies.Count > mordredControllerBeta[2])
+                    {
+                        for (int i = 0; i < players[mordredControllerBeta[0]].hand.Count; i++)
+                        {
+                            if (players[mordredControllerBeta[0]].hand[i].name == "Mordred")
+                            {
+                                List<Card> tempCards = new List<Card>();
+
+                                tempCards.Add(players[mordredControllerBeta[0]].hand[i]);
+                                tempCards.Add(players[mordredControllerBeta[1]].activeAllies[mordredControllerBeta[2]]);
+
+                                players[mordredControllerBeta[0]].hand.RemoveAt(i);
+                                players[mordredControllerBeta[1]].activeAllies.RemoveAt(mordredControllerBeta[2]);
+
+                                GameUtil.DiscardCards(adventureDeck, tempCards, adventureDeckDiscardPileUIButton);
+                            }
+                        }
+                        UIUtil.PopulatePlayerBoard(this);
+                    }
+                }
+                mordCurr = 0;
             }
         }
     }
 
+    void SetupStoryCardCheck()
+    {
+        if (drawnStoryCard != null)
+        {
+            Debug.Log("DRAWN STORY CARD: " + drawnStoryCard.name);
+
+            UIUtil.EmptyPanel(questStagePanel);
+            questStageBPTotal.text = "";
+            questStageNumber.text = "";
+
+            //setup quest , tournament or event
+            if (drawnStoryCard.type == "Event Card")
+            {
+                currentEvent = (EventCard)drawnStoryCard;
+            }
+            else if (drawnStoryCard.type == "Tournament Card")
+            {
+                userInput.ActivateBooleanCheck("Do you want to participate?");
+                currentTournament = (TournamentCard)drawnStoryCard;
+            }
+            else if (drawnStoryCard.type == "Quest Card")
+            {
+                //store player that first drew the quest card
+                QuestState.questDrawer = currentPlayerIndex;
+                userInput.ActivateBooleanCheck("Do you want to sponsor this quest?");
+                currentQuest = (QuestCard)drawnStoryCard;
+            }
+
+            numIterations = 0;
+            UIUtil.AddCardToPanel(UIUtil.CreateUIElement(drawnStoryCard, cardPrefab), questPanel);
+            drawnStoryCard = null;
+        }
+    }
+
+    bool StoryCardDone()
+    {
+        if (isDoneStoryEvent)
+        {
+            //discard story card into story discard pile
+            if (currentEvent != null)
+            {
+                List<Card> cards = new List<Card>();
+                cards.Add(currentEvent);
+                GameUtil.DiscardCards(storyDeck, cards, storyDeckDiscardPileUIButton);
+                // storyDeckDiscardPileUIButton.myCard = currentEvent;
+                //storyDeckDiscardPileUIButton.ChangeTexture();
+                //storyDeck.discard.Add(currentEvent);
+            }
+            else if (currentQuest != null)
+            {
+                List<Card> cards = new List<Card>();
+                cards.Add(currentQuest);
+                GameUtil.DiscardCards(storyDeck, cards, storyDeckDiscardPileUIButton);
+                //storyDeckDiscardPileUIButton.myCard = currentQuest;
+                //storyDeckDiscardPileUIButton.ChangeTexture();
+                //storyDeck.discard.Add(currentQuest);
+            }
+            else if (currentTournament != null)
+            {
+                List<Card> cards = new List<Card>();
+                cards.Add(currentTournament);
+                GameUtil.DiscardCards(storyDeck, cards, storyDeckDiscardPileUIButton);
+                //storyDeckDiscardPileUIButton.myCard = currentTournament;
+                //storyDeckDiscardPileUIButton.ChangeTexture();
+                //storyDeck.discard.Add(currentTournament);
+            }
+
+            isDoneStoryEvent = false;
+            currentEvent = null;
+            currentQuest = null;
+            currentTournament = null;
+
+            //reset players participation
+            GameUtil.ResetPlayers(players);
+            UIUtil.EmptyPanel(questPanel);
+            System.Array.Clear(queriedCards, 0, queriedCards.Length);
+
+            //reset turn to draw new story card
+            drawStoryCard = true;
+            GameUtil.ToggleDeckAnimation(storyDeckUIButton, drawStoryCard);
+            userInput.DeactivateUI(); // just in case
+            UpdatePlayerTurn();       // go to next turn
+
+            return true;
+        }
+
+        return false;
+    }
+
+    void RunStoryCard()
+    {
+        if (currentEvent != null)
+        {
+            currentEvent.effect.execute(players, currentEvent, this);
+        }
+        else if (currentTournament != null)
+        {
+            currentTournament.tournament.execute(null, currentTournament, this);
+        }
+        else if (currentQuest != null)
+        {
+            currentQuest.quest.execute(players, currentQuest, this);
+
+            //CHECK HERE IF CARDS TO BE ADDED BY SPONSOR BREAK THE RULES RETURN ALL THESE CARDS TO HIS HAND AND FORCE HIM TO REDECIDE
+            if (QuestState.state == "Sponsoring")
+            {
+                if (!GameUtil.AnyFoes(userInput.cardPrompt.selectedCards) && GameUtil.AnyWeapons(userInput.cardPrompt.selectedCards))
+                {
+                    //there are foes but no weapons return all cards to hand and start again
+                    UIUtil.ReturnToPlayerHand(players[GameUtil.CheckSponsorship(players)], userInput.cardPrompt.selectedCards, this);
+                }
+            }
+        }
+    }
+
+    void CardAdditionCheck()
+    {
+        if (selectedCard != null)
+        {
+            //all ally cards activated are added to the board and active allies
+            if (selectedCard.type == "Ally Card")
+            {
+                //ally cards always get added to active allies
+                AllyCard ally = (AllyCard)selectedCard;
+                players[currentPlayerIndex].activeAllies.Add(ally);
+                players[currentPlayerIndex].hand.Remove(selectedCard);
+                UIUtil.AddCardToPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab), allyPanel);
+            }
+            else
+            {
+                //check cards for removal from card panel
+                bool removedCard = userInput.CheckCard(selectedCard);
+
+                if (removedCard)
+                {
+                    //removed card from panel So add it back to hand
+                    players[currentPlayerIndex].hand.Add(selectedCard);
+                    UIUtil.AddCardToPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab), handPanel);
+                }
+                else
+                {
+                    bool addToPanel = true;
+
+                    //CLUSTERFUCK
+                    addToPanel = EventCheck(QuestCheck(TournamentCheck()));
+
+                    //result
+                    if (addToPanel)
+                    {
+                        //add it into the panel
+                        players[currentPlayerIndex].hand.Remove(selectedCard);
+                        userInput.AddToUICardPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab));
+                    }
+                    else
+                    {
+                        //return it to hand since we didn't delete it from player we are fine
+                        UIUtil.AddCardToPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab), handPanel);
+                    }
+                }
+            }
+
+            //maybe we can check for certain cards like mordred here with some state
+            selectedCard = null;
+        }
+    }
+
+    void DiscardCardAddition()
+    {
+        if (selectedCard != null)
+        {
+            //all ally cards activated are added to the board and active allies
+            if (selectedCard.type == "Ally Card")
+            {
+                //ally cards always get added to active allies
+                AllyCard ally = (AllyCard)selectedCard;
+                players[currentPlayerIndex].activeAllies.Add(ally);
+                players[currentPlayerIndex].hand.Remove(selectedCard);
+                UIUtil.AddCardToPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab), allyPanel);
+            }
+            else
+            {
+                bool removed = userInput.CheckDiscardCard(selectedCard);
+                if (removed)
+                {
+                    //add card back to player 
+                    players[currentPlayerIndex].hand.Add(selectedCard);
+                    UIUtil.PopulatePlayerBoard(this);
+                }
+                else
+                {
+                    //add it into the panel
+                    players[currentPlayerIndex].hand.Remove(selectedCard);
+
+                    //Debug.Log(selectedCard.name);
+                    userInput.AddToUIDiscardPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab));
+                }
+            }
+
+            selectedCard = null;
+        }
+    }
+
+    void CheckDiscardPhase()
+    {
+        if (numIterations >= numPlayers)
+        {
+            //done discarding
+            numIterations = 0;
+            userInput.DeactivateDiscardPanel();
+            playerStillOffending = false;
+        }
+    }
+
+    bool TournamentCheck()
+    {
+        bool addToPanel = true;
+
+        if (currentTournament != null)
+        {
+            // we are in a tournament check for weapon, amour cards allies are always added
+            if (selectedCard.type == "Weapon Card")
+            {
+                for (int i = 0; i < userInput.cardPrompt.selectedCards.Count; i++)
+                {
+                    if (userInput.cardPrompt.selectedCards[i].name == selectedCard.name)
+                    {
+                        //duplicate exists cannot add it in
+                        addToPanel = false;
+                    }
+                }
+            }
+            else if (selectedCard.type == "Amour Card")
+            {
+                //check for any amours already played 
+                if (!GameUtil.AnyAmours(TournamentState.undiscardedCards[currentPlayerIndex]))
+                {
+                    addToPanel = true;
+                }
+                else
+                {
+                    addToPanel = false;
+                }
+
+                //check amours at the moment
+                for (int i = 0; i < userInput.cardPrompt.selectedCards.Count; i++)
+                {
+                    if (userInput.cardPrompt.selectedCards[i].type == "Amour Card")
+                    {
+                        //more than one amour cannot add it
+                        addToPanel = false;
+                    }
+                }
+            }
+            else
+            {
+                // not weapon amour or ally
+                return false;
+            }
+        }
+
+        return addToPanel;
+    }
+
+    bool QuestCheck(bool result)
+    {
+        bool addToPanel = result;
+
+        if (currentQuest != null)
+        {
+            //if it is the sponsor check that he added cards properly
+            if (players[currentPlayerIndex].sponsoring)
+            {
+                if (GameUtil.AnyTests(userInput.cardPrompt.selectedCards)) { addToPanel = false; }
+                else if (selectedCard.type == "Test Card")
+                {
+                    //check that it is the only card in the panel and do not allow him to any more cards
+                    if (userInput.cardPrompt.selectedCards.Count > 0) { addToPanel = false; }
+                    else { addToPanel = true; }
+                }
+                else if (selectedCard.type == "Foe Card")
+                {
+                    if (!GameUtil.AnyFoes(userInput.cardPrompt.selectedCards))
+                    {
+                        addToPanel = true;
+                    }
+                    else
+                    {
+                        addToPanel = false;
+                    }
+                }
+                else if (selectedCard.type == "Weapon Card")
+                {
+                    // we have a weapon card which needs a special check
+                    for (int i = 0; i < userInput.cardPrompt.selectedCards.Count; i++)
+                    {
+                        if (userInput.cardPrompt.selectedCards[i].name == selectedCard.name)
+                        {
+                            //duplicate exists cannot add it in
+                            addToPanel = false;
+                            break;
+                        }
+                    }
+
+                    //if no duplication check if there is a foe in there
+                    if (addToPanel)
+                    {
+                        addToPanel = GameUtil.AnyFoes(userInput.cardPrompt.selectedCards);
+                    }
+                }
+                else
+                {
+                    addToPanel = false;
+                }
+            }
+            else if (players[currentPlayerIndex].participating)
+            {
+                //only allowed weapon and amour cards
+                if (selectedCard.type == "Weapon Card")
+                {
+                    for (int i = 0; i < userInput.cardPrompt.selectedCards.Count; i++)
+                    {
+                        if (userInput.cardPrompt.selectedCards[i].name == selectedCard.name)
+                        {
+                            //duplicate exists cannot add it in
+                            addToPanel = false;
+                            break;
+                        }
+                    }
+                }
+                else if (selectedCard.type == "Amour Card")
+                {
+                    //MAYBEEEEEE NEEEEEEDDSSSSSSS A CHANGEEEEE
+                    //check for any amours already played 
+                    if (!GameUtil.AnyAmours(QuestState.amours[currentPlayerIndex]))
+                    {
+                        addToPanel = true;
+                    }
+                    else
+                    {
+                        addToPanel = false;
+                    }
+
+                    //check for amours played at this instance 
+                    for (int i = 0; i < userInput.cardPrompt.selectedCards.Count; i++)
+                    {
+                        if (userInput.cardPrompt.selectedCards[i].type == "Amour Card")
+                        {
+                            //more than one amour cannot add it
+                            addToPanel = false;
+                            break;
+                        }
+                    }
+                }
+                else if (selectedCard.type == "Foe Card")
+                {
+                    if (QuestState.stages != null)
+                    {
+                        if (QuestState.stages[QuestState.currentStage] != null)
+                        {
+                            if (QuestState.stages[QuestState.currentStage][0] != null)
+                            {
+                                if (QuestState.stages[QuestState.currentStage][0].type == "Test Card")
+                                    addToPanel = true;
+                                else
+                                    addToPanel = false;
+                            }
+                            else
+                                addToPanel = false;
+                        }
+                        else
+                            addToPanel = false;
+                    }
+                    else
+                        addToPanel = false;
+                }
+                else
+                {
+                    // not weapon amour or ally
+                    addToPanel = false;
+                }
+            }
+        }
+
+        return addToPanel;
+    }
+
+    bool EventCheck(bool result)
+    {
+        // if we have an event we are fine else return previous result
+        if (currentEvent != null)
+        {
+            return true;
+        }
+        else
+        {
+            return result;
+        }
+    }
+
+    /*
+    //////////////////////////////////
     public bool PlayerOffending()
     {
         for (int i = 0; i < players.Count; i++)
         {
             if (players[i].handCheck())
             {
-                // we are over 12 on a player 
+                // we are over 12 cards on a player 
                 return true;
             }
         }
@@ -1019,6 +857,7 @@ public class GameController : MonoBehaviour
         return false;
     }
 
+    //////////////////////////////////
     //check the size of find winner if it is greater than 1 we have a winner and we stop the game
     public void FindWinners()
     {
@@ -1049,24 +888,27 @@ public class GameController : MonoBehaviour
         }
     }
 
+    //////////////////////////////////
     public void returnToPlayerHand()
     {
         //add userInput selected hand back to player
-        for (int i = 0; i < userInput.selectedCards.Count; i++)
+        for (int i = 0; i < userInput.cardPrompt.selectedCards.Count; i++)
         {
             //just in case
-            players[CheckSponsorship()].hand.Add(userInput.selectedCards[i]);
-            Destroy(userInput.RemoveFromCardUIPanel(i));
+            players[CheckSponsorship()].hand.Add(userInput.cardPrompt.selectedCards[i]);
+            userInput.RemoveFromCardUIPanel(i);
             i--;
-            populatePlayerBoard();
         }
+
+        populatePlayerBoard();
     }
 
+    /////////////////////////////////////
     public bool AnyTests()
     {
-        for (int i = 0; i < userInput.selectedCards.Count; i++)
+        for (int i = 0; i < userInput.cardPrompt.selectedCards.Count; i++)
         {
-            if (userInput.selectedCards[i].type == "Test Card")
+            if (userInput.cardPrompt.selectedCards[i].type == "Test Card")
             {
                 return true;
             }
@@ -1075,11 +917,12 @@ public class GameController : MonoBehaviour
         return false;
     }
 
+    ////////////////////////////////
     public bool AnyFoes()
     {
-        for (int i = 0; i < userInput.selectedCards.Count; i++)
+        for (int i = 0; i < userInput.cardPrompt.selectedCards.Count; i++)
         {
-            if (userInput.selectedCards[i].type == "Foe Card")
+            if (userInput.cardPrompt.selectedCards[i].type == "Foe Card")
             {
                 return true;
             }
@@ -1088,11 +931,13 @@ public class GameController : MonoBehaviour
         return false;
     }
 
+
+    //////////////////////////////////////
     public bool AnyWeapons()
     {
-        for (int i = 0; i < userInput.selectedCards.Count; i++)
+        for (int i = 0; i < userInput.cardPrompt.selectedCards.Count; i++)
         {
-            if (userInput.selectedCards[i].type == "Weapon Card")
+            if (userInput.cardPrompt.selectedCards[i].type == "Weapon Card")
             {
                 return true;
             }
@@ -1101,6 +946,7 @@ public class GameController : MonoBehaviour
         return false;
     }
 
+    ////////////////////////////////////// (AnyAmours() in util file)
     public bool PlayedAmour(List<Card>[] playedCards)
     {
         if (playedCards == null || playedCards[currentPlayerIndex] == null) { return false; }
@@ -1118,6 +964,7 @@ public class GameController : MonoBehaviour
         return false;
     }
 
+    //////////////////////////////
     public void DiscardAdvenureCards(List<Card> discardCards)
     {
         //logic discard as well as UI one
@@ -1126,6 +973,7 @@ public class GameController : MonoBehaviour
         adventureDeckDiscardPileUIButton.ChangeTexture();
     }
 
+    //////////////////////////////
     //update quest data of a certain stage
     public void AddQuestData(int stageNumber, int totalBP)
     {
@@ -1133,14 +981,13 @@ public class GameController : MonoBehaviour
         questStageBPTotal.text = "BP: " + totalBP.ToString();
     }
 
+    ///////////////////////////////
     public void CalculateUIPlayerInfo()
     {
-        //Debug.Log("Players is ... " + players);
         //might need a function in player that calculates the BP at any time
         for (int i = 0; i < players.Count; i++)
         {
             UINames[i].text = "Name: " + players[i].name;
-            //UIBPS[i].text = "BP: " + players[i].CalculateBP().ToString();
             UINumCards[i].text = "Cards: " + players[i].hand.Count.ToString();
             UIRanks[i].text = "Rank: " + players[i].rankCard.name;
             UIShields[i].text = "Shields: " + players[i].score.ToString();
@@ -1152,35 +999,13 @@ public class GameController : MonoBehaviour
         playerPanels[currentPlayerIndex].GetComponent<Outline>().enabled = true;
     }
 
-    public void DrawFromAdventureDeck()
-    {
-        //have a draw from adventure deck that takes a certain number of cards to be drawn instead doing it one by one that way click only happens once
-        if (drawAdventureCard)
-        {
-            drawnAdventureCards = DrawFromDeck(adventureDeck, numCardsToBeDrawn);
-            drawAdventureCard = false;
-        }
-        ToggleDeckAnimation();
-    }
-
-    public void DrawFromStoryDeck()
-    {
-        //only one story card is ever drawn
-        if (drawStoryCard)
-        {
-            drawnStoryCard = DrawFromDeck(storyDeck, 1)[0];
-            drawStoryCard = false;
-        }
-        ToggleDeckAnimation();
-    }
-
+    //////////////////////////////////
     public GameObject CreateUIElement(Card cardLogic)
     {
         //create game object of card prefab
         GameObject UICard = Instantiate(cardPrefab, new Vector3(0, 0, 0), new Quaternion());
 
         //add card logic to the ui card
-        //Debug.Log(cardLogic.texturePath);
         CardUIScript script = UICard.GetComponent<CardUIScript>();
         script.myCard = cardLogic;
         script.ChangeTexture();
@@ -1188,21 +1013,8 @@ public class GameController : MonoBehaviour
         return UICard;
     }
 
-    //called to re-assert that the state of the player's hand and the ui match
-    //currently is destructively buggy, consumes about 200mb/s of your ram before eventually soft locking your PC
-    //DO NOT CALL
-    //public void MatchUIWithPlayerHand()
-    //{
-
-    //    userInput.DestroyChildren("CurrentHand");
-
-    //    for (int i = 0; i < players[currentPlayerIndex].hand.Count; i++)
-    //    {
-    //        userInput.AddToUICardPanel(CreateUIElement(players[currentPlayerIndex].hand[i]));
-    //    }
-
-    //}
-
+    //CALLED AddCardToPanel in UIUtil
+    ///////////////////////
     // Add separate additions to separate panels of the game board by creating a function here (same style just different panel)
     public void AddToPanel(GameObject UICard, GameObject panel)
     {
@@ -1220,6 +1032,7 @@ public class GameController : MonoBehaviour
         UICard.transform.SetParent(panel.transform);
     }
 
+    //////////////////////////
     public List<Card> DrawFromDeck(Deck deckToDrawFrom, int numCards)
     {
         List<Card> drawnCards = new List<Card>();
@@ -1232,19 +1045,7 @@ public class GameController : MonoBehaviour
         return drawnCards;
     }
 
-    //may need to change that to be more general (have a deck and an int for number of cards drawn)
-    public List<Card> generateHand(Deck deckToDrawFrom)
-    {
-        List<Card> hand = new List<Card>();
-
-        for (int i = 0; i < 11; i++)
-        {
-            hand.Add(deckToDrawFrom.drawCard());
-        }
-
-        return hand;
-    }
-
+    ///////////////////////////////
     //checking number of participants
     public int CheckParticipation()
     {
@@ -1260,6 +1061,7 @@ public class GameController : MonoBehaviour
         return numberOfParticipants;
     }
 
+    ///////////////////////////////
     //checking for if there is a sponsor
     public int CheckSponsorship()
     {
@@ -1273,6 +1075,7 @@ public class GameController : MonoBehaviour
         return -1;
     }
 
+    ////////////////////////////////////
     //toggle the story deck and adventure deck ui animations
     public void ToggleDeckAnimation()
     {
@@ -1280,6 +1083,7 @@ public class GameController : MonoBehaviour
         adventureDeckUIButton.GetComponent<Animator>().enabled = drawAdventureCard;
     }
 
+    //////////////////////////////
     //if you want to empty any panel
     public void EmptyPanel(GameObject myPanel)
     {
@@ -1289,6 +1093,7 @@ public class GameController : MonoBehaviour
         }
     }
 
+    ////////////////////////////////////////
     //to be called by players to setup rank and shields
     public void SetRankCardUI()
     {
@@ -1297,21 +1102,38 @@ public class GameController : MonoBehaviour
         UIShieldNum.text = ": " + players[currentPlayerIndex].score;
     }
 
-    //checks for cycles will occur elsewhere or maybe later
-    //updates turn to go to next turn
-    public void UpdatePlayerTurn()
+    ////////////////////////////////////
+    //adds ui elements to game board of current player
+    public void PopulatePlayerBoard()
     {
-        playerPanels[currentPlayerIndex].GetComponent<Outline>().enabled = false;
+        //using current player once we setup player turn change will update this
+        EmptyPanel(handPanel);
+        EmptyPanel(allyPanel);
 
-        //modify the value of the current player index to use the player array
-        if (currentPlayerIndex >= numPlayers - 1) { currentPlayerIndex = 0; }
-        else { currentPlayerIndex++; }
+        Player myPlayer = players[currentPlayerIndex];
 
-        //resetup ui messages
-        CalculateUIPlayerInfo();
-        populatePlayerBoard();
+        //rank card and shield numbers
+        SetRankCardUI();
+
+        //shield cards
+        shieldsCard.myCard = new RankCard(null, null, myPlayer.shieldPath, 0);
+        shieldsCard.ChangeTexture();
+
+        //Setup Hand
+        for (int i = 0; i < myPlayer.hand.Count; i++)
+        {
+            AddToPanel(CreateUIElement(myPlayer.hand[i]), handPanel);
+        }
+
+        //Setup Ally cards
+        for (int i = 0; i < myPlayer.activeAllies.Count; i++)
+        {
+            AddToPanel(CreateUIElement(myPlayer.activeAllies[i]), allyPanel);
+        }
     }
 
+    //takes gamecontroller in Ui util
+    /////////////////////////////
     public void PopulatePlayerBPS()
     {
         //sets up player BPS for quests tourneys etc .... and returns them back when done check current event and quest and tourney
@@ -1388,6 +1210,8 @@ public class GameController : MonoBehaviour
         }
     }
 
+
+    ///////////////////////////
     public void populateQuestBoard(bool faceUp)
     {
         EmptyQuestPanel();
@@ -1414,6 +1238,8 @@ public class GameController : MonoBehaviour
         }
     }
 
+    //removed not really needed
+    ///////////////////////////
     public void EmptyQuestPanel()
     {
         EmptyPanel(questStagePanel);
@@ -1421,6 +1247,7 @@ public class GameController : MonoBehaviour
         questStageBPTotal.text = "";
     }
 
+    //////////////////////////////////
     //adds ui elements to game board of current player
     public void populatePlayerBoard()
     {
@@ -1453,6 +1280,17 @@ public class GameController : MonoBehaviour
         }
     }
 
+    //////////////////////////////////////
+    public void ResetPlayers()
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            players[i].participating = false;
+            players[i].sponsoring = false;
+        }
+    }
+
+    ///////////////////////////////////
     //initializes player information and hands
     public List<Player> CreatePlayers(List<string> humanNames, List<string> cpuNames)
     {
@@ -1497,12 +1335,19 @@ public class GameController : MonoBehaviour
         return myPlayers;
     }
 
+
+
+
+
+
+
+    /////////////////////////////////////////
     //players over 12 cards 
     public void DiscardCards()
     {
-        Debug.Log("IS DONE DISCARDING: " + userInput.doneDiscardingCards);
+        Debug.Log("IS DONE DISCARDING: " + userInput.discardPrompt.doneAddingCards);
 
-        if (userInput.discardPanelUIEnabled)
+        if (userInput.discardPrompt.isActive)
         {
             //Debug.Log("Whatever@#23@#");
             if (numIterations < numPlayers)
@@ -1530,7 +1375,7 @@ public class GameController : MonoBehaviour
                     userInput.ActivateDiscardCheck("You need to Discard " + (players[currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
                     Debug.Log("discarded AI Stuff");
                 }
-                else if (userInput.doneDiscardingCards)
+                else if (userInput.discardPrompt.doneAddingCards)
                 {
                     //if things don't go well
                     if (players[currentPlayerIndex].handCheck())
@@ -1538,13 +1383,13 @@ public class GameController : MonoBehaviour
                         Debug.Log("Not enough cards where discarded");
                         //add back to players hand 
                         returnToPlayerHand();
-                        userInput.doneDiscardingCards = false;
+                        userInput.discardPrompt.doneAddingCards = false;
                     }
                     else
                     {
                         Debug.Log("Discarded player Cards");
                         //if things go well
-                        DiscardAdvenureCards(userInput.discardSelectedCards);
+                        DiscardAdvenureCards(userInput.discardPrompt.selectedCards);
 
                         numIterations++;
                         UpdatePlayerTurn();
@@ -1564,19 +1409,25 @@ public class GameController : MonoBehaviour
         }
     }
 
+
+
+
+
+
+    ///////////////////////////////////////////
     //Asks user for input then builds initial game board
     public void PlayerSetup()
     {
         // do ui checks here then build board when done
         if (userInput.UIEnabled)
         {
-            if (userInput.keyboardInputUIEnabled)
+            if (userInput.keyboardPrompt.isActive)
             {
                 if (setupState == 0)
                 {
-                    if (userInput.KeyboardInput.text.Length > 0 && Input.GetKeyDown("return"))
+                    if (userInput.keyboardPrompt.KeyboardInput.text.Length > 0 && Input.GetKeyDown("return"))
                     {
-                        bool result = int.TryParse(userInput.KeyboardInput.text, out numPlayers);
+                        bool result = int.TryParse(userInput.keyboardPrompt.KeyboardInput.text, out numPlayers);
 
                         if (result && numPlayers > 1 && numPlayers < 5)
                         {
@@ -1586,15 +1437,15 @@ public class GameController : MonoBehaviour
                         }
                         else
                         {
-                            userInput.KeyboardInput.text = "";
+                            userInput.keyboardPrompt.KeyboardInput.text = "";
                         }
                     }
                 }
                 else if (setupState == 1)
                 {
-                    if (userInput.KeyboardInput.text.Length > 0 && Input.GetKeyDown("return"))
+                    if (userInput.keyboardPrompt.KeyboardInput.text.Length > 0 && Input.GetKeyDown("return"))
                     {
-                        bool result = int.TryParse(userInput.KeyboardInput.text, out numHumanPlayers);
+                        bool result = int.TryParse(userInput.keyboardPrompt.KeyboardInput.text, out numHumanPlayers);
 
                         if (result && numHumanPlayers > 0 && numPlayers - numHumanPlayers >= 0)
                         {
@@ -1604,7 +1455,7 @@ public class GameController : MonoBehaviour
                         }
                         else
                         {
-                            userInput.KeyboardInput.text = "";
+                            userInput.keyboardPrompt.KeyboardInput.text = "";
                         }
                     }
                 }
@@ -1623,30 +1474,21 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void ResetPlayers()
-    {
-        for (int i = 0; i < players.Count; i++)
-        {
-            players[i].participating = false;
-            players[i].sponsoring = false;
-        }
-    }
-
-
+    ///////////////////////////////////////
     public void QueryStrategies()
     {
         if (userInput.UIEnabled)
         {
-            if (userInput.keyboardInputUIEnabled)
+            if (userInput.keyboardPrompt.isActive)
             {
                 if (setupState >= 3)
                 {
                     if (numIterations < numCpus)
                     {
-                        if (userInput.KeyboardInput.text.Length > 0 && Input.GetKeyDown("return"))
+                        if (userInput.keyboardPrompt.KeyboardInput.text.Length > 0 && Input.GetKeyDown("return"))
                         {
                             int strategy = 0;
-                            bool result = int.TryParse(userInput.KeyboardInput.text, out strategy);
+                            bool result = int.TryParse(userInput.keyboardPrompt.KeyboardInput.text, out strategy);
 
                             if (result && strategy > 0 && strategy < 3)
                             {
@@ -1658,7 +1500,7 @@ public class GameController : MonoBehaviour
                             }
                             else
                             {
-                                userInput.KeyboardInput.text = "";
+                                userInput.keyboardPrompt.KeyboardInput.text = "";
                             }
                         }
                     }
@@ -1680,12 +1522,20 @@ public class GameController : MonoBehaviour
         }
     }
 
+
+
+
+
+
+
+
+    ///////////////////////////////////////
     //SOME CHANGES HERE FOR PARTICIPATE IN TOURNEY FUNCTION
     public void ParticipationCheck(string state)
     {
         if (userInput.UIEnabled)
         {
-            if (userInput.booleanUIEnabled)
+            if (userInput.booleanPrompt.isActive)
             {
                 //check with currentplayerIndex
                 if (numIterations < numPlayers)
@@ -1740,13 +1590,19 @@ public class GameController : MonoBehaviour
         }
     }
 
+
+
+
+
+
+    /////////////////////////////////////////
     //check if player wants to sponsor
     public void SponsorCheck()
     {
         //checking for sponsors
         if (userInput.UIEnabled)
         {
-            if (userInput.booleanUIEnabled)
+            if (userInput.booleanPrompt.isActive)
             {
                 if (numIterations < numPlayers)
                 {
@@ -1763,8 +1619,6 @@ public class GameController : MonoBehaviour
                                 sponsoring = 3;
                         }
                     }
-
-
                     if (sponsoring == 0)
                     {
                         print("No");
@@ -1821,6 +1675,7 @@ public class GameController : MonoBehaviour
         }
     }
 
+    ///////////////////////////////////////////
     //query sponsor for his cards for the quest
     //IF SPONSOR ADDS NOTHING OR WE DO NOT
     //CHECK USER INPUT IF IT DOESN'T FIT INTO REQUIREMENTS END SPONSORSHIP AND END QUEST
@@ -1828,7 +1683,7 @@ public class GameController : MonoBehaviour
     {
         if (userInput.UIEnabled)
         {
-            if (userInput.cardPanelUIEnabled)
+            if (userInput.cardPrompt.isActive)
             {
                 //check for as much as the quest stages
                 if (numIterations < currentQuest.stages)
@@ -1852,9 +1707,9 @@ public class GameController : MonoBehaviour
                         UpdatePlayerTurn();
                         populatePlayerBoard();
                     }
-                    else if (userInput.doneAddingCards)
+                    else if (userInput.cardPrompt.doneAddingCards)
                     {
-                        sponsorQueriedCards[numIterations] = new List<Card>(userInput.selectedCards);
+                        sponsorQueriedCards[numIterations] = new List<Card>(userInput.cardPrompt.selectedCards);
                         userInput.DeactivateUI();
                         numIterations++;
                         userInput.ActivateCardUIPanel("What FOE or TEST cards do you want to use for this Quest?");
@@ -1884,6 +1739,7 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /////////////////////////////////////
     public bool SponsorCapabilityCheck()
     {
         if (!SponsorCapabilitySoftCheck())
@@ -1894,6 +1750,8 @@ public class GameController : MonoBehaviour
             return false;
     }
 
+
+    /////////////////////////////////////
     public bool SponsorCapabilitySoftCheck()
     {
         int validStageCardsCount = 0;
@@ -1919,6 +1777,7 @@ public class GameController : MonoBehaviour
             return false;
     }
 
+    /////////////////////////////////////////////
     public bool SponsorCapabilityHardCheck()
     {
         //Current number of possible valid stages that can be created.
@@ -2105,6 +1964,7 @@ public class GameController : MonoBehaviour
         }
     }
 
+    //////////////////////////////////
     //Checks to see if the number of unique BP's available to the
     //player is equal to or greater than the number of stages in the quest.
     public bool CVQP(int vSCC, int[] foeValues)
@@ -2124,12 +1984,13 @@ public class GameController : MonoBehaviour
             return false;
     }
 
+    //////////////////////////////////////////////////
     //NEEDS FIXING TO ADD SHIELDS AND BASE BP AND ADD A STRING TO USE BOTH QUEST AND TOURNAMENTS
     public void CardQuerying(string state)
     {
         if (userInput.UIEnabled)
         {
-            if (userInput.cardPanelUIEnabled)
+            if (userInput.cardPrompt.isActive)
             {
                 if (numIterations < numPlayers)
                 {
@@ -2164,10 +2025,10 @@ public class GameController : MonoBehaviour
                         UpdatePlayerTurn();
 
                     }
-                    else if (userInput.doneAddingCards)
+                    else if (userInput.cardPrompt.doneAddingCards)
                     {
                         // human player card querying
-                        queriedCards[currentPlayerIndex] = new List<Card>(userInput.selectedCards);
+                        queriedCards[currentPlayerIndex] = new List<Card>(userInput.cardPrompt.selectedCards);
                         userInput.DeactivateUI();
                         numIterations++;
                         UpdatePlayerTurn();
@@ -2206,4 +2067,8 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
+
+
+    */
 }

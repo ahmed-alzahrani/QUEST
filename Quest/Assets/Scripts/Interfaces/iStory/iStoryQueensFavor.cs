@@ -35,9 +35,9 @@ public class iStoryQueensFavor : iStory
                 lowestPlayers[i].drawCards(game.adventureDeck.drawCards(2));
             }
         }
-        //check for discarding 
-        game.playerStillOffending = game.PlayerOffending();
 
+        //check for discarding 
+        game.playerStillOffending = GameUtil.PlayerOffending(game.players);
 
         if (game.playerStillOffending)
         {
