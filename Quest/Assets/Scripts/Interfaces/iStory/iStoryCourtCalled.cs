@@ -6,7 +6,7 @@ public class iStoryCourtCalled : iStory
 {
     public iStoryCourtCalled() { }
 
-    public void execute(List<Player> players, Card storyCard, GameController game)
+    public void execute(List<Player> players, Card storyCard, Controller game)
     {
         // implement Court Called to Camelot
         if (players != null)

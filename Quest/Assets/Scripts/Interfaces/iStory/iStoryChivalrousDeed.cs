@@ -7,7 +7,7 @@ public class iStoryChivalrousDeed : iStory
 {
     public iStoryChivalrousDeed() { }
 
-    public void execute(List<Player> players, Card card, GameController game)
+    public void execute(List<Player> players, Card card, Controller game)
     {
         // implement Chivalrous Deed
 

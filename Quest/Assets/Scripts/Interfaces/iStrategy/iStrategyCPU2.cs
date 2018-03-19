@@ -8,7 +8,7 @@ public class iStrategyCPU2 : iStrategy
     // Tournament Strategy
 
     // Strategy #2, the CPU always joins tournaments
-    public int participateInTourney(List<Player> players, int shields, GameController gameController)
+    public int participateInTourney(List<Player> players, int shields, Controller gameController)
     {
         return 1;
     }
@@ -55,7 +55,7 @@ public class iStrategyCPU2 : iStrategy
     }
 
     // Quest Strategy
-    public int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game)
+    public int sponsorQuest(List<Player> players, int stages, List<Card> hand, Controller game)
     {
         strategyUtil strat = new strategyUtil();
         // if somebody can rank up, we return false to decline sponsoring the quest
@@ -221,7 +221,7 @@ public class iStrategyCPU2 : iStrategy
     }
 
 
-    public int participateInQuest(int stages, List<Card> hand, GameController game)
+    public int participateInQuest(int stages, List<Card> hand, Controller game)
     {
         // Simply calls both the tests to see if the CPU can play sufficient BP to progress and discard Foes for a Test
         if ((canIIncrement(stages, hand, game.players, game.currentQuest) && canIDiscard(hand)))
@@ -445,7 +445,7 @@ public class iStrategyCPU2 : iStrategy
 
     // wrapper function for playBid that simply gets the integer referring to the bid amount
     // Since this AI doesn't use AMOUR cards or Allies for extra bids, we can simply count the foe cards they have bid
-    public int willIBid(int currentBid, List<Card> hand, int round, GameController game)
+    public int willIBid(int currentBid, List<Card> hand, int round, Controller game)
     {
         // return the count of playBid
         List<Card> bid = playBid(hand, round);
@@ -513,7 +513,7 @@ public class iStrategyCPU2 : iStrategy
 
 
     //Called when there is a binary resposne required from the player
-    public int respondToPrompt(GameController game)
+    public int respondToPrompt(Controller game)
     {
 
         //still checking

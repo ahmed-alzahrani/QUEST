@@ -9,7 +9,7 @@ public class iStrategyCPU1 : iStrategy
     // Tournament Strategy
 
     // Strategy #1, the player participates if anyone, including themselves, can stand to rank up
-    public int participateInTourney(List<Player> players, int shields, GameController game)
+    public int participateInTourney(List<Player> players, int shields, Controller game)
     {
         Debug.Log("I was asked If I want to participate in a tournament!");
         strategyUtil strat = new strategyUtil();
@@ -91,7 +91,7 @@ public class iStrategyCPU1 : iStrategy
     }
 
     // Quest Strategy
-    public int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game)
+    public int sponsorQuest(List<Player> players, int stages, List<Card> hand, Controller game)
     {
         strategyUtil strat = new strategyUtil();
         if (strat.canSomeoneRankUp(players, stages))
@@ -279,7 +279,7 @@ public class iStrategyCPU1 : iStrategy
         // get the test card with the highest bid test card in the hand
     }
 
-    public int participateInQuest(int stages, List<Card> hand, GameController game)
+    public int participateInQuest(int stages, List<Card> hand, Controller game)
     {
         // Do I have 2 weapons/allies per stage, And 2 foes of 20 or less BP for a test?
         //  return canIPlay(stages, hand) && canIDiscard(hand);
@@ -446,7 +446,7 @@ public class iStrategyCPU1 : iStrategy
 
     // Test Strategy
 
-    public int willIBid(int currentBid, List<Card> hand, int round, GameController game)
+    public int willIBid(int currentBid, List<Card> hand, int round, Controller game)
     {
         // return the count of playBid
         List<Card> bid = playBid(hand, round);
@@ -498,7 +498,7 @@ public class iStrategyCPU1 : iStrategy
 
 
     //Called when there is a binary resposne required from the player
-    public int respondToPrompt(GameController game)
+    public int respondToPrompt(Controller game)
     {
 
         //still checking

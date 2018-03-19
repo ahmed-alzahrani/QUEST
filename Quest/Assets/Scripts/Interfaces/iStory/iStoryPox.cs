@@ -6,7 +6,7 @@ public class iStoryPox : iStory
 {
     public iStoryPox() { }
     // Pox causes every player EXCEPT the player who drew the card to lose 1 shield
-    public void execute(List<Player> players, Card storyCard, GameController game)
+    public void execute(List<Player> players, Card storyCard, Controller game)
     {
         if (players != null)
         {

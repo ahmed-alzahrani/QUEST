@@ -6,7 +6,7 @@ public class iStoryPlague : iStory
 {
     public iStoryPlague() { }
 
-    public void execute(List<Player> players, Card storyCard, GameController game)
+    public void execute(List<Player> players, Card storyCard, Controller game)
     {
         // implement Plague --> Drawer loses 2 shields if possible
         if (players != null)

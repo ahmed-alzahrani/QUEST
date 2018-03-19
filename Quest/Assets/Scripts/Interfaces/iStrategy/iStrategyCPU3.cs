@@ -7,7 +7,7 @@ public class iStrategyCPU3 : iStrategy
   public iStrategyCPU3(){}
 
   // This CPU will participate in a tournament if there are more than 2 bonus shields on offer.
-  public int participateInTourney(List<Player> players, int shields, GameController game)
+  public int participateInTourney(List<Player> players, int shields, Controller game)
   {
     if (shields > 2)
     {
@@ -45,7 +45,7 @@ public class iStrategyCPU3 : iStrategy
   }
 
   // This CPU sponsors a quest if EITHER of its two conditions are met.
-  public int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game)
+  public int sponsorQuest(List<Player> players, int stages, List<Card> hand, Controller game)
   {
     if (firstCondition(players, stages, hand) || secondCondition(hand, stages))
     {
@@ -218,7 +218,7 @@ public class iStrategyCPU3 : iStrategy
     return test;
   }
 
-  public int participateInQuest(int stages, List<Card> hand, GameController game)
+  public int participateInQuest(int stages, List<Card> hand, Controller game)
   {
     // this CPU will always elect to play in any Quest
     return 1;
@@ -302,7 +302,7 @@ public class iStrategyCPU3 : iStrategy
     return foeEncounter;
   }
 
-  public int willIBid(int currentBid, List<Card> hand, int round, GameController game)
+  public int willIBid(int currentBid, List<Card> hand, int round, Controller game)
   {
     // we play the bid and make the bid of that value if its greater than the current bid
     List<Card> bid = playBid(hand, round);
@@ -357,7 +357,7 @@ public class iStrategyCPU3 : iStrategy
     return strat.discardFoesForKing(hand);
   }
 
-  public int respondToPrompt(GameController game)
+  public int respondToPrompt(Controller game)
   {
     return 2;
   }

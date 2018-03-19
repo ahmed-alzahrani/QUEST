@@ -14,11 +14,13 @@ public class StoryDeckController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+        /*
       gameLogic = gameControl.GetComponent<GameController>();
       storyDeck = gameLogic.storyDeck;
       button = gameObject.GetComponent<Button>();
       button.onClick.AddListener(display);
-	}
+	    */
+    }
 
 	// Update is called once per frame
 	void Update ()

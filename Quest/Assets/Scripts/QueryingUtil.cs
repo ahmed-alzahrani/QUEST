@@ -7,7 +7,7 @@ public class QueryingUtil
     //util file for querying 
 
     //players over 12 cards 
-    public static void DiscardCards(GameController game)
+    public static void DiscardCards(Controller game)
     {
         if (game.userInput.discardPrompt.isActive)
         {
@@ -24,13 +24,13 @@ public class QueryingUtil
                     //get rid of those cards 
                     discards.Clear();
                     game.numIterations++;
-                    game.UpdatePlayerTurn();
+                    UIUtil.UpdatePlayerTurn(game);
 
                     while (!game.players[game.currentPlayerIndex].handCheck() && game.numIterations < game.numPlayers)
                     {
                         //doesn't need to discard update turn
                         game.numIterations++;
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                     }
 
                     game.userInput.DeactivateDiscardPanel();
@@ -62,13 +62,13 @@ public class QueryingUtil
                         GameUtil.DiscardCards(game.adventureDeck , game.userInput.discardPrompt.selectedCards , game.adventureDeckDiscardPileUIButton);
 
                         game.numIterations++;
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
 
                         while (!game.players[game.currentPlayerIndex].handCheck() && game.numIterations < game.numPlayers)
                         {
                             //doesn't need to discard update turn
                             game.numIterations++;
-                            game.UpdatePlayerTurn();
+                            UIUtil.UpdatePlayerTurn(game);
                         }
 
                         game.userInput.DeactivateDiscardPanel();
@@ -81,7 +81,7 @@ public class QueryingUtil
     }
 
     //Asks user for input then builds initial game board
-    public static void PlayerSetup(GameController game)
+    public static void PlayerSetup(Controller game)
     {
         // do ui checks here then build board when done
         if (game.userInput.UIEnabled)
@@ -139,7 +139,7 @@ public class QueryingUtil
         }
     }
 
-    public static void QueryStrategies(GameController game)
+    public static void QueryStrategies(Controller game)
     {
         if (game.userInput.UIEnabled)
         {
@@ -189,7 +189,7 @@ public class QueryingUtil
     }
 
     //SOME CHANGES HERE FOR PARTICIPATE IN TOURNEY FUNCTION
-    public static void ParticipationCheck(string state , GameController game)
+    public static void ParticipationCheck(string state , Controller game)
     {
         if (game.userInput.UIEnabled)
         {
@@ -216,13 +216,13 @@ public class QueryingUtil
                         //skip if sponsoring
                         //this will help generalize participation in both tournamnets and quests
                         game.numIterations++;
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                     }
                     else if (participation == 0)
                     {
                         //not joining
                         game.players[game.currentPlayerIndex].participating = false; // just in case
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                         //game.populatePlayerBoard();
                         UIUtil.PopulatePlayerBoard(game);
                         game.userInput.DeactivateUI();
@@ -233,7 +233,7 @@ public class QueryingUtil
                     {
                         //joining
                         game.players[game.currentPlayerIndex].participating = true;
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                         //game.populatePlayerBoard();
                         UIUtil.PopulatePlayerBoard(game);
                         game.userInput.DeactivateUI();
@@ -251,7 +251,7 @@ public class QueryingUtil
     }
 
     //check if player wants to sponsor
-    public static void SponsorCheck(GameController game)
+    public static void SponsorCheck(Controller game)
     {
         //checking for sponsors
         if (game.userInput.UIEnabled)
@@ -278,7 +278,7 @@ public class QueryingUtil
                         Debug.Log("No");
                         // not sponsoring
 
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                         UIUtil.PopulatePlayerBoard(game);
                         game.userInput.DeactivateUI();
                         game.userInput.ActivateBooleanCheck("Do you want to Sponsor This Quest?");
@@ -333,7 +333,7 @@ public class QueryingUtil
     //query sponsor for his cards for the quest
     //IF SPONSOR ADDS NOTHING OR WE DO NOT
     //CHECK USER INPUT IF IT DOESN'T FIT INTO REQUIREMENTS END SPONSORSHIP AND END QUEST
-    public static void SponsorQuery(GameController game)
+    public static void SponsorQuery(Controller game)
     {
         if (game.userInput.UIEnabled)
         {
@@ -358,7 +358,7 @@ public class QueryingUtil
                         // break we are done here
                         game.numIterations = 5;
                         game.userInput.DeactivateUI();
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                         UIUtil.PopulatePlayerBoard(game);
                     }
                     else if (game.userInput.cardPrompt.doneAddingCards)
@@ -372,7 +372,7 @@ public class QueryingUtil
                 else
                 {
                     game.userInput.DeactivateUI();
-                    game.UpdatePlayerTurn();
+                    UIUtil.UpdatePlayerTurn(game);
                     UIUtil.PopulatePlayerBoard(game);
 
                     Debug.Log("all cards have been selected");
@@ -394,7 +394,7 @@ public class QueryingUtil
     }
 
     //NEEDS FIXING TO ADD SHIELDS AND BASE BP AND ADD A STRING TO USE BOTH QUEST AND TOURNAMENTS
-    public static void CardQuerying(string state , GameController game)
+    public static void CardQuerying(string state , Controller game)
     {
         if (game.userInput.UIEnabled)
         {
@@ -430,7 +430,7 @@ public class QueryingUtil
                         //this will help generalize querying in both tournaments and quests
                         game.numIterations++;
                         game.queriedCards[game.currentPlayerIndex] = null;
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
 
                     }
                     else if (game.userInput.cardPrompt.doneAddingCards)
@@ -439,7 +439,7 @@ public class QueryingUtil
                         game.queriedCards[game.currentPlayerIndex] = new List<Card>(game.userInput.cardPrompt.selectedCards);
                         game.userInput.DeactivateUI();
                         game.numIterations++;
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                         UIUtil.PopulatePlayerBoard(game);
                         game.userInput.ActivateCardUIPanel("What AMOUR , ALLY , OR WEAPON CARDS do you want to use?");
                     }
@@ -449,7 +449,7 @@ public class QueryingUtil
                         game.queriedCards[game.currentPlayerIndex] = new List<Card>(result);
                         game.userInput.DeactivateUI();
                         game.numIterations++;
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                         UIUtil.PopulatePlayerBoard(game);
                         game.userInput.ActivateCardUIPanel("What AMOUR , ALLY , OR WEAPON CARDS do you want to use?");
                     }

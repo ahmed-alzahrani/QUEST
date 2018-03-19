@@ -160,7 +160,7 @@ public class GameUtil
         }
     }
 
-    public static bool SponsorCapabilityCheck(GameController game)
+    public static bool SponsorCapabilityCheck(Controller game)
     {
         if (!SponsorCapabilitySoftCheck(game))
             return false;
@@ -170,7 +170,7 @@ public class GameUtil
             return false;
     }
 
-    public static bool SponsorCapabilitySoftCheck(GameController game)
+    public static bool SponsorCapabilitySoftCheck(Controller game)
     {
         int validStageCardsCount = 0;
         bool testInhand = false;
@@ -195,7 +195,7 @@ public class GameUtil
             return false;
     }
 
-    public static bool SponsorCapabilityHardCheck(GameController game)
+    public static bool SponsorCapabilityHardCheck(Controller game)
     {
         //Current number of possible valid stages that can be created.
         int validStageCardsCount = 0;
@@ -383,7 +383,7 @@ public class GameUtil
 
     //Checks to see if the number of unique BP's available to the
     //player is equal to or greater than the number of stages in the quest.
-    public static bool CVQP(int vSCC, int[] foeValues , GameController game)
+    public static bool CVQP(int vSCC, int[] foeValues , Controller game)
     {
 
         for (int i = 0; i < foeValues.Length; i++)
@@ -399,5 +399,4 @@ public class GameUtil
         else
             return false;
     }
-
 }

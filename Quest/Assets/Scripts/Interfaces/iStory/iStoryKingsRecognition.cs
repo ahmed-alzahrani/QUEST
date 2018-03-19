@@ -5,7 +5,7 @@ using UnityEngine;
 public class iStoryKingsRecognition : iStory
 {
     public iStoryKingsRecognition() { }
-    public void execute(List<Player> players, Card storyCard, GameController game)
+    public void execute(List<Player> players, Card storyCard, Controller game)
     {
         // implement King's Recongition
         if (players != null)

@@ -27,7 +27,7 @@ public class QuestState
 
 public class iStoryQuest : iStory
 {
-    public void execute(List<Player> players, Card storyCard, GameController game)
+    public void execute(List<Player> players, Card storyCard, Controller game)
     {
         //FIND A SPONSOR FOR THE QUEST 
         if (QuestState.state == "FindingSponsor")
@@ -78,7 +78,7 @@ public class iStoryQuest : iStory
                     if (ValidQuest())
                     {
                         QuestState.state = "CheckingForParticipants";
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                         game.userInput.DeactivateUI();
                         game.userInput.ActivateBooleanCheck("Participate in the QUEST?");
                     }
@@ -286,7 +286,7 @@ public class iStoryQuest : iStory
                         {
                             //doesn't need to discard update turn
                             game.numIterations++;
-                            game.UpdatePlayerTurn();
+                            UIUtil.UpdatePlayerTurn(game);
                         }
                         game.userInput.ActivateDiscardCheck("You need to Discard " + (players[game.currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
                     }
@@ -307,7 +307,7 @@ public class iStoryQuest : iStory
         }
     }
 
-    public void EndQuest(GameController game)
+    public void EndQuest(Controller game)
     {
 
         int numDrawCount = 0;
@@ -376,7 +376,7 @@ public class iStoryQuest : iStory
             {
                 //doesn't need to discard update turn
                 game.numIterations++;
-                game.UpdatePlayerTurn();
+                UIUtil.UpdatePlayerTurn(game);
             }
 
             game.userInput.ActivateDiscardCheck("You need to Discard " + (game.players[game.currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
@@ -385,7 +385,7 @@ public class iStoryQuest : iStory
         game.isDoneStoryEvent = true;
     }
 
-    public void DrawForStageStart(GameController game)
+    public void DrawForStageStart(Controller game)
     {
         for (int i = 0; i < game.numPlayers; i++)
         {
@@ -423,7 +423,7 @@ public class iStoryQuest : iStory
     }
 
 
-    public void TestQuery(GameController game)
+    public void TestQuery(Controller game)
     {
         if (game.userInput.UIEnabled)
         {
@@ -431,7 +431,7 @@ public class iStoryQuest : iStory
             {
                 if (game.players[game.currentPlayerIndex].sponsoring || !game.players[game.currentPlayerIndex].participating)
                 {
-                    game.UpdatePlayerTurn();
+                    UIUtil.UpdatePlayerTurn(game);
                 }
                 else
                 {
@@ -440,7 +440,7 @@ public class iStoryQuest : iStory
                     if (aiBid == 0)
                     {
                         game.players[game.currentPlayerIndex].participating = false;
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                         //game.populatePlayerBoard();
                         UIUtil.PopulatePlayerBoard(game);
                         game.userInput.DeactivateUI();
@@ -499,7 +499,7 @@ public class iStoryQuest : iStory
                     {
 
                         game.players[game.currentPlayerIndex].participating = false;
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                         //game.populatePlayerBoard();
                         UIUtil.PopulatePlayerBoard(game);
                         game.userInput.DeactivateUI();
@@ -510,7 +510,7 @@ public class iStoryQuest : iStory
         }
     }
 
-    public void DiscardCards(GameController game)
+    public void DiscardCards(Controller game)
     {
         if (game.userInput.UIEnabled)
         {
@@ -702,7 +702,7 @@ public class iStoryQuest : iStory
     }
 
 
-    public void InvalidQuestPrompt(GameController game)
+    public void InvalidQuestPrompt(Controller game)
     {
         if (game.userInput.UIEnabled)
         {

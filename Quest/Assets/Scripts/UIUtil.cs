@@ -36,7 +36,7 @@ public class UIUtil
     }
 
     //return certain cards to a player's hand 
-    public static void ReturnToPlayerHand(Player player, List<Card> cards , GameController game)
+    public static void ReturnToPlayerHand(Player player, List<Card> cards , Controller game)
     {
         //add userInput selected hand back to player
         for (int i = 0; i < cards.Count; i++)
@@ -76,7 +76,7 @@ public class UIUtil
     }
 
     //Calculate player's bp points for a quest or tournament
-    public static void PopulatePlayerBPS(GameController game)
+    public static void PopulatePlayerBPS(Controller game)
     {
         //sets up player BPS for quests tourneys etc .... and returns them back when done check current event and quest and tourney
         for (int i = 0; i < game.players.Count; i++)
@@ -153,7 +153,7 @@ public class UIUtil
     }
 
     //add cards to quest
-    public static void PopulateQuestBoard(GameController game , bool faceUp)
+    public static void PopulateQuestBoard(Controller game , bool faceUp)
     {
         EmptyPanel(game.questStagePanel);
         game.questStageBPTotal.text = "";
@@ -180,7 +180,7 @@ public class UIUtil
         }
     }
 
-    public static void CalculateUIPlayerInfo(GameController game)
+    public static void CalculateUIPlayerInfo(Controller game)
     {
         //might need a function in player that calculates the BP at any time
         for (int i = 0; i < game.players.Count; i++)
@@ -198,7 +198,7 @@ public class UIUtil
     }
 
     //adds ui elements to game board of current player
-    public static void PopulatePlayerBoard(GameController game)
+    public static void PopulatePlayerBoard(Controller game)
     {
         //using current player once we setup player turn change will update this
         EmptyPanel(game.handPanel);
@@ -228,7 +228,7 @@ public class UIUtil
     }
 
     //initializes player information and hands
-    public static List<Player> CreatePlayers(GameController game, List<string> humanNames, List<string> cpuNames)
+    public static List<Player> CreatePlayers(Controller game, List<string> humanNames, List<string> cpuNames)
     {
         List<Player> myPlayers;
         myPlayers = new List<Player>();
@@ -286,11 +286,26 @@ public class UIUtil
     }
 
     //to be called by players to setup rank and shields
-    public static void SetRankCardUI(GameController game)
+    public static void SetRankCardUI(Controller game)
     {
         game.rankCard.myCard = game.players[game.currentPlayerIndex].rankCard;
         game.rankCard.ChangeTexture();
         game.UIShieldNum.text = ": " + game.players[game.currentPlayerIndex].score;
+    }
+
+    //checks for cycles will occur elsewhere or maybe later
+    //updates turn to go to next turn
+    public static void UpdatePlayerTurn(Controller game)
+    {
+        game.playerPanels[game.currentPlayerIndex].GetComponent<Outline>().enabled = false;
+
+        //modify the value of the current player index to use the player array
+        if (game.currentPlayerIndex >= game.numPlayers - 1) { game.currentPlayerIndex = 0; }
+        else { game.currentPlayerIndex++; }
+
+        //resetup ui messages
+        CalculateUIPlayerInfo(game);
+        PopulatePlayerBoard(game);
     }
 
 }

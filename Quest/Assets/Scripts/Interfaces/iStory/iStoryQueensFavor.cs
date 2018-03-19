@@ -5,7 +5,7 @@ using UnityEngine;
 public class iStoryQueensFavor : iStory
 {
     public iStoryQueensFavor() { }
-    public void execute(List<Player> players, Card storyCard, GameController game)
+    public void execute(List<Player> players, Card storyCard, Controller game)
     {
         // implement Queen's Favor
         if (players != null)
@@ -47,7 +47,7 @@ public class iStoryQueensFavor : iStory
             {
                 //doesn't need to discard update turn
                 game.numIterations++;
-                game.UpdatePlayerTurn();
+                UIUtil.UpdatePlayerTurn(game);
             }
             game.userInput.ActivateDiscardCheck("You need to Discard " + (game.players[game.currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
         }

@@ -13,7 +13,7 @@ public class TournamentState
 
 public class iStoryTournament : iStory
 {
-    public void execute(List<Player> player, Card storyCard, GameController game)
+    public void execute(List<Player> player, Card storyCard, Controller game)
     {
         //Ally cards on field do not matter !!!!!!! so only player rank and what he adds in
         if (TournamentState.state == "Participation" && TournamentState.tourneyRound == 1)
@@ -228,7 +228,7 @@ public class iStoryTournament : iStory
                     {
                         //doesn't need to discard update turn
                         game.numIterations++;
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                     }
 
                     game.userInput.ActivateDiscardCheck("You need to Discard " + (game.players[game.currentPlayerIndex].hand.Count - 12).ToString() + " Cards");

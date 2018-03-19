@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface iStory
 {
-    void execute(List<Player> players, Card storyCard, GameController game);
+    void execute(List<Player> players, Card storyCard, Controller game);
 }

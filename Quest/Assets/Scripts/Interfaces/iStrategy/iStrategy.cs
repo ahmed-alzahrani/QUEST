@@ -5,12 +5,12 @@ using UnityEngine;
 public interface iStrategy
 {
     //tournament strategy
-    int participateInTourney(List<Player> players, int shields, GameController gameController);
-    int participateInQuest(int stages, List<Card> hand, GameController game);
+    int participateInTourney(List<Player> players, int shields, Controller game);
+    int participateInQuest(int stages, List<Card> hand, Controller game);
     List<Card> playTournament(List<Player> players, List<Card> hand, int baseBP, int shields);
 
     // Quest Strategy
-    int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game);
+    int sponsorQuest(List<Player> players, int stages, List<Card> hand, Controller game);
     List<List<Card>> setupQuest(int stages, List<Card> hand, string questFoe);
     List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe, int prev);
     List<Card> setupTestStage(List<Card> hand);
@@ -18,7 +18,7 @@ public interface iStrategy
 
 
     // Test strategy
-    int willIBid(int currentBid, List<Card> hand, int round, GameController game);
+    int willIBid(int currentBid, List<Card> hand, int round, Controller game);
     List<Card> playBid(List<Card> hand, int round);
 
     // additonal stratgy to be added includes:
@@ -31,7 +31,7 @@ public interface iStrategy
 
 
     //Called when there is a binary resposne required from the player
-    int respondToPrompt(GameController game);
+    int respondToPrompt(Controller game);
 
     List<Card> fixHandDiscrepancy(List<Card> hand);
 }

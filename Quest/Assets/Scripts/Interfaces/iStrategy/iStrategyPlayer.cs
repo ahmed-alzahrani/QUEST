@@ -9,7 +9,7 @@ public class iStrategyPlayer : iStrategy
 
 
     // Tournament Strategy
-    public int participateInTourney(List<Player> players, int shields, GameController gameController)
+    public int participateInTourney(List<Player> players, int shields, Controller gameController)
     {
         //check the yes / No buttons
         if (gameController.userInput.booleanPrompt.buttonResult == "Yes")
@@ -39,7 +39,7 @@ public class iStrategyPlayer : iStrategy
 
 
     // Quest Strategy
-    public int sponsorQuest(List<Player> players, int stages, List<Card> hand, GameController game)
+    public int sponsorQuest(List<Player> players, int stages, List<Card> hand, Controller game)
     {
         // its the same for players
         return participateInTourney(players, 0, game);
@@ -63,7 +63,7 @@ public class iStrategyPlayer : iStrategy
         // get the test card with the highest bid test card in the hand
     }
 
-    public int participateInQuest(int stages, List<Card> hand, GameController game)
+    public int participateInQuest(int stages, List<Card> hand, Controller game)
     {
         return participateInTourney(null, 0, game);
     }
@@ -76,7 +76,7 @@ public class iStrategyPlayer : iStrategy
 
     // Test Strategy
 
-    public int willIBid(int currentBid, List<Card> hand, int round, GameController game)
+    public int willIBid(int currentBid, List<Card> hand, int round, Controller game)
     {
         return -1;
     }
@@ -102,7 +102,7 @@ public class iStrategyPlayer : iStrategy
 
 
     //Called when there is a binary resposne required from the player
-    public int respondToPrompt(GameController game)
+    public int respondToPrompt(Controller game)
     {
         //check the yes / No buttons
         if (game.userInput.booleanPrompt.buttonResult == "Yes")

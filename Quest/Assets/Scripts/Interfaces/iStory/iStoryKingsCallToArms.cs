@@ -14,7 +14,7 @@ public class iStoryKingsCallToArms : iStory
 {
     public iStoryKingsCallToArms() { }
 
-    public void execute(List<Player> players, Card storyCard, GameController game)
+    public void execute(List<Player> players, Card storyCard, Controller game)
     {
         // implement iEventKingsCallToArmss
         if (EventState.state == "Setup")
@@ -75,8 +75,9 @@ public class iStoryKingsCallToArms : iStory
     }
 
     //change this to go through the right order using current Player Index will still be fine since we go through all players
-    public List<int> getHighestPlayers(GameController game)
+    public List<int> getHighestPlayers(Controller game)
     {
+
         //get highest rank
         int highest = getHighest(game.players);
         List<int> highestPlayers = new List<int>();
@@ -90,7 +91,7 @@ public class iStoryKingsCallToArms : iStory
                 highestPlayers.Add(game.currentPlayerIndex);
             }
 
-            game.UpdatePlayerTurn();
+            UIUtil.UpdatePlayerTurn(game);
             game.numIterations++;
         }
 
@@ -106,7 +107,7 @@ public class iStoryKingsCallToArms : iStory
     }
 
     //decides for current player what he needs to discard
-    public void DecideDiscards(GameController game)
+    public void DecideDiscards(Controller game)
     {
         int numFoes = 0;
         //reset bools for next players
@@ -138,7 +139,7 @@ public class iStoryKingsCallToArms : iStory
     }
 
     //querying for discards
-    public void DiscardQuery(GameController game)
+    public void DiscardQuery(Controller game)
     {
         //almost all the input checks occur here        
         if (game.userInput.UIEnabled)
@@ -152,13 +153,13 @@ public class iStoryKingsCallToArms : iStory
                     {
                         //MIGHT NEED TO BE FIXEDDD!!
                         game.numIterations++;
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                     }
                     //if he is not the highest or he is but doesn't have proper cards to discard go to next player  
                     else if (game.currentPlayerIndex != EventState.highestRankedPlayers[0] || (!EventState.discardTwoFoes && !EventState.discardWeapons))
                     {
                         //player shouldn't need to discard
-                        game.UpdatePlayerTurn();
+                        UIUtil.UpdatePlayerTurn(game);
                         game.numIterations++;
                         DecideDiscards(game);
 
@@ -185,7 +186,7 @@ public class iStoryKingsCallToArms : iStory
                             //game.DiscardAdvenureCards(result);
                             GameUtil.DiscardCards(game.adventureDeck , result , game.adventureDeckDiscardPileUIButton);
                             EventState.highestRankedPlayers.RemoveAt(0);
-                            game.UpdatePlayerTurn();
+                            UIUtil.UpdatePlayerTurn(game);
                             //decide discards for next player 
                             DecideDiscards(game);
                             game.numIterations++;
@@ -212,7 +213,7 @@ public class iStoryKingsCallToArms : iStory
                                     GameUtil.DiscardCards(game.adventureDeck, game.userInput.cardPrompt.selectedCards, game.adventureDeckDiscardPileUIButton);
 
                                     EventState.highestRankedPlayers.RemoveAt(0);
-                                    game.UpdatePlayerTurn();
+                                    UIUtil.UpdatePlayerTurn(game);
                                     //decide discards for next player 
                                     DecideDiscards(game);
                                     game.numIterations++;
@@ -251,7 +252,7 @@ public class iStoryKingsCallToArms : iStory
                                     GameUtil.DiscardCards(game.adventureDeck, game.userInput.cardPrompt.selectedCards, game.adventureDeckDiscardPileUIButton);
 
                                     EventState.highestRankedPlayers.RemoveAt(0);
-                                    game.UpdatePlayerTurn();
+                                    UIUtil.UpdatePlayerTurn(game);
                                     //decide discards for next player 
                                     DecideDiscards(game);
                                     game.numIterations++;

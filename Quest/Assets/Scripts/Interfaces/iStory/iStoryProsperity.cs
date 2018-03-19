@@ -5,7 +5,7 @@ using UnityEngine;
 public class iStoryProsperity : iStory
 {
     public iStoryProsperity() { }
-    public void execute(List<Player> players, Card storyCard, GameController game)
+    public void execute(List<Player> players, Card storyCard, Controller game)
     {
         // implement Propserity Throughout the Realm
         // All players immediately draw 2 adventure cards
@@ -30,7 +30,7 @@ public class iStoryProsperity : iStory
             {
                 //doesn't need to discard update turn
                 game.numIterations++;
-                game.UpdatePlayerTurn();
+                UIUtil.UpdatePlayerTurn(game);
             }
             game.userInput.ActivateDiscardCheck("You need to Discard " + (game.players[game.currentPlayerIndex].hand.Count - 12).ToString() + " Cards");
         }

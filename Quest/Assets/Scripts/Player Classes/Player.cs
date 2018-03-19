@@ -21,7 +21,7 @@ public class Player
     public bool participating = false;
     public bool sponsoring = false;
     public string shieldPath;
-    public GameController gameController;
+    public Controller gameController;
 
     //member functions
     public Player(string playerName, List<Card> startingHand, iStrategy strat, string shieldPth = "", int knight = 5, int champKnight = 12, int knightOfTheRoundTable = 22)
