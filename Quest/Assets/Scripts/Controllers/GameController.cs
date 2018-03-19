@@ -61,6 +61,7 @@ public class GameController : MonoBehaviour
     public GameObject weaponPanel;
     public GameObject amourPanel;
     public GameObject activatedPanel;
+    public GameObject cheatPanel;
 
     // player panels UI names bp number of cards ranks etc...
     public List<GameObject> playerPanels;
@@ -234,6 +235,8 @@ public class GameController : MonoBehaviour
         questStagePanel = GameObject.FindGameObjectWithTag("QuestStageCards");
         amourPanel = GameObject.FindGameObjectWithTag("AmourCards");
         activatedPanel = GameObject.FindGameObjectWithTag("ActivatedCard");
+        cheatPanel = GameObject.FindGameObjectWithTag("CheatPanel");
+        cheatPanel.SetActive(false);
 
         //UI building
         userInput.SetupUI();
@@ -838,6 +841,47 @@ public class GameController : MonoBehaviour
         else
         {
             return result;
+        }
+    }
+
+    public void CheatPanelToggle()
+    {
+        Debug.Log("Well it's being called");
+        if (GameUtil.CheckSponsorship(players) >= 0 && GameUtil.CheckParticipation(players) > 0)
+        {
+            Debug.Log("Well it's being called2");
+            if (!cheatPanel.activeSelf)
+            {
+                Debug.Log("Well it's being called3");
+
+                cheatPanel.SetActive(true);
+                int cheatPanelStageNumber = System.Int32.Parse(cheatPanel.transform.Find("CheatStageNumber").GetComponent<Text>().text.Substring(6)) + 1;
+
+                cheatPanel.transform.Find("CheatStageNumber").GetComponent<Text>().text = "STAGE " + (cheatPanelStageNumber);
+                cheatPanel.transform.Find("CheatCardsInStage").GetComponent<Text>().text = "CARDS IN STAGE " + QuestState.stages[cheatPanelStageNumber].Count;
+
+            }
+            else
+            {
+                int cheatPanelStageNumber = System.Int32.Parse(cheatPanel.transform.Find("CheatStageNumber").GetComponent<Text>().text.Substring(6));
+
+                if (cheatPanelStageNumber >= QuestState.currentQuest.stages)
+                {
+                    cheatPanel.SetActive(false);
+                    cheatPanel.transform.Find("CheatStageNumber").GetComponent<Text>().text = "STAGE " + 0;
+                    cheatPanel.transform.Find("CheatCardsInStage").GetComponent<Text>().text = "CARDS IN STAGE " + 0;
+
+                }
+                else
+                {
+                    cheatPanel.transform.Find("CheatStageNumber").GetComponent<Text>().text = "STAGE " + (cheatPanelStageNumber + 1);
+                    cheatPanel.transform.Find("CheatCardsInStage").GetComponent<Text>().text = "CARDS IN STAGE " + QuestState.stages[cheatPanelStageNumber].Count;
+
+
+                }
+
+
+            }
         }
     }
 
