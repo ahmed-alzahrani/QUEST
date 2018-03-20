@@ -11,7 +11,7 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
     private bool faceDown;
     private Button button;
     private PreviewCardScript previewButton;
-    public GameController gameController;
+    public Controller gameController;
     public Card myCard;
     public bool isHandCard;
    
@@ -50,7 +50,7 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
         // If we have a card from our hand 
         // this might change
         //maybe check for certain cards like mordred 
-        if (isHandCard && gameController.userInput.cardPrompt.isActive || gameController.userInput.discardPrompt.isActive)
+        if (isHandCard && (gameController.userInput.cardPrompt.isActive || gameController.userInput.discardPrompt.isActive))
         {
             // you can check gameState either here or gameController or both
             // add selected card then destroy the UI gameObject

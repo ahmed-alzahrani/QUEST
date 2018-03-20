@@ -136,7 +136,6 @@ public class NetworkController : Controller
         //Store gameBoard panels
         questPanel = GameObject.FindGameObjectWithTag("QuestCard");
         handPanel = GameObject.FindGameObjectWithTag("CurrentHand");
-        allyPanel = GameObject.FindGameObjectWithTag("AllyCards");
         weaponPanel = GameObject.FindGameObjectWithTag("WeaponCards");
         questStagePanel = GameObject.FindGameObjectWithTag("QuestStageCards");
         amourPanel = GameObject.FindGameObjectWithTag("AmourCards");
@@ -475,7 +474,8 @@ public class NetworkController : Controller
                 AllyCard ally = (AllyCard)selectedCard;
                 players[currentPlayerIndex].activeAllies.Add(ally);
                 players[currentPlayerIndex].hand.Remove(selectedCard);
-                UIUtil.AddCardToPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab), allyPanel);
+                //NEEDS TO BE CHANGED
+                UIUtil.AddCardToPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab), playerAllyPanels[currentPlayerIndex]);
             }
             else
             {
@@ -526,7 +526,8 @@ public class NetworkController : Controller
                 AllyCard ally = (AllyCard)selectedCard;
                 players[currentPlayerIndex].activeAllies.Add(ally);
                 players[currentPlayerIndex].hand.Remove(selectedCard);
-                UIUtil.AddCardToPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab), allyPanel);
+                //NEEDS TO BE CHANGED
+                UIUtil.AddCardToPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab), playerAllyPanels[currentPlayerIndex]);
             }
             else
             {

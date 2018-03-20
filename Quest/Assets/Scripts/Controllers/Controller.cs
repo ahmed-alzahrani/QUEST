@@ -30,13 +30,13 @@ public abstract class Controller : MonoBehaviour
     public GameObject handPanel;
     public GameObject questPanel;
     public GameObject questStagePanel;
-    public GameObject allyPanel;
     public GameObject weaponPanel;
     public GameObject amourPanel;
     public GameObject activatedPanel;
 
     // player panels UI names bp number of cards ranks etc...
     public List<GameObject> playerPanels;
+    public List<GameObject> playerAllyPanels;
     public List<Text> UINames;
     public List<Text> UIBPS;
     public List<Text> UINumCards;

@@ -22,6 +22,8 @@ using System.IO;
 //TO DO LIST:
 //MERLIN MAYBE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+//GO TO MORDRED CHECK
+
 //Shield names CHANGEEEEEE         DONNNEEEEEEEEEE 
 //REDO DISCARDING                  DONNNEEEEEEEEEE
 //CHECK REPOPULATION OF DECKS      DONNNEEEEEEEEEE 
@@ -136,7 +138,6 @@ public class GameController : Controller
         //Store gameBoard panels
         questPanel = GameObject.FindGameObjectWithTag("QuestCard");
         handPanel = GameObject.FindGameObjectWithTag("CurrentHand");
-        allyPanel = GameObject.FindGameObjectWithTag("AllyCards");
         weaponPanel = GameObject.FindGameObjectWithTag("WeaponCards");
         questStagePanel = GameObject.FindGameObjectWithTag("QuestStageCards");
         amourPanel = GameObject.FindGameObjectWithTag("AmourCards");
@@ -460,7 +461,7 @@ public class GameController : Controller
                 AllyCard ally = (AllyCard)selectedCard;
                 players[currentPlayerIndex].activeAllies.Add(ally);
                 players[currentPlayerIndex].hand.Remove(selectedCard);
-                UIUtil.AddCardToPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab), allyPanel);
+                UIUtil.AddCardToPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab) , playerAllyPanels[currentPlayerIndex]);
             }
             else
             {
@@ -511,7 +512,7 @@ public class GameController : Controller
                 AllyCard ally = (AllyCard)selectedCard;
                 players[currentPlayerIndex].activeAllies.Add(ally);
                 players[currentPlayerIndex].hand.Remove(selectedCard);
-                UIUtil.AddCardToPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab), allyPanel);
+                UIUtil.AddCardToPanel(UIUtil.CreateUIElement(selectedCard, cardPrefab), playerAllyPanels[currentPlayerIndex]);
             }
             else
             {

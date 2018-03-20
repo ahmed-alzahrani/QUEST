@@ -195,6 +195,7 @@ public class UIUtil
         PopulatePlayerBPS(game);
 
         game.playerPanels[game.currentPlayerIndex].GetComponent<Outline>().enabled = true;
+        game.playerAllyPanels[game.currentPlayerIndex].GetComponent<Outline>().enabled = true;
     }
 
     //adds ui elements to game board of current player
@@ -202,7 +203,12 @@ public class UIUtil
     {
         //using current player once we setup player turn change will update this
         EmptyPanel(game.handPanel);
-        EmptyPanel(game.allyPanel);
+
+        //empty all ally panels
+        for (int i = 0; i < game.playerAllyPanels.Count; i++)
+        {
+            EmptyPanel(game.playerAllyPanels[i]);
+        }
 
         Player myPlayer = game.players[game.currentPlayerIndex];
 
@@ -211,7 +217,6 @@ public class UIUtil
 
         //shield cards
         game.shieldsCard.myCard = new RankCard(null, null, myPlayer.shieldPath, 0);
-        Debug.Log(myPlayer.shieldPath);
         game.shieldsCard.ChangeTexture();
 
         //Setup Hand
@@ -220,10 +225,14 @@ public class UIUtil
             AddCardToPanel(CreateUIElement(myPlayer.hand[i] , game.cardPrefab), game.handPanel);
         }
 
-        //Setup Ally cards
-        for (int i = 0; i < myPlayer.activeAllies.Count; i++)
+        //Setup all Ally cards
+        for (int j = 0; j < game.players.Count; j++)
         {
-            AddCardToPanel(CreateUIElement(myPlayer.activeAllies[i] , game.cardPrefab), game.allyPanel);
+            for (int i = 0; i < game.players[j].activeAllies.Count; i++)
+            {
+                Debug.Log("adding active allies");
+                AddCardToPanel(CreateUIElement(game.players[j].activeAllies[i], game.cardPrefab), game.playerAllyPanels[j]);
+            }
         }
     }
 
@@ -241,6 +250,7 @@ public class UIUtil
             game.shieldPaths.RemoveAt(shield);       //Each player has unique shields
             myPlayer.gameController = game;
             game.playerPanels[i].SetActive(true);    //add a ui panel for each player
+            game.playerAllyPanels[i].SetActive(true);
             myPlayers.Add(myPlayer);
         }
 
@@ -258,9 +268,8 @@ public class UIUtil
             if (game.cpuStrategies[i] == 1) { newPlayer = new Player("CPU" + (i + 1).ToString(), GameUtil.DrawFromDeck(game.adventureDeck, 12), new iStrategyCPU1(), game.shieldPaths[shield]); }
             else { newPlayer = new Player("CPU" + (i + 1).ToString(), GameUtil.DrawFromDeck(game.adventureDeck, 12), new iStrategyCPU2(), game.shieldPaths[shield]); }
 
-            //newPlayer = new Player("CPU" + (i + 1).ToString(), DrawFromDeck(adventureDeck, 12), new iStrategyCPU1(), shieldPaths[shield]);
-
             game.playerPanels[i + game.numHumanPlayers].SetActive(true);    //add a ui panel for each player
+            game.playerAllyPanels[i].SetActive(true);
             game.shieldPaths.RemoveAt(shield); //Each player has unique shields
             myPlayers.Add(newPlayer);
         }
@@ -298,6 +307,8 @@ public class UIUtil
     public static void UpdatePlayerTurn(Controller game)
     {
         game.playerPanels[game.currentPlayerIndex].GetComponent<Outline>().enabled = false;
+        game.playerAllyPanels[game.currentPlayerIndex].GetComponent<Outline>().enabled = false;
+
 
         //modify the value of the current player index to use the player array
         if (game.currentPlayerIndex >= game.numPlayers - 1) { game.currentPlayerIndex = 0; }
