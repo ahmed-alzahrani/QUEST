@@ -33,6 +33,7 @@ public abstract class Controller : MonoBehaviour
     public GameObject weaponPanel;
     public GameObject amourPanel;
     public GameObject activatedPanel;
+    public GameObject cheatPanel;
 
     // player panels UI names bp number of cards ranks etc...
     public List<GameObject> playerPanels;
