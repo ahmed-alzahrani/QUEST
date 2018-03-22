@@ -164,7 +164,6 @@ public class NetworkController : Controller
     {
         if (!foundWinner)
         {
-            //MAYBEEEEEE!!!!!
             // MORDRED CHECK 
             MordredCheck();
 
@@ -210,21 +209,6 @@ public class NetworkController : Controller
 
 
     /* FUNCTIONS BASED ON THIS GAME */
-
-    //checks for cycles will occur elsewhere or maybe later
-    //updates turn to go to next turn
-    public void UpdatePlayerTurn()
-    {
-        playerPanels[currentPlayerIndex].GetComponent<Outline>().enabled = false;
-
-        //modify the value of the current player index to use the player array
-        if (currentPlayerIndex >= numPlayers - 1) { currentPlayerIndex = 0; }
-        else { currentPlayerIndex++; }
-
-        //resetup ui messages
-        UIUtil.CalculateUIPlayerInfo(this);
-        UIUtil.PopulatePlayerBoard(this);
-    }
 
     public void DrawFromAdventureDeck()
     {
@@ -431,7 +415,7 @@ public class NetworkController : Controller
             drawStoryCard = true;
             GameUtil.ToggleDeckAnimation(storyDeckUIButton, drawStoryCard);
             userInput.DeactivateUI(); // just in case
-            UpdatePlayerTurn();       // go to next turn
+            UIUtil.UpdatePlayerTurn(this);       // go to next turn
 
             return true;
         }

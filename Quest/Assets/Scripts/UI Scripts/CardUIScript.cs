@@ -27,8 +27,14 @@ public class CardUIScript : MonoBehaviour , IPointerEnterHandler
 
         // Store preview Card
         previewButton = GameObject.FindGameObjectWithTag("PreviewCard").GetComponent<PreviewCardScript>();
+
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        if (gameController == null)
+        {
+            gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<NetworkController>();
+        }
     }
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {
