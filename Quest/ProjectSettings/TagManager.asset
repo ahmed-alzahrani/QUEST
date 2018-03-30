@@ -18,6 +18,7 @@ TagManager:
   - RankCard
   - AdventureDiscard
   - StoryDiscard
+  - LobbyPlayer
   layers:
   - Default
   - TransparentFX

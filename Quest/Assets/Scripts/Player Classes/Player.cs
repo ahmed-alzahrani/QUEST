@@ -22,9 +22,10 @@ public class Player
     public bool sponsoring = false;
     public string shieldPath;
     public Controller gameController;
+    public UnityEngine.Networking.NetworkIdentity connection;
 
     //member functions
-    public Player(string playerName, List<Card> startingHand, iStrategy strat, string shieldPth = "", int knight = 5, int champKnight = 12, int knightOfTheRoundTable = 22)
+    public Player(string playerName, List<Card> startingHand, iStrategy strat, string shieldPth = "", int knight = 5, int champKnight = 12, int knightOfTheRoundTable = 22, UnityEngine.Networking.NetworkIdentity connect = null)
     {
         name = playerName;
         score = 0;
@@ -42,6 +43,7 @@ public class Player
         knightScore = knight;
         champKnightScore = champKnight;
         kotrkScore = knightOfTheRoundTable;
+        connection = connect;
     }
 
     public Player() { }
@@ -259,5 +261,16 @@ public class Player
         }
       }
       return false;
+    }
+
+    public void display()
+    {
+      Debug.Log(name);
+      if (connection == null)
+      {
+        Debug.Log("The connection is null, this is a CPU player.");
+      } else {
+        Debug.Log(connection.netId);
+      }
     }
 }
