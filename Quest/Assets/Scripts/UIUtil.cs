@@ -282,42 +282,42 @@ public class UIUtil
 
     public static List<Player> CreateNetworkPlayers(Controller game, GameObject[] humanPlayers)
     {
+        int humans = humanPlayers.Length;
+        List<Player> myPlayers;
+        myPlayers = new List<Player>();
 
-      int humans = humanPlayers.Length;
-      List<Player> myPlayers;
-      myPlayers = new List<Player>();
+        // create human players (set up their references and give them a hand)
+        for(int i = 0; i < humans; i++)
+        {
+            int shield = Random.Range(0, game.shieldPaths.Count - 1);
+            string name = humanPlayers[i].GetComponent<Prototype.NetworkLobby.LobbyPlayer>().playerName;
+            UnityEngine.Networking.NetworkIdentity connect = humanPlayers[i].GetComponent<UnityEngine.Networking.NetworkIdentity>();
+            Player myPlayer = new Player(name, new List<Card>(), new iStrategyPlayer(), game.shieldPaths[shield], 5, 12, 22, connect);
+            game.shieldPaths.RemoveAt(shield);       //Each player has unique shields
+            myPlayer.gameController = game;
+            game.playerPanels[i].SetActive(true);    //add a ui panel for each player
+            game.playerAllyPanels[i].SetActive(true);
+            myPlayers.Add(myPlayer);
+        }
 
-      // create human players (set up their references and give them a hand)
-      for(int i = 0; i < humans; i++)
-      {
-        int shield = Random.Range(0, game.shieldPaths.Count - 1);
-        string name = humanPlayers[i].GetComponent<Prototype.NetworkLobby.LobbyPlayer>().playerName;
-        UnityEngine.Networking.NetworkIdentity connect = humanPlayers[i].GetComponent<UnityEngine.Networking.NetworkIdentity>();
-        Player myPlayer = new Player(name, new List<Card>(), new iStrategyPlayer(), game.shieldPaths[shield], 5, 12, 22, connect);
-        game.shieldPaths.RemoveAt(shield);       //Each player has unique shields
-        myPlayer.gameController = game;
-        game.playerPanels[i].SetActive(true);    //add a ui panel for each player
-        game.playerAllyPanels[i].SetActive(true);
-        myPlayers.Add(myPlayer);
-      }
+        // create the CPU players depending on the number of human players
+        int cpus = 4 - humans;
+        for (int i = 0; i < cpus; i++)
+        {
+            int shield = Random.Range(0, game.shieldPaths.Count - 1);
+            Player newPlayer;
+            newPlayer = new Player("CPU" + (i + 1).ToString(), new List<Card>(), new iStrategyCPU2(), game.shieldPaths[shield]);
+            game.playerPanels[i + game.numHumanPlayers].SetActive(true);    //add a ui panel for each player
+            game.playerAllyPanels[i].SetActive(true);
+            game.shieldPaths.RemoveAt(shield); //Each player has unique shields
+            myPlayers.Add(newPlayer);
 
-      // create the CPU players depending on the number of human players
-      int cpus = 4 - humans;
-      for (int i = 0; i < cpus; i++)
-      {
-        int shield = Random.Range(0, game.shieldPaths.Count - 1);
-        Player newPlayer;
-        newPlayer = new Player("CPU" + (i + 1).ToString(), new List<Card>(), new iStrategyCPU2(), game.shieldPaths[shield]);
-        game.playerPanels[i + game.numHumanPlayers].SetActive(true);    //add a ui panel for each player
-        game.playerAllyPanels[i].SetActive(true);
-        game.shieldPaths.RemoveAt(shield); //Each player has unique shields
-        myPlayers.Add(newPlayer);
+        }
 
-      }
-      //create a queried cards array
-      game.queriedCards = new List<Card>[game.numPlayers];
-      game.sponsorQueriedCards = new List<Card>[5];
-      return myPlayers;
+        //create a queried cards array
+        game.queriedCards = new List<Card>[game.numPlayers];
+        game.sponsorQueriedCards = new List<Card>[5];
+        return myPlayers;
     }
 
     //Create a UI element for cards

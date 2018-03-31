@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class Player
 {
-
     //member variables
     public string name { get; set; }
     public int score { get; set; }
@@ -253,24 +252,27 @@ public class Player
 
     public bool hasAlly(string Ally)
     {
-      for (int i = 0; i < activeAllies.Count; i++)
-      {
-        if (activeAllies[i].name == Ally)
+        for (int i = 0; i < activeAllies.Count; i++)
         {
-          return true;
+            if (activeAllies[i].name == Ally)
+            {
+                return true;
+            }
         }
-      }
-      return false;
+        return false;
     }
 
     public void display()
     {
-      Debug.Log(name);
-      if (connection == null)
-      {
-        Debug.Log("The connection is null, this is a CPU player.");
-      } else {
-        Debug.Log(connection.netId);
-      }
+        Debug.Log(name);
+
+        if (connection == null)
+        {
+            Debug.Log("The connection is null, this is a CPU player.");
+        }
+        else
+        {
+            Debug.Log(connection.netId);
+        }
     }
 }

@@ -6,39 +6,51 @@ using System.IO;
 
 public class NetworkController : Controller
 {
-  public Prototype.NetworkLobby.LobbyPlayer lobbyGuy;
-  public UnityEngine.Networking.NetworkIdentity playerId;
-  public GameObject[] lobbyGuys;
-  public List<Player> otherPlayers;
+    public Prototype.NetworkLobby.LobbyPlayer lobbyGuy;
+    public UnityEngine.Networking.NetworkIdentity playerId;
+
+    public GameObject[] lobbyGuys;
+    public List<Player> otherPlayers;
+    public List<UnityEngine.Networking.NetworkIdentity> playerIds;
 
     // Use this for initialization
     void Start()
     {
+        lobbyGuy =  GameObject.FindGameObjectWithTag("LobbyPlayer").GetComponent<Prototype.NetworkLobby.LobbyPlayer>();
+        playerId =  GameObject.FindGameObjectWithTag("LobbyPlayer").GetComponent<UnityEngine.Networking.NetworkIdentity>();
 
-      Debug.Log("HELLO!!!!!!!!!!!!!!!!!");
+        lobbyGuys = GameObject.FindGameObjectsWithTag("LobbyPlayer");
 
+        //store the player's ids to knw where our server is 
+        for (int i = 0; i < lobbyGuys.Length; i++)
+        {
+            playerIds.Add(lobbyGuys[i].GetComponent<UnityEngine.Networking.NetworkIdentity>());
+        }
 
-      lobbyGuy =  GameObject.FindGameObjectWithTag("LobbyPlayer").GetComponent<Prototype.NetworkLobby.LobbyPlayer>();
-      playerId =  GameObject.FindGameObjectWithTag("LobbyPlayer").GetComponent<UnityEngine.Networking.NetworkIdentity>();
+        Debug.Log(lobbyGuy.playerName);
+        Debug.Log(playerId.playerControllerId);
 
-      lobbyGuys = GameObject.FindGameObjectsWithTag("LobbyPlayer");
+        if (playerId.isServer)
+        {
+            Debug.Log("He is a server!");
+        }
 
-      Debug.Log(lobbyGuy.playerName);
-      Debug.Log(playerId.playerControllerId);
-      if (playerId.isServer)
-      {
-        Debug.Log("He is a server!");
-      }
+        if (playerId.isClient)
+        {
+            Debug.Log("He is a client!");
+        }
 
-      if (playerId.isClient)
-      {
-        Debug.Log("He is a client!");
-      }
+        Debug.Log("The length of the array of players is...");
+        Debug.Log(lobbyGuys.Length);
 
-      Debug.Log("The length of the array of players is...");
-      Debug.Log(lobbyGuys.Length);
-
-
+        //if i am a client do not create a deck and do not run this script at all
+        for (int i = 0; i < playerIds.Count; i++)
+        {
+            if (playerIds[i].isLocalPlayer && !playerIds[i].isServer)
+            {
+                return;
+            }
+        }
 
         //setup game variables
     
@@ -167,7 +179,7 @@ public class NetworkController : Controller
 
         for (int i = 0; i < otherPlayers.Count; i++)
         {
-          otherPlayers[i].display();
+            otherPlayers[i].display();
         }
     }
 
@@ -175,6 +187,21 @@ public class NetworkController : Controller
     //player discard piles for over 12 cards and etc...
     void Update()
     {
+
+        for (int i = 0; i < playerIds.Count; i++)
+        {
+            if (playerIds[i].isLocalPlayer && !playerIds[i].isServer)
+            {
+                Debug.LogError("Player " + i + "is a client");
+                return;
+            }
+            else
+            {
+                Debug.LogError("here");
+            }
+
+        }
+
         if (!foundWinner)
         {
             // MORDRED CHECK
@@ -218,5 +245,41 @@ public class NetworkController : Controller
             //Check for yes or no and repeat game (go back to main menu)
             if (userInput.booleanPrompt.buttonResult != "") { SceneManager.LoadScene("MainMenu", LoadSceneMode.Single); }
         }
+    }
+
+    //TO SEND CARDS TO PLAYERS
+    //get cards as strings and then send them to players
+    public List<string> EncryptCards(List<Card> cards) 
+    {
+        List<string> cardPaths = new List<string>();
+
+        for (int i = 0; i < cards.Count; i++)
+        {
+            cardPaths.Add(cards[i].texturePath);
+        }
+
+        return cardPaths;
+    }
+
+    //TO RECEIVE CARDS FROM PLAYERS
+    //so we receive the player that sent the cards and the indeces of the cards he sent and get the actual cards from him
+    public List<Card> DecryptCards(Player player , List<int> cardIndeces)
+    {
+        List<Card> cards = new List<Card>();
+
+        for (int i = 0; i < cardIndeces.Count; i++)
+        {
+            //add card
+            cards.Add(player.hand[cardIndeces[i]]);
+        }
+
+        for (int i = 0; i < cardIndeces.Count; i++)
+        {
+            //remove cards from hand
+            player.hand.RemoveAt(cardIndeces[i]);
+        }
+
+        cardIndeces.Clear();
+        return cards;
     }
 }
