@@ -326,7 +326,7 @@ public class iStrategyCPU2 : iStrategy
         return (count >= 2);
     }
 
-    public List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour, string questName, List<Player> players)
+    public List<Card> playFoeEncounter(int stage, int stages, int numCardsInCurrentStage, List<Card> hand, int previous, bool amour, string questName, List<Player> players)
     {
         // if it is the final stage we play final foe (most powerful combination available)
         if (stage == stages)
