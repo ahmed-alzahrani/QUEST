@@ -330,7 +330,7 @@ public class iStrategyCPU1 : iStrategy
         return (count >= 2);
     }
 
-    public List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour, string questName, List<Player> players)
+    public List<Card> playFoeEncounter(int stage, int stages, int numCardsInCurrentStage, List<Card> hand, int previous, bool amour, string questName, List<Player> players)
     {
         if (stage == stages)
         {
