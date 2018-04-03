@@ -225,7 +225,7 @@ public class iStrategyCPU3 : iStrategy
   }
 
 
-  public List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour, string questName, List<Player> players)
+  public List<Card> playFoeEncounter(int stage, int stages, int numCardsInCurrentStage, List<Card> hand, int previous, bool amour, string questName, List<Player> players)
   {
     // we check if if its the final stage or not and prepare differently
     if (stage == stages)
