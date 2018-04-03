@@ -389,7 +389,7 @@ public class iStrategyCPU2Test{
     players.Add(player1);
 
 
-    List<Card> cards = player1.strategy.playFoeEncounter(4, 4, player1.hand, 10, false, "", players);
+    List<Card> cards = player1.strategy.playFoeEncounter(4, 4,-1 /*Add Fixed Number of Cards For This Stage*/ , player1.hand, 10, false, "", players);
 
     // player should play their strongest hand, this means more than 2 cards, should play the Lance, 1 Excalibur, the dagger, the horse, and Gaiwan
 
@@ -420,7 +420,7 @@ public class iStrategyCPU2Test{
     player1.hand.Add(new AmourCard("Amour Card", "Amour", "texture", 1, 10));
     players.Add(player1);
 
-    List<Card> cards = player1.strategy.playFoeEncounter(4, 4, player1.hand, 10, true, "", players);
+    List<Card> cards = player1.strategy.playFoeEncounter(4, 4,-1 /*Add Fixed Number of Cards For This Stage*/ , player1.hand, 10, true, "", players);
 
     Assert.AreEqual(5, cards.Count);
     Assert.AreEqual(cards[0].name, "Lance");

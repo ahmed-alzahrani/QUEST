@@ -498,7 +498,7 @@ public class iStrategyCPU1Test{
         player1.hand.Add(new WeaponCard("Weapon Card", "Battle-Axe", "Textures/weapons/battle-ax", 15));
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 30, 30));
 
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, false, "questName", new List<Player>());
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, -1 /*Add Fixed Number of Cards For This Stage*/ , player1.hand, 0, false, "questName", new List<Player>());
 
         /*
         We can assert that:
@@ -523,7 +523,7 @@ public class iStrategyCPU1Test{
         player1.hand.Add(new WeaponCard("Weapon Card", "Battle-Axe", "Textures/weapons/battle-ax", 15));
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 30, 30));
 
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true, "questName", new List<Player>());
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6,-1 /*Add Fixed Number of Cards For This Stage*/ , player1.hand, 0, true, "questName", new List<Player>());
 
         /*
         We can assert that:
@@ -550,7 +550,7 @@ public class iStrategyCPU1Test{
         player1.hand.Add(new WeaponCard("Weapon Card", "Battle-Axe", "Textures/weapons/battle-ax", 15));
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 30, 30));
 
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true, "questName", new List<Player>());
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6,-1 /*Add Fixed Number of Cards For This Stage*/ , player1.hand, 0, true, "questName", new List<Player>());
 
         /*
         We can assert that:
@@ -576,7 +576,7 @@ public class iStrategyCPU1Test{
         player1.hand.Add(new WeaponCard("Weapon Card", "Sword", "textures/weapons/sword", 10));
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 30, 30));
 
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true, "questName", new List<Player>());
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6,-1 /*Add Fixed Number of Cards For This Stage*/ , player1.hand, 0, true, "questName", new List<Player>());
 
         /*
         We can assert that:
@@ -601,7 +601,7 @@ public class iStrategyCPU1Test{
         player1.hand.Add(new WeaponCard("Weapon Card", "Battle-Axe", "Textures/weapons/battle-ax", 15));
         player1.hand.Add(new FoeCard("Foe Card", "Mordred", "Textures/foe/mordred", 30, 30));
 
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true, "questName", new List<Player>());
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6,-1 /*Add Fixed Number of Cards For This Stage*/ , player1.hand, 0, true, "questName", new List<Player>());
 
         Assert.AreEqual(foeEncounter.Count, 1);
         Assert.AreEqual(foeEncounter[0].name, "Battle-Axe");
@@ -613,7 +613,7 @@ public class iStrategyCPU1Test{
   public void playFoeEncounter_EarlierFoe_NoCards()
   {
         Player player1 = new Player("Ahmed", new List<Card>(), new iStrategyCPU1());
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6, player1.hand, 0, true, "questName", new List<Player>());
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(1, 6,-1 /*Add Fixed Number of Cards For This Stage*/ ,player1.hand, 0, true, "questName", new List<Player>());
         Assert.AreEqual(0, foeEncounter.Count);
     }
 
@@ -631,7 +631,7 @@ public class iStrategyCPU1Test{
         player1.hand.Add(new AllyCard("Ally Card", "Merlin", "Textures/Ally/merlin", 0, 0, "Player may preview any 1 stage per Quest", "", "", 0, 0, new NoBuff()));
         player1.hand.Add(new AllyCard("Ally Card", "Sir Gaiwan", " ", 10, 0, "some effect", "", "", 0, 0, new NoBuff()));
 
-        List<Card> foeEncounter = player1.strategy.playFoeEncounter(6, 6, player1.hand, 0, true, "questName", new List<Player>());
+        List<Card> foeEncounter = player1.strategy.playFoeEncounter(6, 6,-1 /*Add Fixed Number of Cards For This Stage*/ , player1.hand, 0, true, "questName", new List<Player>());
 
         // player should play their strongest hand, this means more than 2 cards, should play the Lance, 1 Excalibur, the dagger, the horse, and Gaiwan
 
