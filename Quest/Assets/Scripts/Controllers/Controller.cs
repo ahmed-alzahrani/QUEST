@@ -626,13 +626,10 @@ public abstract class Controller : MonoBehaviour
 
     public void CheatPanelToggle()
     {
-        Debug.Log("Well it's being called");
         if (GameUtil.CheckSponsorship(players) >= 0 && GameUtil.CheckParticipation(players) > 0)
         {
-            Debug.Log("Well it's being called2");
             if (!cheatPanel.activeSelf)
             {
-                Debug.Log("Well it's being called3");
 
                 cheatPanel.SetActive(true);
                 int cheatPanelStageNumber = System.Int32.Parse(cheatPanel.transform.Find("StageNumber").GetComponent<Text>().text.Substring(6)) + 1;

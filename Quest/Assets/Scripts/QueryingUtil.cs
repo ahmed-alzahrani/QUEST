@@ -416,11 +416,11 @@ public class QueryingUtil
                             // foe encounter stuff here
                             if (QuestState.amours != null && QuestState.amours[game.currentPlayerIndex] != null)
                             {
-                                result = game.players[game.currentPlayerIndex].strategy.playFoeEncounter(QuestState.currentStage, game.currentQuest.stages, game.players[game.currentPlayerIndex].hand, QuestState.previousQuestBP, QuestState.amours[game.currentPlayerIndex].Count == 1, game.currentQuest.name, game.players);
+                                result = game.players[game.currentPlayerIndex].strategy.playFoeEncounter(QuestState.currentStage, game.currentQuest.stages, QuestState.stages[QuestState.currentStage].Count, game.players[game.currentPlayerIndex].hand, QuestState.previousQuestBP, QuestState.amours[game.currentPlayerIndex].Count == 1, game.currentQuest.name, game.players);
                             }
                             else
                             {
-                                result = game.players[game.currentPlayerIndex].strategy.playFoeEncounter(QuestState.currentStage, game.currentQuest.stages, game.players[game.currentPlayerIndex].hand, QuestState.previousQuestBP, false, game.currentQuest.name, game.players);
+                                result = game.players[game.currentPlayerIndex].strategy.playFoeEncounter(QuestState.currentStage, game.currentQuest.stages, QuestState.stages[QuestState.currentStage].Count, game.players[game.currentPlayerIndex].hand, QuestState.previousQuestBP, false, game.currentQuest.name, game.players);
                             }
                         }
                     }

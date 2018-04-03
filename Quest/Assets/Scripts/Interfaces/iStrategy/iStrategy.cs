@@ -14,7 +14,7 @@ public interface iStrategy
     List<List<Card>> setupQuest(int stages, List<Card> hand, string questFoe);
     List<Card> setupFoeStage(int currentStage, int stages, List<Card> hand, string questFoe, int prev);
     List<Card> setupTestStage(List<Card> hand);
-    List<Card> playFoeEncounter(int stage, int stages, List<Card> hand, int previous, bool amour, string questName, List<Player> players);
+    List<Card> playFoeEncounter(int stage, int stages, int numCardsInCurrentStage, List<Card> hand, int previous, bool amour, string questName, List<Player> players);
 
 
     // Test strategy
