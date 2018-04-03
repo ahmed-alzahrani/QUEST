@@ -68,15 +68,10 @@ public class iStrategyPlayer : iStrategy
         return participateInTourney(null, 0, game);
     }
 
-    public List<Card> playFoeEncounter(int stage, int stages, int numCardsInCurrentStage, List<Card> hand, int previous, bool amour, string questName, List<Player> players)
+    public List<Card> \Encounter(int stage, int stages, int numCardsInCurrentStage, List<Card> hand, int previous, bool amour, string questName, List<Player> players)
      {
          return null;
      }
-
-    {
-        return null;
-    }
-
 
     // Test Strategy
 
