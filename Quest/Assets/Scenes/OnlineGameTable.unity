@@ -232,6 +232,7 @@ GameObject:
   m_Component:
   - component: {fileID: 10073658}
   - component: {fileID: 10073657}
+  - component: {fileID: 10073659}
   m_Layer: 0
   m_Name: NetworkController
   m_TagString: GameController
@@ -359,6 +360,11 @@ MonoBehaviour:
   cardsStory: []
   mordredControllerBeta: 
   mordCurr: 0
+  lobbyGuy: {fileID: 0}
+  playerId: {fileID: 0}
+  lobbyGuys: []
+  playerIds: []
+  waitingOnClient: 0
 --- !u!4 &10073658
 Transform:
   m_ObjectHideFlags: 0
@@ -372,6 +378,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &10073659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 10073656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 1
+  m_LocalPlayerAuthority: 0
 --- !u!1 &41063937
 GameObject:
   m_ObjectHideFlags: 0
@@ -2996,7 +3034,7 @@ Prefab:
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -35
       objectReference: {fileID: 0}
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
@@ -6533,7 +6571,7 @@ Prefab:
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -175
       objectReference: {fileID: 0}
     - target: {fileID: 224588671612672692, guid: a13ae9810b215f94196ac108285197ef,
         type: 2}

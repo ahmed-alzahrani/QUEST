@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4046330117579534}
   - component: {fileID: 114143243214260754}
+  - component: {fileID: 114064727381511196}
   m_Layer: 0
   m_Name: PlayerConnectionObject
   m_TagString: Untagged
@@ -33,13 +34,60 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1636946470335198}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1.8238455, y: -6.186984, z: 11.739274}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114064727381511196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636946470335198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba9ecce65e041e41b139331538b0a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: 0
+  handCount: 0
+  BP: 0
+  playerRank: 
+  knightScore: 0
+  champKnightScore: 0
+  kotrkScore: 0
+  participating: 0
+  sponsoring: 0
+  shieldPath: 
+  gameController: {fileID: 0}
+  shieldsCard: {fileID: 0}
+  rankUICard: {fileID: 0}
+  UIShieldNum: {fileID: 0}
+  handPanel: {fileID: 0}
+  questPanel: {fileID: 0}
+  questStagePanel: {fileID: 0}
+  weaponPanel: {fileID: 0}
+  amourPanel: {fileID: 0}
+  activatedPanel: {fileID: 0}
+  cheatPanel: {fileID: 0}
+  playerPanels: []
+  playerAllyPanels: []
+  UINames: []
+  UIBPS: []
+  UINumCards: []
+  UIRanks: []
+  UIShields: []
+  questStageNumber: {fileID: 0}
+  questStageBPTotal: {fileID: 0}
+  adventureDeckUIButton: {fileID: 0}
+  adventureDeckDiscardPileUIButton: {fileID: 0}
+  storyDeckUIButton: {fileID: 0}
+  storyDeckDiscardPileUIButton: {fileID: 0}
+  rankDeckUIButton: {fileID: 0}
+  playerUICards: []
 --- !u!114 &114143243214260754
 MonoBehaviour:
   m_ObjectHideFlags: 1

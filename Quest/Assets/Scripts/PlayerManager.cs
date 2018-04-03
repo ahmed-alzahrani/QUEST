@@ -2,22 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-
-/* SyncVars: variables u want the server to change (they are sent back by the server back to the clients)
-   * Hook: allows u to call a function when a sync var variable changes in value
- * Command: attribute that lets functions run on the server by sending a command to the server (function names need to start with Cmd)
- * Client: attribute for functions that are run only by clients (it is a redundancy of clientRpc) 
- * ClientRPC: attribute for functions that allows running client functions on a server
- * TargetRPC: same as clientRpc but can only be run on one client and not all ready clients
- */
+using UnityEngine.Networking.NetworkSystem;
+using UnityEngine.UI;
 
 public class PlayerManager : NetworkBehaviour
 {
     [SyncVar]
     int networkId;
 
-    [SyncVar]
-    public string name;
+
+    //public string name;
 
     [SyncVar]
     public int score;
@@ -45,13 +39,50 @@ public class PlayerManager : NetworkBehaviour
     public string shieldPath;
     public Controller gameController;
 
-    //each player probably has his own board to hold cards on 
 
+    //UI information of each player
+    public CardUIScript shieldsCard;
+    public CardUIScript rankUICard;
+    public Text UIShieldNum;
+    public GameObject handPanel;
+    public GameObject questPanel;
+    public GameObject questStagePanel;
+    public GameObject weaponPanel;
+    public GameObject amourPanel;
+    public GameObject activatedPanel;
+    public GameObject cheatPanel;
+
+    // player panels UI names bp number of cards ranks etc...
+    public List<GameObject> playerPanels;
+    public List<GameObject> playerAllyPanels;
+    public List<Text> UINames;
+    public List<Text> UIBPS;
+    public List<Text> UINumCards;
+    public List<Text> UIRanks;
+    public List<Text> UIShields;
+
+    //Quest data
+    public Text questStageNumber;
+    public Text questStageBPTotal;
+
+    // deck UI information
+    public GameObject adventureDeckUIButton;
+    public CardUIScript adventureDeckDiscardPileUIButton;  //to change image here for discard pile
+    public GameObject storyDeckUIButton;
+    public CardUIScript storyDeckDiscardPileUIButton;      //to change image here for discard pile
+    public Button rankDeckUIButton;
+
+    public List<GameObject> playerUICards;  //its gonna have almost entirely ui features 
+
+    public NetworkClient client;
 
     // Use this for initialization
-    void Awake()
+    void Start()
     {
         networkId = 0;
+
+        // no idea testing out some shit
+        
     }
 
     // Update is called once per frame
@@ -59,21 +90,68 @@ public class PlayerManager : NetworkBehaviour
     {
         if (!isLocalPlayer) { return; }
 
-        handCount = hand.Count;     
-        playerRank = rankCard.name;
+        connectionToServer.RegisterHandler(MsgType.Highest, HandleServerRequest);
+
+        //send a message to the server
+        //SendMessage("");
+
+        //handCount = hand.Count;     
+        //playerRank = rankCard.name;
+        if (!isServer)
+        {
+            SendMessageToServer("");
+        }
+        else
+        {
+            Debug.Log("server attempting to send stuff");
+        }
     }
 
 
-    //give player id and info to create a player here
+    public override void OnStartServer()
+    {
+        // when we connect to the server setup handlers
+        //connectionToClient.RegisterHandler(MsgType.Highest, ReceiveMessage);
+    }
+
+    //give player an id and info to create a player
+
     public void SetupPlayer(int id)
     {
         //player's id for the server
         networkId = id;
 
         //all the attributes we need to setup a player
+
+    }
+
+    //sending a message from client to server (this will change)
+    public void SendMessageToServer(string msg)
+    {
+        ClientMessage message = new ClientMessage();
+
+        message.message = "hows it going bruh";
+
+        if (connectionToServer != null)
+        {
+            connectionToServer.Send(MsgType.Highest, message);
+        }
+        else
+        {
+            Debug.Log("we have no connection to the server!!!!");
+        }
     }
 
     //player server commands here
 
+    public void HandleServerRequest(NetworkMessage message)
+    {
+        Debug.Log("general messages here!!");
 
+        //we are receiving server messages
+        var msg = message.ReadMessage<ServerMessage>();
+
+        //print out the message
+        Debug.Log(msg.message);
+    }
 }

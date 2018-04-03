@@ -2,29 +2,74 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
+using UnityEngine.Networking.NetworkSystem;
 using System.IO;
+
+
+//ADD A NETWORK IDENTITY TO THE NETWORK CONTROLLER AND SET IT TO BE SERVER ONLY
+//Also mention sandboxie
+
+/* 
+ * SyncVars: variables u want the server to change (they are sent back by the server back to the clients)
+   * Hook: allows u to call a function when a sync var variable changes in value
+ * Command: attribute that lets functions run on the server by sending a command to the server (function names need to start with Cmd)
+ * Client: attribute for functions that are run only by clients (it is a redundancy of clientRpc) 
+ * ClientRPC: attribute for functions that allows running client functions on a server
+ * TargetRPC: same as clientRpc but can only be run on one client and not all ready clients
+*/
+
+// create our own messages
+
+//client messages
+public class ClientMessage : MessageBase
+{
+    public string message;
+    public enum messageType { CARDS , INT , BOOL , UI}; // type of message to be sent by user (this will be changed)
+    public string name;                            // assuming that it is unique for the moment !!!
+}
+
+//server messages
+public class ServerMessage : MessageBase
+{
+    public string message;
+    public enum messageType { CARDS, INT, BOOL };    // type of message to be sent by user
+    //public string name;                            // assuming that it is unique for the moment
+}
 
 public class NetworkController : Controller
 {
     public Prototype.NetworkLobby.LobbyPlayer lobbyGuy;
-    public UnityEngine.Networking.NetworkIdentity playerId;
+    public NetworkIdentity playerId;
 
+    //player information
     public GameObject[] lobbyGuys;
     public List<Player> otherPlayers;
-    public List<UnityEngine.Networking.NetworkIdentity> playerIds;
+    public List<NetworkIdentity> playerIds;
+
+    private NetworkManager server;
+    public bool waitingOnClient;
 
     // Use this for initialization
     void Start()
     {
+        waitingOnClient = false;
+
+        //no idea what msgType.Highest does but iam using it anyway
+        NetworkServer.RegisterHandler(MsgType.Highest, HandleClientRequest);
+
         lobbyGuy =  GameObject.FindGameObjectWithTag("LobbyPlayer").GetComponent<Prototype.NetworkLobby.LobbyPlayer>();
-        playerId =  GameObject.FindGameObjectWithTag("LobbyPlayer").GetComponent<UnityEngine.Networking.NetworkIdentity>();
+        playerId =  GameObject.FindGameObjectWithTag("LobbyPlayer").GetComponent<NetworkIdentity>();
 
         lobbyGuys = GameObject.FindGameObjectsWithTag("LobbyPlayer");
+
+        Debug.Log("ppl in lobby" + lobbyGuys.Length);
 
         //store the player's ids to knw where our server is 
         for (int i = 0; i < lobbyGuys.Length; i++)
         {
-            playerIds.Add(lobbyGuys[i].GetComponent<UnityEngine.Networking.NetworkIdentity>());
+            playerIds.Add(lobbyGuys[i].GetComponent<NetworkIdentity>());
+            Debug.Log("player ids" + lobbyGuys[i].GetComponent<NetworkIdentity>().netId.Value);
         }
 
         Debug.Log(lobbyGuy.playerName);
@@ -46,15 +91,12 @@ public class NetworkController : Controller
         //if i am a client do not create a deck and do not run this script at all
         for (int i = 0; i < playerIds.Count; i++)
         {
-            if (playerIds[i].isLocalPlayer && !playerIds[i].isServer)
-            {
-                return;
-            }
+            if (playerIds[i].isLocalPlayer && !playerIds[i].isServer) { return; }
         }
 
         //setup game variables
-    
         // Game Variables like this need to become syncVars, so that they sync up across all clients to retain game state?
+
         shieldPaths = new List<string> { "Textures/Backings/Blue", "Textures/Backings/Green", "Textures/Backings/Red", "Textures/Backings/Gold" };
         isSettingUpGame = true;
         currentPlayerIndex = 0;
@@ -82,7 +124,7 @@ public class NetworkController : Controller
         storyDeck = decks.buildStoryDeck();
         adventureDeck = decks.buildAdventureDeck();
 
-
+        /*
         //uncomment here for different scenarios
         Debug.Log(Directory.GetCurrentDirectory());
         //cards = File.ReadAllLines(Directory.GetCurrentDirectory() + "/Assets/Resources/TextAssets/Scenarios/Scenario1/Scenario1Adventure.txt");
@@ -142,6 +184,7 @@ public class NetworkController : Controller
 
         storyDeck.deck.Clear();
         storyDeck.deck = tempDeck;
+        */
 
         //Setup UI buttons for cards (event listeners etc....)
         adventureDeckUIButton.GetComponent<Button>().onClick.AddListener(DrawFromAdventureDeck);
@@ -187,21 +230,24 @@ public class NetworkController : Controller
     //player discard piles for over 12 cards and etc...
     void Update()
     {
-
+        
         for (int i = 0; i < playerIds.Count; i++)
         {
+            //send a message
+            if (playerIds[i].isServer && !waitingOnClient)
+            {
+                Debug.Log("sending message");
+                SendMessageToClient(true);
+            }
+
             if (playerIds[i].isLocalPlayer && !playerIds[i].isServer)
             {
-                Debug.LogError("Player " + i + "is a client");
+                Debug.Log("Player " + i + "is a client");
                 return;
             }
-            else
-            {
-                Debug.LogError("here");
-            }
-
         }
 
+        /*
         if (!foundWinner)
         {
             // MORDRED CHECK
@@ -233,6 +279,7 @@ public class NetworkController : Controller
                 //End discard state
                 CheckDiscardPhase();
             }
+
             //Calculate player info
             UIUtil.CalculateUIPlayerInfo(this);
             //Get winners here
@@ -245,6 +292,7 @@ public class NetworkController : Controller
             //Check for yes or no and repeat game (go back to main menu)
             if (userInput.booleanPrompt.buttonResult != "") { SceneManager.LoadScene("MainMenu", LoadSceneMode.Single); }
         }
+        */
     }
 
     //TO SEND CARDS TO PLAYERS
@@ -261,6 +309,7 @@ public class NetworkController : Controller
         return cardPaths;
     }
 
+    /*
     //TO RECEIVE CARDS FROM PLAYERS
     //so we receive the player that sent the cards and the indeces of the cards he sent and get the actual cards from him
     public List<Card> DecryptCards(Player player , List<int> cardIndeces)
@@ -279,7 +328,55 @@ public class NetworkController : Controller
             player.hand.RemoveAt(cardIndeces[i]);
         }
 
+        //just in case
         cardIndeces.Clear();
         return cards;
+    }
+    */
+
+    //THIS ONE IS BETTER (needs to be fixed)
+    //Alternate deserializing function
+    public List<Card> DecryptCards(Player player , List<string> receivedCards)
+    {
+        List<Card> cards = new List<Card>();
+
+        // go through hands and find cards using their textures
+        for (int i = 0; i < receivedCards.Count; i++)
+        {
+            for (int j = 0; j < player.hand.Count; j++)
+            {
+                if (receivedCards[i] == player.hand[j].texturePath)
+                {
+                    cards.Add(player.hand[j]);
+                    player.hand.RemoveAt(j);
+                    //j--;
+                    break;
+                }
+            }
+        } 
+
+        return cards;
+    }
+
+    public void HandleClientRequest(NetworkMessage message)
+    {
+        //get a client message see which client sent the info and work accordingly
+
+        var clientMessage = message.ReadMessage<ClientMessage>();
+        Debug.Log(clientMessage.message);
+    }
+
+    //send messages to clients
+    public void SendMessageToClient(bool waitOnClient)
+    {
+        ServerMessage msg = new ServerMessage();
+        msg.message = "hello";
+
+        //send to client and send to all i think is what we need here
+        //NetworkServer.SendToClient(otherPlayers[0].connection.connectionToClient.connectionId , MsgType.Highest , msg);
+        NetworkServer.SendToAll(MsgType.Highest , msg);
+
+        //check whether we want to wait for a user response 
+        waitingOnClient = waitOnClient;
     }
 }
