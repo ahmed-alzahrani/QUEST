@@ -3,8 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.IO;
+using UnityEngine.Networking;
 
-public abstract class Controller : MonoBehaviour
+public abstract class Controller : NetworkBehaviour
 {
     public deckBuilder decks;
     public Deck storyDeck;
@@ -409,7 +410,7 @@ public abstract class Controller : MonoBehaviour
                 bool removed = userInput.CheckDiscardCard(selectedCard);
                 if (removed)
                 {
-                    //add card back to player 
+                    //add card back to player
                     players[currentPlayerIndex].hand.Add(selectedCard);
                     UIUtil.PopulatePlayerBoard(this);
                 }
@@ -458,7 +459,7 @@ public abstract class Controller : MonoBehaviour
             }
             else if (selectedCard.type == "Amour Card")
             {
-                //check for any amours already played 
+                //check for any amours already played
                 if (!GameUtil.AnyAmours(TournamentState.undiscardedCards[currentPlayerIndex]))
                 {
                     addToPanel = true;
@@ -557,7 +558,7 @@ public abstract class Controller : MonoBehaviour
                 else if (selectedCard.type == "Amour Card")
                 {
                     //MAYBEEEEEE NEEEEEEDDSSSSSSS A CHANGEEEEE
-                    //check for any amours already played 
+                    //check for any amours already played
                     if (!GameUtil.AnyAmours(QuestState.amours[currentPlayerIndex]))
                     {
                         addToPanel = true;
@@ -567,7 +568,7 @@ public abstract class Controller : MonoBehaviour
                         addToPanel = false;
                     }
 
-                    //check for amours played at this instance 
+                    //check for amours played at this instance
                     for (int i = 0; i < userInput.cardPrompt.selectedCards.Count; i++)
                     {
                         if (userInput.cardPrompt.selectedCards[i].type == "Amour Card")
