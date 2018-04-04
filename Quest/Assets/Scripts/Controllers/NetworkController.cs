@@ -68,36 +68,38 @@ public class NetworkController : Controller
         Debug.Log("Printing out the child count of lobby manager");
         Debug.Log(lobbyManager.transform.childCount);
 
-        for (int i = 0; i < lobbyManager.transform.childCount; i++){
-          if (lobbyManager.transform.GetChild(i).gameObject.tag == "LobbyPanel"){
-
-            Transform secondChild = lobbyManager.transform.GetChild(i);
-
-            for(int j =0; j < secondChild.childCount; j++)
+        for (int i = 0; i < lobbyManager.transform.childCount; i++)
+        {
+            if (lobbyManager.transform.GetChild(i).gameObject.tag == "LobbyPanel")
             {
-              if (secondChild.GetChild(j).gameObject.tag == "PlayerListSubPanel")
-              {
-                Transform thirdChild = secondChild.GetChild(j);
 
-                for (int w = 0; w < thirdChild.childCount; w++)
+                Transform secondChild = lobbyManager.transform.GetChild(i);
+
+                for (int j = 0; j < secondChild.childCount; j++)
                 {
-                    if(thirdChild.GetChild(w).gameObject.tag == "PlayerList")
+                    if (secondChild.GetChild(j).gameObject.tag == "PlayerListSubPanel")
                     {
-                      Transform fourthChild = thirdChild.GetChild(w);
+                        Transform thirdChild = secondChild.GetChild(j);
 
-                      for (int k = 0; k < fourthChild.childCount; k++)
-                      {
-                        if (fourthChild.GetChild(k).gameObject.tag == "LobbyPlayer")
+                        for (int w = 0; w < thirdChild.childCount; w++)
                         {
-                          otherLobbyGuys.Add(fourthChild.GetChild(k).gameObject);
-                          Debug.Log(fourthChild.GetChild(k).gameObject.name);
+                            if (thirdChild.GetChild(w).gameObject.tag == "PlayerList")
+                            {
+                                Transform fourthChild = thirdChild.GetChild(w);
+
+                                for (int k = 0; k < fourthChild.childCount; k++)
+                                {
+                                    if (fourthChild.GetChild(k).gameObject.tag == "LobbyPlayer")
+                                    {
+                                        otherLobbyGuys.Add(fourthChild.GetChild(k).gameObject);
+                                        Debug.Log(fourthChild.GetChild(k).gameObject.name);
+                                    }
+                                }
+                            }
                         }
-                      }
                     }
                 }
-              }
             }
-          }
         }
 
         Debug.Log(otherLobbyGuys.Count);
@@ -243,6 +245,7 @@ public class NetworkController : Controller
         }
 
 
+        /*
         for (int i = 0; i < otherPlayers.Count; i++){
           if (otherPlayers[i].connection){
             if (otherPlayers[i].connection.isServer){
@@ -253,6 +256,7 @@ public class NetworkController : Controller
           }
 
         }
+        */
     }
 
     //Update is called once per frame
@@ -312,7 +316,7 @@ public class NetworkController : Controller
         //only on server
         SendMessageToClient(true);
 
-
+            /*
         for (int i = 0; i < playerIds.Count; i++)
         {
             //send a message
@@ -328,7 +332,7 @@ public class NetworkController : Controller
                 return;
             }
         }
-
+        */
 
         /*
         if (!foundWinner)
@@ -458,7 +462,14 @@ public class NetworkController : Controller
         msg.message = "hello";
 
         //send to client and send to all i think is what we need here
-         // NetworkServer.SendToClient(otherPlayers[0].connection.connectionToClient.connectionId , MsgType.Highest , msg);
+        if (otherPlayers[1].connection.isServer)
+        {
+            NetworkServer.SendToClient(otherPlayers[1].connection.connectionToClient.connectionId, MsgType.Highest, msg);
+        }
+        else
+        {
+            NetworkServer.SendToClient(otherPlayers[1].connection.connectionToServer.connectionId, MsgType.Highest, msg);
+        }
 
         //check whether we want to wait for a user response
         waitingOnClient = waitOnClient;
@@ -479,8 +490,10 @@ public class NetworkController : Controller
         Debug.Log("SERVER sent message to CLIENT!!!!");
     }
 
+    /*
     [TargetRpc]
     public void TargetPrintName(NetworkConnection connection, Player player){
       Debug.Log("I think that your name is .... " + player.name);
     }
+    */
 }

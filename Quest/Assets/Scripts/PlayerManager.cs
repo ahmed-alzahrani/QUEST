@@ -80,12 +80,19 @@ public class PlayerManager : NetworkBehaviour
     {
         networkId = 0;
 
+        if (isServer)
+        {
+            connectionToClient.RegisterHandler(MsgType.Highest, HandleServerRequest);
+        }
+        else
+        {
+            connectionToServer.RegisterHandler(MsgType.Highest, HandleServerRequest);
+        }
         // no idea testing out some shit
     }
 
     public override void OnStartServer()
     {
-        connectionToClient.RegisterHandler(MsgType.Highest, HandleServerRequest);
     }
 
     // Update is called once per frame
@@ -94,7 +101,7 @@ public class PlayerManager : NetworkBehaviour
         if (!isLocalPlayer) { return; }
 
         //send a message to the server
-        //SendMessage("");
+        //SendMessageToServer("");
 
         //handCount = hand.Count;     
         //playerRank = rankCard.name;
