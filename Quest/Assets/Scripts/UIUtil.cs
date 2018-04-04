@@ -290,9 +290,11 @@ public class UIUtil
         for(int i = 0; i < humans; i++)
         {
             int shield = Random.Range(0, game.shieldPaths.Count - 1);
-            string name = humanPlayers[i].GetComponent<Prototype.NetworkLobby.LobbyPlayer>().playerName;
+            //string name = humanPlayers[i].GetComponent<Prototype.NetworkLobby.LobbyPlayer>().playerName;
             UnityEngine.Networking.NetworkIdentity connect = humanPlayers[i].GetComponent<UnityEngine.Networking.NetworkIdentity>();
-            Player myPlayer = new Player(name, new List<Card>(), new iStrategyPlayer(), game.shieldPaths[shield], 5, 12, 22, connect);
+            
+            //change this!!!!!
+            Player myPlayer = new Player("", GameUtil.DrawFromDeck(game.adventureDeck , 12), new iStrategyPlayer(), game.shieldPaths[shield], 5, 12, 22, connect);
             game.shieldPaths.RemoveAt(shield);       //Each player has unique shields
             myPlayer.gameController = game;
             game.playerPanels[i].SetActive(true);    //add a ui panel for each player
@@ -306,7 +308,7 @@ public class UIUtil
         {
             int shield = Random.Range(0, game.shieldPaths.Count - 1);
             Player newPlayer;
-            newPlayer = new Player("CPU" + (i + 1).ToString(), new List<Card>(), new iStrategyCPU2(), game.shieldPaths[shield]);
+            newPlayer = new Player("CPU" + (i + 1).ToString(), GameUtil.DrawFromDeck(game.adventureDeck, 12), new iStrategyCPU2(), game.shieldPaths[shield]);
             game.playerPanels[i + game.numHumanPlayers].SetActive(true);    //add a ui panel for each player
             game.playerAllyPanels[i].SetActive(true);
             game.shieldPaths.RemoveAt(shield); //Each player has unique shields

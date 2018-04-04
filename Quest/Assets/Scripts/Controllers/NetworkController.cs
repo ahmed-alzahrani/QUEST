@@ -7,8 +7,7 @@ using UnityEngine.Networking.NetworkSystem;
 using System.IO;
 
 
-//ADD A NETWORK IDENTITY TO THE NETWORK CONTROLLER AND SET IT TO BE SERVER ONLY
-//Also mention sandboxie
+//get lobby information (names and colors to display names)
 
 /* 
  * SyncVars: variables u want the server to change (they are sent back by the server back to the clients)
@@ -26,7 +25,7 @@ public class ClientMessage : MessageBase
 {
     public string message;
     public enum messageType { CARDS , INT , BOOL , UI}; // type of message to be sent by user (this will be changed)
-    public string name;                            // assuming that it is unique for the moment !!!
+    public string color;                                //differenciate players by color 
 }
 
 //server messages
@@ -54,51 +53,21 @@ public class NetworkController : Controller
     void Start()
     {
         waitingOnClient = false;
+        isSettingUpGame = true;
 
         //no idea what msgType.Highest does but iam using it anyway
         NetworkServer.RegisterHandler(MsgType.Highest, HandleClientRequest);
 
-        lobbyGuy =  GameObject.FindGameObjectWithTag("LobbyPlayer").GetComponent<Prototype.NetworkLobby.LobbyPlayer>();
-        playerId =  GameObject.FindGameObjectWithTag("LobbyPlayer").GetComponent<NetworkIdentity>();
+        //lobbyGuy =  GameObject.FindGameObjectWithTag("LobbyPlayer").GetComponent<Prototype.NetworkLobby.LobbyPlayer>();
+        //playerId =  GameObject.FindGameObjectWithTag("LobbyPlayer").GetComponent<NetworkIdentity>();
 
-        lobbyGuys = GameObject.FindGameObjectsWithTag("LobbyPlayer");
-
-        Debug.Log("ppl in lobby" + lobbyGuys.Length);
-
-        //store the player's ids to knw where our server is 
-        for (int i = 0; i < lobbyGuys.Length; i++)
-        {
-            playerIds.Add(lobbyGuys[i].GetComponent<NetworkIdentity>());
-            Debug.Log("player ids" + lobbyGuys[i].GetComponent<NetworkIdentity>().netId.Value);
-        }
-
-        Debug.Log(lobbyGuy.playerName);
-        Debug.Log(playerId.playerControllerId);
-
-        if (playerId.isServer)
-        {
-            Debug.Log("He is a server!");
-        }
-
-        if (playerId.isClient)
-        {
-            Debug.Log("He is a client!");
-        }
-
-        Debug.Log("The length of the array of players is...");
-        Debug.Log(lobbyGuys.Length);
-
-        //if i am a client do not create a deck and do not run this script at all
-        for (int i = 0; i < playerIds.Count; i++)
-        {
-            if (playerIds[i].isLocalPlayer && !playerIds[i].isServer) { return; }
-        }
+        //lobbyGuys = GameObject.FindGameObjectsWithTag("LobbyPlayer");
+        
 
         //setup game variables
         // Game Variables like this need to become syncVars, so that they sync up across all clients to retain game state?
 
         shieldPaths = new List<string> { "Textures/Backings/Blue", "Textures/Backings/Green", "Textures/Backings/Red", "Textures/Backings/Gold" };
-        isSettingUpGame = true;
         currentPlayerIndex = 0;
         setupState = 0;
         players = new List<Player>();
@@ -217,20 +186,60 @@ public class NetworkController : Controller
         }
 
         mordCurr = 0;
-
-        otherPlayers = UIUtil.CreateNetworkPlayers(this, lobbyGuys);
-
-        for (int i = 0; i < otherPlayers.Count; i++)
-        {
-            otherPlayers[i].display();
-        }
     }
 
     //Update is called once per frame
     //player discard piles for over 12 cards and etc...
     void Update()
     {
-        
+
+        if (isSettingUpGame)
+        {
+            //setup game
+            //get host
+            playerId = GameObject.FindGameObjectWithTag("LobbyPlayer").GetComponent<NetworkIdentity>();
+            lobbyGuys = GameObject.FindGameObjectsWithTag("LobbyPlayer");
+
+            Debug.Log("ppl in lobby" + lobbyGuys.Length);
+
+            //store the player's ids to knw where our server is 
+            for (int i = 0; i < lobbyGuys.Length; i++)
+            {
+                //store the connections of players
+                playerIds.Add(lobbyGuys[i].GetComponent<NetworkIdentity>());
+                
+                //get connection to server's id
+                Debug.Log("player ids" + lobbyGuys[i].GetComponent<NetworkIdentity>().connectionToServer.connectionId);
+            }
+
+
+            if (playerId.isServer)
+            {
+                Debug.Log("He is a server!");
+            }
+
+            if (playerId.isClient)
+            {
+                Debug.Log("He is a client!");
+            }
+
+            Debug.Log("The length of the array of players is...");
+            Debug.Log(lobbyGuys.Length);
+            otherPlayers = UIUtil.CreateNetworkPlayers(this, lobbyGuys);
+
+            //print players
+            for (int i = 0; i < otherPlayers.Count; i++)
+            {
+                otherPlayers[i].display();
+            }
+
+            isSettingUpGame = false;
+        }
+
+        //only on server
+        SendMessageToClient(true);
+
+        /*
         for (int i = 0; i < playerIds.Count; i++)
         {
             //send a message
@@ -246,6 +255,7 @@ public class NetworkController : Controller
                 return;
             }
         }
+        */
 
         /*
         if (!foundWinner)
@@ -369,14 +379,29 @@ public class NetworkController : Controller
     //send messages to clients
     public void SendMessageToClient(bool waitOnClient)
     {
+        
+        ServerMessage msg = new ServerMessage();
+        msg.message = "hello";
+
+        //send to client and send to all i think is what we need here
+        NetworkServer.SendToClient(otherPlayers[0].connection.connectionToClient.connectionId , MsgType.Highest , msg);
+
+        //check whether we want to wait for a user response 
+        waitingOnClient = waitOnClient;
+        Debug.Log("SERVER sent message to CLIENT!!!!");
+    }
+
+    public void SendMessageToAllClients(bool waitOnClient)
+    {
         ServerMessage msg = new ServerMessage();
         msg.message = "hello";
 
         //send to client and send to all i think is what we need here
         //NetworkServer.SendToClient(otherPlayers[0].connection.connectionToClient.connectionId , MsgType.Highest , msg);
-        NetworkServer.SendToAll(MsgType.Highest , msg);
+        NetworkServer.SendToAll(MsgType.Highest, msg);
 
         //check whether we want to wait for a user response 
         waitingOnClient = waitOnClient;
+        Debug.Log("SERVER sent message to CLIENT!!!!");
     }
 }

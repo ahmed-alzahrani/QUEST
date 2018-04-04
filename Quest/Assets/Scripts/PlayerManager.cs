@@ -10,8 +10,7 @@ public class PlayerManager : NetworkBehaviour
     [SyncVar]
     int networkId;
 
-
-    //public string name;
+    private string playerName;
 
     [SyncVar]
     public int score;
@@ -82,15 +81,17 @@ public class PlayerManager : NetworkBehaviour
         networkId = 0;
 
         // no idea testing out some shit
-        
+    }
+
+    public override void OnStartServer()
+    {
+        connectionToClient.RegisterHandler(MsgType.Highest, HandleServerRequest);
     }
 
     // Update is called once per frame
     void Update()
     {
         if (!isLocalPlayer) { return; }
-
-        connectionToServer.RegisterHandler(MsgType.Highest, HandleServerRequest);
 
         //send a message to the server
         //SendMessage("");
@@ -99,20 +100,14 @@ public class PlayerManager : NetworkBehaviour
         //playerRank = rankCard.name;
         if (!isServer)
         {
-            SendMessageToServer("");
+            //SendMessageToServer("");
         }
         else
         {
-            Debug.Log("server attempting to send stuff");
+            //Debug.Log("server attempting to send stuff");
         }
     }
 
-
-    public override void OnStartServer()
-    {
-        // when we connect to the server setup handlers
-        //connectionToClient.RegisterHandler(MsgType.Highest, ReceiveMessage);
-    }
 
     //give player an id and info to create a player
 
@@ -135,6 +130,7 @@ public class PlayerManager : NetworkBehaviour
         if (connectionToServer != null)
         {
             connectionToServer.Send(MsgType.Highest, message);
+            Debug.Log("CLIENT sent message to SERVER");
         }
         else
         {
@@ -146,7 +142,7 @@ public class PlayerManager : NetworkBehaviour
 
     public void HandleServerRequest(NetworkMessage message)
     {
-        Debug.Log("general messages here!!");
+        Debug.Log("Message from Server!!");
 
         //we are receiving server messages
         var msg = message.ReadMessage<ServerMessage>();
