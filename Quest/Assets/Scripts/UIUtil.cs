@@ -280,9 +280,9 @@ public class UIUtil
         return myPlayers;
     }
 
-    public static List<Player> CreateNetworkPlayers(Controller game, GameObject[] humanPlayers)
+    public static List<Player> CreateNetworkPlayers(Controller game, List<GameObject> humanPlayers)
     {
-        int humans = humanPlayers.Length;
+        int humans = humanPlayers.Count;
         List<Player> myPlayers;
         myPlayers = new List<Player>();
 
@@ -290,11 +290,11 @@ public class UIUtil
         for(int i = 0; i < humans; i++)
         {
             int shield = Random.Range(0, game.shieldPaths.Count - 1);
-            //string name = humanPlayers[i].GetComponent<Prototype.NetworkLobby.LobbyPlayer>().playerName;
+            string name = humanPlayers[i].GetComponent<Prototype.NetworkLobby.LobbyPlayer>().playerName;
             UnityEngine.Networking.NetworkIdentity connect = humanPlayers[i].GetComponent<UnityEngine.Networking.NetworkIdentity>();
-            
+
             //change this!!!!!
-            Player myPlayer = new Player("", GameUtil.DrawFromDeck(game.adventureDeck , 12), new iStrategyPlayer(), game.shieldPaths[shield], 5, 12, 22, connect);
+            Player myPlayer = new Player(name, GameUtil.DrawFromDeck(game.adventureDeck , 12), new iStrategyPlayer(), game.shieldPaths[shield], 5, 12, 22, connect);
             game.shieldPaths.RemoveAt(shield);       //Each player has unique shields
             myPlayer.gameController = game;
             game.playerPanels[i].SetActive(true);    //add a ui panel for each player

@@ -272,7 +272,11 @@ public class Player
         }
         else
         {
-            Debug.Log(connection.netId);
+          if (connection.isServer){
+            Debug.Log(connection.connectionToClient.connectionId);
+          } else {
+            Debug.Log(connection.connectionToServer.connectionId);
+          }
         }
     }
 }

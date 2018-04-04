@@ -235,6 +235,24 @@ public class NetworkController : Controller
         }
 
         mordCurr = 0;
+
+
+        otherPlayers = UIUtil.CreateNetworkPlayers(this, otherLobbyGuys);
+        for (int i = 0; i < otherPlayers.Count; i++){
+          otherPlayers[i].display();
+        }
+
+
+        for (int i = 0; i < otherPlayers.Count; i++){
+          if (otherPlayers[i].connection){
+            if (otherPlayers[i].connection.isServer){
+              TargetPrintName(otherPlayers[i].connection.connectionToClient, otherPlayers[i]);
+            } else {
+              TargetPrintName(otherPlayers[i].connection.connectionToServer, otherPlayers[i]);
+            }
+          }
+
+        }
     }
 
     //Update is called once per frame
@@ -459,5 +477,10 @@ public class NetworkController : Controller
         //check whether we want to wait for a user response
         waitingOnClient = waitOnClient;
         Debug.Log("SERVER sent message to CLIENT!!!!");
+    }
+
+    [TargetRpc]
+    public void TargetPrintName(NetworkConnection connection, Player player){
+      Debug.Log("I think that your name is .... " + player.name);
     }
 }
